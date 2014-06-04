@@ -1,0 +1,42 @@
+rscc (1.4-1) unstable; urgency=low
+
+  * stop cell editing when pressing OK button in edit dialog
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 04 Jun 2014 09:31:26 +0200
+
+rscc (1.3-3) unstable; urgency=low
+
+  * added openjdk-7-jre to dependencies
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 15 Feb 2013 19:24:26 +0100
+
+rscc (1.3-2) unstable; urgency=low
+
+  * added Italian L10n to desktop file
+
+ -- Ronny Standtke <ronny@agora.imedias.ch>  Tue, 20 Mar 2012 17:49:14 +0100
+
+rscc (1.3-1) unstable; urgency=low
+
+  * added Italian L10n
+
+ -- Ronny Standtke <ronny@agora.imedias.ch>  Tue, 20 Mar 2012 17:38:21 +0100
+
+rscc (1.2-1) unstable; urgency=low
+
+  * removed defaults from package
+
+ -- Ronny Standtke <ronny@agora.imedias.ch>  Mon, 27 Feb 2012 10:59:05 +0100
+
+rscc (1.1-1) unstable; urgency=low
+
+  * fixed ssl regex
+
+ -- Ronny Standtke <ronny@agora.imedias.ch>  Mon, 27 Feb 2012 10:31:41 +0100
+
+rscc (1.0-1) unstable; urgency=low
+
+  * initial release
+
+ -- Ronny Standtke <ronny@agora.imedias.ch>  Mon, 27 Feb 2012 10:18:18 +0100
+

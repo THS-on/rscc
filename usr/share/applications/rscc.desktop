@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=System;
+Exec=java -Dawt.useSystemAAFontSettings=on -jar /usr/bin/rscc.jar
+Icon=rscc
+Name=Remote Support
+Name[de]=Fernwartung
+Name[it]=Assistenza Remota
+StartupNotify=true
+StartupWMClass=sun-awt-X11-XFramePeer
+Type=Application
