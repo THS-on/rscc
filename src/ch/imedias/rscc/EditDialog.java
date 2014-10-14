@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -25,8 +26,8 @@ public class EditDialog extends JDialog implements ListSelectionListener {
 
     private final static ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch/imedias/rscc/Bundle");
-    private final static Logger LOGGER =
-            Logger.getLogger(EditDialog.class.getName());
+    private final static Logger LOGGER
+            = Logger.getLogger(EditDialog.class.getName());
     private final SupportAddressesTableModel tableModel;
     private List<SupportAddress> supportAddresses;
     private boolean okPressed;
@@ -91,12 +92,10 @@ public class EditDialog extends JDialog implements ListSelectionListener {
     }
 
     /**
-     * returns
-     * <code>true</code>, if the OK button was pressed,
+     * returns <code>true</code>, if the OK button was pressed,
      * <code>false</code> otherwise
      *
-     * @return
-     * <code>true</code>, if the OK button was pressed,
+     * @return <code>true</code>, if the OK button was pressed,
      * <code>false</code> otherwise
      */
     public boolean okPressed() {
@@ -262,7 +261,10 @@ public class EditDialog extends JDialog implements ListSelectionListener {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        table.getCellEditor().stopCellEditing();
+        TableCellEditor tableCellEditor = table.getCellEditor();
+        if (tableCellEditor != null) {
+            tableCellEditor.stopCellEditing();
+        }
         okPressed = true;
         setVisible(false);
         dispose();
@@ -403,8 +405,8 @@ public class EditDialog extends JDialog implements ListSelectionListener {
         for (int col = 0; col < table.getColumnCount(); col++) {
             TableColumn tableColumn = table.getColumnModel().getColumn(col);
             int maxwidth = (int) table.getTableHeader().getDefaultRenderer().
-                    getTableCellRendererComponent(
-                    table, tableColumn.getIdentifier(), false, false, -1, col).
+                    getTableCellRendererComponent(table,
+                            tableColumn.getIdentifier(), false, false, -1, col).
                     getPreferredSize().getWidth();
             for (int row = 0; row < table.getRowCount(); row++) {
                 TableCellRenderer rend = table.getCellRenderer(row, col);
