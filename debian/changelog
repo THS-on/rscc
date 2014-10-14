@@ -1,3 +1,9 @@
+rscc (1.5-1) unstable; urgency=medium
+
+  * fixed NPE when closing edit dialog without editing
+
+ -- Ronny Standtke <ronny@ronny>  Tue, 14 Oct 2014 15:44:09 +0200
+
 rscc (1.4-1) unstable; urgency=low
 
   * stop cell editing when pressing OK button in edit dialog
