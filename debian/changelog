@@ -1,3 +1,13 @@
+rscc (1.5-2) lernstick-8; urgency=medium
+
+  [ ronny ]
+  * [a01ce1] simplified debian control file
+
+  [ Ronny Standtke ]
+  * [f47e5a] changed desktop file to please GNOME
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 08 Jul 2015 19:33:18 +0200
+
 rscc (1.5-1) unstable; urgency=medium
 
   * fixed NPE when closing edit dialog without editing
