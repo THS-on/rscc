@@ -7,10 +7,11 @@
 	<properties>
         <!-- Project dependant variables -->
         <custom.path>ch/imedias/rsccfx</custom.path>
-        <custom.main.class>ch.imedias.rsccfx.Rscc</custom.main.class>
+        <custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
 
         <!-- Project independant variables -->
+		<custom.test.source>test/${custom.path}</custom.test.source>
         <custom.source>src/${custom.path}</custom.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- To make the output of the javadoc support utf-8 -->
@@ -26,7 +27,7 @@
 
 	<build>
         <sourceDirectory>${custom.source}</sourceDirectory>
-
+		<testSourceDirectory>${custom.test.source}</testSourceDirectory>
         <plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
