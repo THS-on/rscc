@@ -19,7 +19,7 @@ public class SupportAddress implements Serializable {
      * creates a new SupportAddress
      *
      * @param description the description
-     * @param address the addresss
+     * @param address the address
      * @param encrypted if the connection is encrypted
      */
     public SupportAddress(
