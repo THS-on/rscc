@@ -6,7 +6,7 @@ public class RsccPresenter {
   private final Rscc model;
   private final RsccView view;
 
-  /** Javadoc comment here */
+  /** Javadoc comment here. */
   public RsccPresenter(Rscc model, RsccView view) {
     this.model = model;
     this.view = view;
