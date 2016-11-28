@@ -4,7 +4,7 @@ import org.junit.Before;
 
 
 /**
- * Created by user on 28.11.16.
+ *
  */
 public class RsccTest {
     @Before
