@@ -8,7 +8,7 @@ public class RsccView extends Parent { // change Parent to GridPane etc.
 
   //declare all elements here
 
-  /** Javadoc comment here */
+  /** Javadoc comment here. */
   public RsccView(Rscc model) {
     this.model = model;
 
