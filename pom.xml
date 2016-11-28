@@ -6,8 +6,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
         <!-- Project dependant variables -->
-        <custom.path>ch/imedias/rscc</custom.path>
-        <custom.main.class>ch.imedias.rscc.RemoteSupportFrame</custom.main.class>
+        <custom.path>ch/imedias/rsccfx</custom.path>
+        <custom.main.class>ch.imedias.rsccfx.Rscc</custom.main.class>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
 
         <!-- Project independant variables -->
