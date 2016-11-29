@@ -55,10 +55,9 @@
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
-                    <!-- don't have the build fail because of checkstyle yet
+		    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
-					<violationSeverity>warning</violationSeverity>
-					-->
+		    <violationSeverity>warning</violationSeverity>
                 </configuration>
                 <executions>
                     <execution>
@@ -132,9 +131,8 @@
 				<configuration>
                     <configLocation>${custom.checkstyle}</configLocation>
                     <violationSeverity>warning</violationSeverity>
-                    <!-- don't have the build fail because of checkstyle yet
+		    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
-                    -->
                     <consoleOutput>true</consoleOutput>
 
 				</configuration>
