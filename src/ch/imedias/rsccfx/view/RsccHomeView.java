@@ -10,14 +10,16 @@ import javafx.scene.layout.HBox;
  */
 public class RsccHomeView extends Parent {
   private final Rscc model;
-  private Button requestSupportBtn;
-  private Button offerSupportBtn;
+  private final RsccHomeViewPresenter presenter;
+  protected Button requestSupportBtn;
+  protected Button offerSupportBtn;
   private HBox homeBox;
+
 
   public RsccHomeView(Rscc model) {
     this.model = model;
-
     initFieldData();
+    this.presenter = new RsccHomeViewPresenter(model, this);
     layoutForm();
     bindFieldsToModel();
   }
@@ -34,6 +36,7 @@ public class RsccHomeView extends Parent {
   }
 
   private void bindFieldsToModel() {
+
 
   }
 

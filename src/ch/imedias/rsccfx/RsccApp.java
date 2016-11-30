@@ -3,7 +3,6 @@ package ch.imedias.rsccfx;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccPresenter;
-import ch.imedias.rsccfx.view.RsccView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
