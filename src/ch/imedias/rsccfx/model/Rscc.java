@@ -6,9 +6,24 @@ import java.io.InputStreamReader;
 public class Rscc {
   public Rscc() {
     //TODO required constructor(s)
-
   }
 
+
+  /** Requests a token from the key server. */
+
+  public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerPort,boolean isCompressionEnabled){
+    // generate key/create.key
+
+
+
+
+    // generate tempfile
+
+
+    //
+
+
+  }
   private String executeTerminalCommand(String command) {
     StringBuffer output = new StringBuffer();
     Process p;
