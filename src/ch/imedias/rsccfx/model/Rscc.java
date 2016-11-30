@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.model;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 public class Rscc {
@@ -12,18 +13,24 @@ public class Rscc {
   /** Requests a token from the key server. */
 
   public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerPort,boolean isCompressionEnabled){
-    // generate key/create.key
 
+    String currentPath = (new File("")).getAbsolutePath();
+    StringBuilder command = new StringBuilder();
+    // execute first command to import key server setup
 
+    command.append(currentPath + "/" + "port_share.sh" + " ");
+    command.append("--p2p_server=" + keyServerIp + " ");
+    command.append("--p2p_port=" + keyServerPort +" ");
+    command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
+    command.append(forwardingPort);
 
+    String key = executeTerminalCommand(command.toString());
 
-    // generate tempfile
+    System.out.println(key);
 
-
-    //
-
-
+    return key;
   }
+
   private String executeTerminalCommand(String command) {
     StringBuffer output = new StringBuffer();
     Process p;
