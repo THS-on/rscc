@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 /**
- *
+ * This is an example test and ends with a period.
  */
 public class RsccTest {
   @Before
