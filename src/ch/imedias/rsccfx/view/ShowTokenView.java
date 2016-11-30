@@ -5,6 +5,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -60,8 +62,10 @@ public class ShowTokenView extends BorderPane {
     tf.setPrefHeight(50);
     tf.setText("aw3k2ljfsl");
 
-    reloadButton = new Button("reload");
+    reloadButton = new Button();
+    reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/reload.png").toExternalForm())));
     reloadButton.setPrefHeight(50);
+    reloadButton.setPrefWidth(50);
 
 
     txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
