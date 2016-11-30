@@ -22,12 +22,16 @@ public class RsccApp extends Application {
     // Must set the scene before creating the presenter that uses
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
-    String stylesheet = getClass().getClassLoader().getResource("HomeStyle.css").toExternalForm();
-    scene.getStylesheets().add(stylesheet);
+    String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    scene.getStylesheets().add(stSheet);
     RsccPresenter presenter = new RsccPresenter(model, view);
 
     stage.setScene(scene);
+    view.initBtnPanel(scene);
     stage.setTitle(APP_NAME);
+    stage.setHeight(400);
+    stage.setWidth(700);
     stage.show();
+
   }
 }
