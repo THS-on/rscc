@@ -81,7 +81,7 @@ public class ShowTokenView extends BorderPane {
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
-
+    this.getChildren().add(pane);
   }
 }
 
