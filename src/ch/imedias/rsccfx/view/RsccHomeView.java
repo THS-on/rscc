@@ -18,6 +18,7 @@ public class RsccHomeView extends BorderPane {
 
   /**
    * your javadoc comment goes here.
+   *
    * @param model is the model
    */
   public RsccHomeView(Rscc model) {
@@ -32,14 +33,17 @@ public class RsccHomeView extends BorderPane {
 
     requestSupportBtn = new Button();
     requestSupportBtn.textProperty().setValue("I need help"); //TODO: replace Text, multilangual
-    String filepath = getClass().getClassLoader().getResource("images/help-browser.png").toExternalForm();
+    String filepath = getClass().getClassLoader()
+        .getResource("images/help-browser.png").toExternalForm();
     Image requestSupportImg = new Image(filepath);
     requestSupportBtn.setGraphic(new ImageView(requestSupportImg));
     offerSupportBtn = new Button();
     //
 
-    offerSupportBtn.textProperty().setValue("I want to help someone"); // TODO: replace Text, multilangual
-    String filepath2 = getClass().getClassLoader().getResource("images/audio-headset.png").toExternalForm();
+    offerSupportBtn.textProperty().setValue("I want to help someone");
+    // TODO: replace Text, multilangual
+    String filepath2 = getClass().getClassLoader()
+        .getResource("images/audio-headset.png").toExternalForm();
     Image offerSupportImg = new Image(filepath2);
     offerSupportBtn.setGraphic(new ImageView(offerSupportImg));
     requestSupportBtn.setId("HomeNavigationBtn");
@@ -62,7 +66,9 @@ public class RsccHomeView extends BorderPane {
 
   }
 
-
+  /**
+   * @param scene initially loaded scene by RsccApp.
+   */
   public void initBtnPanel(Scene scene) {
     offerSupportBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
     offerSupportBtn.prefHeightProperty().bind(scene.heightProperty());
