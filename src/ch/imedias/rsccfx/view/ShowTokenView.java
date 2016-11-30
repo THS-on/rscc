@@ -1,7 +1,6 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,16 +11,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import static javafx.application.Application.launch;
-
 
 /**
  * Created by Simon on 30.11.16.
  * Capsulated Class to test easy
  */
-public class ShowTokenView extends Parent {
+public class ShowTokenView extends BorderPane {
   private Rscc model;
   private BorderPane pane;
   VBox boxTop;
@@ -33,7 +28,7 @@ public class ShowTokenView extends Parent {
   TextField tf;
   Button reloadButton;
 
-  public void ShowTokenView(Rscc model) {
+  public ShowTokenView(Rscc model) {
     this.model = model;
     layoutForm();
     initFieldData();
@@ -79,12 +74,10 @@ public class ShowTokenView extends Parent {
     boxTop.getChildren().add(txt1);
     boxCenter.getChildren().add(tf);
     boxCenter.getChildren().add(reloadButton);
-    boxCenter.getChildren().add(tf);
-    boxCenter.getChildren().add(reloadButton);
     boxBottom.getChildren().add(txt2);
 
 
-    Scene scene = new Scene(pane, 500, 500);
+    //Scene scene = new Scene(pane, 500, 500);
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
