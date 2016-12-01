@@ -41,6 +41,8 @@ public class Rscc {
     return executeTerminalCommand(command.toString());
   }
 
+  // more detailed instructions concerning this command can be found here:
+  // https://www.cs.technik.fhnw.ch/confluence16/pages/viewpage.action?pageId=6929334
   private String executeTerminalCommand(String command) {
     Process process;
 
