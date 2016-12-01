@@ -22,10 +22,12 @@ public class ShowTokenView extends BorderPane {
   private BorderPane pane;
   HBox header;
   VBox boxTop;
+  VBox boxTop2;
   HBox boxCenter;
   VBox boxBottom;
   VBox boxBottomInset;
   Label lbl;
+  Label lbl1;
   Text txt1;
   Text txt2;
   TextField tf;
@@ -34,6 +36,7 @@ public class ShowTokenView extends BorderPane {
   Button btnHead;
   Button btnSett;
   Button btnHelp;
+  Separator sep;
 
   public ShowTokenView(Rscc model) {
     this.model = model;
@@ -46,13 +49,18 @@ public class ShowTokenView extends BorderPane {
     //setup layout (aka setup specific pane etc.)
     pane = new BorderPane();
     boxTop = new VBox();
+    boxTop2 = new VBox();
     boxCenter = new HBox();
     boxBottom = new VBox();
     boxBottomInset = new VBox();
     header = new HBox();
-    boxTop.getChildren().add(header);
+    sep = new Separator();
+    boxTop2.getChildren().add(header);
+    boxTop2.getChildren().add(sep);
+    boxTop.getChildren().add(boxTop2);
 
-    header.setPadding(new Insets(5, 5, 30, 0));
+
+    header.setPadding(new Insets(5, 5, 10, 0));
     boxTop.setPadding(new Insets(5, 20, 5, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
@@ -61,6 +69,7 @@ public class ShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
+
     btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
     btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back1.png").toExternalForm())));
@@ -78,8 +87,8 @@ public class ShowTokenView extends BorderPane {
     header.getChildren().add(btnHelp);
     header.getChildren().add(btnSett);
 
-
-
+    lbl1 = new Label(" ");
+    lbl1.setFont(new Font("Cantarell", 20));
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
@@ -107,6 +116,7 @@ public class ShowTokenView extends BorderPane {
 
   private void bindFieldsToModel() {
     //make the bindings to the model
+    boxTop.getChildren().add(lbl1);
     boxTop.getChildren().add(lbl);
     boxTop.getChildren().add(txt1);
     boxCenter.getChildren().add(tf);
