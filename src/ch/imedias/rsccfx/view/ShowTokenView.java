@@ -23,8 +23,10 @@ public class ShowTokenView extends BorderPane {
   private BorderPane pane;
   VBox boxTop;
   HBox boxCenter;
-  HBox boxBottom;
+  VBox boxBottom;
+  VBox boxBottomInset;
   Label lbl;
+  Button suppAdmin;
   Text txt1;
   Text txt2;
   TextField tf;
@@ -42,12 +44,13 @@ public class ShowTokenView extends BorderPane {
     pane = new BorderPane();
     boxTop = new VBox();
     boxCenter = new HBox();
-    boxBottom = new HBox();
-
+    boxBottom = new VBox();
+    boxBottomInset = new VBox();
 
     boxTop.setPadding(new Insets(50, 20, 50, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
-    boxBottom.setPadding(new Insets(10, 20, 100, 20));
+    boxBottom.setPadding(new Insets(10, 20, 1, 20));
+    boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
   }
 
   private void initFieldData() {
@@ -62,7 +65,8 @@ public class ShowTokenView extends BorderPane {
     //tf.setPrefWidth(400);
     tf.setPrefHeight(60);
     tf.setEditable(false);
-    tf.setText("aw3k2ljfsl");
+    tf.setText("aw3k2ljfsl0Oo");
+    tf.setFont(Font.font("Monospaced", 30));
 
     reloadButton = new Button();
     reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/reload.png").toExternalForm())));
@@ -72,6 +76,10 @@ public class ShowTokenView extends BorderPane {
 
     txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt2.setWrappingWidth(450);
+
+    suppAdmin = new Button("Supporter Administration");
+    suppAdmin.setFont(new Font("Cantarell", 20));
+
   }
 
   private void bindFieldsToModel() {
@@ -81,6 +89,8 @@ public class ShowTokenView extends BorderPane {
     boxCenter.getChildren().add(tf);
     boxCenter.getChildren().add(reloadButton);
     boxBottom.getChildren().add(txt2);
+    boxBottom.getChildren().add(boxBottomInset);
+    boxBottomInset.getChildren().add(suppAdmin);
 
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
@@ -88,7 +98,7 @@ public class ShowTokenView extends BorderPane {
     this.getChildren().add(pane);
   }
 
-  public void initSize(Scene scene){
+  public void initSize(Scene scene) {
     tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
