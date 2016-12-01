@@ -1,22 +1,20 @@
 package ch.imedias.rsccfx.model;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-
 /**
- *
+ * Tests the rscc model class.
  */
 public class RsccTest {
-    Rscc model;
+  Rscc model;
+
   @Before
   public void setUp() throws Exception {
     model = new Rscc();
-
   }
 
   @Ignore
@@ -25,7 +23,7 @@ public class RsccTest {
 
     String key = model.requestTokenFromServer(4999, "86.119.39.89", 2201, 800, true);
 
-    assertEquals(10,key.trim().length());
+    assertEquals(10, key.trim().length());
 
   }
 
