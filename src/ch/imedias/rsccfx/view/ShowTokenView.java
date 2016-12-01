@@ -53,8 +53,8 @@ public class ShowTokenView extends BorderPane {
     header = new HBox();
     boxTop.getChildren().add(header);
 
-    header.setPadding(new Insets(5, 5, 10, 0));
-    boxTop.setPadding(new Insets(5, 5, 5, 5));
+    header.setPadding(new Insets(5, 5, 20, 0));
+    boxTop.setPadding(new Insets(5, 20, 5, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
     boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
@@ -64,11 +64,11 @@ public class ShowTokenView extends BorderPane {
     //populate fields which require initial data
     btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back.png").toExternalForm())));
+    btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back1.png").toExternalForm())));
     btnHelp = new Button();
-    btnHelp.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/help.png").toExternalForm())));
+    btnHelp.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/help1.png").toExternalForm())));
     btnSett = new Button();
-    btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting.png").toExternalForm())));
+    btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting1.png").toExternalForm())));
     btnSett.setAlignment(Pos.TOP_RIGHT);
     lblHead = new Label ("I need Help");
     lblHead.setFont(new Font("Cantarell", 20));
@@ -90,6 +90,7 @@ public class ShowTokenView extends BorderPane {
     tf = new TextField();
     tf.setPrefHeight(60);
     tf.setEditable(false);
+    tf.setStyle("-fx-background-color: #e2e2e2;");
     tf.setText("aw3k2ljfsl0Oo");
     tf.setFont(Font.font("Monospaced", 30));
 
