@@ -53,6 +53,7 @@ public class ShowTokenView extends BorderPane {
     header = new HBox();
     boxTop.getChildren().add(header);
 
+    header.setPadding(new Insets(5, 5, 10, 0));
     boxTop.setPadding(new Insets(5, 5, 5, 5));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
@@ -61,13 +62,18 @@ public class ShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
-    btnHead = new Button("<");
+    btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHelp = new Button("?");
-    btnSett = new Button("Setting");
+    btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back.png").toExternalForm())));
+    btnHelp = new Button();
+    btnHelp.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/help.png").toExternalForm())));
+    btnSett = new Button();
+    btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting.png").toExternalForm())));
     btnSett.setAlignment(Pos.TOP_RIGHT);
     lblHead = new Label ("I need Help");
+    lblHead.setFont(new Font("Cantarell", 20));
     lblHead.setAlignment(Pos.CENTER);
+
     header.getChildren().add(btnHead);
     header.getChildren().add(lblHead);
     header.getChildren().add(btnHelp);
