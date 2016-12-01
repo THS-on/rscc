@@ -53,7 +53,7 @@ public class ShowTokenView extends BorderPane {
     header = new HBox();
     boxTop.getChildren().add(header);
 
-    boxTop.setPadding(new Insets(50, 20, 50, 20));
+    boxTop.setPadding(new Insets(5, 5, 5, 5));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
     boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
@@ -62,14 +62,17 @@ public class ShowTokenView extends BorderPane {
   private void initFieldData() {
     //populate fields which require initial data
     btnHead = new Button("<");
+    btnHead.setAlignment(Pos.TOP_LEFT);
     btnHelp = new Button("?");
     btnSett = new Button("Setting");
+    btnSett.setAlignment(Pos.TOP_RIGHT);
     lblHead = new Label ("I need Help");
     lblHead.setAlignment(Pos.CENTER);
     header.getChildren().add(btnHead);
     header.getChildren().add(lblHead);
     header.getChildren().add(btnHelp);
     header.getChildren().add(btnSett);
+
 
 
     lbl = new Label("Schlüsselgenerierung");
@@ -79,7 +82,6 @@ public class ShowTokenView extends BorderPane {
 
 
     tf = new TextField();
-    //tf.setPrefWidth(400);
     tf.setPrefHeight(60);
     tf.setEditable(false);
     tf.setText("aw3k2ljfsl0Oo");
@@ -116,9 +118,13 @@ public class ShowTokenView extends BorderPane {
   }
 
   public void initSize(Scene scene) {
+    lblHead.prefWidthProperty().bind(scene.widthProperty());
+    boxTop.prefWidthProperty().bind(scene.widthProperty());
+    header.prefWidthProperty().bind(scene.widthProperty());
     tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+
   }
 }
 
