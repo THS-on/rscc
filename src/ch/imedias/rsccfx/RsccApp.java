@@ -21,12 +21,13 @@ public class RsccApp extends Application {
     Rscc model = new Rscc();
     RsccEnterTokenView view = new RsccEnterTokenView(model);
 
-    // Must set the scene before creating the presenter that uses
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
 
     RsccEnterTokenPresenter presenter = new RsccEnterTokenPresenter(model, view);
 
+    stage.setWidth(500);
+    stage.setHeight(500);
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
