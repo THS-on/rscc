@@ -2,7 +2,6 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.RsccPresenter;
-import ch.imedias.rsccfx.view.RsccView;
 import ch.imedias.rsccfx.view.ShowTokenView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -20,6 +19,7 @@ public class RsccApp extends Application {
     Rscc model = new Rscc();
     //RsccView view = new RsccView(model);
     ShowTokenView view = new ShowTokenView(model);
+
     // Must set the scene before creating the presenter that uses
     // the scene to listen for the focus change
     Scene scene = new Scene(view);

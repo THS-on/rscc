@@ -2,15 +2,14 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -21,6 +20,7 @@ import javafx.scene.text.Text;
 public class ShowTokenView extends BorderPane {
   private Rscc model;
   private BorderPane pane;
+  HBox header;
   VBox boxTop;
   HBox boxCenter;
   VBox boxBottom;
@@ -31,6 +31,10 @@ public class ShowTokenView extends BorderPane {
   Text txt2;
   TextField tf;
   Button reloadButton;
+  Label lblHead;
+  Button btnHead;
+  Button btnSett;
+  Button btnHelp;
 
   public ShowTokenView(Rscc model) {
     this.model = model;
@@ -46,6 +50,8 @@ public class ShowTokenView extends BorderPane {
     boxCenter = new HBox();
     boxBottom = new VBox();
     boxBottomInset = new VBox();
+    header = new HBox();
+    boxTop.getChildren().add(header);
 
     boxTop.setPadding(new Insets(50, 20, 50, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
@@ -55,6 +61,17 @@ public class ShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
+    btnHead = new Button("<");
+    btnHelp = new Button("?");
+    btnSett = new Button("Setting");
+    lblHead = new Label ("I need Help");
+    lblHead.setAlignment(Pos.CENTER);
+    header.getChildren().add(btnHead);
+    header.getChildren().add(lblHead);
+    header.getChildren().add(btnHelp);
+    header.getChildren().add(btnSett);
+
+
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
