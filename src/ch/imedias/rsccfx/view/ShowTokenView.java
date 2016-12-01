@@ -26,7 +26,6 @@ public class ShowTokenView extends BorderPane {
   VBox boxBottom;
   VBox boxBottomInset;
   Label lbl;
-  Button suppAdmin;
   Text txt1;
   Text txt2;
   TextField tf;
@@ -53,7 +52,7 @@ public class ShowTokenView extends BorderPane {
     header = new HBox();
     boxTop.getChildren().add(header);
 
-    header.setPadding(new Insets(5, 5, 20, 0));
+    header.setPadding(new Insets(5, 5, 30, 0));
     boxTop.setPadding(new Insets(5, 20, 5, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
@@ -103,8 +102,6 @@ public class ShowTokenView extends BorderPane {
     txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt2.setWrappingWidth(450);
 
-    suppAdmin = new Button("Supporter Administration");
-    suppAdmin.setFont(new Font("Cantarell", 20));
 
   }
 
@@ -116,7 +113,7 @@ public class ShowTokenView extends BorderPane {
     boxCenter.getChildren().add(reloadButton);
     boxBottom.getChildren().add(txt2);
     boxBottom.getChildren().add(boxBottomInset);
-    boxBottomInset.getChildren().add(suppAdmin);
+
 
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
