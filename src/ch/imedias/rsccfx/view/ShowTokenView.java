@@ -70,7 +70,7 @@ public class ShowTokenView extends BorderPane {
     btnSett = new Button();
     btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting1.png").toExternalForm())));
     btnSett.setAlignment(Pos.TOP_RIGHT);
-    lblHead = new Label ("I need Help");
+    lblHead = new Label ("I need Help ");
     lblHead.setFont(new Font("Cantarell", 20));
     lblHead.setAlignment(Pos.CENTER);
 
