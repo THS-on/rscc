@@ -27,7 +27,9 @@ public class RsccApp extends Application {
     RsccPresenter presenter = new RsccPresenter(model, view);
 
     stage.setScene(scene);
+
     view.initBtnPanel(scene);
+
     stage.setTitle(APP_NAME);
     stage.setHeight(400);
     stage.setWidth(700);
