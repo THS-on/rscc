@@ -28,6 +28,7 @@ public class RsccApp extends Application {
 
     stage.setWidth(500);
     stage.setHeight(500);
+    view.initSize(scene);
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();

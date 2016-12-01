@@ -44,6 +44,7 @@ public class ShowTokenView extends BorderPane {
     boxCenter = new HBox();
     boxBottom = new HBox();
 
+
     boxTop.setPadding(new Insets(50, 20, 50, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 100, 20));
@@ -52,14 +53,15 @@ public class ShowTokenView extends BorderPane {
   private void initFieldData() {
     //populate fields which require initial data
     lbl = new Label("Schlüsselgenerierung");
-    lbl.setFont(new Font("Cambria", 20));
+    lbl.setFont(new Font("Cantarell", 30));
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt1.setWrappingWidth(450);
 
 
     tf = new TextField();
-    tf.setPrefWidth(400);
-    tf.setPrefHeight(50);
+    //tf.setPrefWidth(400);
+    tf.setPrefHeight(60);
+    tf.setEditable(false);
     tf.setText("aw3k2ljfsl");
 
     reloadButton = new Button();
@@ -80,12 +82,16 @@ public class ShowTokenView extends BorderPane {
     boxCenter.getChildren().add(reloadButton);
     boxBottom.getChildren().add(txt2);
 
-
-    //Scene scene = new Scene(pane, 500, 500);
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
     this.getChildren().add(pane);
+  }
+
+  public void initSize(Scene scene){
+    tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
   }
 }
 
