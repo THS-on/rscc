@@ -23,6 +23,9 @@ public class RsccEnterTokenPresenter {
     //TODO put all setOnAction/addListeners in here
   }
 
+  /**
+   * Javadoc comment here.
+   */
   public String validationImage(String token) {
 
     if (validateToken(token)) {
@@ -34,5 +37,6 @@ public class RsccEnterTokenPresenter {
 
   private static boolean validateToken(String token) {
     return (int) (Math.random() * 2) == 1;
+    //TODO Validate token
   }
 }

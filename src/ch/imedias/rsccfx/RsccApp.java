@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
-  public static final String APP_NAME = "Rscc";
+  public static final String APP_NAME = "Remote Support - Enter Token";
 
   public static void main(String[] args) {
     Application.launch(args);

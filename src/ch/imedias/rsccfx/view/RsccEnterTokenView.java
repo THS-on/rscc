@@ -1,8 +1,8 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,12 +58,12 @@ public class RsccEnterTokenView extends VBox {
 
   private void initFieldData() {
     //populate fields which require initial data
-//    enterTokenlbl = new Label(Strings.remoteSupportFrameEnterTokenLabelText);
-//    loremIpsumlbl = new Label(Strings.remoteSupportFrameDescriptionLabelText);
-//    examplelbl = new Label(Strings.remoteSupportFrameUsageExampleLabelText);
-//    instructionlbl = new Label(Strings.remoteSupportFrameInstructionLabelText);
-//    connectbtn = new Button(Strings.remoteSupportDialogConnectButtonText);
-//    expandOptionbtn = new Button(Strings.remoteSupportDialogExpandButtonText);
+    //enterTokenlbl = new Label(Strings.remoteSupportFrameEnterTokenLabelText);
+    //loremIpsumlbl = new Label(Strings.remoteSupportFrameDescriptionLabelText);
+    //examplelbl = new Label(Strings.remoteSupportFrameUsageExampleLabelText);
+    //instructionlbl = new Label(Strings.remoteSupportFrameInstructionLabelText);
+    //connectbtn = new Button(Strings.remoteSupportDialogConnectButtonText);
+    //expandOptionbtn = new Button(Strings.remoteSupportDialogExpandButtonText);
 
     enterTokenlbl = new Label("EnterToken");
     loremIpsumlbl = new Label("lorem Ipsum");
