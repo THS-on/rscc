@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 /**
- *
+ * Javadoc comment here.
  */
 public class RsccTest {
   @Before
