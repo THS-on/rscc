@@ -91,7 +91,7 @@ public class ShowTokenView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    //make the bindings to the model
+    //make the bindings to the modelit
     testTopbox = new HeaderView();
     boxTop.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
