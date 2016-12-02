@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.view.HeaderView;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import ch.imedias.rsccfx.view.ShowTokenView;
 import javafx.application.Application;
@@ -9,7 +10,7 @@ import javafx.stage.Stage;
 
 public class RsccApp extends Application {
   public static final String APP_NAME = "Rscc";
-
+  private static Scene scenes;
   public static void main(String[] args) {
     Application.launch(args);
   }
@@ -33,4 +34,6 @@ public class RsccApp extends Application {
     stage.setTitle(APP_NAME);
     stage.show();
   }
+
+
 }

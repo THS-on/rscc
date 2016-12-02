@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,23 +21,18 @@ import javafx.scene.text.Text;
 public class ShowTokenView extends BorderPane {
   private Rscc model;
   private BorderPane pane;
-  HBox header;
+  HeaderView testTopbox;
+
   VBox boxTop;
-  VBox boxTop2;
   HBox boxCenter;
   VBox boxBottom;
   VBox boxBottomInset;
   Label lbl;
-  Label lbl1;
   Text txt1;
   Text txt2;
   TextField tf;
   Button reloadButton;
-  Label lblHead;
-  Button btnHead;
-  Button btnSett;
-  Button btnHelp;
-  Separator sep;
+
 
   public ShowTokenView(Rscc model) {
     this.model = model;
@@ -45,23 +41,20 @@ public class ShowTokenView extends BorderPane {
     bindFieldsToModel();
   }
 
+  public void constructHeader(){
+
+  }
+
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
     pane = new BorderPane();
     boxTop = new VBox();
-    boxTop2 = new VBox();
+
     boxCenter = new HBox();
     boxBottom = new VBox();
     boxBottomInset = new VBox();
-    header = new HBox();
-    sep = new Separator();
-    boxTop2.getChildren().add(header);
-    boxTop2.getChildren().add(sep);
-    boxTop.getChildren().add(boxTop2);
 
 
-    header.setPadding(new Insets(5, 5, 10, 0));
-    boxTop.setPadding(new Insets(5, 20, 5, 20));
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
     boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
@@ -70,25 +63,8 @@ public class ShowTokenView extends BorderPane {
   private void initFieldData() {
     //populate fields which require initial data
 
-    btnHead = new Button();
-    btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back1.png").toExternalForm())));
-    btnHelp = new Button();
-    btnHelp.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/help1.png").toExternalForm())));
-    btnSett = new Button();
-    btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting1.png").toExternalForm())));
-    btnSett.setAlignment(Pos.TOP_RIGHT);
-    lblHead = new Label ("I need Help");
-    lblHead.setFont(new Font("Cantarell", 20));
-    lblHead.setAlignment(Pos.CENTER);
 
-    header.getChildren().add(btnHead);
-    header.getChildren().add(lblHead);
-    header.getChildren().add(btnHelp);
-    header.getChildren().add(btnSett);
 
-    lbl1 = new Label(" ");
-    lbl1.setFont(new Font("Cantarell", 20));
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
@@ -116,29 +92,35 @@ public class ShowTokenView extends BorderPane {
 
   private void bindFieldsToModel() {
     //make the bindings to the model
-    boxTop.getChildren().add(lbl1);
-    boxTop.getChildren().add(lbl);
-    boxTop.getChildren().add(txt1);
+    testTopbox = new HeaderView();
+    boxTop.getChildren().add(testTopbox);
+    VBox lbltxt1 = new VBox();
+    lbltxt1.getChildren().add(lbl);
+    lbltxt1.getChildren().add(txt1);
+    lbltxt1.setPadding(new Insets(10, 20, 10, 20));
+    boxTop.getChildren().add(lbltxt1);
     boxCenter.getChildren().add(tf);
     boxCenter.getChildren().add(reloadButton);
     boxBottom.getChildren().add(txt2);
     boxBottom.getChildren().add(boxBottomInset);
 
 
-    pane.setTop(boxTop);
+    //pane.setTop(boxTop);
+
+
+   pane.setTop(boxTop);
+
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
     this.getChildren().add(pane);
   }
 
   public void initSize(Scene scene) {
-    lblHead.prefWidthProperty().bind(scene.widthProperty());
     boxTop.prefWidthProperty().bind(scene.widthProperty());
-    header.prefWidthProperty().bind(scene.widthProperty());
     tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-
+    testTopbox.initSize(scene);
   }
 }
 
