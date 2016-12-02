@@ -24,8 +24,6 @@ public class RsccApp extends Application {
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
 
-    RsccEnterTokenPresenter presenter = new RsccEnterTokenPresenter(model, view);
-
     stage.setWidth(500);
     stage.setHeight(450);
     stage.setMinWidth(250);

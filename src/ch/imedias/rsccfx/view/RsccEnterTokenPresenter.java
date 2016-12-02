@@ -1,10 +1,6 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import javafx.event.EventType;
 import javafx.scene.image.Image;
 
 public class RsccEnterTokenPresenter {
@@ -18,13 +14,16 @@ public class RsccEnterTokenPresenter {
   public RsccEnterTokenPresenter(Rscc model, RsccEnterTokenView view) {
     this.model = model;
     this.view = view;
-    
+
     attachEvents();
   }
 
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
-    view.tokentxt.setOnAction(event -> view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText()))));
+    view.tokentxt.setOnKeyPressed(event -> {
+      view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText())));
+    });
+
   }
 
   /**
