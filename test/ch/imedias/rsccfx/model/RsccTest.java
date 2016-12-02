@@ -5,17 +5,17 @@ import org.junit.Test;
 
 
 /**
- *
+ * Javadoc comment here.
  */
 public class RsccTest {
-    @Before
-    public void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
 
-    }
+  }
 
-    @Test
-    public void sampleTest(){
+  @Test
+  public void sampleTest() {
 
-    }
+  }
 
 }
