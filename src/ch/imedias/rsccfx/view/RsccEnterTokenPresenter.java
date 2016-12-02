@@ -4,6 +4,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import javafx.event.EventType;
+import javafx.scene.image.Image;
 
 public class RsccEnterTokenPresenter {
 
@@ -16,11 +18,13 @@ public class RsccEnterTokenPresenter {
   public RsccEnterTokenPresenter(Rscc model, RsccEnterTokenView view) {
     this.model = model;
     this.view = view;
+    
     attachEvents();
   }
 
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
+    view.tokentxt.setOnAction(event -> view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText()))));
   }
 
   /**
@@ -29,10 +33,9 @@ public class RsccEnterTokenPresenter {
   public String validationImage(String token) {
 
     if (validateToken(token)) {
-      return getClass().getClassLoader().getResource("sample.jpeg").toExternalForm();
-    } else {
-      return getClass().getClassLoader().getResource("sample.jpeg").toExternalForm();
+      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
     }
+    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
   }
 
   private static boolean validateToken(String token) {

@@ -27,7 +27,9 @@ public class RsccApp extends Application {
     RsccEnterTokenPresenter presenter = new RsccEnterTokenPresenter(model, view);
 
     stage.setWidth(500);
-    stage.setHeight(500);
+    stage.setHeight(450);
+    stage.setMinWidth(250);
+    stage.setMinHeight(300);
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
