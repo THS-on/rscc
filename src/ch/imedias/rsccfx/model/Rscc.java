@@ -1,7 +1,6 @@
 package ch.imedias.rsccfx.model;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 
 public class Rscc {
@@ -58,6 +57,7 @@ public class Rscc {
       while ((line = outputReader.readLine()) != null) {
         output.append(line + "\n");
       }
+      outputReader.close();
       return output.toString().trim();
     } catch (Exception exception) {
       exception.printStackTrace();
