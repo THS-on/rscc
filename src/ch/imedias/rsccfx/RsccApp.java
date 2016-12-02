@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import ch.imedias.rsccfx.view.RsccView;
 import javafx.application.Application;
@@ -14,9 +15,10 @@ public class RsccApp extends Application {
     Application.launch(args);
   }
 
+
   @Override
   public void start(Stage stage) {
-    Rscc model = new Rscc();
+    Rscc model = new Rscc(new SystemCommander());
     RsccView view = new RsccView(model);
 
     // Must set the scene before creating the presenter that uses

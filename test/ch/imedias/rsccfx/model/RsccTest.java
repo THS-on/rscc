@@ -1,8 +1,11 @@
 package ch.imedias.rsccfx.model;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
 
 
 /**
@@ -13,18 +16,17 @@ public class RsccTest {
 
   @Before
   public void setUp() throws Exception {
-    model = new Rscc();
-  }
-
-  @Ignore
-  @Test
-  public void killConnection() throws Exception {
-    model.killConnection("98e22c98aa");
   }
 
   @Test
-  public void sampleTest() {
+  public void testKillConnection() throws Exception {
+    final String key = "jhd65g7fs2";
+    SystemCommander mockCommander =  mock(SystemCommander.class);
+    Rscc model = new Rscc(mockCommander);
 
+    //actual test
+    model.killConnection(key);
+    verify(mockCommander).executeTerminalCommand("bash resources/docker-build_p2p/"
+        + "port_stop.sh " + key);
   }
-
 }
