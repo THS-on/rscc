@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -20,7 +19,6 @@ public class RsccTest {
 
   }
 
-  @Ignore
   @Test
   public void requestTokenFromServer() throws Exception {
     final String terminalCommandUse = "bash resources/docker-build_p2p/use.sh 86.119.39.89 800";
@@ -36,7 +34,7 @@ public class RsccTest {
 
     // actual test
     verify(mockCommander).executeTerminalCommand(terminalCommandUse);
-    assertEquals("6a2b9op6bq",key);
+    assertEquals("6a2b9op6bq", key);
   }
 
 }
