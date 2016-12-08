@@ -20,7 +20,7 @@ public class RsccTest {
   }
 
   @Test
-  public void requestTokenFromServer() throws Exception {
+  public void testRequestTokenFromServer() throws Exception {
     final String terminalCommandUse = "bash resources/docker-build_p2p/use.sh 86.119.39.89 800";
     final String terminalCommandPortShare =
         "bash resources/docker-build_p2p/port_share.sh --p2p_server=86.119.39.89 --p2p_port=2201"
