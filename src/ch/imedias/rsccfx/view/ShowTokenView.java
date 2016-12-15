@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 
+/** import statements */
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,7 +12,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/**
+/**Class ShowTokenView
+ *
  * Created by Simon on 30.11.16.
  * Capsulated Class to test easy
  */

@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+/** import statements. */
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,13 +21,13 @@ public class HeaderView extends VBox {
   VBox headerbox;
   HBox boxLine1;
   HBox boxLine2;
-
   Label lblHead;
   Button btnHead;
   Button btnSett;
   Button btnHelp;
   Separator sep;
 
+  /** class HeaderView. */
   public HeaderView() {
     //this.headerbox = headerbox;
     layoutForm();
@@ -56,23 +57,25 @@ public class HeaderView extends VBox {
 
     btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHead.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/back1.png").toExternalForm())));
+    btnHead.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/back1.png").toExternalForm())));
     btnHelp = new Button();
-    btnHelp.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/help1.png").toExternalForm())));
+    btnHelp.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/help1.png").toExternalForm())));
     btnSett = new Button();
-    btnSett.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/setting1.png").toExternalForm())));
+    btnSett.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/setting1.png").toExternalForm())));
     btnSett.setAlignment(Pos.TOP_RIGHT);
-    lblHead = new Label ("I need Help");
-    lblHead.setFont(new Font("Cantarell", 20));
+    lblHead = new Label("I need Help");
+    lblHead.setFont(new Font("Cantarell",20));
     lblHead.setAlignment(Pos.CENTER);
-
     boxLine1.getChildren().add(btnHead);
     boxLine1.getChildren().add(lblHead);
     boxLine1.getChildren().add(btnHelp);
     boxLine1.getChildren().add(btnSett);
-
   }
 
+  /** initSize method. */
   public void initSize(Scene scene) {
     sep.prefWidthProperty().bind(scene.widthProperty());
     lblHead.prefWidthProperty().bind(scene.widthProperty());
