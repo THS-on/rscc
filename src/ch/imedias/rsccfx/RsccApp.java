@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 public class RsccApp extends Application {
   public static final String APP_NAME = "Rscc";
   private static Scene scenes;
+
   public static void main(String[] args) {
     Application.launch(args);
   }

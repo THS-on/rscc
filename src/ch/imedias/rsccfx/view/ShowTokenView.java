@@ -36,9 +36,8 @@ public class ShowTokenView extends BorderPane {
   private Button reloadButton;
 
   /**
-   * Constructor
-   *
-   * @param model
+   * Constructor.
+   * @param model test.
    */
   public ShowTokenView(Rscc model) {
     this.model = model;
@@ -70,7 +69,10 @@ public class ShowTokenView extends BorderPane {
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
+        + "sed diam voluptua. At vero eos et accusam "
+        + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
+        + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt1.setWrappingWidth(450);
 
 
@@ -89,8 +91,10 @@ public class ShowTokenView extends BorderPane {
 
 
     txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. "
-        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est "
+        + "sed diam nonumy eirmod tempor invidunt "
+        + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
+        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet "
+        + "clita kasd gubergren, no sea takimata sanctus est "
         + "Lorem ipsum dolor sit amet.");
     txt2.setWrappingWidth(450);
 
