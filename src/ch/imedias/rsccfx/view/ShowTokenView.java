@@ -1,13 +1,11 @@
 package ch.imedias.rsccfx.view;
 
-
 /** import statements. */
-
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.scene.Scene;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -120,6 +118,7 @@ public class ShowTokenView extends BorderPane {
     this.getChildren().add(pane);
   }
 
+  /** initSize method. */
   public void initSize(Scene scene) {
     boxTop.prefWidthProperty().bind(scene.widthProperty());
     tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
