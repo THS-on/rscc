@@ -1,27 +1,32 @@
 package ch.imedias.rsccfx.view;
 
 
-/** import statements */
+/** import statements. */
+
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/**Class ShowTokenView
- *
+
+/**
+ * Class ShowTokenView
  * Created by Simon on 30.11.16.
- * Capsulated Class to test easy
+ * Capsulated Class to test easy.
  */
 public class ShowTokenView extends BorderPane {
   private Rscc model;
   private BorderPane pane;
   private HeaderView testTopbox;
-
   private VBox boxTop;
   private HBox boxCenter;
   private VBox boxBottom;
@@ -66,7 +71,8 @@ public class ShowTokenView extends BorderPane {
 
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
-    txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+    txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
+        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt1.setWrappingWidth(450);
 
 
@@ -78,12 +84,16 @@ public class ShowTokenView extends BorderPane {
     tf.setFont(Font.font("Monospaced", 30));
 
     reloadButton = new Button();
-    reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader().getResource("images/reload.png").toExternalForm())));
+    reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader()
+        .getResource("images/reload.png").toExternalForm())));
     reloadButton.setPrefHeight(50);
     reloadButton.setPrefWidth(50);
 
 
-    txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+    txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
+        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. "
+        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est "
+        + "Lorem ipsum dolor sit amet.");
     txt2.setWrappingWidth(450);
 
 
