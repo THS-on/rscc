@@ -1,16 +1,13 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.RsccApp;
+
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -21,19 +18,23 @@ import javafx.scene.text.Text;
 public class ShowTokenView extends BorderPane {
   private Rscc model;
   private BorderPane pane;
-  HeaderView testTopbox;
+  private HeaderView testTopbox;
 
-  VBox boxTop;
-  HBox boxCenter;
-  VBox boxBottom;
-  VBox boxBottomInset;
-  Label lbl;
-  Text txt1;
-  Text txt2;
-  TextField tf;
-  Button reloadButton;
+  private VBox boxTop;
+  private HBox boxCenter;
+  private VBox boxBottom;
+  private VBox boxBottomInset;
+  private Label lbl;
+  private Text txt1;
+  private Text txt2;
+  private TextField tf;
+  private Button reloadButton;
 
-
+  /**
+   * Constructor
+   *
+   * @param model
+   */
   public ShowTokenView(Rscc model) {
     this.model = model;
     layoutForm();
@@ -41,9 +42,6 @@ public class ShowTokenView extends BorderPane {
     bindFieldsToModel();
   }
 
-  public void constructHeader(){
-
-  }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
@@ -62,7 +60,6 @@ public class ShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
-
 
 
     lbl = new Label("Schlüsselgenerierung");
@@ -105,11 +102,7 @@ public class ShowTokenView extends BorderPane {
     boxBottom.getChildren().add(boxBottomInset);
 
 
-    //pane.setTop(boxTop);
-
-
-   pane.setTop(boxTop);
-
+    pane.setTop(boxTop);
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
     this.getChildren().add(pane);
