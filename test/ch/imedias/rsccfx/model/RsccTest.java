@@ -10,6 +10,7 @@ import org.junit.Test;
 
 /**
  * Tests the rscc model class.
+ * Javadoc comment here.
  */
 public class RsccTest {
   Rscc model;
