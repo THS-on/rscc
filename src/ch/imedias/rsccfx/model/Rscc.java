@@ -30,7 +30,7 @@ public class Rscc {
     command = new StringBuilder();
     // Execute port_share.sh and get a key as output
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-    command.append("port_share.sh" + " ");
+    command.append("start_vnc.sh" + " ");
     command.append("--p2p_server=" + keyServerIp + " ");
     command.append("--p2p_port=" + keyServerSshPort + " ");
     command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
@@ -38,5 +38,9 @@ public class Rscc {
     return systemCommander.executeTerminalCommand(command.toString());
   }
 
+  public void connectToUser(){
+
+
+  }
 
 }
