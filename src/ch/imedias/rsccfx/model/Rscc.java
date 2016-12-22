@@ -16,7 +16,6 @@ public class Rscc {
   /**
    * Requests a token from the key server.
    */
-
   public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerSshPort,
                                        int keyServerHttpPort, boolean isCompressionEnabled) {
     StringBuilder command = new StringBuilder();
@@ -42,9 +41,8 @@ public class Rscc {
   /**
    * Starts connection to the user.
    */
-
-  public void connectToUser(String keyServerIp, int keyServerSshPort,
-                            int keyServerHttpPort, String key) {
+  public void connectToUser(String key, int forwardingPort, String keyServerIp,
+                            int keyServerHttpPort) {
     StringBuilder command = new StringBuilder();
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
     command.append("use.sh" + " ");
@@ -56,14 +54,15 @@ public class Rscc {
 
     // Executes start_vncviewer.sh and connects to the user.
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-    command.append("start_vncviewer.sh " + key);
+    command.append("start_vncviewer.sh" + " ");
+    command.append("--vnc_port=" + forwardingPort + " ");
+    command.append(key);
     systemCommander.executeTerminalCommand(command.toString());
   }
 
   /**
-   * Starts connection to vnc server.
+   * Starts the VNC server.
    */
-
   public void startVncServer(String key, int forwardingPort) {
     StringBuilder command = new StringBuilder();
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
