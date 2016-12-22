@@ -3,23 +3,27 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.image.Image;
 
+  /**
+   * This is the presenter for the EnterTokenView in which the supporter will enter the token.
+   */
 public class RsccEnterTokenPresenter {
 
   private final Rscc model;
   private final RsccEnterTokenView view;
 
-  /**
-   * Javadoc comment here.
-   */
+
   public RsccEnterTokenPresenter(Rscc model, RsccEnterTokenView view) {
     this.model = model;
     this.view = view;
 
     attachEvents();
   }
-
+  
+  /**
+   * Updates the validation image after every key pressed.
+   */
   private void attachEvents() {
-    //TODO put all setOnAction/addListeners in here
+
     view.tokentxt.setOnKeyPressed(event -> {
       view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText())));
     });
@@ -27,7 +31,7 @@ public class RsccEnterTokenPresenter {
   }
 
   /**
-   * Javadoc comment here.
+   * Validates the token and displays a symbolic image.
    */
   public String validationImage(String token) {
 

@@ -17,7 +17,6 @@ public class RsccEnterTokenView extends VBox {
   private final Rscc model;
   private final RsccEnterTokenPresenter presenter;
 
-  //declare all elements here
   Label enterTokenlbl;
   Label loremIpsumlbl;
   Label examplelbl;
@@ -32,7 +31,7 @@ public class RsccEnterTokenView extends VBox {
   Button expandOptionbtn;
 
   /**
-   * Javadoc comment here.
+   * This is the view for the supporter to enter the token.
    */
   public RsccEnterTokenView(Rscc model) {
     this.model = model;
@@ -44,7 +43,6 @@ public class RsccEnterTokenView extends VBox {
   }
 
   private void layoutForm() {
-    //setup layout (aka setup specific pane etc.)
     this.setPadding(new Insets(5, 25, 5, 25));
     this.setSpacing(10);
 
@@ -76,13 +74,6 @@ public class RsccEnterTokenView extends VBox {
   }
 
   private void initFieldData() {
-    //populate fields which require initial data
-    //enterTokenlbl = new Label(Strings.remoteSupportFrameEnterTokenLabelText);
-    //loremIpsumlbl = new Label(Strings.remoteSupportFrameDescriptionLabelText);
-    //examplelbl = new Label(Strings.remoteSupportFrameUsageExampleLabelText);
-    //instructionlbl = new Label(Strings.remoteSupportFrameInstructionLabelText);
-    //connectbtn = new Button(Strings.remoteSupportDialogConnectButtonText);
-    //expandOptionbtn = new Button(Strings.remoteSupportDialogExpandButtonText);
 
     isValidimg = new ImageView(getClass()
             .getClassLoader()
