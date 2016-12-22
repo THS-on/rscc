@@ -1,74 +1,75 @@
 package ch.imedias.rsccfx.model;
 
 public class Rscc {
-    /**
-     * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
-     * Important: Make sure to NOT include a / in the beginning or the end.
-     */
-    private static final String PATH_TO_RESOURCE_DOCKER = "resources/docker-build_p2p";
+  /**
+   * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
+   * Important: Make sure to NOT include a / in the beginning or the end.
+   */
+  private static final String PATH_TO_RESOURCE_DOCKER = "resources/docker-build_p2p";
 
-    private final SystemCommander systemCommander;
+  private final SystemCommander systemCommander;
 
-    public Rscc(SystemCommander systemCommander) {
-        this.systemCommander = systemCommander;
-    }
+  public Rscc(SystemCommander systemCommander) {
+    this.systemCommander = systemCommander;
+  }
 
-    /**
-     * Requests a token from the key server.
-     */
+  /**
+   * Requests a token from the key server.
+   */
 
-    public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerSshPort,
-                                         int keyServerHttpPort, boolean isCompressionEnabled) {
-        StringBuilder command = new StringBuilder();
+  public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerSshPort,
+                                       int keyServerHttpPort, boolean isCompressionEnabled) {
+    StringBuilder command = new StringBuilder();
 
-        // First, setup the server with use.sh
-        command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-        command.append("use.sh" + " ");
-        command.append(keyServerIp + " ");
-        command.append(keyServerHttpPort);
-        systemCommander.executeTerminalCommand(command.toString());
+    // First, setup the server with use.sh
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("use.sh" + " ");
+    command.append(keyServerIp + " ");
+    command.append(keyServerHttpPort);
+    systemCommander.executeTerminalCommand(command.toString());
 
-        command = new StringBuilder();
-        // Execute port_share.sh and get a key as output
-        command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-        command.append("port_share.sh" + " ");
-        command.append("--p2p_server=" + keyServerIp + " ");
-        command.append("--p2p_port=" + keyServerSshPort + " ");
-        command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
-        command.append(forwardingPort);
-        return systemCommander.executeTerminalCommand(command.toString());
-    }
+    command = new StringBuilder();
+    // Execute port_share.sh and get a key as output
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("port_share.sh" + " ");
+    command.append("--p2p_server=" + keyServerIp + " ");
+    command.append("--p2p_port=" + keyServerSshPort + " ");
+    command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
+    command.append(forwardingPort);
+    return systemCommander.executeTerminalCommand(command.toString());
+  }
 
-    /**
-     * Starts connection to the user.
-     */
+  /**
+   * Starts connection to the user.
+   */
 
-    public void connectToUser(String keyServerIp, int keyServerSshPort, int keyServerHttpPort, String key) {
-        StringBuilder command = new StringBuilder();
-        command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-        command.append("use.sh" + " ");
-        command.append(keyServerIp + " ");
-        command.append(keyServerHttpPort);
-        systemCommander.executeTerminalCommand(command.toString());
+  public void connectToUser(String keyServerIp, int keyServerSshPort,
+                            int keyServerHttpPort, String key) {
+    StringBuilder command = new StringBuilder();
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("use.sh" + " ");
+    command.append(keyServerIp + " ");
+    command.append(keyServerHttpPort);
+    systemCommander.executeTerminalCommand(command.toString());
 
-        command = new StringBuilder();
+    command = new StringBuilder();
 
-        // Executes start_vncviewer.sh and connects to the user.
-        command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-        command.append("start_vncviewer.sh " + key);
-        systemCommander.executeTerminalCommand(command.toString());
-    }
+    // Executes start_vncviewer.sh and connects to the user.
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("start_vncviewer.sh " + key);
+    systemCommander.executeTerminalCommand(command.toString());
+  }
 
-    /**
-     * Starts connection to vnc server.
-     */
+  /**
+   * Starts connection to vnc server.
+   */
 
-    public void startVncServer(String key, int forwardingPort) {
-        StringBuilder command = new StringBuilder();
-        command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-        command.append("start_vncserver.sh" + " ");
-        command.append("--vnc_port=" + forwardingPort + " ");
-        command.append("--key=" + key);
-        systemCommander.executeTerminalCommand(command.toString());
-    }
+  public void startVncServer(String key, int forwardingPort) {
+    StringBuilder command = new StringBuilder();
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("start_vncserver.sh" + " ");
+    command.append("--vnc_port=" + forwardingPort + " ");
+    command.append("--key=" + key);
+    systemCommander.executeTerminalCommand(command.toString());
+  }
 }
