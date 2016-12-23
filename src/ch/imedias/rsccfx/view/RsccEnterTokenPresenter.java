@@ -40,7 +40,8 @@ public class RsccEnterTokenPresenter {
 
     view.connectbtn.setOnAction(
         event -> {
-          model.connectToUser(view.tokentxt.toString(),FORWARDING_PORT,KEY_SERVER_IP,
+          System.out.println(view.tokentxt.getText());
+          model.connectToUser(view.tokentxt.getText(),FORWARDING_PORT,KEY_SERVER_IP,
               KEY_SERVER_HTTP_PORT);
         }
     );

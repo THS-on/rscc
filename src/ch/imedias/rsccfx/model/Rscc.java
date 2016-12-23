@@ -80,6 +80,7 @@ public class Rscc {
     command.append("start_vncviewer.sh" + " ");
     command.append("--vnc_port=" + forwardingPort + " ");
     command.append(key);
+    System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
   }
 
