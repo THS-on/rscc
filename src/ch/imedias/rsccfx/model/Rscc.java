@@ -54,11 +54,7 @@ public class Rscc {
     command = new StringBuilder();
     // Execute port_share.sh and get a key as output
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
-    command.append("port_share.sh" + " ");
-    command.append("--p2p_server=" + keyServerIp + " ");
-    command.append("--p2p_port=" + keyServerSshPort + " ");
-    command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
-    command.append(forwardingPort);
+    command.append("start_x11vnc.sh");
     System.out.println(command.toString());
     return systemCommander.executeTerminalCommand(command.toString());
   }
@@ -81,7 +77,6 @@ public class Rscc {
     // Executes start_vncviewer.sh and connects to the user.
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
     command.append("start_vncviewer.sh" + " ");
-    command.append("--vnc_port=" + forwardingPort + " ");
     command.append(key);
     System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
@@ -94,7 +89,6 @@ public class Rscc {
     StringBuilder command = new StringBuilder();
     command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
     command.append("start_vncserver.sh" + " ");
-    command.append("--vnc_port=" + forwardingPort + " ");
     command.append("--key=" + key);
     System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
@@ -110,7 +104,6 @@ public class Rscc {
     killConnection(oldKey);
     String newKey = requestTokenFromServer(forwardingPort, keyServerIp, keyServerSshPort,
         keyServerHttpPort, isCompressionEnabled);
-    startVncServer(newKey, forwardingPort);
     return newKey;
   }
 
