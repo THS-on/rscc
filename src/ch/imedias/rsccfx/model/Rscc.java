@@ -119,6 +119,6 @@ public class Rscc {
   }
 
   public String getKey() {
-    return key.toString();
+    return key.get();
   }
 }
