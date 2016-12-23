@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 public class RsccApp extends Application {
   public static final String APP_NAME = "Remote Support - Enter Token";
+  Rscc model;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -23,7 +24,7 @@ public class RsccApp extends Application {
   @Override
   public void start(Stage stage) {
 
-    Rscc model = new Rscc(new SystemCommander());
+    model = new Rscc(new SystemCommander());
     RsccShowTokenView showTokenView = new RsccShowTokenView(model);
     RsccEnterTokenView enterTokenView = new RsccEnterTokenView(model);
     RsccView view = new RsccView(model, showTokenView, enterTokenView);
@@ -44,5 +45,11 @@ public class RsccApp extends Application {
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
+  }
+
+  @Override
+  public void stop() throws Exception {
+    model.killConnection(model.getKey());
+    super.stop();
   }
 }
