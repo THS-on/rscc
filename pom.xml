@@ -204,6 +204,7 @@
 		</dependency>
 
 		<!-- lernstickTools -->
+
 		<dependency>
 			<groupId>com.github.Kennox</groupId>
 			<artifactId>lernstickTools</artifactId>
