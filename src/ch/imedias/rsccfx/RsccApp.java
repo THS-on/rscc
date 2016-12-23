@@ -1,6 +1,8 @@
 package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
+import ch.imedias.rsccfx.view.RsccEnterTokenView;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import ch.imedias.rsccfx.view.RsccView;
@@ -9,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
-  public static final String APP_NAME = "Rscc";
+  public static final String APP_NAME = "Remote Support - Enter Token";
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -18,15 +20,17 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
+
     Rscc model = new Rscc(new SystemCommander());
     RsccView view = new RsccView(model);
 
-    // Must set the scene before creating the presenter that uses
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
 
-    RsccPresenter presenter = new RsccPresenter(model, view);
-
+    stage.setWidth(500);
+    stage.setHeight(450);
+    stage.setMinWidth(250);
+    stage.setMinHeight(300);
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
