@@ -83,8 +83,8 @@ public class RsccEnterTokenView extends VBox {
     loremIpsumlbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
     examplelbl = new Label("Number of characters: 8\nexample: 666xx666");
     instructionlbl = new Label("Instructions!");
-    connectbtn = new Button("Beam me up scotty");
-    expandOptionbtn = new Button("MOARRR");
+    connectbtn = new Button("Connect");
+    expandOptionbtn = new Button("More");
   }
 
   private void bindFieldsToModel() {
