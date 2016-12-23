@@ -23,17 +23,17 @@ import javafx.scene.text.Text;
  */
 public class ShowTokenView extends BorderPane {
   private Rscc model;
-  private BorderPane pane;
-  private HeaderView testTopbox;
-  private VBox boxTop;
-  private HBox boxCenter;
-  private VBox boxBottom;
-  private VBox boxBottomInset;
-  private Label lbl;
-  private Text txt1;
-  private Text txt2;
-  private TextField tf;
-  private Button reloadButton;
+  BorderPane pane;
+  HeaderView testTopbox;
+  VBox boxTop;
+  HBox boxCenter;
+  VBox boxBottom;
+  VBox boxBottomInset;
+  Label lbl;
+  Text txt1;
+  Text txt2;
+  TextField tf;
+  Button reloadButton;
 
   /**
    * Constructor.

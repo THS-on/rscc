@@ -15,5 +15,10 @@ public class RsccPresenter {
 
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
+    view.showToken.reloadButton.setOnAction(
+        event -> {
+          // TODO put method to reload here
+        }
+    );
   }
 }
