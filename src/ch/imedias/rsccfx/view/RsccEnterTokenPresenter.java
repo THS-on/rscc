@@ -11,6 +11,14 @@ public class RsccEnterTokenPresenter {
   private final Rscc model;
   private final RsccEnterTokenView view;
 
+  // For the moment, hardcoded the server parameters
+  private static final int FORWARDING_PORT = 5900;
+  private static final int KEY_SERVER_SSH_PORT = 2201;
+  private static final String KEY_SERVER_IP = "86.119.39.89";
+  private static final int KEY_SERVER_HTTP_PORT = 800;
+  private static final boolean IS_COMPRESSION_ENABLED = true;
+  String key = "";
+
   /**
    * Initializes the RsccEnterTokenPresenter.
    */
@@ -29,6 +37,13 @@ public class RsccEnterTokenPresenter {
     view.tokentxt.setOnKeyPressed(event -> {
       view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText())));
     });
+
+    view.connectbtn.setOnAction(
+        event -> {
+          model.connectToUser(view.tokentxt.toString(),FORWARDING_PORT,KEY_SERVER_IP,
+              KEY_SERVER_HTTP_PORT);
+        }
+    );
 
   }
 

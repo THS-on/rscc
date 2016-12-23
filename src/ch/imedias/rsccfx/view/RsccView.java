@@ -6,14 +6,16 @@ import javafx.scene.layout.BorderPane;
 public class RsccView extends BorderPane { // change Parent to GridPane etc.
   private final Rscc model;
   final RsccShowTokenView showTokenView;
+  final RsccEnterTokenView enterTokenView;
   //declare all elements here
 
   /**
    * Javadoc comment here.
    */
-  public RsccView(Rscc model, RsccShowTokenView showTokenView) {
+  public RsccView(Rscc model, RsccShowTokenView showTokenView, RsccEnterTokenView enterTokenView) {
     this.model = model;
     this.showTokenView = showTokenView;
+    this.enterTokenView = enterTokenView;
     layoutForm();
     initFieldData();
     bindFieldsToModel();
@@ -21,7 +23,8 @@ public class RsccView extends BorderPane { // change Parent to GridPane etc.
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    setCenter(showTokenView);
+    setLeft(showTokenView);
+    setRight(enterTokenView);
   }
 
   private void initFieldData() {
