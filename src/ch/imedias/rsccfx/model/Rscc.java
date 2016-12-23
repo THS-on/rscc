@@ -48,6 +48,7 @@ public class Rscc {
     command.append("use.sh" + " ");
     command.append(keyServerIp + " ");
     command.append(keyServerHttpPort);
+    System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
 
     command = new StringBuilder();
@@ -58,6 +59,7 @@ public class Rscc {
     command.append("--p2p_port=" + keyServerSshPort + " ");
     command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
     command.append(forwardingPort);
+    System.out.println(command.toString());
     return systemCommander.executeTerminalCommand(command.toString());
   }
 
@@ -71,6 +73,7 @@ public class Rscc {
     command.append("use.sh" + " ");
     command.append(keyServerIp + " ");
     command.append(keyServerHttpPort);
+    System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
 
     command = new StringBuilder();
@@ -93,6 +96,7 @@ public class Rscc {
     command.append("start_vncserver.sh" + " ");
     command.append("--vnc_port=" + forwardingPort + " ");
     command.append("--key=" + key);
+    System.out.println(command.toString());
     systemCommander.executeTerminalCommand(command.toString());
   }
 
