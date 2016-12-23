@@ -3,6 +3,8 @@ package ch.imedias.rsccfx.model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Rscc {
   /**
@@ -12,6 +14,8 @@ public class Rscc {
   private static final String PATH_TO_RESOURCE_DOCKER = "resources/docker-build_p2p";
 
   private final SystemCommander systemCommander;
+
+  private final StringProperty key = new SimpleStringProperty("");
 
   public Rscc(SystemCommander systemCommander) {
     this.systemCommander = systemCommander;
@@ -91,5 +95,26 @@ public class Rscc {
     command.append("--vnc_port=" + forwardingPort + " ");
     command.append("--key=" + key);
     systemCommander.executeTerminalCommand(command.toString());
+  }
+
+  /**
+   * Refreshes the key by killing the connection, requesting a new key and starting the server
+   * again.
+   */
+  public String refreshKey(String oldKey, int forwardingPort, String keyServerIp, int keyServerSshPort,
+                           int keyServerHttpPort, boolean isCompressionEnabled) {
+    killConnection(oldKey);
+    String newKey = requestTokenFromServer(forwardingPort, keyServerIp, keyServerSshPort,
+    keyServerHttpPort, isCompressionEnabled);
+    startVncServer(newKey,forwardingPort);
+    return newKey;
+  }
+
+  public StringProperty keyProperty() {
+    return key;
+  }
+
+  public String getKey() {
+    return key.toString();
   }
 }

@@ -17,11 +17,11 @@ import javafx.scene.text.Text;
 
 
 /**
- * Class ShowTokenView
+ * Class RsccShowTokenView
  * Created by Simon on 30.11.16.
  * Capsulated Class to test easy.
  */
-public class ShowTokenView extends BorderPane {
+public class RsccShowTokenView extends BorderPane {
   private Rscc model;
   BorderPane pane;
   HeaderView testTopbox;
@@ -39,7 +39,7 @@ public class ShowTokenView extends BorderPane {
    * Constructor.
    * @param model test.
    */
-  public ShowTokenView(Rscc model) {
+  public RsccShowTokenView(Rscc model) {
     this.model = model;
     layoutForm();
     initFieldData();
@@ -102,7 +102,7 @@ public class ShowTokenView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    //make the bindings to the modelit
+    //make the bindings to the model
     testTopbox = new HeaderView();
     boxTop.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
@@ -120,6 +120,8 @@ public class ShowTokenView extends BorderPane {
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
     this.getChildren().add(pane);
+
+    tf.textProperty().bind(model.keyProperty());
   }
 
   /** initSize method. */

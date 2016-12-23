@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 public class RsccEnterTokenView extends VBox {
 
   private final Rscc model;
-  private final RsccEnterTokenPresenter presenter;
 
   Label enterTokenlbl;
   Label loremIpsumlbl;
@@ -39,7 +38,6 @@ public class RsccEnterTokenView extends VBox {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
-    this.presenter = new RsccEnterTokenPresenter(model, this);
   }
 
   private void layoutForm() {
@@ -82,7 +80,7 @@ public class RsccEnterTokenView extends VBox {
     enterTokenlbl = new Label("EnterToken");
     loremIpsumlbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
     examplelbl = new Label("Number of characters: 8\nexample: 666xx666");
-    instructionlbl = new Label("Instructions!");
+    instructionlbl = new Label("Instructions");
     connectbtn = new Button("Connect");
     expandOptionbtn = new Button("More");
   }

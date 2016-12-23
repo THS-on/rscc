@@ -5,6 +5,8 @@ import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
 import ch.imedias.rsccfx.view.RsccEnterTokenView;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccPresenter;
+import ch.imedias.rsccfx.view.RsccShowTokenPresenter;
+import ch.imedias.rsccfx.view.RsccShowTokenView;
 import ch.imedias.rsccfx.view.RsccView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,10 +24,15 @@ public class RsccApp extends Application {
   public void start(Stage stage) {
 
     Rscc model = new Rscc(new SystemCommander());
-    RsccView view = new RsccView(model);
+    RsccShowTokenView showTokenView = new RsccShowTokenView(model);
+    RsccView view = new RsccView(model, showTokenView);
+
 
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
+
+    RsccPresenter presenter = new RsccPresenter(model, view);
+    RsccShowTokenPresenter showTokenPresenter = new RsccShowTokenPresenter(model, showTokenView);
 
     stage.setWidth(500);
     stage.setHeight(450);
