@@ -1,6 +1,9 @@
 package ch.imedias.rsccfx.view;
 
-/** import statements. */
+/**
+ * import statements.
+ */
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -67,7 +70,7 @@ public class HeaderView extends VBox {
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
     btnSett.setAlignment(Pos.TOP_RIGHT);
     lblHead = new Label("I need Help");
-    lblHead.setFont(new Font("Cantarell",20));
+    lblHead.setFont(new Font("Cantarell", 20));
     lblHead.setAlignment(Pos.CENTER);
     boxLine1.getChildren().add(btnHead);
     boxLine1.getChildren().add(lblHead);

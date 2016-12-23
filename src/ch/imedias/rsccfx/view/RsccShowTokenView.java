@@ -1,6 +1,9 @@
 package ch.imedias.rsccfx.view;
 
-/** import statements. */
+/**
+ * import statements.
+ */
+
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

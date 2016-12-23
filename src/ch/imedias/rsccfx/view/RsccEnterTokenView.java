@@ -62,11 +62,11 @@ public class RsccEnterTokenView extends VBox {
     groupingbox.getChildren().addAll(tokenValidationbox, instructionlbl);
 
     this.getChildren().addAll(enterTokenlbl,
-            loremIpsumlbl,
-            examplelbl,
-            groupingbox,
-            connectbtn,
-            expandOptionbtn);
+        loremIpsumlbl,
+        examplelbl,
+        groupingbox,
+        connectbtn,
+        expandOptionbtn);
 
     connectbtn.setFont(new Font(30));
   }
@@ -74,9 +74,9 @@ public class RsccEnterTokenView extends VBox {
   private void initFieldData() {
 
     isValidimg = new ImageView(getClass()
-            .getClassLoader()
-            .getResource("dialog-error.png")
-            .toExternalForm());
+        .getClassLoader()
+        .getResource("dialog-error.png")
+        .toExternalForm());
     enterTokenlbl = new Label("EnterToken");
     loremIpsumlbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
     examplelbl = new Label("Number of characters: 8\nexample: 666xx666");

@@ -27,8 +27,8 @@ public class RsccShowTokenPresenter {
     //TODO put all setOnAction/addListeners in here
     view.reloadButton.setOnAction(
         event -> {
-          String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP, KEY_SERVER_SSH_PORT,
-              KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);
+          String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
+              KEY_SERVER_SSH_PORT, KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);
           model.keyProperty().set(newKey);
         }
     );

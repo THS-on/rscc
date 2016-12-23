@@ -1,8 +1,6 @@
 package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
-import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
-import ch.imedias.rsccfx.view.RsccEnterTokenView;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import ch.imedias.rsccfx.view.RsccShowTokenPresenter;
