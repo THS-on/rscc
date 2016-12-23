@@ -33,4 +33,31 @@ public class Rscc {
 
     systemCommander.executeTerminalCommand(command.toString());
   }
+  
+  /**
+   * Requests a token from the key server.
+   */
+  public String requestTokenFromServer(int forwardingPort, String keyServerIp, int keyServerSshPort,
+                                       int keyServerHttpPort, boolean isCompressionEnabled) {
+    StringBuilder command = new StringBuilder();
+
+    // First, setup the server with use.sh
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("use.sh" + " ");
+    command.append(keyServerIp + " ");
+    command.append(keyServerHttpPort);
+    systemCommander.executeTerminalCommand(command.toString());
+
+    command = new StringBuilder();
+    // Execute port_share.sh and get a key as output
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("port_share.sh" + " ");
+    command.append("--p2p_server=" + keyServerIp + " ");
+    command.append("--p2p_port=" + keyServerSshPort + " ");
+    command.append("--compress=" + (isCompressionEnabled ? "yes" : "no") + " ");
+    command.append(forwardingPort);
+    return systemCommander.executeTerminalCommand(command.toString());
+  }
+
+
 }
