@@ -59,5 +59,37 @@ public class Rscc {
     return systemCommander.executeTerminalCommand(command.toString());
   }
 
+  /**
+   * Starts connection to the user.
+   */
+  public void connectToUser(String key, int forwardingPort, String keyServerIp,
+                            int keyServerHttpPort) {
+    StringBuilder command = new StringBuilder();
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("use.sh" + " ");
+    command.append(keyServerIp + " ");
+    command.append(keyServerHttpPort);
+    systemCommander.executeTerminalCommand(command.toString());
 
+    command = new StringBuilder();
+
+    // Executes start_vncviewer.sh and connects to the user.
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("start_vncviewer.sh" + " ");
+    command.append("--vnc_port=" + forwardingPort + " ");
+    command.append(key);
+    systemCommander.executeTerminalCommand(command.toString());
+  }
+
+  /**
+   * Starts the VNC server.
+   */
+  public void startVncServer(String key, int forwardingPort) {
+    StringBuilder command = new StringBuilder();
+    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("start_vncserver.sh" + " ");
+    command.append("--vnc_port=" + forwardingPort + " ");
+    command.append("--key=" + key);
+    systemCommander.executeTerminalCommand(command.toString());
+  }
 }
