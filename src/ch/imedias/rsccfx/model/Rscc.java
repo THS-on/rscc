@@ -8,7 +8,7 @@ public class Rscc {
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
-  private static final String PATH_TO_RESOURCE_DOCKER = "resources/docker-build_p2p";
+  private static final String PATH_TO_RESOURCE_DOCKER = "target/classes/docker-build_p2p";
 
   private final SystemCommander systemCommander;
 
