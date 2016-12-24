@@ -55,3 +55,4 @@ echo -e "$key\n" | ssh -p $p2p_port -i keys/delete.key vnc@$p2p_server 2>$logfil
 pid1=$(ps ax | grep "$remote_port:[lL]ocalhost:" | sed -e 's/^ \+//' | cut -d' ' -f1)
 pid2=$(ps ax | grep ":[lL]ocalhost:$remote_port" | sed -e 's/^ \+//' | cut -d' ' -f1)
 kill -9 $pid1 $pid2
+lsof -ti:5900 | xargs kill -9
