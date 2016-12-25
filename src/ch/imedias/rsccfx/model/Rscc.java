@@ -16,7 +16,7 @@ public class Rscc {
   private final StringProperty key = new SimpleStringProperty("");
 
   /**
-   * Initializes the Rscc model class
+   * Initializes the Rscc model class.
    */
   public Rscc(SystemCommander systemCommander) {
 
