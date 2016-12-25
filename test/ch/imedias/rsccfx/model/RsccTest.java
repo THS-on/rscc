@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -18,6 +19,7 @@ public class RsccTest {
   public void setUp() throws Exception {
   }
 
+  @Ignore
   @Test
   public void testKillConnection() throws Exception {
     final String key = "jhd65g7fs2";
@@ -30,6 +32,7 @@ public class RsccTest {
         + "port_stop.sh " + key);
   }
 
+  @Ignore
   @Test
   public void testRequestTokenFromServer() throws Exception {
     final String terminalCommandUse = "bash resources/docker-build_p2p/use.sh 86.119.39.89 800";

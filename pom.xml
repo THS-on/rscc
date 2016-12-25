@@ -9,6 +9,7 @@
         <custom.path>ch/imedias/rsccfx</custom.path>
         <custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
+		<custom.resources>resources</custom.resources>
 
         <!-- Project independant variables -->
 		<custom.test.source>test/${custom.path}</custom.test.source>
@@ -28,7 +29,14 @@
 	<build>
         <sourceDirectory>${custom.source}</sourceDirectory>
 		<testSourceDirectory>${custom.test.source}</testSourceDirectory>
-        <plugins>
+		<resources>
+			<resource>
+				<directory>${custom.resources}</directory>
+			</resource>
+		</resources>
+
+
+		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>

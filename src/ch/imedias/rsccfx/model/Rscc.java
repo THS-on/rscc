@@ -8,14 +8,21 @@ public class Rscc {
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
-  private static final String PATH_TO_RESOURCE_DOCKER = "target/classes/docker-build_p2p";
+  private final String pathToResourceDocker;
+
 
   private final SystemCommander systemCommander;
 
   private final StringProperty key = new SimpleStringProperty("");
 
+  /**
+   * Initializes the Rscc model class
+   */
   public Rscc(SystemCommander systemCommander) {
+
     this.systemCommander = systemCommander;
+    pathToResourceDocker = getClass().getClassLoader().getResource("docker-build_p2p")
+        .getFile();
   }
 
   /**
@@ -27,7 +34,7 @@ public class Rscc {
     StringBuilder command = new StringBuilder();
 
     // Execute port_stop.sh with the generated key to kill the connection
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("port_stop.sh" + " ");
     command.append(key);
 
@@ -44,7 +51,7 @@ public class Rscc {
     StringBuilder command = new StringBuilder();
 
     // First, setup the server with use.sh
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("use.sh" + " ");
     command.append(keyServerIp + " ");
     command.append(keyServerHttpPort);
@@ -53,7 +60,7 @@ public class Rscc {
 
     command = new StringBuilder();
     // Execute port_share.sh and get a key as output
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("start_x11vnc.sh");
     System.out.println(command.toString());
     return systemCommander.executeTerminalCommand(command.toString());
@@ -65,7 +72,7 @@ public class Rscc {
   public void connectToUser(String key, int forwardingPort, String keyServerIp,
                             int keyServerHttpPort) {
     StringBuilder command = new StringBuilder();
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("use.sh" + " ");
     command.append(keyServerIp + " ");
     command.append(keyServerHttpPort);
@@ -75,7 +82,7 @@ public class Rscc {
     command = new StringBuilder();
 
     // Executes start_vncviewer.sh and connects to the user.
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("start_vncviewer.sh" + " ");
     command.append(key);
     System.out.println(command.toString());
@@ -87,7 +94,7 @@ public class Rscc {
    */
   public void startVncServer(String key, int forwardingPort) {
     StringBuilder command = new StringBuilder();
-    command.append("bash" + " " + PATH_TO_RESOURCE_DOCKER + "/");
+    command.append("bash" + " " + pathToResourceDocker + "/");
     command.append("start_vncserver.sh" + " ");
     command.append("--key=" + key);
     System.out.println(command.toString());
