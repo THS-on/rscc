@@ -10,7 +10,6 @@ public class Rscc {
    */
   private final String pathToResourceDocker;
 
-
   private final SystemCommander systemCommander;
 
   private final StringProperty key = new SimpleStringProperty("");
@@ -22,7 +21,7 @@ public class Rscc {
 
     this.systemCommander = systemCommander;
     pathToResourceDocker = getClass().getClassLoader().getResource("docker-build_p2p")
-        .getFile();
+        .getFile().toString().replaceFirst("file:","");
   }
 
   /**
