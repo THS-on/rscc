@@ -4,7 +4,9 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
@@ -30,10 +32,17 @@ public class RsccApp extends Application {
 
     view.initBtnPanel(scene);
 
-    stage.setTitle(APP_NAME);
-    stage.setHeight(400);
-    stage.setWidth(700);
-    stage.show();
+    // Get Screensize
+    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
+    //set Stage boundaries to visible bounds of the main screen
+    stage.setWidth(primaryScreenBounds.getWidth() / 1.8);
+    stage.setHeight(primaryScreenBounds.getHeight() / 1.5);
+    stage.setX(primaryScreenBounds.getWidth() / 2 - stage.getWidth() / 2);
+    stage.setY(primaryScreenBounds.getHeight() / 2 - stage.getHeight() / 2);
+
+    stage.setTitle(APP_NAME);
+
+    stage.show();
   }
 }
