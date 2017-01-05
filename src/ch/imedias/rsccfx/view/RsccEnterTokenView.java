@@ -57,7 +57,7 @@ public class RsccEnterTokenView extends VBox {
     isValidimg.setSmooth(true);
     tokenValidationbox.getChildren().addAll(tokentxt, isValidimg);
     tokenValidationbox.setSpacing(5);
-    tokenValidationbox.setHgrow(tokentxt, Priority.ALWAYS);
+    HBox.setHgrow(tokentxt, Priority.ALWAYS);
     tokenValidationbox.setAlignment(Pos.CENTER_LEFT);
 
     groupingbox = new VBox();

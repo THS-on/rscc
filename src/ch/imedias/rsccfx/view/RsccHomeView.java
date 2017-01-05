@@ -14,10 +14,10 @@ import javafx.scene.layout.BorderPane;
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
   private final RsccHomeViewPresenter presenter;
-  protected Button requestSupportBtn;
-  protected Button offerSupportBtn;
-  protected ImageView offerSupportImgVw;
-  protected ImageView requestSupportImgVw;
+  Button requestSupportBtn;
+  Button offerSupportBtn;
+  private ImageView offerSupportImgVw;
+  private ImageView requestSupportImgVw;
 
   /**
    * your javadoc comment goes here.
@@ -35,7 +35,6 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-
     requestSupportBtn = new Button();
     requestSupportBtn.textProperty().setValue("I need help");
     //TODO: replace Text, multilangual
@@ -46,7 +45,6 @@ public class RsccHomeView extends BorderPane {
     requestSupportBtn.setGraphic(requestSupportImgVw);
     requestSupportBtn.setId("HomeNavigationBtn");
 
-
     offerSupportBtn = new Button();
     offerSupportBtn.textProperty().setValue("I want to help someone");
     // TODO: replace Text, multilangual
@@ -55,21 +53,16 @@ public class RsccHomeView extends BorderPane {
     offerSupportImgVw = new ImageView(offerSupportImg);
     offerSupportImgVw.setPreserveRatio(true);
     offerSupportBtn.setGraphic(offerSupportImgVw);
-
-
     offerSupportBtn.setId("HomeNavigationBtn");
   }
 
   private void bindFieldsToModel() {
     //dynamic growth
-
   }
 
   private void layoutForm() {
-
     this.setLeft(requestSupportBtn);
     this.setRight(offerSupportBtn);
-
   }
 
   /**

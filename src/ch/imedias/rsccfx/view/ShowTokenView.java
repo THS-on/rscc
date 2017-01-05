@@ -56,7 +56,6 @@ public class ShowTokenView extends BorderPane {
     boxBottom = new VBox();
     boxBottomInset = new VBox();
 
-
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
     boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
@@ -64,7 +63,6 @@ public class ShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
-
 
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
@@ -74,7 +72,6 @@ public class ShowTokenView extends BorderPane {
         + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
         + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
     txt1.setWrappingWidth(450);
-
 
     tf = new TextField();
     tf.setPrefHeight(60);
@@ -97,8 +94,6 @@ public class ShowTokenView extends BorderPane {
         + "clita kasd gubergren, no sea takimata sanctus est "
         + "Lorem ipsum dolor sit amet.");
     txt2.setWrappingWidth(450);
-
-
   }
 
   private void bindFieldsToModel() {

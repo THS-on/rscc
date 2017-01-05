@@ -3,15 +3,17 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.image.Image;
 
-  /**
-   * This is the presenter for the EnterTokenView in which the supporter will enter the token.
-   */
+/**
+ * This is the presenter for the EnterTokenView in which the supporter will enter the token.
+ */
 public class RsccEnterTokenPresenter {
 
   private final Rscc model;
   private final RsccEnterTokenView view;
 
-
+  /**
+   * Constructor.
+   */
   public RsccEnterTokenPresenter(Rscc model, RsccEnterTokenView view) {
     this.model = model;
     this.view = view;

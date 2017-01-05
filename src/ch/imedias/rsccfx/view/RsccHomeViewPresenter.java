@@ -1,10 +1,11 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RsccHomeViewPresenter {
+class RsccHomeViewPresenter {
   private final Rscc model;
   private final RsccHomeView view;
 
@@ -18,12 +19,14 @@ public class RsccHomeViewPresenter {
   }
 
   private void attachEvents() {
-
-    view.requestSupportBtn.setOnAction(event -> nowYouChangeToWhatever());
+    view.requestSupportBtn
+        .setOnAction(event -> loadSceenOnButtonAction(new ShowTokenView(model)));
+    view.offerSupportBtn
+        .setOnAction(event -> loadSceenOnButtonAction(new RsccEnterTokenView(model)));
   }
 
-  private void nowYouChangeToWhatever() {
+  private void loadSceenOnButtonAction(Parent nextScreen) {
     Stage stage = (Stage) view.getScene().getWindow();
-    stage.setScene(new Scene(new RsccOldView(model)));
+    stage.setScene(new Scene(nextScreen));
   }
 }

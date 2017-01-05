@@ -1,12 +1,9 @@
 package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
-import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
-import ch.imedias.rsccfx.view.RsccEnterTokenView;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccPresenter;
-import ch.imedias.rsccfx.view.RsccView;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -24,7 +21,7 @@ public class RsccApp extends Application {
   public void start(Stage stage) {
 
     Rscc model = new Rscc(new SystemCommander());
-    RsccView view = new RsccView(model);
+    RsccHomeView view = new RsccHomeView(model);
 
     // Must set the scene before creating the presenter that uses
     // the scene to listen for the focus change
@@ -34,7 +31,6 @@ public class RsccApp extends Application {
     RsccPresenter presenter = new RsccPresenter(model, view);
 
     stage.setScene(scene);
-
     view.initBtnPanel(scene);
 
     // Get Screensize
