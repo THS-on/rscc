@@ -19,8 +19,8 @@ public class RsccHomeView extends BorderPane {
   private ImageView offerSupportImgVw;
   private ImageView requestSupportImgVw;
 
-  /**
-   * your javadoc comment goes here.
+  /*
+   * Constructor.
    *
    * @param model is the model
    */
