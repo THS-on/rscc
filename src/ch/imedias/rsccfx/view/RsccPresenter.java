@@ -4,10 +4,12 @@ import ch.imedias.rsccfx.model.Rscc;
 
 public class RsccPresenter {
   private final Rscc model;
-  private final RsccView view;
+  private final RsccHomeView view;
 
-  /** Javadoc comment here. */
-  public RsccPresenter(Rscc model, RsccView view) {
+  /**
+   * Javadoc comment here.
+   */
+  public RsccPresenter(Rscc model, RsccHomeView view) {
     this.model = model;
     this.view = view;
     attachEvents();
@@ -15,10 +17,5 @@ public class RsccPresenter {
 
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
-    view.showToken.reloadButton.setOnAction(
-        event -> {
-          // TODO put method to reload here
-        }
-    );
   }
 }

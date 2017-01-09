@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 /**
- * Created by user on 02.12.16.
+ * Creates HeaderView.
  */
 public class HeaderView extends VBox {
 
