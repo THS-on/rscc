@@ -11,7 +11,7 @@ from os import listdir
 from re import match, split
 from sys import argv
 
-VERSION = "0.1.4"
+VERSION = "0.3.4"
 
 THIS_NAME = "generateStringsClass.py"
 CLASS_NAME = "Strings"
@@ -27,12 +27,24 @@ def camelCaseify(string):
 	return res[0].lower() + res[1:]
 
 # Split a string at an equals sign and return a tuple of head and tail
-# where head is everything up to but not including the first occurrence of =
+# where head is everything up to but not including the first occurrence of = or :
 # camelCase is also enforced on the head
 def splitAtEquals(string):
-	if string:
-		i = string.index('=')
-		return (camelCaseify(string[:i]), string[i:])
+	if string[0] not in ('#', '!', '\n'):
+		if '=' in string:
+			i = string.index('=')
+		elif ':' in string:
+			i = string.index(':')
+		return (camelCaseify(string[:i].rstrip()), '=' + string[(i+1):].lstrip())
+	else:
+		return string
+
+# If input is a string, returns it as is. If it is a tuple, returns the sum of its parts
+def joinIfTuple(obj):
+	if type(obj) is str:
+		return obj
+	elif type(obj) is tuple and len(obj) == 2:
+		return obj[0] + obj[1]
 
 def main():
 	# Open the properties file in read mode and store contents as list of lines
@@ -46,7 +58,7 @@ def main():
 	properties = list(map(splitAtEquals, properties))
 	
 	# Put the file contents back together as a string
-	outString = ''.join(map(lambda p: p[0] + p[1], properties))
+	outString = ''.join(map(joinIfTuple, properties))
 	
 	# Generate a hash from the edited string
 	outHash = sha256(outString).hexdigest()
@@ -55,12 +67,13 @@ def main():
 	if inHash != outHash:
 		with open(BUNDLE_NAME + ".properties", 'w') as file:
 			file.write(outString)
+
 		# Also apply to any other .properties files
 		for bundle in listdir(BUNDLE_DIR):
 			if match("Bundle\\w+\\.properties", bundle) != None:
 				with open(BUNDLE_DIR + '/' + bundle, 'r') as file:
 					contents = file.readlines()
-				contents = ''.join(map(lambda p: p[0] + p[1], list(map(splitAtEquals, contents))))
+				contents = ''.join(map(joinIfTuple, map(splitAtEquals, contents)))
 				with open(BUNDLE_DIR + '/' + bundle, 'w') as file:
 					file.write(contents)
 				del (contents)
@@ -80,6 +93,7 @@ def main():
 
 	# If source exists and hash has not changed, we're done
 	if sourceMissing or sourceHash != outHash:
+
 		# Set up static boilerplate code for header and constructor
 		header = "package %s;\n\n/**\n *  Code generated at %s\n *  by %s version %s\n" % \
 				 (PACKAGE_NAME, datetime.today().strftime("%H:%M:%S %d.%m.%Y"), THIS_NAME, VERSION)
@@ -91,9 +105,11 @@ def main():
 		ctor += "    rscBndl = ResourceBundle.getBundle(\"%s\", Locale.getDefault());\n\n" % (BUNDLE_NAME)
 
 		# Allocate and set a String field for each line in properties
-		for identifier, _ in properties:
-			header += "  public String %s;\n" % (identifier)
-			ctor += "    {0} = rscBndl.getString(\"{0}\");\n".format(identifier)
+		for entry in properties:
+			if type(entry) is tuple:
+				identifier = entry[0]
+				header += "  public String %s;\n" % (identifier)
+				ctor += "    {0} = rscBndl.getString(\"{0}\");\n".format(identifier)
 
 		# Stitch it all together
 		source = header + ctor + "  }\n}\n"

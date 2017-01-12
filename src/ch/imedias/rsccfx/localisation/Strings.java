@@ -1,10 +1,10 @@
 package ch.imedias.rsccfx.localisation;
 
 /**
- *  Code generated at 15:03:45 21.12.2016
- *  by generateStringsClass.py version 0.1.4
+ *  Code generated at 11:43:36 12.01.2017
+ *  by generateStringsClass.py version 0.3.4
  *  based on properties file with hash:
- *  0109e7d12bb312ba34d3bdb953bdf9ee4bb12cf2ea324e361b6a2fdd0087b320
+ *  5f9db799b6dce64b1bc8b7d4c15aee39073dd34d8adddfccf175acb678cfa19f
  */
 
 import java.util.Locale;
@@ -51,7 +51,7 @@ public class Strings {
 
   public Strings() {
 
-    rscBndl = ResourceBundle.getBundle("ch/imedias/rsccfx/localisation/Bundle", Locale.getDefault());
+    rscBndl = ResourceBundle.getBundle("src/ch/imedias/rsccfx/localisation/Bundle", Locale.getDefault());
 
     address = rscBndl.getString("address");
     connectedTo = rscBndl.getString("connectedTo");
