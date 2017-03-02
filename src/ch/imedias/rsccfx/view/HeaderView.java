@@ -25,10 +25,10 @@ public class HeaderView extends VBox {
   VBox headerbox;
   HBox boxLine1;
   HBox boxLine2;
-  Label lblHead;
-  Button btnHead;
-  Button btnSett;
-  Button btnHelp;
+  Label headLbl;
+  Button backBtn;
+  Button settBtn;
+  Button helpBtn;
   Separator sep;
 
   /** class HeaderView. */
@@ -60,30 +60,31 @@ public class HeaderView extends VBox {
     //populate fields which require initial data
 
     // TODO: layout according to the mock
-    btnHead = new Button();
-    btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHead.setGraphic(new ImageView(new Image(getClass()
+    backBtn = new Button();
+    backBtn.setAlignment(Pos.TOP_LEFT);
+    backBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/back1.png").toExternalForm())));
-    btnHelp = new Button();
-    btnHelp.setGraphic(new ImageView(new Image(getClass()
+    helpBtn = new Button();
+    helpBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/help1.png").toExternalForm())));
-    btnSett = new Button();
-    btnSett.setGraphic(new ImageView(new Image(getClass()
+    settBtn = new Button();
+    settBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
-    btnSett.setAlignment(Pos.TOP_RIGHT);
-    lblHead = new Label("I need Help");
-    lblHead.setFont(new Font("Cantarell", 20));
-    lblHead.setAlignment(Pos.CENTER);
-    boxLine1.getChildren().add(btnHead);
-    boxLine1.getChildren().add(lblHead);
-    boxLine1.getChildren().add(btnHelp);
-    boxLine1.getChildren().add(btnSett);
+    settBtn.setAlignment(Pos.TOP_RIGHT);
+    headLbl = new Label("I need Help");
+    headLbl.setFont(new Font("Cantarell", 20));
+    headLbl.setAlignment(Pos.CENTER);
+    //TODO: Make names better...
+    boxLine1.getChildren().add(backBtn);
+    boxLine1.getChildren().add(headLbl);
+    boxLine1.getChildren().add(helpBtn);
+    boxLine1.getChildren().add(settBtn);
   }
 
   /** initSize method. */
   public void initSize(Scene scene) {
     sep.prefWidthProperty().bind(scene.widthProperty());
-    lblHead.prefWidthProperty().bind(scene.widthProperty());
+    headLbl.prefWidthProperty().bind(scene.widthProperty());
     boxLine1.prefWidthProperty().bind(scene.widthProperty());
     boxLine2.prefWidthProperty().bind(scene.widthProperty());
     headerbox.prefWidthProperty().bind(scene.widthProperty());
