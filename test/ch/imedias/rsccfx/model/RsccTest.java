@@ -19,6 +19,8 @@ public class RsccTest {
   public void setUp() throws Exception {
   }
 
+  // FIXME: do tests need to be updated because of the changes?
+  // FIXME: are there tests you can add?
   @Ignore
   @Test
   public void testKillConnection() throws Exception {
