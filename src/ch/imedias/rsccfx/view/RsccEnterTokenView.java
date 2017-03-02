@@ -16,8 +16,8 @@ public class RsccEnterTokenView extends VBox {
 
   private final Rscc model;
 
-  Label enterTokenlbl;
-  Label loremIpsumlbl;
+  Label enterTokenlbl;  // FIXME: rename all fields to the proper camel case, i. e. enterTokenLbl
+  Label loremIpsumlbl; // FIXME: give the fields more meaningful names than "loremIpsumLbl" or "exampleLbl"
   Label examplelbl;
   Label instructionlbl;
 
@@ -30,7 +30,7 @@ public class RsccEnterTokenView extends VBox {
   Button expandOptionbtn;
 
   /**
-   * This is the view for the supporter to enter the token.
+   * This is the view for the supporter to enter the token. // FIXME: Update to conform with the google java style guidelines
    */
   public RsccEnterTokenView(Rscc model) {
     this.model = model;
@@ -69,10 +69,11 @@ public class RsccEnterTokenView extends VBox {
         expandOptionbtn);
 
     connectbtn.setFont(new Font(30));
+    // FIXME: restructure lines to be grouped by the object that is being used
   }
 
   private void initFieldData() {
-
+    // FIXME: update initial values with ones that make sense
     isValidimg = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
