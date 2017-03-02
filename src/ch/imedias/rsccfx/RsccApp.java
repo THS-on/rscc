@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
-  public static final String APP_NAME = "Remote Support - Enter Token";
+  public static final String APP_NAME = "Remote Support - Enter Token"; // FIXME: change title
   Rscc model;
 
   public static void main(String[] args) {
@@ -25,6 +25,7 @@ public class RsccApp extends Application {
   public void start(Stage stage) {
 
     model = new Rscc(new SystemCommander());
+    // FIXME: change appropriately to what should be shown and reflect changes in other views / presenters
     RsccShowTokenView showTokenView = new RsccShowTokenView(model);
     RsccEnterTokenView enterTokenView = new RsccEnterTokenView(model);
     RsccView view = new RsccView(model, showTokenView, enterTokenView);
