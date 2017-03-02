@@ -17,7 +17,6 @@ public class RsccApp extends Application {
     Application.launch(args);
   }
 
-
   @Override
   public void start(Stage stage) {
     model = new Rscc(new SystemCommander());

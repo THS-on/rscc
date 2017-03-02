@@ -15,12 +15,12 @@ public class RsccHomeView extends BorderPane {
   private final RsccHomeViewPresenter presenter;
   protected Button requestSupportBtn;
   protected Button offerSupportBtn;
-
   /**
    * your javadoc comment goes here.
    *
    * @param model is the model
    */
+
   public RsccHomeView(Rscc model) {
     this.model = model;
     initFieldData();
@@ -48,8 +48,6 @@ public class RsccHomeView extends BorderPane {
     offerSupportBtn.setGraphic(new ImageView(offerSupportImg));
     requestSupportBtn.setId("HomeNavigationBtn");
     offerSupportBtn.setId("HomeNavigationBtn");
-
-
   }
 
   private void bindFieldsToModel() {

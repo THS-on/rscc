@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
 /**
  * Class RsccRequestHelpView
  * Created by Simon on 30.11.16.
@@ -32,11 +31,15 @@ public class RsccRequestHelpView extends BorderPane {
   HBox boxCenter;
   VBox boxBottom;
   VBox boxBottomInset;
-  Label lbl;
-  Text txt1;
-  Text txt2;
-  TextField tf;
+  HBox expandableBox;
+  Label keyGenerationLbl;
+  Label supporterAdminLbl;
+  Text descriptionTxt;
+  Text additionalDescriptionTxt;
+  TextField generatedKeyFld;
   Button reloadButton;
+  Button supporterAdminBtn;
+
 
   /**
    * Constructor.
@@ -49,7 +52,6 @@ public class RsccRequestHelpView extends BorderPane {
     bindFieldsToModel();
   }
 
-
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
     pane = new BorderPane();
@@ -58,7 +60,7 @@ public class RsccRequestHelpView extends BorderPane {
     boxCenter = new HBox();
     boxBottom = new VBox();
     boxBottomInset = new VBox();
-
+    expandableBox = new HBox();
 
     boxCenter.setPadding(new Insets(10, 20, 10, 20));
     boxBottom.setPadding(new Insets(10, 20, 1, 20));
@@ -67,24 +69,26 @@ public class RsccRequestHelpView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
+    // TODO: String Class implementation!
 
+    keyGenerationLbl = new Label("Schlüsselgenerierung");
+    keyGenerationLbl.setFont(new Font("Cantarell", 30));
 
-    lbl = new Label("Schlüsselgenerierung");
-    lbl.setFont(new Font("Cantarell", 30));
-    txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
+    supporterAdminLbl = new Label("Supporter Administration");
+    descriptionTxt = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
         + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
         + "sed diam voluptua. At vero eos et accusam "
         + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
         + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-    txt1.setWrappingWidth(450);
+    descriptionTxt.setWrappingWidth(450);
 
 
-    tf = new TextField();
-    tf.setPrefHeight(60);
-    tf.setEditable(false);
-    tf.setStyle("-fx-background-color: #e2e2e2;");
-    tf.setText("aw3k2ljfsl0Oo");
-    tf.setFont(Font.font("Monospaced", 30));
+    generatedKeyFld = new TextField();
+    generatedKeyFld.setPrefHeight(60);
+    generatedKeyFld.setEditable(false);
+    generatedKeyFld.setStyle("-fx-background-color: #e2e2e2;"); // TODO: Create styling sheet
+    generatedKeyFld.setText("aw3k2ljfsl0Oo");
+    generatedKeyFld.setFont(Font.font("Monospaced", 30));
 
     reloadButton = new Button();
     reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader()
@@ -92,16 +96,18 @@ public class RsccRequestHelpView extends BorderPane {
     reloadButton.setPrefHeight(50);
     reloadButton.setPrefWidth(50);
 
+    supporterAdminBtn = new Button();
+    supporterAdminBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
+        .getResource("images/arrowDown.png").toExternalForm())));
 
-    txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
+    // TODO: Implement String Class
+    additionalDescriptionTxt = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
         + "sed diam nonumy eirmod tempor invidunt "
         + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
         + "At vero eos et accusam et justo duo dolores et ea rebum. Stet "
         + "clita kasd gubergren, no sea takimata sanctus est "
         + "Lorem ipsum dolor sit amet.");
-    txt2.setWrappingWidth(450);
-
-
+    additionalDescriptionTxt.setWrappingWidth(450);
   }
 
   private void bindFieldsToModel() {
@@ -109,30 +115,31 @@ public class RsccRequestHelpView extends BorderPane {
     testTopbox = new HeaderView();
     boxTop.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
-    lbltxt1.getChildren().add(lbl);
-    lbltxt1.getChildren().add(txt1);
+    lbltxt1.getChildren().add(keyGenerationLbl);
+    lbltxt1.getChildren().add(descriptionTxt);
     lbltxt1.setPadding(new Insets(10, 20, 10, 20));
     boxTop.getChildren().add(lbltxt1);
-    boxCenter.getChildren().add(tf);
+    boxCenter.getChildren().add(generatedKeyFld);
     boxCenter.getChildren().add(reloadButton);
-    boxBottom.getChildren().add(txt2);
+    boxBottom.getChildren().add(additionalDescriptionTxt);
     boxBottom.getChildren().add(boxBottomInset);
-
+    boxBottom.getChildren().add(expandableBox);
+    expandableBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
 
     pane.setTop(boxTop);
     pane.setCenter(boxCenter);
     pane.setBottom(boxBottom);
     this.getChildren().add(pane);
 
-    tf.textProperty().bind(model.keyProperty());
+    generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 
   /** initSize method. */
   public void initSize(Scene scene) {
     boxTop.prefWidthProperty().bind(scene.widthProperty());
-    tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     testTopbox.initSize(scene);
   }
 }

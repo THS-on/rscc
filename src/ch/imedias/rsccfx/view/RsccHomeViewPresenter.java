@@ -27,6 +27,7 @@ public class RsccHomeViewPresenter {
     Stage stage = (Stage) view.getScene().getWindow();
     stage.setScene(new Scene(new RsccSupporterView(model)));
   }
+
   private void showRequestHelpView() {
     Stage stage = (Stage) view.getScene().getWindow();
     stage.setScene(new Scene(new RsccRequestHelpView(model)));
