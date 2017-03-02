@@ -27,10 +27,10 @@ public class RsccRequestHelpView extends BorderPane {
   private Rscc model;
   BorderPane pane;
   HeaderView testTopbox;
-  VBox boxTop;
-  HBox boxCenter;
-  VBox boxBottom;
-  VBox boxBottomInset;
+  VBox topBox;
+  HBox centerBox;
+  VBox bottomBox;
+  VBox bottomBoxInset;
   HBox expandableBox;
   Label keyGenerationLbl;
   Label supporterAdminLbl;
@@ -54,16 +54,16 @@ public class RsccRequestHelpView extends BorderPane {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
     pane = new BorderPane();
-    boxTop = new VBox();
+    topBox = new VBox();
 
-    boxCenter = new HBox();
-    boxBottom = new VBox();
-    boxBottomInset = new VBox();
+    centerBox = new HBox();
+    bottomBox = new VBox();
+    bottomBoxInset = new VBox();
     expandableBox = new HBox();
 
-    boxCenter.setPadding(new Insets(10, 20, 10, 20));
-    boxBottom.setPadding(new Insets(10, 20, 1, 20));
-    boxBottomInset.setPadding(new Insets(40, 20, 1, 20));
+    centerBox.setPadding(new Insets(10, 20, 10, 20));
+    bottomBox.setPadding(new Insets(10, 20, 1, 20));
+    bottomBoxInset.setPadding(new Insets(40, 20, 1, 20));
   }
 
   private void initFieldData() {
@@ -113,22 +113,22 @@ public class RsccRequestHelpView extends BorderPane {
   private void bindFieldsToModel() {
     // TODO: make the bindings to the model
     testTopbox = new HeaderView();
-    boxTop.getChildren().add(testTopbox);
+    topBox.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
     lbltxt1.getChildren().add(keyGenerationLbl);
     lbltxt1.getChildren().add(descriptionTxt);
     lbltxt1.setPadding(new Insets(10, 20, 10, 20));
-    boxTop.getChildren().add(lbltxt1);
-    boxCenter.getChildren().add(generatedKeyFld);
-    boxCenter.getChildren().add(reloadButton);
-    boxBottom.getChildren().add(additionalDescriptionTxt);
-    boxBottom.getChildren().add(boxBottomInset);
-    boxBottom.getChildren().add(expandableBox);
+    topBox.getChildren().add(lbltxt1);
+    centerBox.getChildren().add(generatedKeyFld);
+    centerBox.getChildren().add(reloadButton);
+    bottomBox.getChildren().add(additionalDescriptionTxt);
+    bottomBox.getChildren().add(bottomBoxInset);
+    bottomBox.getChildren().add(expandableBox);
     expandableBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
 
-    pane.setTop(boxTop);
-    pane.setCenter(boxCenter);
-    pane.setBottom(boxBottom);
+    pane.setTop(topBox);
+    pane.setCenter(centerBox);
+    pane.setBottom(bottomBox);
     this.getChildren().add(pane);
 
     generatedKeyFld.textProperty().bind(model.keyProperty());
@@ -136,7 +136,7 @@ public class RsccRequestHelpView extends BorderPane {
 
   /** initSize method. */
   public void initSize(Scene scene) {
-    boxTop.prefWidthProperty().bind(scene.widthProperty());
+    topBox.prefWidthProperty().bind(scene.widthProperty());
     generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));

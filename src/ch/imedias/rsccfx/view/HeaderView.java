@@ -101,7 +101,9 @@ public class HeaderView extends VBox {
     this.getChildren().add(headerbox);
   }
 
-
+  public Button getBackBtn() {
+    return backBtn;
+  }
 }
 
 

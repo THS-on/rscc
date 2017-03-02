@@ -1,6 +1,8 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class RsccRequestHelpPresenter {
   private final Rscc model;
@@ -34,5 +36,11 @@ public class RsccRequestHelpPresenter {
     );
 
     // TODO: Set actions on buttons (back, Help, Settings)
+    view.testTopbox.getBackBtn().setOnAction(event -> showHomeView());
+  }
+
+  private void showHomeView() {
+    Stage stage = (Stage) view.getScene().getWindow();
+    stage.setScene(new Scene(new RsccHomeView(model)));
   }
 }
