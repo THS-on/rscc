@@ -5,15 +5,15 @@ import javafx.scene.layout.BorderPane;
 
 public class RsccViewDemoReady extends BorderPane { // change Parent to GridPane etc.
   private final Rscc model;
-  final RsccShowTokenView showTokenView;
-  final RsccEnterTokenView enterTokenView;
+  final RsccRequestHelpView showTokenView;
+  final RsccSupporterView enterTokenView;
   //declare all elements here
 
   /**
    * Javadoc comment here.
    */
-  public RsccViewDemoReady(Rscc model, RsccShowTokenView showTokenView,
-                           RsccEnterTokenView enterTokenView) {
+  public RsccViewDemoReady(Rscc model, RsccRequestHelpView showTokenView,
+                           RsccSupporterView enterTokenView) {
     this.model = model;
     this.showTokenView = showTokenView;
     this.enterTokenView = enterTokenView;

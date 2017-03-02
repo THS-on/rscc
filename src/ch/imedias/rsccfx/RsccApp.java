@@ -21,8 +21,8 @@ public class RsccApp extends Application {
   @Override
   public void start(Stage stage) {
     model = new Rscc(new SystemCommander());
-    // RsccShowTokenView showTokenView = new RsccShowTokenView(model);
-    // RsccEnterTokenView enterTokenView = new RsccEnterTokenView(model);
+    // RsccRequestHelpView showTokenView = new RsccRequestHelpView(model);
+    // RsccSupporterView enterTokenView = new RsccSupporterView(model);
     RsccHomeView view = new RsccHomeView(model);
 
 
