@@ -6,7 +6,7 @@ public class RsccShowTokenPresenter {
   private final Rscc model;
   private final RsccShowTokenView view;
 
-  // For the moment, hardcoded the server parameters
+  // For the moment, hardcoded the server parameters // FIXME: get rid of hardcoded server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
@@ -15,7 +15,7 @@ public class RsccShowTokenPresenter {
   String key = "";
 
   /**
-   * Javadoc comment here.
+   * Javadoc comment here. // FIXME: add proper comment
    */
   public RsccShowTokenPresenter(Rscc model, RsccShowTokenView view) {
     this.model = model;

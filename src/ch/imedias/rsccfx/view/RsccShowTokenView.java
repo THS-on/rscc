@@ -1,9 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-/**
- * import statements.
- */
-
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,15 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
-/**
- * Class RsccShowTokenView
- * Created by Simon on 30.11.16.
- * Capsulated Class to test easy.
- */
 public class RsccShowTokenView extends BorderPane {
   private Rscc model;
-  BorderPane pane;
+  BorderPane pane; // FIXME: rename all fields to comply with the SAD and google java code guidelines
   HeaderView testTopbox;
   VBox boxTop;
   HBox boxCenter;
@@ -39,8 +29,7 @@ public class RsccShowTokenView extends BorderPane {
   Button reloadButton;
 
   /**
-   * Constructor.
-   * @param model test.
+   * Constructor. // FIXME: change according to the google java code guidelines
    */
   public RsccShowTokenView(Rscc model) {
     this.model = model;
@@ -49,9 +38,9 @@ public class RsccShowTokenView extends BorderPane {
     bindFieldsToModel();
   }
 
-
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    // FIXME: restructure and group all of the objects that are being used together
     pane = new BorderPane();
     boxTop = new VBox();
 
@@ -67,10 +56,12 @@ public class RsccShowTokenView extends BorderPane {
 
   private void initFieldData() {
     //populate fields which require initial data
-
+    // FIXME: make sure only to put things here that have to do with populating initial data
+    // FIXME: restructure and group all of the objects that are being used together
 
     lbl = new Label("Schlüsselgenerierung");
     lbl.setFont(new Font("Cantarell", 30));
+    // FIXME: get rid of lorem ipsum and replace
     txt1 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
         + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
         + "sed diam voluptua. At vero eos et accusam "
@@ -92,7 +83,7 @@ public class RsccShowTokenView extends BorderPane {
     reloadButton.setPrefHeight(50);
     reloadButton.setPrefWidth(50);
 
-
+    // FIXME: get rid of lorem ipsum and replace
     txt2 = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
         + "sed diam nonumy eirmod tempor invidunt "
         + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
@@ -106,6 +97,7 @@ public class RsccShowTokenView extends BorderPane {
 
   private void bindFieldsToModel() {
     //make the bindings to the model
+    // FIXME: only the last line binds things to the model, the rest belongs in layoutForm
     testTopbox = new HeaderView();
     boxTop.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
@@ -127,10 +119,12 @@ public class RsccShowTokenView extends BorderPane {
     tf.textProperty().bind(model.keyProperty());
   }
 
-  /** initSize method. */
+  /** initSize method. */ // FIXME: format javadoc comment according to the google java code style guidelines
   public void initSize(Scene scene) {
+    // FIXME: duplicate code with HeaderView??
     boxTop.prefWidthProperty().bind(scene.widthProperty());
     tf.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    // FIXME: get rid of magic numbers (according to google java code style guidelines)
     txt1.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     txt2.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     testTopbox.initSize(scene);
