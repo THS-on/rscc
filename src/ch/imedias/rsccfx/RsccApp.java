@@ -2,10 +2,9 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
-import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
-import ch.imedias.rsccfx.view.RsccShowTokenPresenter;
 
 import ch.imedias.rsccfx.view.RsccHomeView;
+import ch.imedias.rsccfx.view.RsccHomeViewPresenter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,9 +30,7 @@ public class RsccApp extends Application {
     Scene scene = new Scene(view);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    ch.imedias.rsccfx.view.RsccViewPresenter presenter = new ch.imedias.rsccfx.view.RsccViewPresenter(model, view);
-    //RsccShowTokenPresenter showTokenPresenter = new RsccShowTokenPresenter(model, showTokenView);
-    //RsccEnterTokenPresenter enterTokenPresenter = new RsccEnterTokenPresenter(model, enterTokenView);
+    RsccHomeViewPresenter presenter = new RsccHomeViewPresenter(model, view);
 
     stage.setWidth(1000);
     stage.setHeight(450);

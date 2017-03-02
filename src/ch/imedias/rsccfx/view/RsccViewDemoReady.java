@@ -12,7 +12,8 @@ public class RsccViewDemoReady extends BorderPane { // change Parent to GridPane
   /**
    * Javadoc comment here.
    */
-  public RsccViewDemoReady(Rscc model, RsccShowTokenView showTokenView, RsccEnterTokenView enterTokenView) {
+  public RsccViewDemoReady(Rscc model, RsccShowTokenView showTokenView,
+                           RsccEnterTokenView enterTokenView) {
     this.model = model;
     this.showTokenView = showTokenView;
     this.enterTokenView = enterTokenView;
