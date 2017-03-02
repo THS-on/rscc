@@ -1,19 +1,22 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 
-public class RsccView extends Parent { // change Parent to GridPane etc.
+public class RsccView extends BorderPane { // change Parent to GridPane etc.
   private final Rscc model;
-
+  final RsccShowTokenView showTokenView;
+  final RsccEnterTokenView enterTokenView;
   //declare all elements here
 
   /**
    * Javadoc comment here.
    */
-  public RsccView(Rscc model) {
+  public RsccView(Rscc model) { }
+  public RsccView(Rscc model, RsccShowTokenView showTokenView, RsccEnterTokenView enterTokenView) {
     this.model = model;
-
+    this.showTokenView = showTokenView;
+    this.enterTokenView = enterTokenView;
     layoutForm();
     initFieldData();
     bindFieldsToModel();
@@ -21,6 +24,8 @@ public class RsccView extends Parent { // change Parent to GridPane etc.
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    setLeft(showTokenView);
+    setRight(enterTokenView);
   }
 
   private void initFieldData() {

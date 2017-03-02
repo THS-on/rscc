@@ -10,6 +10,8 @@ public class RsccPresenter {
    * Javadoc comment here.
    */
   public RsccPresenter(Rscc model, RsccHomeView view) {
+  }
+  public RsccPresenter(Rscc model, RsccView view) {
     this.model = model;
     this.view = view;
     attachEvents();
