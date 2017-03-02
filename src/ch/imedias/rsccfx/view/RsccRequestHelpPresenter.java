@@ -32,5 +32,7 @@ public class RsccRequestHelpPresenter {
           model.keyProperty().set(newKey);
         }
     );
+
+    // TODO: Set actions on buttons (back, Help, Settings)
   }
 }

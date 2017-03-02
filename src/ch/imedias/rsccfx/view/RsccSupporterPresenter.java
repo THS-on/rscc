@@ -46,6 +46,8 @@ public class RsccSupporterPresenter {
         }
     );
 
+    // TODO: Set actions on buttons (back, Help, Settings)
+
   }
 
   /**

@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
  */
 public class HeaderView extends VBox {
 
+  // TODO: refactor boxLine1 and boxLine2
   VBox headerbox;
   HBox boxLine1;
   HBox boxLine2;
@@ -58,6 +59,7 @@ public class HeaderView extends VBox {
   private void initFieldData() {
     //populate fields which require initial data
 
+    // TODO: layout according to the mock
     btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
     btnHead.setGraphic(new ImageView(new Image(getClass()
