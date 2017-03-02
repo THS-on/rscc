@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
  */
 public class HeaderView extends VBox {
 
-  VBox headerbox;
+  VBox headerbox; // FIXME: Change variable names according to the SAD
   HBox boxLine1;
   HBox boxLine2;
   Label lblHead;
@@ -30,7 +30,7 @@ public class HeaderView extends VBox {
   Button btnHelp;
   Separator sep;
 
-  /** class HeaderView. */
+  /** class HeaderView. */ // FIXME: add proper comment according to the google style guidelines
   public HeaderView() {
     //this.headerbox = headerbox;
     layoutForm();
@@ -57,7 +57,8 @@ public class HeaderView extends VBox {
 
   private void initFieldData() {
     //populate fields which require initial data
-
+    // FIXME: move those to "layoutForm" and only keep the ones that actually populate fields with initial data
+    // FIXME: improve code structure by putting together inidivudal elements, and separating each element with a line break
     btnHead = new Button();
     btnHead.setAlignment(Pos.TOP_LEFT);
     btnHead.setGraphic(new ImageView(new Image(getClass()
@@ -78,8 +79,10 @@ public class HeaderView extends VBox {
     boxLine1.getChildren().add(btnSett);
   }
 
-  /** initSize method. */
+  /** initSize method. */ // FIXME: add proper comment according to the google style guidelines
   public void initSize(Scene scene) {
+    // FIXME: make a presenter class for the headerview and put the bindings in there
+    // FIXME: this method is called in ShowTokenView??? should not be that way...
     sep.prefWidthProperty().bind(scene.widthProperty());
     lblHead.prefWidthProperty().bind(scene.widthProperty());
     boxLine1.prefWidthProperty().bind(scene.widthProperty());
@@ -91,7 +94,7 @@ public class HeaderView extends VBox {
 
   private void bindFieldsToModel() {
     //make the bindings to the model
-
+    // FIXME: those are not bindings to the model, so put them in layoutForm
     headerbox.getChildren().add(boxLine1);
     headerbox.getChildren().add(boxLine2);
 
