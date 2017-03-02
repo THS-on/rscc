@@ -7,12 +7,12 @@ import ch.imedias.rsccfx.model.Rscc;
  */
 public class RsccOldPresenter {
   private final Rscc model;
-  private final RsccView view;
+  private final RsccHomeView view;
 
   /**
    * Javadoc comment here.
    */
-  public RsccOldPresenter(Rscc model, RsccView view) {
+  public RsccOldPresenter(Rscc model, RsccHomeView view) {
     this.model = model;
     this.view = view;
     attachEvents();

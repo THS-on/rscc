@@ -2,16 +2,14 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 
-public class RsccPresenter {
+public class RsccPresenterDemoReady {
   private final Rscc model;
-  private final RsccHomeView view;
+  private final RsccViewDemoReady view;
 
   /**
    * Javadoc comment here.
    */
-  public RsccPresenter(Rscc model, RsccHomeView view) {
-  }
-  public RsccPresenter(Rscc model, RsccView view) {
+  public RsccPresenterDemoReady(Rscc model, RsccViewDemoReady view) {
     this.model = model;
     this.view = view;
     attachEvents();

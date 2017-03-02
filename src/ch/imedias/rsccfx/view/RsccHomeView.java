@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
-  private final RsccHomeViewPresenter presenter;
+  private final RsccViewPresenter presenter;
   protected Button requestSupportBtn;
   protected Button offerSupportBtn;
 
@@ -24,7 +24,7 @@ public class RsccHomeView extends BorderPane {
   public RsccHomeView(Rscc model) {
     this.model = model;
     initFieldData();
-    this.presenter = new RsccHomeViewPresenter(model, this);
+    this.presenter = new RsccViewPresenter(model, this);
     layoutForm();
     bindFieldsToModel();
   }
