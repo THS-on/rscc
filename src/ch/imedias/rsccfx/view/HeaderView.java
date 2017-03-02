@@ -31,7 +31,7 @@ public class HeaderView extends VBox {
   Separator sep;
 
   /** class HeaderView. */ // FIXME: add proper comment according to the google style guidelines
-  public HeaderView() {
+  public HeaderView() { // FIXME: include model
     //this.headerbox = headerbox;
     layoutForm();
     initFieldData();
