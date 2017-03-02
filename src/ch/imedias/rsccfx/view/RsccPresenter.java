@@ -6,6 +6,7 @@ public class RsccPresenter {
   private final Rscc model;
   private final RsccView view;
 
+  // FIXME: Use this as main Presenter and base all of the presenters around it on this
   /**
    * Javadoc comment here.
    */

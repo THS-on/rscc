@@ -9,6 +9,7 @@ public class RsccView extends BorderPane { // change Parent to GridPane etc.
   final RsccEnterTokenView enterTokenView;
   //declare all elements here
 
+  // FIXME: Use this as main View and base all of the views around it on this
   /**
    * Javadoc comment here.
    */
