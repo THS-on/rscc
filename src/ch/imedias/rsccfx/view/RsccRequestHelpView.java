@@ -112,7 +112,7 @@ public class RsccRequestHelpView extends BorderPane {
 
   private void bindFieldsToModel() {
     // TODO: make the bindings to the model
-    testTopbox = new HeaderView();
+    testTopbox = new HeaderView(model);
     topBox.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
     lbltxt1.getChildren().add(keyGenerationLbl);

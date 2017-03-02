@@ -4,6 +4,7 @@ package ch.imedias.rsccfx.view;
  * import statements.
  */
 
+import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,6 +22,9 @@ import javafx.scene.text.Font;
  */
 public class HeaderView extends VBox {
 
+  private final Rscc model;
+  private final HeaderViewPresenter presenter;
+
   // TODO: refactor boxLine1 and boxLine2
   VBox headerbox;
   HBox boxLine1;
@@ -32,8 +36,9 @@ public class HeaderView extends VBox {
   Separator sep;
 
   /** class HeaderView. */
-  public HeaderView() {
-    //this.headerbox = headerbox;
+  public HeaderView(Rscc model) {
+    this.model = model;
+    this.presenter = new HeaderViewPresenter(model, this);
     layoutForm();
     initFieldData();
     bindFieldsToModel();
@@ -101,9 +106,6 @@ public class HeaderView extends VBox {
     this.getChildren().add(headerbox);
   }
 
-  public Button getBackBtn() {
-    return backBtn;
-  }
 }
 
 
