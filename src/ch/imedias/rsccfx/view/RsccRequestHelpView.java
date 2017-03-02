@@ -40,7 +40,6 @@ public class RsccRequestHelpView extends BorderPane {
   Button reloadButton;
   Button supporterAdminBtn;
 
-
   /**
    * Constructor.
    * @param model test.
@@ -70,6 +69,7 @@ public class RsccRequestHelpView extends BorderPane {
   private void initFieldData() {
     //populate fields which require initial data
     // TODO: String Class implementation!
+    // TODO: Resize behavior
 
     keyGenerationLbl = new Label("Schlüsselgenerierung");
     keyGenerationLbl.setFont(new Font("Cantarell", 30));
@@ -96,7 +96,7 @@ public class RsccRequestHelpView extends BorderPane {
     reloadButton.setPrefHeight(50);
     reloadButton.setPrefWidth(50);
 
-    supporterAdminBtn = new Button();
+    supporterAdminBtn = new Button(); // TODO: Resize Image
     supporterAdminBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
         .getResource("images/arrowDown.png").toExternalForm())));
 
@@ -111,7 +111,7 @@ public class RsccRequestHelpView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    //make the bindings to the model
+    // TODO: make the bindings to the model
     testTopbox = new HeaderView();
     boxTop.getChildren().add(testTopbox);
     VBox lbltxt1 = new VBox();
