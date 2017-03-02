@@ -4,11 +4,13 @@ import ch.imedias.rsccfx.model.Rscc;
 
 public class RsccPresenter {
   private final Rscc model;
-  private final RsccView view;
+  private final RsccHomeView view;
 
   /**
    * Javadoc comment here.
    */
+  public RsccPresenter(Rscc model, RsccHomeView view) {
+  }
   public RsccPresenter(Rscc model, RsccView view) {
     this.model = model;
     this.view = view;

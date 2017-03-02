@@ -4,10 +4,12 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccEnterTokenPresenter;
 import ch.imedias.rsccfx.view.RsccEnterTokenView;
+import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccPresenter;
 import ch.imedias.rsccfx.view.RsccShowTokenPresenter;
 import ch.imedias.rsccfx.view.RsccShowTokenView;
 import ch.imedias.rsccfx.view.RsccView;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,7 +25,6 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
-
     model = new Rscc(new SystemCommander());
     RsccShowTokenView showTokenView = new RsccShowTokenView(model);
     RsccEnterTokenView enterTokenView = new RsccEnterTokenView(model);
@@ -32,7 +33,8 @@ public class RsccApp extends Application {
 
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
-
+    String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    scene.getStylesheets().add(stSheet);
     RsccPresenter presenter = new RsccPresenter(model, view);
     RsccShowTokenPresenter showTokenPresenter = new RsccShowTokenPresenter(model, showTokenView);
     RsccEnterTokenPresenter enterTokenPresenter = new RsccEnterTokenPresenter(model,
@@ -43,8 +45,14 @@ public class RsccApp extends Application {
     stage.setMinWidth(250);
     stage.setMinHeight(300);
     stage.setScene(scene);
+
+    view.initBtnPanel(scene);
+
     stage.setTitle(APP_NAME);
+    stage.setHeight(400);
+    stage.setWidth(700);
     stage.show();
+
   }
 
   @Override

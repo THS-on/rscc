@@ -11,6 +11,10 @@
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
 		<custom.resources>resources</custom.resources>
 
+
+
+
+
         <!-- Project independant variables -->
 		<custom.test.source>test/${custom.path}</custom.test.source>
         <custom.source>src/${custom.path}</custom.source>

@@ -13,10 +13,9 @@ import org.junit.Test;
  * Tests the rscc model class.
  */
 public class RsccTest {
-  Rscc model;
-
   @Before
   public void setUp() throws Exception {
+
   }
 
   @Ignore
