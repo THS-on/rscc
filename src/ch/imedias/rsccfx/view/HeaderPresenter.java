@@ -8,17 +8,17 @@ import javafx.stage.Stage;
  * @author Lukas Marchesi
  * @date 03.03.2017.
  */
-public class HeaderViewPresenter {
+public class HeaderPresenter {
   private final Rscc model;
   private HeaderView view;
 
   /**
    * Javadoc comment here.
    */
-  public HeaderViewPresenter(Rscc model, HeaderView view) {
+  public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;
     this.view = view;
-    //attachEvents();
+    // attachEvents();
   }
 
   private void attachEvents() {

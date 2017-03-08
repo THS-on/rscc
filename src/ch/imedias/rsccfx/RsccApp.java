@@ -4,7 +4,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 
 import ch.imedias.rsccfx.view.RsccHomeView;
-import ch.imedias.rsccfx.view.RsccHomeViewPresenter;
+import ch.imedias.rsccfx.view.RsccHomePresenter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,7 +29,7 @@ public class RsccApp extends Application {
     Scene scene = new Scene(view);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    RsccHomeViewPresenter presenter = new RsccHomeViewPresenter(model, view);
+    RsccHomePresenter presenter = new RsccHomePresenter(model, view);
 
     stage.setWidth(1000);
     stage.setHeight(450);
