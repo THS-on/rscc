@@ -85,6 +85,7 @@ public class RsccRequestHelpView extends BorderPane {
 
     generatedKeyFld = new TextField();
     generatedKeyFld.setPrefHeight(60);
+
     generatedKeyFld.setEditable(false);
     generatedKeyFld.setStyle("-fx-background-color: #e2e2e2;"); // TODO: Create styling sheet
     generatedKeyFld.setText("aw3k2ljfsl0Oo");
@@ -97,8 +98,12 @@ public class RsccRequestHelpView extends BorderPane {
     reloadButton.setPrefWidth(50);
 
     supporterAdminBtn = new Button(); // TODO: Resize Image
-    supporterAdminBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
-        .getResource("images/arrowDown.png").toExternalForm())));
+    ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
+            .getResource("images/arrowDown.png").toExternalForm())));
+    imageView.setFitHeight(15);
+    imageView.setFitWidth(15);
+    supporterAdminBtn.setGraphic(imageView);
+
 
     // TODO: Implement String Class
     additionalDescriptionTxt = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
