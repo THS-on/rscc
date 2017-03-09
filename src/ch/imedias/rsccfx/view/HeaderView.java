@@ -33,7 +33,10 @@ public class HeaderView extends VBox {
   Button helpBtn;
   Separator sep;
 
-  /** class HeaderView. */
+  /**
+   *
+   */
+
   public HeaderView(Rscc model) {
     this.model = model;
     this.presenter = new HeaderPresenter(model, this);
@@ -57,13 +60,6 @@ public class HeaderView extends VBox {
     HBox.setHgrow(sep, Priority.ALWAYS);
     separatorBox.getChildren().add(sep);
 
-
-  }
-
-  private void initFieldData() {
-    //populate fields which require initial data
-
-    // TODO: layout according to the mock
     backBtn = new Button();
     backBtn.setAlignment(Pos.TOP_LEFT);
     backBtn.setGraphic(new ImageView(new Image(getClass()
@@ -75,14 +71,23 @@ public class HeaderView extends VBox {
     settBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
     settBtn.setAlignment(Pos.TOP_RIGHT);
-    headLbl = new Label("I need Help");
-    headLbl.setFont(new Font("Cantarell", 20));
+    headLbl.setFont(new Font("Cantarell", 20));   // TODO: move to CSS
     headLbl.setAlignment(Pos.CENTER);
-    //TODO: Make names better...
+
     buttonBox.getChildren().add(backBtn);
     buttonBox.getChildren().add(headLbl);
     buttonBox.getChildren().add(helpBtn);
     buttonBox.getChildren().add(settBtn);
+
+  }
+
+  private void initFieldData() {
+    //populate fields which require initial data
+
+    // TODO: layout according to the mock
+
+    headLbl = new Label("I need Help");
+
   }
 
   /** initSize method. */
