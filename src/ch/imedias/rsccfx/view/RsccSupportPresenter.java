@@ -8,10 +8,10 @@ import javafx.scene.image.Image;
 /**
  * This is the presenter for the EnterTokenView in which the supporter will enter the token.
  */
-public class RsccSupporterPresenter  implements ControlledPresenter {
+public class RsccSupportPresenter implements ControlledPresenter {
 
   private final Rscc model;
-  private final RsccSupporterView view;
+  private final RsccSupportView view;
   private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
@@ -23,9 +23,9 @@ public class RsccSupporterPresenter  implements ControlledPresenter {
   String key = "";
 
   /**
-   * Initializes the RsccSupporterPresenter.
+   * Initializes the RsccSupportPresenter.
    */
-  public RsccSupporterPresenter(Rscc model, RsccSupporterView view) {
+  public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
 

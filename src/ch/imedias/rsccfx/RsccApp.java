@@ -4,10 +4,10 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
-import ch.imedias.rsccfx.view.RsccRequestHelpPresenter;
-import ch.imedias.rsccfx.view.RsccRequestHelpView;
-import ch.imedias.rsccfx.view.RsccSupporterPresenter;
-import ch.imedias.rsccfx.view.RsccSupporterView;
+import ch.imedias.rsccfx.view.RsccRequestPresenter;
+import ch.imedias.rsccfx.view.RsccRequestView;
+import ch.imedias.rsccfx.view.RsccSupportPresenter;
+import ch.imedias.rsccfx.view.RsccSupportView;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -41,13 +41,13 @@ public class RsccApp extends Application {
     mainView.loadScreen(RsccApp.HOME_VIEW, view, presenter);
 
     // RequestHelpView
-    view = new RsccRequestHelpView(model);
-    presenter = new RsccRequestHelpPresenter(model, (RsccRequestHelpView) view);
+    view = new RsccRequestView(model);
+    presenter = new RsccRequestPresenter(model, (RsccRequestView) view);
     mainView.loadScreen(RsccApp.REQUEST_HELP_VIEW, view, presenter);
 
     // SupporterView
-    view = new RsccSupporterView(model);
-    presenter = new RsccSupporterPresenter(model, (RsccSupporterView) view);
+    view = new RsccSupportView(model);
+    presenter = new RsccSupportPresenter(model, (RsccSupportView) view);
     mainView.loadScreen(RsccApp.SUPPORTER_VIEW, view, presenter);
 
     // Set initial screen

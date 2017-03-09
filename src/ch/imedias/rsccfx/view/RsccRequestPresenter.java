@@ -4,9 +4,9 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 
-public class RsccRequestHelpPresenter implements ControlledPresenter {
+public class RsccRequestPresenter implements ControlledPresenter {
   private final Rscc model;
-  private final RsccRequestHelpView view;
+  private final RsccRequestView view;
   private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
@@ -20,7 +20,7 @@ public class RsccRequestHelpPresenter implements ControlledPresenter {
   /**
    * Javadoc comment here.
    */
-  public RsccRequestHelpPresenter(Rscc model, RsccRequestHelpView view) {
+  public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
     this.view = view;
     attachEvents();

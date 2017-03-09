@@ -12,7 +12,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RsccSupporterView extends VBox {
+public class RsccSupportView extends VBox {
 
   private final Rscc model;
 
@@ -32,7 +32,7 @@ public class RsccSupporterView extends VBox {
   /**
    * This is the view for the supporter to enter the token.
    */
-  public RsccSupporterView(Rscc model) {
+  public RsccSupportView(Rscc model) {
     this.model = model;
 
     initFieldData();
