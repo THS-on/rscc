@@ -92,9 +92,7 @@ public class HeaderView extends VBox {
     //populate fields which require initial data
 
     // TODO: layout according to the mock
-    // TODO: Make button background transparent
     // TODO: Make backgroundcolor of HBox look greyish
-    // TODO: Make button frame transparent too.
     // TODO: https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.7
 
 
