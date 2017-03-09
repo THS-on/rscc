@@ -57,7 +57,7 @@ public class HeaderView extends VBox {
 
 
     sep = new Separator();
-    HBox.setHgrow(sep, Priority.ALWAYS);
+    //HBox.setHgrow(sep, Priority.ALWAYS);
     separatorBox.getChildren().add(sep);
 
     backBtn = new Button();
@@ -96,16 +96,7 @@ public class HeaderView extends VBox {
 
   }
 
-  /** initSize method. */
-  public void initSize(Scene scene) {
-    sep.prefWidthProperty().bind(scene.widthProperty());
-    headLbl.prefWidthProperty().bind(scene.widthProperty());
-    buttonBox.prefWidthProperty().bind(scene.widthProperty());
-    //separatorBox.prefWidthProperty().bind(scene.widthProperty());
-    headerBox.prefWidthProperty().bind(scene.widthProperty());
 
-
-  }
 
   private void bindFieldsToModel() {
     //make the bindings to the model

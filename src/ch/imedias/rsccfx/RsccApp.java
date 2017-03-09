@@ -40,7 +40,7 @@ public class RsccApp extends Application {
     stage.setMinHeight(300);
     stage.setScene(scene);
 
-    //view.initBtnPanel(scene);
+    presenter.initSize(scene);
 
     stage.setTitle(APP_NAME);
     stage.setHeight(400);
