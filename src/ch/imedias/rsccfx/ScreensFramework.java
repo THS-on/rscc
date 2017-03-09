@@ -19,18 +19,18 @@ public class ScreensFramework extends Application {
   @Override
   public void start(Stage primaryStage) {
 
-    ScreensController mainContainer = new ScreensController();
-    mainContainer.loadScreen(ScreensFramework.MAIN_SCREEN,
+    ViewController mainView = new ViewController();
+    mainView.loadScreen(ScreensFramework.MAIN_SCREEN,
         ScreensFramework.MAIN_SCREEN_FXML);
-    mainContainer.loadScreen(ScreensFramework.POKER_SCREEN,
+    mainView.loadScreen(ScreensFramework.POKER_SCREEN,
         ScreensFramework.POKER_SCREEN_FXML);
-    mainContainer.loadScreen(ScreensFramework.ROULETTE_SCREEN,
+    mainView.loadScreen(ScreensFramework.ROULETTE_SCREEN,
         ScreensFramework.ROULETTE_SCREEN_FXML);
 
-    mainContainer.setScreen(ScreensFramework.MAIN_SCREEN);
+    mainView.setScreen(ScreensFramework.MAIN_SCREEN);
 
     Group root = new Group();
-    root.getChildren().addAll(mainContainer);
+    root.getChildren().addAll(mainView);
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
     primaryStage.show();

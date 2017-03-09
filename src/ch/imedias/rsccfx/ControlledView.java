@@ -1,7 +1,7 @@
 package ch.imedias.rsccfx;
 
-public interface ControlledScreen {
+public interface ControlledView {
 
   //This method will allow the injection of the Parent ScreenPane
-  public void setScreenParent(ScreensController screenPage);
+  public void setViewParent(ViewController screenPage);
 }
