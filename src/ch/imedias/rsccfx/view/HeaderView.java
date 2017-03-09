@@ -14,21 +14,19 @@ import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-/**
- * Created by user on 02.12.16.
- */
 public class HeaderView extends VBox {
 
   private final Rscc model;
   private final HeaderPresenter presenter;
 
-  // TODO: refactor boxLine1 and boxLine2
-  VBox headerbox;
-  HBox boxLine1;
-  HBox boxLine2;
+  // TODO: refactor buttonBox and separatorBox
+  VBox headerBox;
+  HBox buttonBox;
+  HBox separatorBox;
   Label headLbl;
   Button backBtn;
   Button settBtn;
@@ -47,16 +45,17 @@ public class HeaderView extends VBox {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerbox = new VBox();
-    boxLine1 = new HBox();
-    boxLine2 = new HBox();
+    headerBox = new VBox();
+    buttonBox = new HBox();
+    separatorBox = new HBox();
 
-    boxLine1.setPadding(new Insets(10, 10, 10, 10));
-    boxLine2.setPadding(new Insets(10, 10, 10, 10));
+    buttonBox.setPadding(new Insets(10, 10, 10, 10));
+    separatorBox.setPadding(new Insets(10, 10, 10, 10));
 
 
     sep = new Separator();
-    boxLine2.getChildren().add(sep);
+    HBox.setHgrow(sep, Priority.ALWAYS);
+    separatorBox.getChildren().add(sep);
 
 
   }
@@ -80,19 +79,19 @@ public class HeaderView extends VBox {
     headLbl.setFont(new Font("Cantarell", 20));
     headLbl.setAlignment(Pos.CENTER);
     //TODO: Make names better...
-    boxLine1.getChildren().add(backBtn);
-    boxLine1.getChildren().add(headLbl);
-    boxLine1.getChildren().add(helpBtn);
-    boxLine1.getChildren().add(settBtn);
+    buttonBox.getChildren().add(backBtn);
+    buttonBox.getChildren().add(headLbl);
+    buttonBox.getChildren().add(helpBtn);
+    buttonBox.getChildren().add(settBtn);
   }
 
   /** initSize method. */
   public void initSize(Scene scene) {
     sep.prefWidthProperty().bind(scene.widthProperty());
     headLbl.prefWidthProperty().bind(scene.widthProperty());
-    boxLine1.prefWidthProperty().bind(scene.widthProperty());
-    boxLine2.prefWidthProperty().bind(scene.widthProperty());
-    headerbox.prefWidthProperty().bind(scene.widthProperty());
+    buttonBox.prefWidthProperty().bind(scene.widthProperty());
+    //separatorBox.prefWidthProperty().bind(scene.widthProperty());
+    headerBox.prefWidthProperty().bind(scene.widthProperty());
 
 
   }
@@ -100,10 +99,10 @@ public class HeaderView extends VBox {
   private void bindFieldsToModel() {
     //make the bindings to the model
 
-    headerbox.getChildren().add(boxLine1);
-    headerbox.getChildren().add(boxLine2);
+    headerBox.getChildren().add(buttonBox);
+    headerBox.getChildren().add(separatorBox);
 
-    this.getChildren().add(headerbox);
+    this.getChildren().add(headerBox);
   }
 
 }
