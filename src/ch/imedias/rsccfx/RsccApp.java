@@ -37,17 +37,17 @@ public class RsccApp extends Application {
 
     // HomeView
     Node view = new RsccHomeView(model);
-    ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView)view);
+    ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view);
     mainView.loadScreen(RsccApp.HOME_VIEW, view, presenter);
 
     // RequestHelpView
     view = new RsccRequestHelpView(model);
-    presenter = new RsccRequestHelpPresenter(model, (RsccRequestHelpView)view);
+    presenter = new RsccRequestHelpPresenter(model, (RsccRequestHelpView) view);
     mainView.loadScreen(RsccApp.REQUEST_HELP_VIEW, view, presenter);
 
     // SupporterView
     view = new RsccSupporterView(model);
-    presenter = new RsccSupporterPresenter(model, (RsccSupporterView)view);
+    presenter = new RsccSupporterPresenter(model, (RsccSupporterView) view);
     mainView.loadScreen(RsccApp.SUPPORTER_VIEW, view, presenter);
 
     // Set initial screen
