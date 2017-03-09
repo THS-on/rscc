@@ -6,7 +6,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.image.Image;
 
 /**
- * This is the presenter for the EnterTokenView in which the supporter will enter the token.
+ * This is the presenter for the EnterTokenView in which the supporter will enter the token. // FIXME: Update to conform with the google java style guidelines
  */
 public class RsccSupportPresenter implements ControlledPresenter {
 
@@ -14,7 +14,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final RsccSupportView view;
   private ViewController viewParent;
 
-  // For the moment, hardcoded the server parameters
+  // For the moment, hardcoded the server parameters // FIXME: get rid of hardcoded server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
@@ -56,15 +56,15 @@ public class RsccSupportPresenter implements ControlledPresenter {
   /**
    * Validates the token and displays a symbolic image.
    */
-  public String validationImage(String token) {
-
+  public String validationImage(String token) { // FIXME: method names should be formed as "verb + noun", so here it would be "validateImage"
+                                                // FIXME: does this need to be public?
     if (validateToken(token)) {
       return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
     }
     return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
   }
 
-  private static boolean validateToken(String token) {
+  private static boolean validateToken(String token) {    // FIXME: why is this static? what about the TODO?
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
   }
