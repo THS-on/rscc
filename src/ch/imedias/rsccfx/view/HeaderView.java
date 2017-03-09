@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 /**
  * Created by user on 02.12.16.
  */
-public class HeaderView extends VBox {
+public class HeaderView extends VBox implements View {
 
   private final Rscc model;
   private final HeaderPresenter presenter;

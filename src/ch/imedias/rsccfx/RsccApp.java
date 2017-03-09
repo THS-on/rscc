@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.model.SystemCommander;
 
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
+import ch.imedias.rsccfx.view.View;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -25,18 +26,18 @@ public class RsccApp extends Application {
     // RsccRequestHelpView showTokenView = new RsccRequestHelpView(model);
     // RsccSupporterView enterTokenView = new RsccSupporterView(model);
     ScreenLoader screenLoader = new ScreenLoader(model);
-    //RsccHomeView view = new RsccHomeView(model);
+    View view = screenLoader.getView("homeView");
 
 
     // the scene to listen for the focus change
-    Scene scene = screenLoader.setScreens("homeView");
+    Scene scene = screenLoader.getScene("homeView");
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    RsccHomePresenter presenter = new RsccHomePresenter(model, view, screenLoader);
+    RsccHomePresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view, screenLoader);
 
     stage.setScene(scene);
 
-    //view.initBtnPanel(scene);
+    // view.initBtnPanel(scene);
 
     stage.setTitle(APP_NAME);
 

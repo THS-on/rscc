@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.view.HeaderView;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestHelpView;
 import ch.imedias.rsccfx.view.RsccSupporterView;
+import ch.imedias.rsccfx.view.View;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,9 +40,13 @@ public class ScreenLoader {
         screens.put(HEADER_VIEW, headerView);
     }
 
-    public Scene setScreens (String screenName){
+    public Scene getScene  (String screenName){
         return new Scene(screens.get(screenName));
 
+    }
+
+    public View getView(String viewName){
+        return (View) screens.get(viewName);
     }
 
 

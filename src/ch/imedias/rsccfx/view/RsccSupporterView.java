@@ -12,7 +12,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RsccSupporterView extends VBox {
+public class RsccSupporterView extends VBox implements View{
 
   private final Rscc model;
 
