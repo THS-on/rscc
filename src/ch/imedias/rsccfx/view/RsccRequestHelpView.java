@@ -4,6 +4,7 @@ package ch.imedias.rsccfx.view;
  * import statements.
  */
 
+import ch.imedias.rsccfx.ScreenLoader;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.scene.text.Text;
  */
 public class RsccRequestHelpView extends BorderPane {
   private Rscc model;
+  ScreenLoader screenLoader;
   BorderPane pane;
   HeaderView testTopbox;
   VBox topBox;
@@ -44,8 +46,9 @@ public class RsccRequestHelpView extends BorderPane {
    * Constructor.
    * @param model test.
    */
-  public RsccRequestHelpView(Rscc model) {
+  public RsccRequestHelpView(Rscc model, ScreenLoader screenLoader) {
     this.model = model;
+    this.screenLoader = screenLoader;
     layoutForm();
     initFieldData();
     bindFieldsToModel();

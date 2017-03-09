@@ -42,16 +42,9 @@ public class ScreenLoader {
 
     public Scene getScene  (String screenName){
         return new Scene(screens.get(screenName));
-
     }
 
     public View getView(String viewName){
         return (View) screens.get(viewName);
     }
-
-
-
-
-
-
 }

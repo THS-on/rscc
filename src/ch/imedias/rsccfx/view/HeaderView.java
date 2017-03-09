@@ -23,7 +23,10 @@ import javafx.scene.text.Font;
 public class HeaderView extends VBox implements View {
 
   private final Rscc model;
-  private final HeaderPresenter presenter;
+
+
+
+    private final HeaderPresenter presenter;
 
   // TODO: refactor boxLine1 and boxLine2
   VBox headerbox;
@@ -105,6 +108,10 @@ public class HeaderView extends VBox implements View {
 
     this.getChildren().add(headerbox);
   }
+
+    public HeaderPresenter getPresenter() {
+        return presenter;
+    }
 
 }
 
