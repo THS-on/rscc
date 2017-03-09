@@ -16,18 +16,18 @@ public class RsccEnterTokenView extends VBox {
 
   private final Rscc model;
 
-  Label enterTokenlbl;  // FIXME: rename all fields to the proper camel case, i. e. enterTokenLbl
-  Label loremIpsumlbl; // FIXME: give the fields more meaningful names than "loremIpsumLbl" or "exampleLbl"
-  Label examplelbl;
-  Label instructionlbl;
+  Label enterTokenLbl;
+  Label descriptionLbl;
+  Label exampleLbl;
+  Label instructionLbl;
 
-  VBox groupingbox;
-  HBox tokenValidationbox;
-  TextField tokentxt;
-  ImageView isValidimg;
+  VBox groupingBox;
+  HBox tokenValidationBox;
+  TextField tokenTxt;
+  ImageView isValidImg;
 
-  Button connectbtn;
-  Button expandOptionbtn;
+  Button connectBtn;
+  Button expandOptionBtn;
 
   /**
    * This is the view for the supporter to enter the token. // FIXME: Update to conform with the google java style guidelines
@@ -44,46 +44,46 @@ public class RsccEnterTokenView extends VBox {
     this.setPadding(new Insets(5, 25, 5, 25));
     this.setSpacing(10);
 
-    enterTokenlbl.setFont(new Font(25));
+    enterTokenLbl.setFont(new Font(25));
 
-    loremIpsumlbl.setWrapText(true);
+    descriptionLbl.setWrapText(true);
 
-    tokenValidationbox = new HBox();
-    tokentxt = new TextField();
-    tokentxt.setFont(new Font(30));
+    tokenValidationBox = new HBox();
+    tokenTxt = new TextField();
+    tokenTxt.setFont(new Font(30));
 
-    isValidimg.setSmooth(true);
-    tokenValidationbox.getChildren().addAll(tokentxt, isValidimg);
-    tokenValidationbox.setSpacing(5);
-    tokenValidationbox.setHgrow(tokentxt, Priority.ALWAYS);
-    tokenValidationbox.setAlignment(Pos.CENTER_LEFT);
+    isValidImg.setSmooth(true);
+    tokenValidationBox.getChildren().addAll(tokentxt, isValidimg);
+    tokenValidationBox.setSpacing(5);
+    tokenValidationBox.setHgrow(tokentxt, Priority.ALWAYS);
+    tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingbox = new VBox();
-    groupingbox.getChildren().addAll(tokenValidationbox, instructionlbl);
+    groupingBox = new VBox();
+    groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
 
-    this.getChildren().addAll(enterTokenlbl,
-        loremIpsumlbl,
-        examplelbl,
-        groupingbox,
-        connectbtn,
-        expandOptionbtn);
+    this.getChildren().addAll(enterTokenLbl,
+        descriptionLbl,
+        exampleLbl,
+        groupingBox,
+        connectBtn,
+        expandOptionBtn);
 
-    connectbtn.setFont(new Font(30));
+    connectBtn.setFont(new Font(30));
     // FIXME: restructure lines to be grouped by the object that is being used
   }
 
   private void initFieldData() {
     // FIXME: update initial values with ones that make sense
-    isValidimg = new ImageView(getClass()
+    isValidImg = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());
-    enterTokenlbl = new Label("EnterToken");
-    loremIpsumlbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-    examplelbl = new Label("Number of characters: 8\nexample: 666xx666");
-    instructionlbl = new Label("Instructions");
-    connectbtn = new Button("Connect");
-    expandOptionbtn = new Button("More");
+    enterTokenLbl = new Label("EnterToken");
+    descriptionLbl = new Label("A description will soon be displayed here, for now: Lorem ipsum dolor sit amet");
+    exampleLbl = new Label("Number of characters: 8\nexample: 666xx666");
+    instructionLbl = new Label("Here will soon be displayed the Instructions");
+    connectBtn = new Button("Connect");
+    expandOptionBtn = new Button("More options");
   }
 
   private void bindFieldsToModel() {
