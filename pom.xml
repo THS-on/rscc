@@ -11,6 +11,10 @@
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
 		<custom.resources>resources</custom.resources>
 
+
+
+
+
         <!-- Project independant variables -->
 		<custom.test.source>test/${custom.path}</custom.test.source>
         <custom.source>src/${custom.path}</custom.source>
@@ -217,6 +221,13 @@
 			<groupId>com.github.Kennox</groupId>
 			<artifactId>lernstickTools</artifactId>
 			<version>2</version>
+		</dependency>
+
+		<!-- javafxsvg.jar -->
+		<dependency>
+			<groupId>de.codecentric.centerdevice</groupId>
+			<artifactId>javafxsvg</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 
 	</dependencies>
