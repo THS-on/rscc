@@ -1,8 +1,8 @@
 package ch.imedias.rsccfx;
 
-public class RsccExamplePresenter implements ControlledView {
+public class RsccExamplePresenter implements ControlledPresenter {
 
-  ViewController viewParent;
+  private ViewController viewParent;
 
   public void setViewParent(ViewController viewParent){
     this.viewParent = viewParent;

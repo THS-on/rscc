@@ -7,15 +7,15 @@ import javafx.scene.layout.StackPane;
 public class ViewController extends StackPane {
 
   private HashMap<String, Node> views = new HashMap<>();
-  private HashMap<String, ControlledView> presenters = new HashMap<>();
+  private HashMap<String, ControlledPresenter> presenters = new HashMap<>();
 
-  private void addScreen(String name, Node view, ControlledView presenter) {
+  private void addScreen(String name, Node view, ControlledPresenter presenter) {
     // Put view and presenter into HashMap
     views.put(name, view);
     presenters.put(name, presenter);
   }
 
-  public boolean loadScreen(String name, Node view, ControlledView presenter) {
+  public boolean loadScreen(String name, Node view, ControlledPresenter presenter) {
     // properly initialize view and presenter and put into HashMap
     presenter.setViewParent(this);
     addScreen(name, view, presenter);

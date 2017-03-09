@@ -1,12 +1,15 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RsccHomePresenter {
+public class RsccHomePresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccHomeView view;
+  private ViewController viewParent;
 
   /**
    * Javadoc comment here.
@@ -32,4 +35,9 @@ public class RsccHomePresenter {
     Stage stage = (Stage) view.getScene().getWindow();
     stage.setScene(new Scene(new RsccRequestHelpView(model)));
   }
+
+  public void setViewParent(ViewController viewParent){
+    this.viewParent = viewParent;
+  }
+
 }

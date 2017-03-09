@@ -1,10 +1,13 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 
-public class RsccRequestHelpPresenter {
+public class RsccRequestHelpPresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccRequestHelpView view;
+  private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
@@ -37,5 +40,8 @@ public class RsccRequestHelpPresenter {
 
   }
 
+  public void setViewParent(ViewController viewParent){
+    this.viewParent = viewParent;
+  }
 
 }

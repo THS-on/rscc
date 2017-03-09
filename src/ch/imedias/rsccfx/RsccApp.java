@@ -2,15 +2,28 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
-
-import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
+import ch.imedias.rsccfx.view.RsccHomeView;
+import ch.imedias.rsccfx.view.RsccRequestHelpPresenter;
+import ch.imedias.rsccfx.view.RsccRequestHelpView;
+import ch.imedias.rsccfx.view.RsccSupporterPresenter;
+import ch.imedias.rsccfx.view.RsccSupporterView;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
   public static final String APP_NAME = "Remote Support";
+
+  /**
+   * Declares views for use with ViewController.
+   */
+  public static final String HOME_VIEW = "home";
+  public static final String REQUEST_HELP_VIEW = "requestHelp";
+  public static final String SUPPORTER_VIEW = "supporter";
+
   Rscc model;
 
   public static void main(String[] args) {
@@ -20,30 +33,36 @@ public class RsccApp extends Application {
   @Override
   public void start(Stage stage) {
     model = new Rscc(new SystemCommander());
-    // RsccRequestHelpView showTokenView = new RsccRequestHelpView(model);
-    // RsccSupporterView enterTokenView = new RsccSupporterView(model);
-    RsccHomeView view = new RsccHomeView(model);
+    ViewController mainView = new ViewController();
 
+    // HomeView
+    Node view = new RsccHomeView(model);
+    ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView)view);
+    mainView.loadScreen(RsccApp.HOME_VIEW, view, presenter);
 
-    // the scene to listen for the focus change
-    Scene scene = new Scene(view);
-    String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
-    scene.getStylesheets().add(stSheet);
-    RsccHomePresenter presenter = new RsccHomePresenter(model, view);
+    // RequestHelpView
+    view = new RsccRequestHelpView(model);
+    presenter = new RsccRequestHelpPresenter(model, (RsccRequestHelpView)view);
+    mainView.loadScreen(RsccApp.REQUEST_HELP_VIEW, view, presenter);
 
-    stage.setWidth(1000);
-    stage.setHeight(450);
+    // SupporterView
+    view = new RsccSupporterView(model);
+    presenter = new RsccSupporterPresenter(model, (RsccSupporterView)view);
+    mainView.loadScreen(RsccApp.SUPPORTER_VIEW, view, presenter);
+
+    // Set initial screen
+    mainView.setScreen(RsccApp.HOME_VIEW);
+
+    Group root = new Group();
+    root.getChildren().addAll(mainView);
+    Scene scene = new Scene(root);
+    stage.setHeight(400);
+    stage.setWidth(700);
     stage.setMinWidth(250);
     stage.setMinHeight(300);
     stage.setScene(scene);
-
-    view.initBtnPanel(scene);
-
     stage.setTitle(APP_NAME);
-    stage.setHeight(400);
-    stage.setWidth(700);
     stage.show();
-
   }
 
   @Override

@@ -1,15 +1,18 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.image.Image;
 
 /**
  * This is the presenter for the EnterTokenView in which the supporter will enter the token.
  */
-public class RsccSupporterPresenter {
+public class RsccSupporterPresenter  implements ControlledPresenter {
 
   private final Rscc model;
   private final RsccSupporterView view;
+  private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
@@ -65,4 +68,9 @@ public class RsccSupporterPresenter {
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
   }
+
+  public void setViewParent(ViewController viewParent){
+    this.viewParent = viewParent;
+  }
+
 }
