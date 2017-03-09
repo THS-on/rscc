@@ -4,7 +4,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.image.Image;
 
 /**
- * This is the presenter for the EnterTokenView in which the supporter will enter the token. // FIXME: Update to conform with the google java style guidelines
+ * This is the presenter for the EnterTokenView in which the supporter will enter the token.
+ * Validates the token and displays an image.
  */
 public class RsccEnterTokenPresenter {
 
@@ -51,15 +52,15 @@ public class RsccEnterTokenPresenter {
   /**
    * Validates the token and displays a symbolic image.
    */
-  public String validationImage(String token) { // FIXME: method names should be formed as "verb + noun", so here it would be "validateImage"
-                                                // FIXME: does this need to be public?
+  public String validateImage(String token) { 
+                                                // FIXME: does this need to be public? (not sure anymore)
     if (validateToken(token)) {
       return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
     }
     return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
   }
 
-  private static boolean validateToken(String token) {    // FIXME: why is this static? what about the TODO?
+  private static boolean validateToken(String token) {    // FIXME: why is this static? (not sure anymore)
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
   }
