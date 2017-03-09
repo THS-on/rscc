@@ -71,6 +71,8 @@ public class HeaderView extends VBox {
     settBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
     settBtn.setAlignment(Pos.TOP_RIGHT);
+    headLbl = new Label("I need Help");
+
     headLbl.setFont(new Font("Cantarell", 20));   // TODO: move to CSS
     headLbl.setAlignment(Pos.CENTER);
 
@@ -79,6 +81,11 @@ public class HeaderView extends VBox {
     buttonBox.getChildren().add(helpBtn);
     buttonBox.getChildren().add(settBtn);
 
+    headerBox.getChildren().add(buttonBox);
+    headerBox.getChildren().add(separatorBox);
+
+    this.getChildren().add(headerBox);
+
   }
 
   private void initFieldData() {
@@ -86,7 +93,6 @@ public class HeaderView extends VBox {
 
     // TODO: layout according to the mock
 
-    headLbl = new Label("I need Help");
 
   }
 
@@ -104,10 +110,6 @@ public class HeaderView extends VBox {
   private void bindFieldsToModel() {
     //make the bindings to the model
 
-    headerBox.getChildren().add(buttonBox);
-    headerBox.getChildren().add(separatorBox);
-
-    this.getChildren().add(headerBox);
   }
 
 }
