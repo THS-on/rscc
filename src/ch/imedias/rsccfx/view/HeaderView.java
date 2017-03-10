@@ -34,7 +34,7 @@ public class HeaderView extends VBox {
   Separator sep;
 
   /**
-   *
+   * Here goes the javadoc.
    */
 
   public HeaderView(Rscc model) {
@@ -50,15 +50,12 @@ public class HeaderView extends VBox {
 
     headerBox = new VBox();
     buttonBox = new HBox();
-    separatorBox = new HBox();
+    // separatorBox = new HBox();
 
     buttonBox.setPadding(new Insets(10, 10, 10, 10));
-    separatorBox.setPadding(new Insets(10, 10, 10, 10));
-
-
-    sep = new Separator();
-    //HBox.setHgrow(sep, Priority.ALWAYS);
-    separatorBox.getChildren().add(sep);
+    // separatorBox.setPadding(new Insets(10, 10, 10, 10));
+    // sep = new Separator();
+    // separatorBox.getChildren().add(sep);
 
     backBtn = new Button();
     backBtn.setAlignment(Pos.TOP_LEFT);
@@ -82,10 +79,13 @@ public class HeaderView extends VBox {
     buttonBox.getChildren().add(settBtn);
 
     headerBox.getChildren().add(buttonBox);
-    headerBox.getChildren().add(separatorBox);
+    //headerBox.getChildren().add(separatorBox);
 
     this.getChildren().add(headerBox);
 
+    // apply styling
+    buttonBox.setId("header");
+    headLbl.setId("headerText");
   }
 
   private void initFieldData() {

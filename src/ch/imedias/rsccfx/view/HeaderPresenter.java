@@ -66,10 +66,10 @@ public class HeaderPresenter {
 
   /** initSize method. */
   public void initSize(Scene scene) {
-    view.sep.prefWidthProperty().bind(scene.widthProperty());
+    // view.sep.prefWidthProperty().bind(scene.widthProperty());
     view.headLbl.prefWidthProperty().bind(scene.widthProperty());
     view.buttonBox.prefWidthProperty().bind(scene.widthProperty());
-    view.separatorBox.prefWidthProperty().bind(scene.widthProperty());
+    // view.separatorBox.prefWidthProperty().bind(scene.widthProperty());
     view.headerBox.prefWidthProperty().bind(scene.widthProperty());
 
 
