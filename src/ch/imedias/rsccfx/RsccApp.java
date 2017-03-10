@@ -3,8 +3,6 @@ package ch.imedias.rsccfx;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 
-import ch.imedias.rsccfx.view.RsccHomePresenter;
-import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestHelpPresenter;
 import ch.imedias.rsccfx.view.RsccRequestHelpView;
 import javafx.application.Application;
@@ -31,7 +29,7 @@ public class RsccApp extends Application {
     Scene scene = new Scene(view);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    String headerSheet = getClass().getClassLoader().getResource("css/style.css").toExternalForm();
+    String headerSheet = getClass().getClassLoader().getResource("css/headerStyle.css").toExternalForm();
     scene.getStylesheets().add(headerSheet);
 
     stage.setWidth(1000);
