@@ -29,7 +29,8 @@ public class RsccApp extends Application {
     Scene scene = new Scene(view);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    String headerSheet = getClass().getClassLoader().getResource("css/headerStyle.css").toExternalForm();
+    String headerSheet = getClass().getClassLoader()
+        .getResource("css/headerStyle.css").toExternalForm();
     scene.getStylesheets().add(headerSheet);
 
     stage.setWidth(1000);
