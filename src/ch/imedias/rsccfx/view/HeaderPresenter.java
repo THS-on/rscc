@@ -3,16 +3,10 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-/**
- * @author Lukas Marchesi
- * @date 03.03.2017.
- */
 public class HeaderPresenter {
   private final Rscc model;
-  private HeaderView view;
+  private final HeaderView view;
 
   /**
    * Javadoc comment here.
@@ -33,7 +27,6 @@ public class HeaderPresenter {
   } */
 
   /**
-   *
    * @param action is used to give the method a lambda expression.
    */
   public void setBackBtnAction(EventHandler<ActionEvent> action) {
@@ -41,7 +34,6 @@ public class HeaderPresenter {
   }
 
   /**
-   *
    * @param title is used to hand in a new string.
    */
   public void setHeaderTitle(String title) {
@@ -49,7 +41,6 @@ public class HeaderPresenter {
   }
 
   /**
-   *
    * @param action is used to give the method a lambda expression.
    */
   public void setHelpBtnAction(EventHandler<ActionEvent> action) {
@@ -57,12 +48,11 @@ public class HeaderPresenter {
   }
 
   /**
-   *
    * @param action is used to give the method a lambda expression.
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
     view.settBtn.setOnAction(action);
   }
-  
-  
+
+
 }

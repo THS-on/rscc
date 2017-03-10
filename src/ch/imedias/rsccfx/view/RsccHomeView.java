@@ -12,8 +12,10 @@ import javafx.scene.layout.BorderPane;
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
+
   protected Button requestSupportBtn;
   protected Button offerSupportBtn;
+
   /**
    * your javadoc comment goes here.
    *

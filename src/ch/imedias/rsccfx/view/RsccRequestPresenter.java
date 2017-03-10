@@ -40,7 +40,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   }
 
-  public void setViewParent(ViewController viewParent){
+  public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
   }
 

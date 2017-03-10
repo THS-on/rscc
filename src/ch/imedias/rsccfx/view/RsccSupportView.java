@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class RsccSupportView extends VBox {
-
   private final Rscc model;
 
   Label enterTokenLbl;

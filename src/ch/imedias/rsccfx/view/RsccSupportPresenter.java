@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
  * Validates the token and displays an image.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-
   private final Rscc model;
   private final RsccSupportView view;
   private ViewController viewParent;
@@ -45,7 +44,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.connectbtn.setOnAction(
         event -> {
           model.keyProperty().set(view.tokentxt.getText());
-          model.connectToUser(model.getKey(),FORWARDING_PORT,KEY_SERVER_IP,
+          model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_HTTP_PORT);
         }
     );
@@ -57,8 +56,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
   /**
    * Validates the token and displays a symbolic image.
    */
-  public String validateImage(String token) { 
-                                                // FIXME: does this need to be public? (not sure anymore)
+  public String validateImage(String token) {
+    // FIXME: does this need to be public? (not sure anymore)
     if (validateToken(token)) {
       return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
     }
@@ -70,7 +69,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     //TODO Validate token
   }
 
-  public void setViewParent(ViewController viewParent){
+  public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
   }
 

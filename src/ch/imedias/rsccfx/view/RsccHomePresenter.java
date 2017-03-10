@@ -36,7 +36,7 @@ public class RsccHomePresenter implements ControlledPresenter {
     stage.setScene(new Scene(new RsccRequestView(model)));
   }
 
-  public void setViewParent(ViewController viewParent){
+  public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
   }
 

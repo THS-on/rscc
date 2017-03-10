@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
  * Created by user on 02.12.16.
  */
 public class HeaderView extends VBox {
+  private final Rscc model;
 
   VBox headerbox; // FIXME: Change variable names according to the SAD
   HBox boxLine1;
@@ -31,8 +32,11 @@ public class HeaderView extends VBox {
   Button helpBtn;
   Separator sep;
 
-  /** class HeaderView. */ // FIXME: add proper comment according to the google style guidelines
-  public HeaderView() { // FIXME: include model
+  /**
+   * class HeaderView.
+   */ // FIXME: add proper comment according to the google style guidelines
+  public HeaderView(Rscc model) {
+    this.model = model;
     //this.headerbox = headerbox;
     layoutForm();
     initFieldData();
@@ -82,7 +86,9 @@ public class HeaderView extends VBox {
     boxLine1.getChildren().add(settBtn);
   }
 
-  /** initSize method. */ // FIXME: add proper comment according to the google style guidelines
+  /**
+   * initSize method.
+   */ // FIXME: add proper comment according to the google style guidelines
   public void initSize(Scene scene) {
     // FIXME: make a presenter class for the headerview and put the bindings in there
     // FIXME: this method is called in ShowTokenView??? should not be that way...

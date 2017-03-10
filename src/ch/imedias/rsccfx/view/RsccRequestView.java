@@ -1,9 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-/**
- * import statements.
- */
-
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,13 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/**
- * Class RsccRequestView
- * Created by Simon on 30.11.16.
- * Capsulated Class to test easy.
- */
 public class RsccRequestView extends BorderPane {
-  private Rscc model;
+  private final Rscc model;
+
   BorderPane pane;
   HeaderView testTopbox;
   VBox topBox;
@@ -42,6 +34,7 @@ public class RsccRequestView extends BorderPane {
 
   /**
    * Constructor.
+   *
    * @param model test.
    */
   public RsccRequestView(Rscc model) {
@@ -134,7 +127,9 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 
-  /** initSize method. */
+  /**
+   * initSize method.
+   */
   public void initSize(Scene scene) {
     topBox.prefWidthProperty().bind(scene.widthProperty());
     generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
