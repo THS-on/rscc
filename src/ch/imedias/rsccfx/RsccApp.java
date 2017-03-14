@@ -3,9 +3,8 @@ package ch.imedias.rsccfx;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 
-import ch.imedias.rsccfx.view.RsccHomePresenter;
-import ch.imedias.rsccfx.view.RsccHomeView;
-import ch.imedias.rsccfx.view.View;
+import ch.imedias.rsccfx.view.RsccRequestHelpPresenter;
+import ch.imedias.rsccfx.view.RsccRequestHelpView;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -25,19 +24,24 @@ public class RsccApp extends Application {
     model = new Rscc(new SystemCommander());
     // RsccRequestHelpView showTokenView = new RsccRequestHelpView(model);
     // RsccSupporterView enterTokenView = new RsccSupporterView(model);
-    ScreenLoader screenLoader = new ScreenLoader(model);
-    View view = screenLoader.getView("homeView");
-
+    // RsccHomeView view = new RsccHomeView(model);
+    RsccRequestHelpView view = new RsccRequestHelpView(model);
 
     // the scene to listen for the focus change
-    Scene scene = screenLoader.getScene("homeView");
+    Scene scene = new Scene(view);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
-    RsccHomePresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view, screenLoader);
+    String headerSheet = getClass().getClassLoader()
+        .getResource("css/headerStyle.css").toExternalForm();
+    scene.getStylesheets().add(headerSheet);
 
+    stage.setWidth(1000);
+    stage.setHeight(450);
+    stage.setMinWidth(250);
+    stage.setMinHeight(300);
     stage.setScene(scene);
-
-    // view.initBtnPanel(scene);
+    RsccRequestHelpPresenter presenter = new RsccRequestHelpPresenter(model, view);
+    presenter.initSize(scene);
 
     stage.setTitle(APP_NAME);
 
@@ -56,6 +60,7 @@ public class RsccApp extends Application {
     stage.setMinHeight((primaryScreenBounds.getHeight() / 1.5) / 1.5);
 
     stage.show();
+
   }
 
   @Override

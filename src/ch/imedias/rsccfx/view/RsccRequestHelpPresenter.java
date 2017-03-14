@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.scene.Scene;
 
 public class RsccRequestHelpPresenter {
   private final Rscc model;
@@ -35,6 +36,15 @@ public class RsccRequestHelpPresenter {
 
     // TODO: Set actions on buttons (back, Help, Settings)
 
+  }
+
+  /** initSize method. */
+  public void initSize(Scene scene) {
+    view.topBox.prefWidthProperty().bind(scene.widthProperty());
+    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    view.headerPresenter.initSize(scene);
   }
 
 
