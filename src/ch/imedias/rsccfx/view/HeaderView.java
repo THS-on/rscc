@@ -14,28 +14,29 @@ import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-/**
- * Created by user on 02.12.16.
- */
 public class HeaderView extends VBox {
 
   private final Rscc model;
   private final HeaderPresenter presenter;
 
-  // TODO: refactor boxLine1 and boxLine2
-  VBox headerbox;
-  HBox boxLine1;
-  HBox boxLine2;
+  // TODO: refactor buttonBox and separatorBox
+  VBox headerBox;
+  HBox buttonBox;
+  HBox separatorBox;
   Label headLbl;
   Button backBtn;
   Button settBtn;
   Button helpBtn;
   Separator sep;
 
-  /** class HeaderView. */
+  /**
+   * Here goes the javadoc.
+   */
+
   public HeaderView(Rscc model) {
     this.model = model;
     this.presenter = new HeaderPresenter(model, this);
@@ -47,24 +48,15 @@ public class HeaderView extends VBox {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerbox = new VBox();
-    boxLine1 = new HBox();
-    boxLine2 = new HBox();
+    headerBox = new VBox();
+    buttonBox = new HBox();
+    // separatorBox = new HBox();
 
-    boxLine1.setPadding(new Insets(10, 10, 10, 10));
-    boxLine2.setPadding(new Insets(10, 10, 10, 10));
+    buttonBox.setPadding(new Insets(10, 10, 10, 10));
+    // separatorBox.setPadding(new Insets(10, 10, 10, 10));
+    // sep = new Separator();
+    // separatorBox.getChildren().add(sep);
 
-
-    sep = new Separator();
-    boxLine2.getChildren().add(sep);
-
-
-  }
-
-  private void initFieldData() {
-    //populate fields which require initial data
-
-    // TODO: layout according to the mock
     backBtn = new Button();
     backBtn.setAlignment(Pos.TOP_LEFT);
     backBtn.setGraphic(new ImageView(new Image(getClass()
@@ -77,33 +69,41 @@ public class HeaderView extends VBox {
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
     settBtn.setAlignment(Pos.TOP_RIGHT);
     headLbl = new Label("I need Help");
-    headLbl.setFont(new Font("Cantarell", 20));
+
+    headLbl.setFont(new Font("Cantarell", 20));   // TODO: move to CSS
     headLbl.setAlignment(Pos.CENTER);
-    //TODO: Make names better...
-    boxLine1.getChildren().add(backBtn);
-    boxLine1.getChildren().add(headLbl);
-    boxLine1.getChildren().add(helpBtn);
-    boxLine1.getChildren().add(settBtn);
+
+    buttonBox.getChildren().add(backBtn);
+    buttonBox.getChildren().add(headLbl);
+    buttonBox.getChildren().add(helpBtn);
+    buttonBox.getChildren().add(settBtn);
+
+    headerBox.getChildren().add(buttonBox);
+    //headerBox.getChildren().add(separatorBox);
+
+    this.getChildren().add(headerBox);
+
+    // apply styling
+    buttonBox.setId("header");
+    headLbl.setId("headerText");
   }
 
-  /** initSize method. */
-  public void initSize(Scene scene) {
-    sep.prefWidthProperty().bind(scene.widthProperty());
-    headLbl.prefWidthProperty().bind(scene.widthProperty());
-    boxLine1.prefWidthProperty().bind(scene.widthProperty());
-    boxLine2.prefWidthProperty().bind(scene.widthProperty());
-    headerbox.prefWidthProperty().bind(scene.widthProperty());
+  private void initFieldData() {
+    //populate fields which require initial data
+
+    // TODO: layout according to the mock
+    // TODO: Make backgroundcolor of HBox look greyish
+    // TODO: https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.7
+
 
 
   }
+
+
 
   private void bindFieldsToModel() {
     //make the bindings to the model
 
-    headerbox.getChildren().add(boxLine1);
-    headerbox.getChildren().add(boxLine2);
-
-    this.getChildren().add(headerbox);
   }
 
 }

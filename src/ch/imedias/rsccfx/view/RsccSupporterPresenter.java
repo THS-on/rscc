@@ -65,4 +65,6 @@ public class RsccSupporterPresenter {
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
   }
+
+
 }

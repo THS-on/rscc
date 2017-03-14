@@ -6,7 +6,6 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,7 +25,8 @@ import javafx.scene.text.Text;
 public class RsccRequestHelpView extends BorderPane {
   private Rscc model;
   BorderPane pane;
-  HeaderView testTopbox;
+  HeaderView headerView;
+  HeaderPresenter headerPresenter;
   VBox topBox;
   HBox centerBox;
   VBox bottomBox;
@@ -117,8 +117,9 @@ public class RsccRequestHelpView extends BorderPane {
 
   private void bindFieldsToModel() {
     // TODO: make the bindings to the model
-    testTopbox = new HeaderView(model);
-    topBox.getChildren().add(testTopbox);
+    headerView = new HeaderView(model);
+    headerPresenter = new HeaderPresenter(model, headerView);
+    topBox.getChildren().add(headerView);
     VBox lbltxt1 = new VBox();
     lbltxt1.getChildren().add(keyGenerationLbl);
     lbltxt1.getChildren().add(descriptionTxt);
@@ -139,14 +140,7 @@ public class RsccRequestHelpView extends BorderPane {
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 
-  /** initSize method. */
-  public void initSize(Scene scene) {
-    topBox.prefWidthProperty().bind(scene.widthProperty());
-    generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    testTopbox.initSize(scene);
-  }
+
 }
 
 
