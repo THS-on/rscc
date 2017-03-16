@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * Defines all elements shown on the start page.
  */
-public class RsccHomeView extends BorderPane implements View {
+public class RsccHomeView extends BorderPane {
   private final Rscc model;
   protected Button requestHelpBtn;
   protected Button offerSupportBtn;

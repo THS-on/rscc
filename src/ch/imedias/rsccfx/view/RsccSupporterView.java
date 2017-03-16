@@ -17,7 +17,7 @@ import javafx.scene.text.Font;
 /**
  *
  */
-public class RsccSupporterView extends BorderPane implements View {
+public class RsccSupporterView extends BorderPane {
     private final Rscc model;
 
     private HeaderView headerView;
