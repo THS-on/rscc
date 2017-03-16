@@ -1,17 +1,20 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 /**
- * TODO: Javadoc comment here.
- * This is the presenter for the EnterTokenView in which the supporter will enter the token.
+ * Presenter class of RsccSupporterView. Defines the behaviour of interactions
+ * and initializes the size of the GUI components.
+ * The supporter can enter the key given from the help requester to establish a connection.
  */
-public class RsccSupporterPresenter {
-
+public class RsccSupporterPresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccSupporterView view;
+  private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
@@ -22,15 +25,50 @@ public class RsccSupporterPresenter {
   String key = "";
 
   /**
-   * TODO: Javadoc comment here.
-   * Initializes the RsccSupporterPresenter.
-   * @param model
-   * @param view
+   * Initializes a new RsccSupporterPresenter with the according view.
+   *
+   * @param model the presentation model to coordinate views.
+   * @param view  the view which needs to be configured.
    */
   public RsccSupporterPresenter(Rscc model, RsccSupporterView view) {
     this.model = model;
     this.view = view;
     attachEvents();
+  }
+
+  /**
+   * Defines the ViewController to allow changing views.
+   *
+   * @param viewParent the controller to be used.
+   */
+  public void setViewParent(ViewController viewParent) {
+    this.viewParent = viewParent;
+  }
+
+  /**
+   * Initializes the size of the whole RsccSupporterView elements.
+   *
+   * @param scene initially loaded scene by RsccApp.
+   */
+
+  public void initSize(Scene scene) {
+    view.topBox.prefWidthProperty().bind(scene.widthProperty());
+    view.enterTokenlbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.headerPresenter.initSize(scene);
+  }
+
+  /**
+   * Validates the token and displays a symbolic image.
+   *
+   * @param token the token to be validated.
+   * @return path to the image to display.
+   */
+  public String validationImage(String token) {
+
+    if (validateToken(token)) {
+      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
+    }
+    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
   }
 
   /**
@@ -45,44 +83,23 @@ public class RsccSupporterPresenter {
     view.connectbtn.setOnAction(
         event -> {
           model.keyProperty().set(view.tokentxt.getText());
-          model.connectToUser(model.getKey(),FORWARDING_PORT,KEY_SERVER_IP,
+          model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_HTTP_PORT);
         }
     );
 
     // TODO: Set actions on buttons (back, Help, Settings)
-
   }
 
   /**
-   * TODO: Javadoc comment here.
-   * Validates the token and displays a symbolic image.
-   * @param token
-   * @return
-   */
-  public String validationImage(String token) {
-
-    if (validateToken(token)) {
-      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
-    }
-    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
-  }
-
-  /**
-   * TODO: Javadoc comment here.
-   * @param token
-   * @return
+   * Validates a token.
+   *
+   * @param token the token to be validated.
+   * @return true or false.
    */
   private static boolean validateToken(String token) {
     return (int) (Math.random() * 2) == 1;
-    //TODO Validate token
+    //TODO: Validate token
   }
-
-  public void initSize(Scene scene){
-    view.topBox.prefWidthProperty().bind(scene.widthProperty());
-    view.enterTokenlbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    view.headerPresenter.initSize(scene);
-  }
-
 
 }

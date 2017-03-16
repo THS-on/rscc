@@ -16,7 +16,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   /**
-   * Initilizes a new RsccHomePresenter with the according view.
+   * Initializes a new RsccHomePresenter with the according view.
    *
    * @param model the presentation model to coordinate views.
    * @param view  the view which needs to be configured.
@@ -28,7 +28,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   /**
-   * Definies the ViewController to allow changing views.
+   * Defines the ViewController to allow changing views.
    *
    * @param viewParent the controller to be used.
    */
