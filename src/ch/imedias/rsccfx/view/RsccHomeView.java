@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * TODO: Javadoc comment here.
  */
-public class RsccHomeView extends BorderPane {
+public class RsccHomeView extends BorderPane implements View {
   private final Rscc model;
   protected Button requestSupportBtn;
   protected Button offerSupportBtn;
@@ -51,7 +51,6 @@ public class RsccHomeView extends BorderPane {
     //dynamic growth
 
   }
-
 
   private void layoutForm() {
     this.setLeft(requestSupportBtn);

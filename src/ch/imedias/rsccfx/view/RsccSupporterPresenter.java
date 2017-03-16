@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 /**
@@ -29,7 +30,6 @@ public class RsccSupporterPresenter {
   public RsccSupporterPresenter(Rscc model, RsccSupporterView view) {
     this.model = model;
     this.view = view;
-
     attachEvents();
   }
 
@@ -76,6 +76,12 @@ public class RsccSupporterPresenter {
   private static boolean validateToken(String token) {
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
+  }
+
+  public void initSize(Scene scene){
+    view.topBox.prefWidthProperty().bind(scene.widthProperty());
+    view.enterTokenlbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.headerPresenter.initSize(scene);
   }
 
 
