@@ -60,8 +60,6 @@ public class Rscc {
 
     // Execute port_share.sh and get a key as output
     String key = executeP2pScript("start_x11vnc.sh", keyServerIp, keyServerHttpPort);
-
-    key = key.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
     this.key.set(key); // update key in model
     return key;
   }
@@ -93,6 +91,8 @@ public class Rscc {
       System.out.println("script could not be written to a temp file!");
       writingError.printStackTrace();
     }
+    output = processExecutor.getOutput();
+    output = output.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
     return output;
   }
 
@@ -102,5 +102,13 @@ public class Rscc {
 
   public String getKey() {
     return key.get();
+  }
+
+  public String getKeyServerIp() {
+    return keyServerIp;
+  }
+
+  public String getKeyServerHttpPort() {
+    return keyServerHttpPort;
   }
 }
