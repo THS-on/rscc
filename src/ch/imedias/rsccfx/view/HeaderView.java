@@ -32,43 +32,9 @@ public class HeaderView extends HBox {
   public HeaderView(Rscc model) {
     this.model = model;
     this.presenter = new HeaderPresenter(model, this);
-    layoutForm();
     initFieldData();
+    layoutForm();
     bindFieldsToModel();
-  }
-
-  private void layoutForm() {
-    //setup layout (aka setup specific pane etc.)
-
-    headerBox = new HBox();
-
-    headerBox.setPadding(new Insets(10, 10, 10, 10));
-
-    backBtn = new Button();
-    backBtn.setAlignment(Pos.TOP_LEFT);
-    backBtn.setGraphic(new ImageView(new Image(getClass()
-        .getClassLoader().getResource("images/back1.png").toExternalForm())));
-    helpBtn = new Button();
-    helpBtn.setGraphic(new ImageView(new Image(getClass()
-        .getClassLoader().getResource("images/help1.png").toExternalForm())));
-    settBtn = new Button();
-    settBtn.setGraphic(new ImageView(new Image(getClass()
-        .getClassLoader().getResource("images/setting1.png").toExternalForm())));
-    settBtn.setAlignment(Pos.TOP_RIGHT);
-    headLbl = new Label("I need Help");
-
-    headLbl.setAlignment(Pos.CENTER);
-
-    headerBox.getChildren().add(backBtn);
-    headerBox.getChildren().add(headLbl);
-    headerBox.getChildren().add(helpBtn);
-    headerBox.getChildren().add(settBtn);
-
-    this.getChildren().add(headerBox);
-
-    // apply styling
-    headerBox.setId("header");
-    headLbl.setId("headerText");
   }
 
   private void initFieldData() {
@@ -76,10 +42,41 @@ public class HeaderView extends HBox {
     // TODO: Implement that back Button always goes "one back"?
     // TODO: SA, please review idea.
 
+    headerBox = new HBox();
+    backBtn = new Button();
+    headLbl = new Label();
+    helpBtn = new Button();
+    settBtn = new Button();
   }
 
+  private void layoutForm() {
+    //setup layout (aka setup specific pane etc.)
+
+    headerBox.getChildren().add(backBtn);
+    headerBox.getChildren().add(headLbl);
+    headerBox.getChildren().add(helpBtn);
+    headerBox.getChildren().add(settBtn);
+    headerBox.setId("header");
+
+    backBtn.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/back1.png").toExternalForm())));
+
+    headLbl.setAlignment(Pos.CENTER);
+    headLbl.textProperty().set("I need Help");
+    headLbl.setId("headerText");
+
+    helpBtn.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/help1.png").toExternalForm())));
+
+    settBtn.setGraphic(new ImageView(new Image(getClass()
+        .getClassLoader().getResource("images/setting1.png").toExternalForm())));
+
+    this.getChildren().add(headerBox);
+  }
+
+
   private void bindFieldsToModel() {
-    //make the bindings to the model
+    // TODO: make the bindings to the model
 
   }
 

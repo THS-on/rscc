@@ -1,5 +1,6 @@
 #header {
     -fx-background-color: #CCCCCC;
+    -fx-padding: 10;
 }
 
 #headerText {
