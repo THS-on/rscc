@@ -53,7 +53,7 @@ public class RsccSupporterPresenter implements ControlledPresenter {
 
   public void initSize(Scene scene) {
     view.topBox.prefWidthProperty().bind(scene.widthProperty());
-    view.enterTokenlbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     view.headerPresenter.initSize(scene);
   }
 
@@ -76,13 +76,13 @@ public class RsccSupporterPresenter implements ControlledPresenter {
    */
   private void attachEvents() {
 
-    view.tokentxt.setOnKeyPressed(event -> {
-      view.isValidimg.setImage(new Image(validationImage(view.tokentxt.getText())));
+    view.tokenTxt.setOnKeyPressed(event -> {
+      view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
     });
 
-    view.connectbtn.setOnAction(
+    view.connectBtn.setOnAction(
         event -> {
-          model.keyProperty().set(view.tokentxt.getText());
+          model.keyProperty().set(view.tokenTxt.getText());
           model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_HTTP_PORT);
         }

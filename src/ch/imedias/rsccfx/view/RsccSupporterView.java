@@ -19,74 +19,74 @@ import javafx.scene.text.Font;
  *
  */
 public class RsccSupporterView extends BorderPane implements View {
-
     private final Rscc model;
 
-    TitledPane adminSupporterPane;
-    TitledPane mainPane;
-    Label enterTokenlbl;
-    Label loremIpsumlbl;
-    Label examplelbl;
-    Label instructionlbl;
+    private HeaderView headerView;
+    protected HeaderPresenter headerPresenter;
 
-    VBox groupingbox;
-    HBox tokenValidationbox;
-    TextField tokentxt;
-    ImageView isValidimg;
+    private TitledPane adminSupporterPane;
+    private TitledPane mainPane;
 
-    Button connectbtn;
-    Button expandOptionbtn;
+    protected Label enterTokenLbl;
+    private Label loremIpsumLbl;        // TODO: Rename it...
+    private Label exampleLbl;
+    private Label instructionLbl;
 
-    HeaderView headerView;
-    HeaderPresenter headerPresenter;
+    protected VBox topBox;
+    private VBox centerBox;
+    private VBox groupingBox;
+    private HBox tokenValidationBox;
 
-    VBox topBox;
-    VBox centerBox;
+    protected TextField tokenTxt;
+    protected ImageView isValidImg;
+
+    protected Button connectBtn;
+    private Button expandOptionBtn;     // TODO: Double check if private access is ok.
+
 
 
     /**
-     * TODO: Javadoc comment here.
-     * This is the view for the supporter to enter the token.
+     * Initializes all the GUI components needed to enter the token the supporter received.
      *
-     * @param model
+     * @param model defines what is displayed.
      */
     public RsccSupporterView(Rscc model) {
       this.model = model;
-
       initFieldData();
       layoutForm();
       bindFieldsToModel();
     }
 
     private void layoutForm() {
-      this.setPadding(new Insets(5, 25, 5, 25));
+      // TODO: import CSS accordingly. Ask SA where it needs to be defined.
+      // this.setPadding(new Insets(5, 25, 5, 25));
+      this.setId("SupporterView");
 
+      enterTokenLbl.setFont(new Font(25)); // TODO: Move this to CSS.
 
-      enterTokenlbl.setFont(new Font(25));
+      loremIpsumLbl.setWrapText(true);
 
-      loremIpsumlbl.setWrapText(true);
+      tokenValidationBox = new HBox();
+      tokenTxt = new TextField();
+      tokenTxt.setFont(new Font(30));
 
-      tokenValidationbox = new HBox();
-      tokentxt = new TextField();
-      tokentxt.setFont(new Font(30));
+      isValidImg.setSmooth(true);
+      tokenValidationBox.getChildren().addAll(tokenTxt, isValidImg);
+      tokenValidationBox.setSpacing(5);
+      tokenValidationBox.setHgrow(tokenTxt, Priority.ALWAYS);
+      tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-      isValidimg.setSmooth(true);
-      tokenValidationbox.getChildren().addAll(tokentxt, isValidimg);
-      tokenValidationbox.setSpacing(5);
-      tokenValidationbox.setHgrow(tokentxt, Priority.ALWAYS);
-      tokenValidationbox.setAlignment(Pos.CENTER_LEFT);
+      groupingBox = new VBox();
+      groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
 
-      groupingbox = new VBox();
-      groupingbox.getChildren().addAll(tokenValidationbox, instructionlbl);
+      centerBox.getChildren().addAll(enterTokenLbl,
+          loremIpsumLbl,
+          exampleLbl,
+          groupingBox,
+          connectBtn,
+          expandOptionBtn);
 
-      centerBox.getChildren().addAll(enterTokenlbl,
-              loremIpsumlbl,
-              examplelbl,
-              groupingbox,
-              connectbtn,
-              expandOptionbtn);
-
-      connectbtn.setFont(new Font(30));
+      connectBtn.setFont(new Font(30));
     }
 
     private void initFieldData() {
@@ -99,16 +99,16 @@ public class RsccSupporterView extends BorderPane implements View {
       topBox = new VBox();
       centerBox = new VBox();
 
-      isValidimg = new ImageView(getClass()
+      isValidImg = new ImageView(getClass()
               .getClassLoader()
               .getResource("dialog-error.png")
               .toExternalForm());
-      enterTokenlbl = new Label("EnterToken");
-      loremIpsumlbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-      examplelbl = new Label("Number of characters: 8\nexample: 666xx666");
-      instructionlbl = new Label("Instructions");
-      connectbtn = new Button("Connect");
-      expandOptionbtn = new Button("More");
+      enterTokenLbl = new Label("EnterToken");
+      loremIpsumLbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+      exampleLbl = new Label("Number of characters: 8\nexample: 666xx666");
+      instructionLbl = new Label("Instructions");
+      connectBtn = new Button("Connect");
+      expandOptionBtn = new Button("More");
 
       setCenter(centerBox);
       topBox.getChildren().add(headerView);
