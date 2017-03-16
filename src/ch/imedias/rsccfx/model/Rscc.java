@@ -6,7 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Javadoc Comment here.
+ * Stores the key and keyserver connection details.
+ * Handles communication with the keyserver.
  */
 public class Rscc {
   /**

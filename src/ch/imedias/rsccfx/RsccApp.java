@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx;
 
+import ch.imedias.rscc.ProcessExecutor;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
@@ -32,7 +33,7 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
-    model = new Rscc(new SystemCommander());
+    model = new Rscc(new ProcessExecutor());
     ViewController mainView = new ViewController();
 
     // HomeView
