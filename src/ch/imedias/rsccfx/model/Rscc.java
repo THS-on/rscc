@@ -25,7 +25,6 @@ public class Rscc {
    * Initializes the Rscc model class.
    */
   public Rscc(ProcessExecutor processExecutor) {
-
     this.processExecutor = processExecutor;
     pathToResourceDocker = getClass().getClassLoader().getResource("docker-build_p2p")
         .getFile().toString().replaceFirst("file:", "");
@@ -48,9 +47,9 @@ public class Rscc {
   /**
    * Kills the connection to the keyserver.
    */
-  public void killConnection() {
+  public void killConnection(String key) {
     // Execute port_stop.sh with the generated key to kill the connection
-    executeP2pScript("port_stop.sh", key.toString());
+    executeP2pScript("port_stop.sh", key);
   }
 
   /**
@@ -82,7 +81,7 @@ public class Rscc {
    * again.
    */
   public String refreshKey() {
-    killConnection();
+    killConnection(key.toString());
     return requestTokenFromServer();
   }
 
