@@ -2,7 +2,6 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rscc.ProcessExecutor;
 import ch.imedias.rsccfx.model.Rscc;
-import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
@@ -68,7 +67,7 @@ public class RsccApp extends Application {
 
   @Override
   public void stop() throws Exception {
-    model.killConnection(model.getKey());
+    model.killConnection();
     super.stop();
   }
 }
