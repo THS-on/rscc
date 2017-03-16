@@ -6,16 +6,20 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RsccSupporterView extends VBox implements View{
+public class RsccSupporterView extends BorderPane implements View{
 
   private final Rscc model;
 
+  TitledPane adminSupporterPane;
+  TitledPane mainPane;
   Label enterTokenlbl;
   Label loremIpsumlbl;
   Label examplelbl;
@@ -28,6 +32,13 @@ public class RsccSupporterView extends VBox implements View{
 
   Button connectbtn;
   Button expandOptionbtn;
+
+  HeaderView headerView;
+  HeaderPresenter headerPresenter;
+
+  VBox topBox;
+  VBox centerBox;
+
 
   /**
    * This is the view for the supporter to enter the token.
@@ -42,7 +53,7 @@ public class RsccSupporterView extends VBox implements View{
 
   private void layoutForm() {
     this.setPadding(new Insets(5, 25, 5, 25));
-    this.setSpacing(10);
+
 
     enterTokenlbl.setFont(new Font(25));
 
@@ -61,7 +72,7 @@ public class RsccSupporterView extends VBox implements View{
     groupingbox = new VBox();
     groupingbox.getChildren().addAll(tokenValidationbox, instructionlbl);
 
-    this.getChildren().addAll(enterTokenlbl,
+    centerBox.getChildren().addAll(enterTokenlbl,
         loremIpsumlbl,
         examplelbl,
         groupingbox,
@@ -73,6 +84,14 @@ public class RsccSupporterView extends VBox implements View{
 
   private void initFieldData() {
 
+    adminSupporterPane = new TitledPane();
+    mainPane = new TitledPane();
+
+    headerView = new HeaderView(model);
+    headerPresenter = new HeaderPresenter(model, headerView);
+    topBox = new VBox();
+    centerBox = new VBox();
+
     isValidimg = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
@@ -83,10 +102,15 @@ public class RsccSupporterView extends VBox implements View{
     instructionlbl = new Label("Instructions");
     connectbtn = new Button("Connect");
     expandOptionbtn = new Button("More");
+
+    setCenter(centerBox);
+    topBox.getChildren().add(headerView);
+    setTop(topBox);
   }
 
   private void bindFieldsToModel() {
     //make the bindings to the model
+
   }
 
 }

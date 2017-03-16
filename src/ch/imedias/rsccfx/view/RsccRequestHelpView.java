@@ -25,7 +25,6 @@ import javafx.scene.text.Text;
  */
 public class RsccRequestHelpView extends BorderPane {
   private Rscc model;
-  ScreenLoader screenLoader;
   BorderPane pane;
   HeaderView headerView;
   HeaderPresenter headerPresenter;
@@ -42,13 +41,13 @@ public class RsccRequestHelpView extends BorderPane {
   Button reloadButton;
   Button supporterAdminBtn;
 
+
   /**
    * Constructor.
    * @param model test.
    */
-  public RsccRequestHelpView(Rscc model, ScreenLoader screenLoader) {
+  public RsccRequestHelpView(Rscc model) {
     this.model = model;
-    this.screenLoader = screenLoader;
     layoutForm();
     initFieldData();
     bindFieldsToModel();
