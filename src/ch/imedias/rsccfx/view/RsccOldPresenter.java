@@ -2,6 +2,8 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 
+// TODO: Please decide if this still needs to be in this branch or if it can be deleted.
+
 /**
  * This is the old GUI of Swing in JavaFX.
  */

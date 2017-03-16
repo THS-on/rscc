@@ -4,6 +4,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
+// TODO: Decide if class needs to get deleted.
+
 /**
  * This is the old GUI of Swing in JavaFX.
  */

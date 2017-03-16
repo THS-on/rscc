@@ -2,12 +2,15 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class RsccPresenterDemoReady {
   private final Rscc model;
   private final RsccViewDemoReady view;
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
    */
   public RsccPresenterDemoReady(Rscc model, RsccViewDemoReady view) {
     this.model = model;

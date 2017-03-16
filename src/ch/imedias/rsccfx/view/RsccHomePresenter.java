@@ -4,12 +4,15 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class RsccHomePresenter {
   private final Rscc model;
   private final RsccHomeView view;
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;

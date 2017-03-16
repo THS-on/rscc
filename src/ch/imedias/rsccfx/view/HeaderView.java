@@ -4,6 +4,7 @@ package ch.imedias.rsccfx.view;
  * import statements.
  */
 
+// TODO: cleanup imports
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class HeaderView extends VBox {
 
   private final Rscc model;
@@ -34,6 +38,7 @@ public class HeaderView extends VBox {
   Separator sep;
 
   /**
+   * TODO: Javadoc comment here.
    * Here goes the javadoc.
    */
 
