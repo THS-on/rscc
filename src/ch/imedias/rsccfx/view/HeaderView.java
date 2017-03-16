@@ -1,47 +1,34 @@
 package ch.imedias.rsccfx.view;
 
-/**
- * import statements.
- */
-
-// TODO: cleanup imports
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 /**
- * TODO: Javadoc comment here.
+ * Defines all elements shown in the Header.
  */
-public class HeaderView extends VBox {
+public class HeaderView extends HBox {
 
   private final Rscc model;
   private final HeaderPresenter presenter;
 
-  // TODO: refactor buttonBox and separatorBox
-  VBox headerBox;
-  HBox buttonBox;
-  HBox separatorBox;
+  HBox headerBox;
   Label headLbl;
   Button backBtn;
   Button settBtn;
   Button helpBtn;
-  Separator sep;
 
   /**
-   * TODO: Javadoc comment here.
-   * Here goes the javadoc.
+   * Initializes all the GUI components needed in the Header.
+   *
+   * @param model defines what is displayed.
    */
-
   public HeaderView(Rscc model) {
     this.model = model;
     this.presenter = new HeaderPresenter(model, this);
@@ -53,14 +40,9 @@ public class HeaderView extends VBox {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerBox = new VBox();
-    buttonBox = new HBox();
-    // separatorBox = new HBox();
+    headerBox = new HBox();
 
-    buttonBox.setPadding(new Insets(10, 10, 10, 10));
-    // separatorBox.setPadding(new Insets(10, 10, 10, 10));
-    // sep = new Separator();
-    // separatorBox.getChildren().add(sep);
+    headerBox.setPadding(new Insets(10, 10, 10, 10));
 
     backBtn = new Button();
     backBtn.setAlignment(Pos.TOP_LEFT);
@@ -75,36 +57,26 @@ public class HeaderView extends VBox {
     settBtn.setAlignment(Pos.TOP_RIGHT);
     headLbl = new Label("I need Help");
 
-    headLbl.setFont(new Font("Cantarell", 20));   // TODO: move to CSS
     headLbl.setAlignment(Pos.CENTER);
 
-    buttonBox.getChildren().add(backBtn);
-    buttonBox.getChildren().add(headLbl);
-    buttonBox.getChildren().add(helpBtn);
-    buttonBox.getChildren().add(settBtn);
-
-    headerBox.getChildren().add(buttonBox);
-    //headerBox.getChildren().add(separatorBox);
+    headerBox.getChildren().add(backBtn);
+    headerBox.getChildren().add(headLbl);
+    headerBox.getChildren().add(helpBtn);
+    headerBox.getChildren().add(settBtn);
 
     this.getChildren().add(headerBox);
 
     // apply styling
-    buttonBox.setId("header");
+    headerBox.setId("header");
     headLbl.setId("headerText");
   }
 
   private void initFieldData() {
     //populate fields which require initial data
-
-    // TODO: layout according to the mock
-    // TODO: Make backgroundcolor of HBox look greyish
-    // TODO: https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.7
-
-
+    // TODO: Implement that back Button always goes "one back"?
+    // TODO: SA, please review idea.
 
   }
-
-
 
   private void bindFieldsToModel() {
     //make the bindings to the model
