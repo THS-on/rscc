@@ -10,6 +10,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +27,6 @@ import javafx.scene.text.Text;
  */
 public class RsccRequestHelpView extends BorderPane {
   private Rscc model;
-  BorderPane pane;
   HeaderView headerView;
   HeaderPresenter headerPresenter;
   VBox topBox;
@@ -41,6 +42,8 @@ public class RsccRequestHelpView extends BorderPane {
   Button reloadButton;
   Button supporterAdminBtn;
 
+  TitledPane mainPane;
+  TitledPane adminPane;
 
   /**
    * Constructor.
@@ -55,7 +58,7 @@ public class RsccRequestHelpView extends BorderPane {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    pane = new BorderPane();
+
     topBox = new VBox();
 
     centerBox = new HBox();
@@ -66,12 +69,19 @@ public class RsccRequestHelpView extends BorderPane {
     centerBox.setPadding(new Insets(10, 20, 10, 20));
     bottomBox.setPadding(new Insets(10, 20, 1, 20));
     bottomBoxInset.setPadding(new Insets(40, 20, 1, 20));
+
+
+
   }
 
   private void initFieldData() {
     //populate fields which require initial data
     // TODO: String Class implementation!
     // TODO: Resize behavior
+
+    mainPane = new TitledPane();
+    mainPane.setContent(centerBox);
+    adminPane = new TitledPane();
 
     keyGenerationLbl = new Label("Schlüsselgenerierung");
     keyGenerationLbl.setFont(new Font("Cantarell", 30));
@@ -115,6 +125,8 @@ public class RsccRequestHelpView extends BorderPane {
         + "clita kasd gubergren, no sea takimata sanctus est "
         + "Lorem ipsum dolor sit amet.");
     additionalDescriptionTxt.setWrappingWidth(450);
+
+    centerBox.getChildren().addAll(generatedKeyFld, reloadButton);
   }
 
   private void bindFieldsToModel() {
@@ -127,17 +139,14 @@ public class RsccRequestHelpView extends BorderPane {
     lbltxt1.getChildren().add(descriptionTxt);
     lbltxt1.setPadding(new Insets(10, 20, 10, 20));
     topBox.getChildren().add(lbltxt1);
-    centerBox.getChildren().add(generatedKeyFld);
-    centerBox.getChildren().add(reloadButton);
     bottomBox.getChildren().add(additionalDescriptionTxt);
     bottomBox.getChildren().add(bottomBoxInset);
     bottomBox.getChildren().add(expandableBox);
     expandableBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
 
-    pane.setTop(topBox);
-    pane.setCenter(centerBox);
-    pane.setBottom(bottomBox);
-    this.getChildren().add(pane);
+    setTop(topBox);
+    setCenter(mainPane);
+    setBottom(bottomBox);
 
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }

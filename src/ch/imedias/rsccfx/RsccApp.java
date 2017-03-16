@@ -24,30 +24,28 @@ public class RsccApp extends Application {
   @Override
   public void start(Stage stage) {
     model = new Rscc(new SystemCommander());
-    // RsccRequestHelpView showTokenView = new RsccRequestHelpView(model);
-    // RsccSupporterView enterTokenView = new RsccSupporterView(model);
     // RsccHomeView view = new RsccHomeView(model);
-   // RsccRequestHelpView view = new RsccRequestHelpView(model);
-    RsccSupporterView supporterView = new RsccSupporterView(model);
+    RsccRequestHelpView view = new RsccRequestHelpView(model);
+    // RsccSupporterView supporterView = new RsccSupporterView(model);
 
     // the scene to listen for the focus change
-    //Scene scene = new Scene(view);
-    Scene supporterScene = new Scene(supporterView);
+    Scene scene = new Scene(view);
+    //Scene supporterScene = new Scene(supporterView);
     String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
-    //scene.getStylesheets().add(stSheet);
-    supporterScene.getStylesheets().add(stSheet);
+    scene.getStylesheets().add(stSheet);
+    //supporterScene.getStylesheets().add(stSheet);
     String headerSheet = getClass().getClassLoader()
         .getResource("css/headerStyle.css").toExternalForm();
-    supporterScene.getStylesheets().add(headerSheet);
-    // scene.getStylesheets().add(headerSheet);
+   // supporterScene.getStylesheets().add(headerSheet);
+     scene.getStylesheets().add(headerSheet);
 
-    stage.setScene(supporterScene);
-    // stage.setScene(scene);
-    //RsccRequestHelpPresenter presenter = new RsccRequestHelpPresenter(model, view);
-    RsccSupporterPresenter supporterPresenter = new RsccSupporterPresenter(model, supporterView);
+    //stage.setScene(supporterScene);
+     stage.setScene(scene);
+     RsccRequestHelpPresenter presenter = new RsccRequestHelpPresenter(model, view);
+    // RsccSupporterPresenter supporterPresenter = new RsccSupporterPresenter(model, supporterView);
 
-    supporterPresenter.initSize(supporterScene);
-    // presenter.initSize(scene);
+     // supporterPresenter.initSize(supporterScene);
+     presenter.initSize(scene);
 
     stage.setTitle(APP_NAME);
 
