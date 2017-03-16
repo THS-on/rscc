@@ -36,8 +36,20 @@ public class RsccHomePresenter implements ControlledPresenter {
     this.viewParent = viewParent;
   }
 
+  /**
+   * Initializes the size of the whole RsccHomeView elements.
+   *
+   * @param scene initially loaded scene by RsccApp.
+   */
+  public void initSize(Scene scene) {
+    view.offerSupportBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.offerSupportBtn.prefHeightProperty().bind(scene.heightProperty());
+    view.requestHelpBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.requestHelpBtn.prefHeightProperty().bind(scene.heightProperty());
+  }
+
   private void attachEvents() {
-    view.requestSupportBtn.setOnAction(event -> showRequestHelpView());
+    view.requestHelpBtn.setOnAction(event -> showRequestHelpView());
     view.offerSupportBtn.setOnAction(event -> showSupporterView());
   }
 

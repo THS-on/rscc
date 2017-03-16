@@ -8,16 +8,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 /**
- * TODO: Javadoc comment here.
+ * Defines all elements shown on the start page.
  */
 public class RsccHomeView extends BorderPane implements View {
   private final Rscc model;
-  protected Button requestSupportBtn;
+  protected Button requestHelpBtn;
   protected Button offerSupportBtn;
 
   /**
-   * TODO: Javadoc comment here.
-   * @param model is the model
+   * Initializes all the GUI components needed on the start page.
+   *
+   * @param model defines what is displayed.
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
@@ -27,44 +28,31 @@ public class RsccHomeView extends BorderPane implements View {
   }
 
   private void initFieldData() {
-
-    requestSupportBtn = new Button();
-    requestSupportBtn.textProperty().setValue("I need help"); //TODO: replace Text, multilangual
-    String filepath = getClass().getClassLoader()
-        .getResource("images/help-browser.png").toExternalForm();
-    Image requestSupportImg = new Image(filepath);
-    requestSupportBtn.setGraphic(new ImageView(requestSupportImg));
+    requestHelpBtn = new Button();
     offerSupportBtn = new Button();
-    //
+  }
 
-    offerSupportBtn.textProperty().setValue("I want to help someone");
-    // TODO: replace Text, multilangual
-    String filepath2 = getClass().getClassLoader()
+  private void layoutForm() {
+    requestHelpBtn.textProperty().setValue("I need help"); //TODO: replace Text, multilangual
+    String requestHelpImagePath = getClass().getClassLoader()
+        .getResource("images/help-browser.png").toExternalForm();
+    Image requestSupportImg = new Image(requestHelpImagePath);
+    requestHelpBtn.setGraphic(new ImageView(requestSupportImg));
+    requestHelpBtn.setId("HomeNavigationBtn");
+
+    offerSupportBtn.textProperty().setValue("I want to help someone"); // TODO: replace Text, multilangual
+    String offerSupportImagePath = getClass().getClassLoader()
         .getResource("images/audio-headset.png").toExternalForm();
-    Image offerSupportImg = new Image(filepath2);
+    Image offerSupportImg = new Image(offerSupportImagePath);
     offerSupportBtn.setGraphic(new ImageView(offerSupportImg));
-    requestSupportBtn.setId("HomeNavigationBtn");
     offerSupportBtn.setId("HomeNavigationBtn");
+
+    this.setLeft(requestHelpBtn);
+    this.setRight(offerSupportBtn);
   }
 
   private void bindFieldsToModel() {
     //dynamic growth
 
-  }
-
-  private void layoutForm() {
-    this.setLeft(requestSupportBtn);
-    this.setRight(offerSupportBtn);
-  }
-
-  /**
-   * TODO: Javadoc comment here.
-   * @param scene initially loaded scene by RsccApp.
-   */
-  public void initBtnPanel(Scene scene) {
-    offerSupportBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
-    offerSupportBtn.prefHeightProperty().bind(scene.heightProperty());
-    requestSupportBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
-    requestSupportBtn.prefHeightProperty().bind(scene.heightProperty());
   }
 }
