@@ -25,13 +25,14 @@ public class RsccApp extends Application {
   public void start(Stage stage) {
     model = new Rscc(new SystemCommander());
     // RsccHomeView view = new RsccHomeView(model);
-    RsccRequestHelpView view = new RsccRequestHelpView(model);
-    // RsccSupporterView supporterView = new RsccSupporterView(model);
+    // RsccRequestHelpView view = new RsccRequestHelpView(model);
+    RsccSupporterView view = new RsccSupporterView(model);
 
     // the scene to listen for the focus change
     Scene scene = new Scene(view);
     //Scene supporterScene = new Scene(supporterView);
-    String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    // String stSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    String stSheet = getClass().getClassLoader().getResource("css/supporterStyle.css").toExternalForm();
     scene.getStylesheets().add(stSheet);
     //supporterScene.getStylesheets().add(stSheet);
     String headerSheet = getClass().getClassLoader()
@@ -41,8 +42,8 @@ public class RsccApp extends Application {
 
     //stage.setScene(supporterScene);
      stage.setScene(scene);
-     RsccRequestHelpPresenter presenter = new RsccRequestHelpPresenter(model, view);
-    // RsccSupporterPresenter supporterPresenter = new RsccSupporterPresenter(model, supporterView);
+     //RsccRequestHelpPresenter presenter = new RsccRequestHelpPresenter(model, view);
+    RsccSupporterPresenter presenter = new RsccSupporterPresenter(model, view);
 
      // supporterPresenter.initSize(supporterScene);
      presenter.initSize(scene);
