@@ -9,7 +9,7 @@
         <custom.path>ch/imedias/rsccfx</custom.path>
         <custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
-
+      
         <!-- Project independant variables -->
         <custom.test.source>test/${custom.path}</custom.test.source>
         <custom.source>src/${custom.path}</custom.source>
@@ -157,7 +157,6 @@
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
                     <consoleOutput>true</consoleOutput>
-
                 </configuration>
             </plugin>
 
@@ -232,7 +231,5 @@
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
-
     </dependencies>
-
 </project>

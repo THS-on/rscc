@@ -10,14 +10,24 @@ import org.junit.Test;
 
 /**
  * Tests the rscc model class.
- * Javadoc comment here.
  */
 public class RsccTest {
   Rscc model;
 
   @Before
   public void setUp() throws Exception {
+  }
 
+  @Test
+  public void testKillConnection() throws Exception {
+    final String key = "jhd65g7fs2";
+    SystemCommander mockCommander =  mock(SystemCommander.class);
+    Rscc model = new Rscc(mockCommander);
+
+    //actual test
+    model.killConnection(key);
+    verify(mockCommander).executeTerminalCommand("bash resources/docker-build_p2p/"
+        + "port_stop.sh " + key);
   }
 
   @Test
@@ -37,5 +47,4 @@ public class RsccTest {
     verify(mockCommander).executeTerminalCommand(terminalCommandUse);
     assertEquals("6a2b9op6bq", key);
   }
-
 }
