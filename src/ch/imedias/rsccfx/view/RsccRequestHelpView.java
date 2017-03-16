@@ -20,7 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+// TODO: Clean up messy code!
+
 /**
+ * TODO: Improve javadoc comment.
  * Class RsccRequestHelpView
  * Created by Simon on 30.11.16.
  * Capsulated Class to test easy.
@@ -55,6 +58,7 @@ public class RsccRequestHelpView extends BorderPane {
   TitledPane adminPane;
 
   /**
+   * TODO: Double check javadoc comment. Is it describing what it does?
    * Constructor.
    * @param model test.
    */
@@ -88,6 +92,8 @@ public class RsccRequestHelpView extends BorderPane {
       //populate fields which require initial data
       // TODO: String Class implementation!
       // TODO: Resize behavior
+    //populate fields which require initial data
+    // TODO: String Class implementation!
 
       keyGenerationLbl = new Label("Schlüsselgenerierung");
       keyGenerationLbl.setFont(new Font("Cantarell", 30));

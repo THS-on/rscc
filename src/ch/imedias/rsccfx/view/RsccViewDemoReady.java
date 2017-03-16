@@ -3,6 +3,9 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class RsccViewDemoReady extends BorderPane { // change Parent to GridPane etc.
   private final Rscc model;
   final RsccRequestHelpView showTokenView;
@@ -10,7 +13,10 @@ public class RsccViewDemoReady extends BorderPane { // change Parent to GridPane
   //declare all elements here
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
+   * @param model
+   * @param showTokenView
+   * @param enterTokenView
    */
   public RsccViewDemoReady(Rscc model, RsccRequestHelpView showTokenView,
                            RsccSupporterView enterTokenView) {

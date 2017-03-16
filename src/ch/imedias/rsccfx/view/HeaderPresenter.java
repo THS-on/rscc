@@ -4,18 +4,13 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-/**
- * @author Lukas Marchesi
- * @date 03.03.2017.
- */
 public class HeaderPresenter {
   private final Rscc model;
   private HeaderView view;
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
    */
   public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;
@@ -33,7 +28,7 @@ public class HeaderPresenter {
   } */
 
   /**
-   *
+   * TODO: Javadoc comment here.
    * @param action is used to give the method a lambda expression.
    */
   public void setBackBtnAction(EventHandler<ActionEvent> action) {
@@ -41,7 +36,7 @@ public class HeaderPresenter {
   }
 
   /**
-   *
+   * TODO: Javadoc comment here.
    * @param title is used to hand in a new string.
    */
   public void setHeaderTitle(String title) {
@@ -49,7 +44,7 @@ public class HeaderPresenter {
   }
 
   /**
-   *
+   * TODO: Javadoc comment here.
    * @param action is used to give the method a lambda expression.
    */
   public void setHelpBtnAction(EventHandler<ActionEvent> action) {
@@ -57,14 +52,17 @@ public class HeaderPresenter {
   }
 
   /**
-   *
+   * TODO: Javadoc comment here.
    * @param action is used to give the method a lambda expression.
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
     view.settBtn.setOnAction(action);
   }
 
-  /** initSize method. */
+  /**
+   * TODO: Javadoc comment here.
+   * initSize method.
+   * */
   public void initSize(Scene scene) {
     // view.sep.prefWidthProperty().bind(scene.widthProperty());
     view.headLbl.prefWidthProperty().bind(scene.widthProperty());

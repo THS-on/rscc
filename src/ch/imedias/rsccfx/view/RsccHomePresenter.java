@@ -5,6 +5,9 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class RsccHomePresenter {
   private final Rscc model;
   private final RsccHomeView homeView;
@@ -12,7 +15,7 @@ public class RsccHomePresenter {
 
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView homeView, ScreenLoader screenLoader) {
     this.model = model;

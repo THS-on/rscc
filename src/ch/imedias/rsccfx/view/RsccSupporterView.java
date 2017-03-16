@@ -15,6 +15,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class RsccSupporterView extends BorderPane implements View{
+/**
+ * TODO: Javadoc comment here.
+ */
+public class RsccSupporterView extends VBox {
 
   private final Rscc model;
 
@@ -41,7 +45,9 @@ public class RsccSupporterView extends BorderPane implements View{
 
 
   /**
+   * TODO: Javadoc comment here.
    * This is the view for the supporter to enter the token.
+   * @param model
    */
   public RsccSupporterView(Rscc model) {
     this.model = model;

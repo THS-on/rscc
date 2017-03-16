@@ -3,6 +3,9 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 
+/**
+ * TODO: Javadoc comment here.
+ */
 public class RsccRequestHelpPresenter {
   private final Rscc model;
   private final RsccRequestHelpView view;
@@ -16,7 +19,9 @@ public class RsccRequestHelpPresenter {
   String key = "";
 
   /**
-   * Javadoc comment here.
+   * TODO: Javadoc comment here.
+   * @param model
+   * @param view
    */
   public RsccRequestHelpPresenter(Rscc model, RsccRequestHelpView view) {
     this.model = model;
@@ -38,7 +43,11 @@ public class RsccRequestHelpPresenter {
 
   }
 
-  /** initSize method. */
+  /**
+   * TODO: Javadoc comment here.
+   * initSize method
+   * @param scene
+   */
   public void initSize(Scene scene) {
     view.topBox.prefWidthProperty().bind(scene.widthProperty());
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));

@@ -8,18 +8,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 /**
- * Created by pwg on 30.11.16.
+ * TODO: Javadoc comment here.
  */
 public class RsccHomeView extends BorderPane implements View {
   private final Rscc model;
   protected Button requestSupportBtn;
   protected Button offerSupportBtn;
+
   /**
-   * your javadoc comment goes here.
-   *
+   * TODO: Javadoc comment here.
    * @param model is the model
    */
-
   public RsccHomeView(Rscc model) {
     this.model = model;
     initFieldData();
@@ -59,6 +58,7 @@ public class RsccHomeView extends BorderPane implements View {
   }
 
   /**
+   * TODO: Javadoc comment here.
    * @param scene initially loaded scene by RsccApp.
    */
   public void initBtnPanel(Scene scene) {

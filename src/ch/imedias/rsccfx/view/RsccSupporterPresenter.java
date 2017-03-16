@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 /**
+ * TODO: Javadoc comment here.
  * This is the presenter for the EnterTokenView in which the supporter will enter the token.
  */
 public class RsccSupporterPresenter {
@@ -21,7 +22,10 @@ public class RsccSupporterPresenter {
   String key = "";
 
   /**
+   * TODO: Javadoc comment here.
    * Initializes the RsccSupporterPresenter.
+   * @param model
+   * @param view
    */
   public RsccSupporterPresenter(Rscc model, RsccSupporterView view) {
     this.model = model;
@@ -51,7 +55,10 @@ public class RsccSupporterPresenter {
   }
 
   /**
+   * TODO: Javadoc comment here.
    * Validates the token and displays a symbolic image.
+   * @param token
+   * @return
    */
   public String validationImage(String token) {
 
@@ -61,6 +68,11 @@ public class RsccSupporterPresenter {
     return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
   }
 
+  /**
+   * TODO: Javadoc comment here.
+   * @param token
+   * @return
+   */
   private static boolean validateToken(String token) {
     return (int) (Math.random() * 2) == 1;
     //TODO Validate token
