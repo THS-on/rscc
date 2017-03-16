@@ -51,15 +51,6 @@ public class RsccTest {
   }
 
   // Test requestTokenFromServer
-
-
-  // Test connectToUser
-
-
-  // Test refreshKey
-
-
-
   @Test
   public void testRequestTokenFromServer() throws Exception {
     String key = model.requestTokenFromServer();
@@ -71,6 +62,15 @@ public class RsccTest {
     // make sure the key which is being returned is right
     assertEquals(KEY, key);
   }
+
+  // Test connectToUser
+
+
+  // Test refreshKey
+
+
+
+
 
 
 }
