@@ -1,14 +1,17 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 
 /**
  * TODO: Javadoc comment here.
  */
-public class RsccRequestPresenter {
+public class RsccRequestPresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccRequestView view;
+  private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
@@ -29,15 +32,25 @@ public class RsccRequestPresenter {
     attachEvents();
   }
 
+  /**
+   * Defines the ViewController to allow changing views.
+   *
+   * @param viewParent the controller to be used.
+   */
+  public void setViewParent(ViewController viewParent) {
+    this.viewParent = viewParent;
+  }
+
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
-    view.reloadButton.setOnAction(
+    // FIXME: Please fix it.
+    /* view.reloadButton.setOnAction(
         event -> {
           String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_SSH_PORT, KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);
           model.keyProperty().set(newKey);
         }
-    );
+    );*/
 
     // TODO: Set actions on buttons (back, Help, Settings)
 

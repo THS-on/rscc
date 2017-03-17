@@ -80,13 +80,14 @@ public class RsccSupportPresenter implements ControlledPresenter {
       view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
     });
 
-    view.connectBtn.setOnAction(
+    // FIXME: Thank you.
+    /*view.connectBtn.setOnAction(
         event -> {
           model.keyProperty().set(view.tokenTxt.getText());
           model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_HTTP_PORT);
         }
-    );
+    );*/
 
     // TODO: Set actions on buttons (back, Help, Settings)
   }

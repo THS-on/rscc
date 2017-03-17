@@ -21,8 +21,8 @@ public class RsccApp extends Application {
    * Declares views for use with ViewController.
    */
   public static final String HOME_VIEW = "home";
-  public static final String REQUEST_HELP_VIEW = "requestHelp";
-  public static final String SUPPORTER_VIEW = "supporter";
+  public static final String REQUEST_VIEW = "requestHelp";
+  public static final String SUPPORT_VIEW = "supporter";
 
   Rscc model;
 
@@ -43,12 +43,12 @@ public class RsccApp extends Application {
     // RequestHelpView
     view = new RsccRequestView(model);
     presenter = new RsccRequestPresenter(model, (RsccRequestView) view);
-    mainView.loadView(RsccApp.REQUEST_HELP_VIEW, view, presenter);
+    mainView.loadView(RsccApp.REQUEST_VIEW, view, presenter);
 
     // SupporterView
     view = new RsccSupportView(model);
     presenter = new RsccSupportPresenter(model, (RsccSupportView) view);
-    mainView.loadView(RsccApp.SUPPORTER_VIEW, view, presenter);
+    mainView.loadView(RsccApp.SUPPORT_VIEW, view, presenter);
 
     // Set initial screen
     mainView.setView(RsccApp.HOME_VIEW);

@@ -1,10 +1,10 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 /**
  * Defines the behaviour of interactions
@@ -42,25 +42,14 @@ public class RsccHomePresenter implements ControlledPresenter {
    * @param scene initially loaded scene by RsccApp.
    */
   public void initSize(Scene scene) {
-    view.offerSupportBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
-    view.offerSupportBtn.prefHeightProperty().bind(scene.heightProperty());
-    view.requestHelpBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
-    view.requestHelpBtn.prefHeightProperty().bind(scene.heightProperty());
+    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
+    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
   }
 
   private void attachEvents() {
-    view.requestHelpBtn.setOnAction(event -> showRequestHelpView());
-    view.offerSupportBtn.setOnAction(event -> showSupporterView());
-  }
-
-  private void showSupporterView() {
-    viewParent.setView(RsccApp.)
-    Stage stage = (Stage) view.getScene().getWindow();
-    stage.setScene(new Scene(new RsccSupportView(model)));
-  }
-
-  private void showRequestHelpView() {
-    Stage stage = (Stage) view.getScene().getWindow();
-    stage.setScene(new Scene(new RsccRequestView(model)));
+    view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
+    view.requestViewBtn.setOnAction(event -> viewParent.setView(RsccApp.REQUEST_VIEW));
   }
 }
