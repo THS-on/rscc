@@ -9,10 +9,11 @@
         <custom.path>ch/imedias/rsccfx</custom.path>
         <custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
-      
+        <custom.checkstyle.suppressions>config/checkstyle-suppressions.xml</custom.checkstyle.suppressions>
+
         <!-- Project independant variables -->
-        <custom.test.source>test/${custom.path}</custom.test.source>
-        <custom.source>src/${custom.path}</custom.source>
+        <custom.test.source>test</custom.test.source>
+        <custom.source>src</custom.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- To make the output of the javadoc support utf-8 -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -69,11 +70,12 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>[7.3,]</version>
+                        <version>7.6</version>
                     </dependency>
                 </dependencies>
                 <configuration>
                     <configLocation>${custom.checkstyle}</configLocation>
+                    <suppressionsLocation>${custom.checkstyle.suppressions}</suppressionsLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
