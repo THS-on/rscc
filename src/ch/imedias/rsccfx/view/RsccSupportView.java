@@ -17,7 +17,7 @@ import javafx.scene.text.Font;
 /**
  *
  */
-public class RsccSupporterView extends BorderPane {
+public class RsccSupportView extends BorderPane {
     private final Rscc model;
 
     HeaderView headerView;
@@ -50,7 +50,7 @@ public class RsccSupporterView extends BorderPane {
      *
      * @param model defines what is displayed.
      */
-    public RsccSupporterView(Rscc model) {
+    public RsccSupportView(Rscc model) {
       this.model = model;
       initFieldData();
       layoutForm();

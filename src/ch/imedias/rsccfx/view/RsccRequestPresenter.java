@@ -6,9 +6,9 @@ import javafx.scene.Scene;
 /**
  * TODO: Javadoc comment here.
  */
-public class RsccRequestHelpPresenter {
+public class RsccRequestPresenter {
   private final Rscc model;
-  private final RsccRequestHelpView view;
+  private final RsccRequestView view;
 
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
@@ -23,7 +23,7 @@ public class RsccRequestHelpPresenter {
    * @param model
    * @param view
    */
-  public RsccRequestHelpPresenter(Rscc model, RsccRequestHelpView view) {
+  public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
     this.view = view;
     attachEvents();

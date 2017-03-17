@@ -22,11 +22,11 @@ import javafx.scene.text.Text;
 
 /**
  * TODO: Improve javadoc comment.
- * Class RsccRequestHelpView
+ * Class RsccRequestView
  * Created by Simon on 30.11.16.
  * Capsulated Class to test easy.
  */
-public class RsccRequestHelpView extends BorderPane {
+public class RsccRequestView extends BorderPane {
   private Rscc model;
 
   HeaderView headerView;
@@ -60,7 +60,7 @@ public class RsccRequestHelpView extends BorderPane {
    * Constructor.
    * @param model test.
    */
-  public RsccRequestHelpView(Rscc model) {
+  public RsccRequestView(Rscc model) {
     this.model = model;
     layoutForm();
     initFieldData();

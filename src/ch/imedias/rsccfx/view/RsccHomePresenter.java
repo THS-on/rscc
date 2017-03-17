@@ -56,11 +56,11 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void showSupporterView() {
     viewParent.setView(RsccApp.)
     Stage stage = (Stage) view.getScene().getWindow();
-    stage.setScene(new Scene(new RsccSupporterView(model)));
+    stage.setScene(new Scene(new RsccSupportView(model)));
   }
 
   private void showRequestHelpView() {
     Stage stage = (Stage) view.getScene().getWindow();
-    stage.setScene(new Scene(new RsccRequestHelpView(model)));
+    stage.setScene(new Scene(new RsccRequestView(model)));
   }
 }

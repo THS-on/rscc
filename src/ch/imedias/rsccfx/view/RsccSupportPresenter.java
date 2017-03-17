@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 /**
- * Presenter class of RsccSupporterView. Defines the behaviour of interactions
+ * Presenter class of RsccSupportView. Defines the behaviour of interactions
  * and initializes the size of the GUI components.
  * The supporter can enter the key given from the help requester to establish a connection.
  */
-public class RsccSupporterPresenter implements ControlledPresenter {
+public class RsccSupportPresenter implements ControlledPresenter {
   private final Rscc model;
-  private final RsccSupporterView view;
+  private final RsccSupportView view;
   private ViewController viewParent;
 
   // For the moment, hardcoded the server parameters
@@ -25,12 +25,12 @@ public class RsccSupporterPresenter implements ControlledPresenter {
   String key = "";
 
   /**
-   * Initializes a new RsccSupporterPresenter with the according view.
+   * Initializes a new RsccSupportPresenter with the according view.
    *
    * @param model the presentation model to coordinate views.
    * @param view  the view which needs to be configured.
    */
-  public RsccSupporterPresenter(Rscc model, RsccSupporterView view) {
+  public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
     attachEvents();
@@ -46,7 +46,7 @@ public class RsccSupporterPresenter implements ControlledPresenter {
   }
 
   /**
-   * Initializes the size of the whole RsccSupporterView elements.
+   * Initializes the size of the whole RsccSupportView elements.
    *
    * @param scene initially loaded scene by RsccApp.
    */
