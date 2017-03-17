@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 
 /**
- * Presenter class of HeaderView. Defines the behaviour of interactions
+ * Defines the behaviour of interactions
  * and initializes the size of the GUI components.
  */
 public class HeaderPresenter {
@@ -15,9 +15,6 @@ public class HeaderPresenter {
 
   /**
    * Initializes a new HeaderPresenter with the according view.
-   *
-   * @param model the presentation model to coordinate views.
-   * @param view  the view which needs to be configured.
    */
   public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;
@@ -37,7 +34,7 @@ public class HeaderPresenter {
   /**
    * Sets the title in the middle of the HeaderView.
    *
-   * @param title is used to hand in a new string.
+   * @param title new title for the header.
    */
   public void setHeaderTitle(String title) {
     view.headLbl.textProperty().set(title);
@@ -66,7 +63,9 @@ public class HeaderPresenter {
   /**
    * Initializes the size of the whole HeaderView elements.
    *
-   * @param scene is needed to get the initial window size.
+   * @param scene must be initialized and displayed before calling this method;
+   *              The size of all header elements are based on it.
+   * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
     view.headLbl.prefWidthProperty().bind(scene.widthProperty());

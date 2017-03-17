@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Presenter class of RsccHomeView. Defines the behaviour of interactions
+ * Defines the behaviour of interactions
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
@@ -54,6 +54,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   private void showSupporterView() {
+    viewParent.setView(RsccApp.)
     Stage stage = (Stage) view.getScene().getWindow();
     stage.setScene(new Scene(new RsccSupporterView(model)));
   }

@@ -1,22 +1,19 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 
 /**
- * Defines all elements shown in the Header.
+ * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
 
   private final Rscc model;
-  private final HeaderPresenter presenter;
 
   HBox headerBox;
   Label headLbl;
@@ -26,21 +23,16 @@ public class HeaderView extends HBox {
 
   /**
    * Initializes all the GUI components needed in the Header.
-   *
-   * @param model defines what is displayed.
    */
   public HeaderView(Rscc model) {
     this.model = model;
-    this.presenter = new HeaderPresenter(model, this);
     initFieldData();
     layoutForm();
     bindFieldsToModel();
   }
 
   private void initFieldData() {
-    //populate fields which require initial data
-    // TODO: Implement that back Button always goes "one back"?
-    // TODO: SA, please review idea.
+    // populate fields which require initial data
 
     headerBox = new HBox();
     backBtn = new Button();

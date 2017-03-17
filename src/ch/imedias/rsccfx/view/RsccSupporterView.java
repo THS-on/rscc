@@ -20,28 +20,28 @@ import javafx.scene.text.Font;
 public class RsccSupporterView extends BorderPane {
     private final Rscc model;
 
-    private HeaderView headerView;
-    protected HeaderPresenter headerPresenter;
+    HeaderView headerView;
+    HeaderPresenter headerPresenter;
 
-    private TitledPane adminSupporterPane;
-    private TitledPane mainPane;
+    TitledPane adminSupporterPane;
+    TitledPane mainPane;
 
-    protected Label enterTokenLbl;
-    private Label keyDescriptionLbl;        // TODO: Rename it...
-    private Label exampleLbl;
-    private Label instructionLbl;
+    Label enterTokenLbl;
+    Label keyDescriptionLbl;
+    Label exampleLbl;
+    Label instructionLbl;
 
-    protected VBox topBox;
-    private VBox centerBox;
-    private VBox groupingBox;
-    private HBox tokenValidationBox;
+    VBox topBox;
+    VBox centerBox;
+    VBox groupingBox;
+    HBox tokenValidationBox;
 
-    protected TextField tokenTxt;
+    TextField tokenTxt;
 
-    protected ImageView isValidImg;
+    ImageView isValidImg;
 
-    protected Button connectBtn;
-    private Button expandOptionBtn;     // TODO: Double check if private access is ok.
+    Button connectBtn;
+    Button expandOptionBtn;     // TODO: Double check if private access is ok.
 
 
 
