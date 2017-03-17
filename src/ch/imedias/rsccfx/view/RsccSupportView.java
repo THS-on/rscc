@@ -25,22 +25,22 @@ public class RsccSupportView extends BorderPane {
   TitledPane adminSupporterPane = new TitledPane();
   TitledPane mainPane = new TitledPane();
 
-  Label enterTokenLbl;
-  Label keyDescriptionLbl;
-  Label exampleLbl;
-  Label instructionLbl;
+  Label enterTokenLbl = new Label("EnterToken");
+  Label keyDescriptionLbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+  Label exampleLbl = new Label("Number of characters: 8\nexample: 666xx666");
+  Label instructionLbl = new Label("Instructions");
 
-  VBox topBox;
-  VBox centerBox;
-  VBox groupingBox;
-  HBox tokenValidationBox;
+  VBox topBox = new VBox();
+  VBox centerBox = new VBox();
+  VBox groupingBox = new VBox();
+  HBox tokenValidationBox = new HBox();
 
-  TextField tokenTxt;
+  TextField tokenTxt = new TextField();
 
-  ImageView isValidImg;
+  ImageView isValidImg = new ImageView();
 
-  Button connectBtn;
-  Button expandOptionBtn;     // TODO: Double check if private access is ok.
+  Button connectBtn = new Button("Connect");
+  Button expandOptionBtn = new Button("More");
 
 
   /**
@@ -56,29 +56,23 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void initFieldData() {
+    // populate fields which require initial data
     headerView = new HeaderView(model);
     headerPresenter = new HeaderPresenter(model, headerView);
 
     // TODO: Move initialization to according class...
-    enterTokenLbl = new Label("EnterToken");
-    keyDescriptionLbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-    exampleLbl = new Label("Number of characters: 8\nexample: 666xx666");
-    instructionLbl = new Label("Instructions");
-
-    topBox = new VBox();
-    centerBox = new VBox();
-    groupingBox = new VBox();
-    tokenValidationBox = new HBox();
-
-    tokenTxt = new TextField();
+    enterTokenLbl.textProperty().set("");
+    keyDescriptionLbl.textProperty().set("");
+    exampleLbl.textProperty().set("");
+    instructionLbl.textProperty().set("");
 
     isValidImg = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
 
-    connectBtn = new Button("Connect");
-    expandOptionBtn = new Button("More");
+    connectBtn.textProperty().set("");
+    expandOptionBtn.textProperty().set("");
 
   }
 
@@ -97,7 +91,7 @@ public class RsccSupportView extends BorderPane {
     isValidImg.setSmooth(true);
 
     tokenValidationBox.getChildren().addAll(tokenTxt, isValidImg);
-    tokenValidationBox.setSpacing(5);
+    tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
     tokenValidationBox.setHgrow(tokenTxt, Priority.ALWAYS);
     tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -110,7 +104,7 @@ public class RsccSupportView extends BorderPane {
         connectBtn,
         expandOptionBtn);
 
-    connectBtn.setFont(new Font(30));
+    connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(centerBox);
     topBox.getChildren().add(headerView);
     setTop(topBox);

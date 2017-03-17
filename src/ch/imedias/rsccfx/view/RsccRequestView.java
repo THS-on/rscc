@@ -81,9 +81,6 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     //populate fields which require initial data
     // TODO: String Class implementation!
-    // TODO: Resize behavior
-    //populate fields which require initial data
-    // TODO: String Class implementation!
 
     keyGenerationLbl = new Label("Schlüsselgenerierung");
     keyGenerationLbl.setFont(new Font("Cantarell", 30));
