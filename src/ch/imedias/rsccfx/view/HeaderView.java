@@ -50,7 +50,6 @@ public class HeaderView extends HBox {
         .getClassLoader().getResource("images/back1.png").toExternalForm())));
 
     headLbl.setAlignment(Pos.CENTER);
-
     headLbl.setId("headerText");
 
     helpBtn.setGraphic(new ImageView(new Image(getClass()
