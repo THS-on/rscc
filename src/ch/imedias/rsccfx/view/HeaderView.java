@@ -15,11 +15,11 @@ public class HeaderView extends HBox {
 
   private final Rscc model;
 
-  HBox headerBox;
-  Label headLbl;
-  Button backBtn;
-  Button settBtn;
-  Button helpBtn;
+  HBox headerBox = new HBox();
+  Label headLbl = new Label();
+  Button backBtn = new Button();
+  Button settBtn  = new Button();
+  Button helpBtn = new Button();
 
   /**
    * Initializes all the GUI components needed in the Header.
@@ -34,11 +34,7 @@ public class HeaderView extends HBox {
   private void initFieldData() {
     // populate fields which require initial data
 
-    headerBox = new HBox();
-    backBtn = new Button();
-    headLbl = new Label();
-    helpBtn = new Button();
-    settBtn = new Button();
+    headLbl.textProperty().set("I need Help");
   }
 
   private void layoutForm() {
@@ -54,7 +50,7 @@ public class HeaderView extends HBox {
         .getClassLoader().getResource("images/back1.png").toExternalForm())));
 
     headLbl.setAlignment(Pos.CENTER);
-    headLbl.textProperty().set("I need Help");
+
     headLbl.setId("headerText");
 
     helpBtn.setGraphic(new ImageView(new Image(getClass()

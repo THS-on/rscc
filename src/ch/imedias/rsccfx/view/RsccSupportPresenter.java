@@ -26,9 +26,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
-   *
-   * @param model the presentation model to coordinate views.
-   * @param view  the view which needs to be configured.
    */
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
@@ -48,9 +45,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
   /**
    * Initializes the size of the whole RsccSupportView elements.
    *
-   * @param scene initially loaded scene by RsccApp.
+   * @param scene must be initialized and displayed before calling this method;
+   *              The size of all header elements are based on it.
+   * @throws NullPointerException if called before this object is fully initialized.
    */
-
   public void initSize(Scene scene) {
     view.topBox.prefWidthProperty().bind(scene.widthProperty());
     view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
