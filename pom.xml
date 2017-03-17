@@ -12,8 +12,8 @@
         <custom.checkstyle.suppressions>config/checkstyle-suppressions.xml</custom.checkstyle.suppressions>
 
         <!-- Project independant variables -->
-        <custom.test.source>test</custom.test.source>
-        <custom.source>src</custom.source>
+        <custom.test.source>test/${custom.path}</custom.test.source>
+        <custom.source>src/${custom.path}</custom.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- To make the output of the javadoc support utf-8 -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -27,8 +27,8 @@
     </repositories>
 
     <build>
-        <sourceDirectory>${custom.source}</sourceDirectory>
-        <testSourceDirectory>${custom.test.source}</testSourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
