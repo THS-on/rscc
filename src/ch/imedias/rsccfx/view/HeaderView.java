@@ -18,7 +18,7 @@ public class HeaderView extends HBox {
   HBox headerBox = new HBox();
   Label headLbl = new Label();
   Button backBtn = new Button();
-  Button settBtn  = new Button();
+  Button settBtn = new Button();
   Button helpBtn = new Button();
 
   /**

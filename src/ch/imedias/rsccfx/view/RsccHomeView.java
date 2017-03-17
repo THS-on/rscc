@@ -38,7 +38,8 @@ public class RsccHomeView extends BorderPane {
     requestViewBtn.setGraphic(new ImageView(requestSupportImg));
     requestViewBtn.setId("HomeNavigationBtn");
 
-    supportViewBtn.textProperty().setValue("I want to help someone"); // TODO: replace Text, multilangual
+    // TODO: replace Text, multilangual
+    supportViewBtn.textProperty().setValue("I want to help someone");
     String offerSupportImagePath = getClass().getClassLoader()
         .getResource("images/audio-headset.png").toExternalForm();
     Image offerSupportImg = new Image(offerSupportImagePath);

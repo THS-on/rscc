@@ -9,22 +9,19 @@ import javafx.scene.Scene;
  * TODO: Javadoc comment here.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
-  private final Rscc model;
-  private final RsccRequestView view;
-  private ViewController viewParent;
-
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
+  private final Rscc model;
+  private final RsccRequestView view;
   String key = "";
+  private ViewController viewParent;
 
   /**
-   * TODO: Javadoc comment here.
-   * @param model
-   * @param view
+   * Initializes a new RsccRequestPresenter with the according view.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
@@ -57,9 +54,11 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   * TODO: Javadoc comment here.
-   * initSize method
-   * @param scene
+   * Initializes the size of the whole RsccRequestView elements.
+   *
+   * @param scene must be initialized and displayed before calling this method;
+   *              The size of all header elements are based on it.
+   * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
     view.topBox.prefWidthProperty().bind(scene.widthProperty());

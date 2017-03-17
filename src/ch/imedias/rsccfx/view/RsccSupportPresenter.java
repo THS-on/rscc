@@ -12,17 +12,16 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-  private final Rscc model;
-  private final RsccSupportView view;
-  private ViewController viewParent;
-
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
+  private final Rscc model;
+  private final RsccSupportView view;
   String key = "";
+  private ViewController viewParent;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -31,6 +30,17 @@ public class RsccSupportPresenter implements ControlledPresenter {
     this.model = model;
     this.view = view;
     attachEvents();
+  }
+
+  /**
+   * Validates a token.
+   *
+   * @param token the token to be validated.
+   * @return true or false.
+   */
+  private static boolean validateToken(String token) {
+    return (int) (Math.random() * 2) == 1;
+    //TODO: Validate token
   }
 
   /**
@@ -88,17 +98,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
     );*/
 
     // TODO: Set actions on buttons (back, Help, Settings)
-  }
-
-  /**
-   * Validates a token.
-   *
-   * @param token the token to be validated.
-   * @return true or false.
-   */
-  private static boolean validateToken(String token) {
-    return (int) (Math.random() * 2) == 1;
-    //TODO: Validate token
   }
 
 }
