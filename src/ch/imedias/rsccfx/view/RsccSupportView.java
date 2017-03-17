@@ -13,56 +13,51 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-
 /**
- *
+ * Defines all elements shown in the support section.
  */
 public class RsccSupportView extends BorderPane {
-    private final Rscc model;
+  private final Rscc model;
 
-    HeaderView headerView;
-    HeaderPresenter headerPresenter;
+  HeaderView headerView;
+  HeaderPresenter headerPresenter;
+  //FIXME: Those fields are never used. Consider using it in the future. Thx.
+  TitledPane adminSupporterPane = new TitledPane();
+  TitledPane mainPane = new TitledPane();
 
-    TitledPane adminSupporterPane;
-    TitledPane mainPane;
+  Label enterTokenLbl;
+  Label keyDescriptionLbl;
+  Label exampleLbl;
+  Label instructionLbl;
 
-    Label enterTokenLbl;
-    Label keyDescriptionLbl;
-    Label exampleLbl;
-    Label instructionLbl;
+  VBox topBox;
+  VBox centerBox;
+  VBox groupingBox;
+  HBox tokenValidationBox;
 
-    VBox topBox;
-    VBox centerBox;
-    VBox groupingBox;
-    HBox tokenValidationBox;
+  TextField tokenTxt;
 
-    TextField tokenTxt;
+  ImageView isValidImg;
 
-    ImageView isValidImg;
-
-    Button connectBtn;
-    Button expandOptionBtn;     // TODO: Double check if private access is ok.
+  Button connectBtn;
+  Button expandOptionBtn;     // TODO: Double check if private access is ok.
 
 
-
-    /**
-     * Initializes all the GUI components needed to enter the token the supporter received.
-     *
-     * @param model defines what is displayed.
-     */
-    public RsccSupportView(Rscc model) {
-      this.model = model;
-      initFieldData();
-      layoutForm();
-      bindFieldsToModel();
-    }
+  /**
+   * Initializes all the GUI components needed to enter the token the supporter received.
+   *
+   * @param model defines what is displayed.
+   */
+  public RsccSupportView(Rscc model) {
+    this.model = model;
+    initFieldData();
+    layoutForm();
+    bindFieldsToModel();
+  }
 
   private void initFieldData() {
     headerView = new HeaderView(model);
     headerPresenter = new HeaderPresenter(model, headerView);
-
-    adminSupporterPane = new TitledPane();
-    mainPane = new TitledPane();
 
     // TODO: Move initialization to according class...
     enterTokenLbl = new Label("EnterToken");
@@ -87,45 +82,45 @@ public class RsccSupportView extends BorderPane {
 
   }
 
-    private void layoutForm() {
-      // TODO: import CSS accordingly. Ask SA where it needs to be defined.
-      // this.setPadding(new Insets(5, 25, 5, 25)); // TODO: set paddings for "center"
-      // this.setId("SupporterView");
+  private void layoutForm() {
+    // TODO: import CSS accordingly. Ask SA where it needs to be defined.
+    // this.setPadding(new Insets(5, 25, 5, 25)); // TODO: set paddings for "center"
+    // this.setId("SupporterView");
 
-      //enterTokenLbl.setFont(new Font(25));
-      enterTokenLbl.setId("EnterTokenLbl");
+    //enterTokenLbl.setFont(new Font(25));
+    enterTokenLbl.setId("EnterTokenLbl");
 
-      keyDescriptionLbl.setWrapText(true);
+    keyDescriptionLbl.setWrapText(true);
 
-      tokenTxt.setFont(new Font(30)); // TODO: Move to CSS
+    tokenTxt.setFont(new Font(30)); // TODO: Move to CSS
 
-      isValidImg.setSmooth(true);
+    isValidImg.setSmooth(true);
 
-      tokenValidationBox.getChildren().addAll(tokenTxt, isValidImg);
-      tokenValidationBox.setSpacing(5);
-      tokenValidationBox.setHgrow(tokenTxt, Priority.ALWAYS);
-      tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
+    tokenValidationBox.getChildren().addAll(tokenTxt, isValidImg);
+    tokenValidationBox.setSpacing(5);
+    tokenValidationBox.setHgrow(tokenTxt, Priority.ALWAYS);
+    tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-      groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
+    groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
 
-      centerBox.getChildren().addAll(enterTokenLbl,
-          keyDescriptionLbl,
-          exampleLbl,
-          groupingBox,
-          connectBtn,
-          expandOptionBtn);
+    centerBox.getChildren().addAll(enterTokenLbl,
+        keyDescriptionLbl,
+        exampleLbl,
+        groupingBox,
+        connectBtn,
+        expandOptionBtn);
 
-      connectBtn.setFont(new Font(30));
-      setCenter(centerBox);
-      topBox.getChildren().add(headerView);
-      setTop(topBox);
-    }
+    connectBtn.setFont(new Font(30));
+    setCenter(centerBox);
+    topBox.getChildren().add(headerView);
+    setTop(topBox);
+  }
 
 
-    private void bindFieldsToModel() {
-      //make the bindings to the model
-
-    }
+  private void bindFieldsToModel() {
+    //make the bindings to the model
 
   }
+
+}
 

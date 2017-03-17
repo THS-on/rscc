@@ -10,7 +10,7 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class HeaderPresenter {
-  private final Rscc model;   // FIXME: François, do we need the model in this specific presenter?
+  private final Rscc model;
   private HeaderView view;
 
   /**

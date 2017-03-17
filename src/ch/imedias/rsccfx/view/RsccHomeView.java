@@ -11,8 +11,8 @@ import javafx.scene.layout.BorderPane;
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
-  protected Button requestViewBtn;
-  protected Button supportViewBtn;
+  Button requestViewBtn = new Button();
+  Button supportViewBtn = new Button();
 
   /**
    * Initializes all the GUI components needed on the start page.
@@ -27,8 +27,7 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-    requestViewBtn = new Button();
-    supportViewBtn = new Button();
+
   }
 
   private void layoutForm() {
