@@ -25,10 +25,10 @@ public class RsccSupportView extends BorderPane {
   TitledPane adminSupporterPane = new TitledPane();
   TitledPane mainPane = new TitledPane();
 
-  Label enterTokenLbl = new Label("EnterToken");
-  Label keyDescriptionLbl = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-  Label exampleLbl = new Label("Number of characters: 8\nexample: 666xx666");
-  Label instructionLbl = new Label("Instructions");
+  Label enterTokenLbl = new Label();
+  Label keyDescriptionLbl = new Label();
+  Label exampleLbl = new Label();
+  Label instructionLbl = new Label();
 
   VBox topBox = new VBox();
   VBox centerBox = new VBox();
@@ -39,8 +39,8 @@ public class RsccSupportView extends BorderPane {
 
   ImageView isValidImg = new ImageView();
 
-  Button connectBtn = new Button("Connect");
-  Button expandOptionBtn = new Button("More");
+  Button connectBtn = new Button();
+  Button expandOptionBtn = new Button();
 
 
   /**
@@ -61,18 +61,18 @@ public class RsccSupportView extends BorderPane {
     headerPresenter = new HeaderPresenter(model, headerView);
 
     // TODO: Move initialization to according class...
-    enterTokenLbl.textProperty().set("");
-    keyDescriptionLbl.textProperty().set("");
-    exampleLbl.textProperty().set("");
-    instructionLbl.textProperty().set("");
+    enterTokenLbl.textProperty().set("EnterToken");
+    keyDescriptionLbl.textProperty().set("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+    exampleLbl.textProperty().set("Number of characters: 8\nexample: 666xx666");
+    instructionLbl.textProperty().set("Instructions");
 
     isValidImg = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
 
-    connectBtn.textProperty().set("");
-    expandOptionBtn.textProperty().set("");
+    connectBtn.textProperty().set("Connect");
+    expandOptionBtn.textProperty().set("More");
 
   }
 
