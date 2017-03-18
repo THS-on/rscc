@@ -63,6 +63,12 @@ public class RsccApp extends Application {
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
+
+    // Initializing stylesheets
+    String supporterSheet = getClass().getClassLoader().getResource("css/supporterStyle.css").toExternalForm();
+    String headerSheet = getClass().getClassLoader().getResource("css/headerStyle.css").toExternalForm();
+    String homeSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet);
   }
 
   @Override

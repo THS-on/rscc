@@ -1,9 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-/**
- * import statements.
- */
-
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -21,31 +17,36 @@ import javafx.scene.text.Text;
 // TODO: Clean up messy code!
 
 /**
- * TODO: Improve javadoc comment.
- * Class RsccRequestView
- * Created by Simon on 30.11.16.
- * Capsulated Class to test easy.
+ * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private final Rscc model;
+
   HeaderView headerView;
   HeaderPresenter headerPresenter;
-  VBox topBox;
-  HBox centerBox;
-  VBox mainBox;
+
+  TitledPane mainPane = new TitledPane();
+  TitledPane adminPane = new TitledPane();
+
+  Label keyGenerationLbl = new Label();
+  Label supporterAdminLbl = new Label();
+
+  VBox topBox = new VBox();
+  VBox mainBox = new VBox();
   VBox titleAndDescriptionBox;
-  VBox bottomBox;
-  VBox bottomBoxInset;
-  HBox expandableBox;
-  Label keyGenerationLbl;
-  Label supporterAdminLbl;
-  Text descriptionTxt;
+  VBox bottomBox = new VBox();
+  VBox bottomBoxInset = new VBox();
+  HBox expandableBox = new HBox();
+  HBox   centerBox = new HBox();
+
+
+  Text descriptionTxt = new Text();
   Text additionalDescriptionTxt;
+
   TextField generatedKeyFld;
-  Button reloadButton;
+
+  Button reloadKeyBtn;
   Button supporterAdminBtn;
-  TitledPane mainPane;
-  TitledPane adminPane;
-  private Rscc model;
 
   /**
    * TODO: Double check javadoc comment. Is it describing what it does?
@@ -63,13 +64,9 @@ public class RsccRequestView extends BorderPane {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    topBox = new VBox();
 
-    centerBox = new HBox();
-    bottomBox = new VBox();
-    bottomBoxInset = new VBox();
-    expandableBox = new HBox();
-    mainBox = new VBox();
+
+
 
     centerBox.setPadding(new Insets(10, 20, 10, 20));
     bottomBox.setPadding(new Insets(10, 20, 1, 20));
@@ -82,20 +79,20 @@ public class RsccRequestView extends BorderPane {
     //populate fields which require initial data
     // TODO: String Class implementation!
 
-    keyGenerationLbl = new Label("Schlüsselgenerierung");
+    keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
     keyGenerationLbl.setFont(new Font("Cantarell", 30));
     titleAndDescriptionBox = new VBox();
 
-    mainPane = new TitledPane();
-    mainPane.setContent(mainBox);
-    adminPane = new TitledPane();
+    supporterAdminLbl.textProperty().set("Supporter administration"); // TODO: String Class
 
-    supporterAdminLbl = new Label("Supporter Administration");
-    descriptionTxt = new Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
-        + "sed diam voluptua. At vero eos et accusam "
-        + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
-        + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+    mainPane.setContent(mainBox);
+
+    descriptionTxt.textProperty().set("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
+            + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
+            + "sed diam voluptua. At vero eos et accusam "
+            + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
+            + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+    descriptionTxt.setId("descriptionTxt");
     descriptionTxt.setWrappingWidth(450);
 
     generatedKeyFld = new TextField();
@@ -106,11 +103,11 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.setText("aw3k2ljfsl0Oo");
     generatedKeyFld.setFont(Font.font("Monospaced", 30));
 
-    reloadButton = new Button();
-    reloadButton.setGraphic(new ImageView(new Image(getClass().getClassLoader()
+    reloadKeyBtn = new Button();
+    reloadKeyBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
         .getResource("images/reload.png").toExternalForm())));
-    reloadButton.setPrefHeight(50);
-    reloadButton.setPrefWidth(50);
+    reloadKeyBtn.setPrefHeight(50);
+    reloadKeyBtn.setPrefWidth(50);
 
     supporterAdminBtn = new Button(); // TODO: Resize Image
     ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
@@ -129,7 +126,7 @@ public class RsccRequestView extends BorderPane {
         + "Lorem ipsum dolor sit amet.");
     additionalDescriptionTxt.setWrappingWidth(450);
 
-    centerBox.getChildren().addAll(generatedKeyFld, reloadButton);
+    centerBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
 
     titleAndDescriptionBox.getChildren().addAll(keyGenerationLbl, descriptionTxt);
 
