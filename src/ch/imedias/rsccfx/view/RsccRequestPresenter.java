@@ -66,6 +66,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     view.headerPresenter.initSize(scene);
+    view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
   }
 
 

@@ -9,9 +9,11 @@ import ch.imedias.rsccfx.view.RsccRequestView;
 import ch.imedias.rsccfx.view.RsccSupportPresenter;
 import ch.imedias.rsccfx.view.RsccSupportView;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class RsccApp extends Application {
@@ -60,10 +62,16 @@ public class RsccApp extends Application {
     // Set initial screen
     mainView.setView(RsccApp.HOME_VIEW);
 
-    stage.setHeight(400);
-    stage.setWidth(700);
-    stage.setMinWidth(250);
-    stage.setMinHeight(300);
+
+    // Get Screensize
+    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+    //set Stage boundaries to visible bounds of the main screen
+    stage.setWidth(primaryScreenBounds.getWidth() / 1.8);
+    stage.setHeight(primaryScreenBounds.getHeight() / 1.5);
+    stage.setX(primaryScreenBounds.getWidth() / 2 - stage.getWidth() / 2);
+    stage.setY(primaryScreenBounds.getHeight() / 2 - stage.getHeight() / 2);
+
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
@@ -75,7 +83,9 @@ public class RsccApp extends Application {
         .getResource("css/headerStyle.css").toExternalForm();
     String homeSheet = getClass().getClassLoader()
         .getResource("css/HomeStyle.css").toExternalForm();
-    scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet);
+    String requestSheet = getClass().getClassLoader()
+        .getResource("css/requestStyle.css").toExternalForm();
+    scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet, requestSheet);
   }
 
   @Override
