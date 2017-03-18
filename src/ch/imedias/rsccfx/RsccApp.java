@@ -72,6 +72,9 @@ public class RsccApp extends Application {
     stage.setX(primaryScreenBounds.getWidth() / 2 - stage.getWidth() / 2);
     stage.setY(primaryScreenBounds.getHeight() / 2 - stage.getHeight() / 2);
 
+    stage.setMinWidth((primaryScreenBounds.getWidth() / 1.8) / 1.2);
+    stage.setMinHeight((primaryScreenBounds.getHeight() / 1.5) / 1.3);
+
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
