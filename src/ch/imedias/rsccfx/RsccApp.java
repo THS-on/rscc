@@ -35,27 +35,31 @@ public class RsccApp extends Application {
     model = new Rscc(new ProcessExecutor());
     ViewController mainView = new ViewController();
 
+    Group root = new Group();
+    root.getChildren().addAll(mainView);
+    Scene scene = new Scene(root);
+
     // HomeView
     Node view = new RsccHomeView(model);
     ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view);
+    presenter.initSize(scene);
     mainView.loadView(RsccApp.HOME_VIEW, view, presenter);
 
     // RequestHelpView
     view = new RsccRequestView(model);
     presenter = new RsccRequestPresenter(model, (RsccRequestView) view);
+    presenter.initSize(scene);
     mainView.loadView(RsccApp.REQUEST_VIEW, view, presenter);
 
     // SupporterView
     view = new RsccSupportView(model);
     presenter = new RsccSupportPresenter(model, (RsccSupportView) view);
+    presenter.initSize(scene);
     mainView.loadView(RsccApp.SUPPORT_VIEW, view, presenter);
 
     // Set initial screen
     mainView.setView(RsccApp.HOME_VIEW);
 
-    Group root = new Group();
-    root.getChildren().addAll(mainView);
-    Scene scene = new Scene(root);
     stage.setHeight(400);
     stage.setWidth(700);
     stage.setMinWidth(250);
@@ -65,9 +69,12 @@ public class RsccApp extends Application {
     stage.show();
 
     // Initializing stylesheets
-    String supporterSheet = getClass().getClassLoader().getResource("css/supporterStyle.css").toExternalForm();
-    String headerSheet = getClass().getClassLoader().getResource("css/headerStyle.css").toExternalForm();
-    String homeSheet = getClass().getClassLoader().getResource("css/HomeStyle.css").toExternalForm();
+    String supporterSheet = getClass().getClassLoader()
+        .getResource("css/supporterStyle.css").toExternalForm();
+    String headerSheet = getClass().getClassLoader()
+        .getResource("css/headerStyle.css").toExternalForm();
+    String homeSheet = getClass().getClassLoader()
+        .getResource("css/HomeStyle.css").toExternalForm();
     scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet);
   }
 
