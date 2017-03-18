@@ -41,7 +41,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private void attachEvents() {
     //TODO put all setOnAction/addListeners in here
     // FIXME: Please fix it.
-    /* view.reloadButton.setOnAction(
+    /* view.reloadKeyBtn.setOnAction(
         event -> {
           String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
               KEY_SERVER_SSH_PORT, KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);

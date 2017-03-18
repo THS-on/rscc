@@ -63,7 +63,7 @@ public class HeaderView extends HBox {
 
 
   private void bindFieldsToModel() {
-    // TODO: make the bindings to the model
+    // make bindings to the model
 
   }
 
