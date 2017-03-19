@@ -10,7 +10,7 @@ import javafx.scene.Scene;
  */
 public class HeaderPresenter {
   private final Rscc model;
-  private HeaderView view;
+  private final HeaderView view;
 
   /**
    * Initializes a new HeaderPresenter with the matching view.

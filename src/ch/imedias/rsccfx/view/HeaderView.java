@@ -33,7 +33,6 @@ public class HeaderView extends HBox {
 
   private void initFieldData() {
     // populate fields which require initial data
-
     headLbl.textProperty().set("I need Help");
   }
 

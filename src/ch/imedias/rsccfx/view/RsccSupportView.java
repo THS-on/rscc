@@ -112,7 +112,7 @@ public class RsccSupportView extends BorderPane {
 
 
   private void bindFieldsToModel() {
-    //make the bindings to the model
+    // make bindings to the model
 
   }
 

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import ch.imedias.rscc.ProcessExecutor;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -17,32 +18,53 @@ import org.junit.Test;
 public class RsccTest {
   private static final String KEY = "123456789";
   private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final String KEY_SERVER_HTTP_PORT =  "800";
+  private static final String KEY_SERVER_HTTP_PORT = "800";
 
   Rscc model;
   ProcessExecutor mockProcessExecutor;
 
+  /**
+   * Initializes test fixture before each test.
+   */
   @Before
   public void setUp() throws Exception {
     mockProcessExecutor = mock(ProcessExecutor.class);
     model = new Rscc(mockProcessExecutor);
-    model.keyServerSetup(KEY_SERVER_IP,KEY_SERVER_HTTP_PORT);
+    model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
     when(mockProcessExecutor.getOutput()).thenReturn("OUTPUT>" + KEY);
   }
 
-  // Test Constructor
-
-
-  // Test public keyServerSetup
-
-
-  // Test private keyServerSetup
-  public void testPrivateKeyServerSetup() throws Exception {
-    verify(mockProcessExecutor).executeScript(eq(true), eq(true),
-        argThat(script -> script.startsWith("bash ") && script.endsWith("use.sh")), eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
+  /**
+   * Test for Constructor {@link Rscc#Rscc(ProcessExecutor)}.
+   */
+  @Ignore
+  @Test
+  public void testRsccConstructor() {
+    // TODO: write test
   }
 
-  // Test killConnection
+  /**
+   * Test for {@link Rscc#keyServerSetup(String, String)}.
+   */
+  @Ignore
+  @Test
+  public void testPublicKeyServerSetup() {
+    // TODO: write test
+  }
+
+  /**
+   * Test for {@link Rscc#keyServerSetup()}.
+   * Not marked with a @Test annotation because it is indirectly called in other tests.
+   */
+  public void testPrivateKeyServerSetup() throws Exception {
+    verify(mockProcessExecutor).executeScript(eq(true), eq(true),
+        argThat(script -> script.startsWith("bash ") && script.endsWith("use.sh")),
+        eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
+  }
+
+  /**
+   * Test for {@link Rscc#killConnection(String)}.
+   */
   @Test
   public void testKillConnection() throws Exception {
     model.killConnection(KEY);
@@ -50,7 +72,9 @@ public class RsccTest {
         argThat(script -> script.startsWith("bash ") && script.endsWith("port_stop.sh")), eq(KEY));
   }
 
-  // Test requestTokenFromServer
+  /**
+   * Test for {@link Rscc#requestTokenFromServer()}.
+   */
   @Test
   public void testRequestTokenFromServer() throws Exception {
     String key = model.requestTokenFromServer();
@@ -58,19 +82,28 @@ public class RsccTest {
     testPrivateKeyServerSetup();
     // make sure the script was executed
     verify(mockProcessExecutor).executeScript(eq(true), eq(true),
-        argThat(script -> script.startsWith("bash ") && script.endsWith("start_x11vnc.sh") ), eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
+        argThat(script -> script.startsWith("bash ") && script.endsWith("start_x11vnc.sh")),
+        eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
     // make sure the key which is being returned is right
     assertEquals(KEY, key);
   }
 
-  // Test connectToUser
+  /**
+   * Test for {@link Rscc#connectToUser(String)}.
+   */
+  @Ignore
+  @Test
+  public void testConnectToUser() {
+    // TODO: write test
+  }
 
-
-  // Test refreshKey
-
-
-
-
-
+  /**
+   * Test for {@link Rscc#refreshKey()}.
+   */
+  @Ignore
+  @Test
+  public void testRefreshKey() {
+    // TODO: write test
+  }
 
 }

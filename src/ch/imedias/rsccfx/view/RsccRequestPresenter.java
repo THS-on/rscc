@@ -21,7 +21,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   /**
-   * Initializes a new RsccRequestPresenter with the according view.
+   * Initializes a new RsccRequestPresenter with the matching view.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
@@ -31,8 +31,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   /**
    * Defines the ViewController to allow changing views.
-   *
-   * @param viewParent the controller to be used.
    */
   public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;

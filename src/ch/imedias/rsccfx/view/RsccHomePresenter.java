@@ -16,10 +16,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   /**
-   * Initializes a new RsccHomePresenter with the according view.
-   *
-   * @param model the presentation model to coordinate views.
-   * @param view  the view which needs to be configured.
+   * Initializes a new RsccHomePresenter with the matching view.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;
@@ -28,18 +25,14 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   /**
-   * Defines the ViewController to allow changing views.
-   *
-   * @param viewParent the controller to be used.
+   * Defines the ViewController to allow changing of views.
    */
   public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
   }
 
   /**
-   * Initializes the size of the whole RsccHomeView elements.
-   *
-   * @param scene initially loaded scene by RsccApp.
+   * Initializes the size of the RsccHomeView.
    */
   public void initSize(Scene scene) {
     view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));

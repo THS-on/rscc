@@ -16,8 +16,6 @@ public class RsccHomeView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed on the start page.
-   *
-   * @param model defines what is displayed.
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
@@ -27,19 +25,19 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-
+    // populate fields which require initial data
+    //TODO: replace Text, multilangual
+    requestViewBtn.textProperty().setValue("I need help");
+    supportViewBtn.textProperty().setValue("I want to help someone");
   }
 
   private void layoutForm() {
-    requestViewBtn.textProperty().setValue("I need help"); //TODO: replace Text, multilangual
     String requestHelpImagePath = getClass().getClassLoader()
         .getResource("images/help-browser.png").toExternalForm();
     Image requestSupportImg = new Image(requestHelpImagePath);
     requestViewBtn.setGraphic(new ImageView(requestSupportImg));
     requestViewBtn.setId("HomeNavigationBtn");
 
-    // TODO: replace Text, multilangual
-    supportViewBtn.textProperty().setValue("I want to help someone");
     String offerSupportImagePath = getClass().getClassLoader()
         .getResource("images/audio-headset.png").toExternalForm();
     Image offerSupportImg = new Image(offerSupportImagePath);
@@ -51,7 +49,6 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    //dynamic growth
-
+    // make bindings to the model
   }
 }

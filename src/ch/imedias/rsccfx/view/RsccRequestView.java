@@ -86,7 +86,6 @@ public class RsccRequestView extends BorderPane {
     imageView.setFitWidth(15); // FIXME: Has this to be in the CSS?
     supporterAdminBtn.setGraphic(imageView);
 
-
     // TODO: Implement String Class
     additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
         + "consetetur sadipscing elitr, "
@@ -117,7 +116,7 @@ public class RsccRequestView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    // TODO: make the bindings to the model
+    // make bindings to the model
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 }
