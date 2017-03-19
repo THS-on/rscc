@@ -52,7 +52,7 @@ def main():
 		properties = file.readlines()
 	
 	# Store a hash of the contents as retrieved
-	inHash = sha256(''.join(properties)).hexdigest()
+	inHash = sha256(''.join(properties).encode('utf-8')).hexdigest()
 	
 	# Apply splitAtEquals to every element of properties
 	properties = list(map(splitAtEquals, properties))
@@ -61,7 +61,7 @@ def main():
 	outString = ''.join(map(joinIfTuple, properties))
 	
 	# Generate a hash from the edited string
-	outHash = sha256(outString).hexdigest()
+	outHash = sha256((outString).encode('utf-8')).hexdigest()
 	
 	# If changes occurred, open the file again, this time in write mode, and save new contents
 	if inHash != outHash:
