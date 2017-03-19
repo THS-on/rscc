@@ -45,6 +45,8 @@ public class RsccSupportView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed to enter the token the supporter received.
+   *
+   * @param model defines what is displayed.
    */
   public RsccSupportView(Rscc model) {
     this.model = model;
@@ -58,7 +60,7 @@ public class RsccSupportView extends BorderPane {
     headerView = new HeaderView(model);
     headerPresenter = new HeaderPresenter(model, headerView);
 
-    // TODO: Move initialization to matching class...
+    // TODO: Move initialization to according class...
     enterTokenLbl.textProperty().set("EnterToken");
     keyDescriptionLbl.textProperty().set("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
     exampleLbl.textProperty().set("Number of characters: 8\nexample: 666xx666");
@@ -115,4 +117,3 @@ public class RsccSupportView extends BorderPane {
   }
 
 }
-

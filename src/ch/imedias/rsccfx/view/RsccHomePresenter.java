@@ -7,7 +7,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 
 /**
- * Defines the behaviour of interactions and initializes the size of the GUI components.
+ * Defines the behaviour of interactions
+ * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
   private final Rscc model;
@@ -15,7 +16,10 @@ public class RsccHomePresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   /**
-   * Initializes a new RsccHomePresenter with the matching view.
+   * Initializes a new RsccHomePresenter with the according view.
+   *
+   * @param model the presentation model to coordinate views.
+   * @param view  the view which needs to be configured.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;
@@ -24,7 +28,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   /**
-   * Defines the ViewController to allow changing of views.
+   * Defines the ViewController to allow changing views.
    *
    * @param viewParent the controller to be used.
    */

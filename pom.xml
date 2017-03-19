@@ -5,16 +5,19 @@
 	<artifactId>rscc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-        <!-- Project dependant variables -->
-        <custom.path>ch/imedias/rsccfx</custom.path>
-        <custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
-        <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
-		<custom.resources>resources</custom.resources>
+		<!-- Project dependant variables -->
+		<custom.path>ch/imedias/rsccfx</custom.path>
+		<custom.main.class>ch.imedias.rsccfx.RsccApp</custom.main.class>
+		<custom.src.path>src</custom.src.path>
+		<custom.test.path>test</custom.test.path>
+		<custom.resources.path>resources</custom.resources.path>
+		<custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
+		<custom.checkstyle.suppressions>config/checkstyle-suppressions.xml</custom.checkstyle.suppressions>
 
-        <!-- Project independant variables -->
+		<!-- Project independant variables -->
 		<custom.test.source>test/${custom.path}</custom.test.source>
-        <custom.source>src/${custom.path}</custom.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<custom.source>src/${custom.path}</custom.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- To make the output of the javadoc support utf-8 -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -27,15 +30,13 @@
 	</repositories>
 
 	<build>
-        <sourceDirectory>${custom.source}</sourceDirectory>
-		<testSourceDirectory>${custom.test.source}</testSourceDirectory>
+		<sourceDirectory>${custom.src.path}</sourceDirectory>
+		<testSourceDirectory>${custom.test.path}</testSourceDirectory>
 		<resources>
 			<resource>
-				<directory>${custom.resources}</directory>
+				<directory>${custom.resources.path}</directory>
 			</resource>
 		</resources>
-
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -46,87 +47,111 @@
 				</configuration>
 			</plugin>
 
-            <!-- checkstyle plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-		    <dependencies>
-				<dependency>
-					<groupId>com.puppycrawl.tools</groupId>
-					<artifactId>checkstyle</artifactId>
-					<version>[7.5.1,]</version>
-				</dependency>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>create-strings</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>python</executable>
+					<arguments>
+						<argument>generateStringsClass.py</argument>
+						<argument>Bundle</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+
+			<!-- checkstyle plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>7.6</version>
+					</dependency>
 				</dependencies>
-                <configuration>
-                    <configLocation>${custom.checkstyle}</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-		    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <failOnViolation>true</failOnViolation>
-		    <violationSeverity>warning</violationSeverity>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>verify-style</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<configuration>
+					<configLocation>${custom.checkstyle}</configLocation>
+					<suppressionsLocation>${custom.checkstyle.suppressions}</suppressionsLocation>
+					<encoding>UTF-8</encoding>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<failOnViolation>true</failOnViolation>
+					<violationSeverity>warning</violationSeverity>
+				</configuration>
+				<executions>
+					<execution>
+						<id>verify-style</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-            <!-- add resources like *.properties files to the build -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
-                <executions>
-                    <execution>
-                        <id>add-resource</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${custom.source}</directory>
-                                    <targetPath>${custom.path}</targetPath>
-                                    <excludes>
-                                        <exclude>*.java</exclude>
-                                        <exclude>/**/</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+			<!-- add resources like *.properties files to the build -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.12</version>
+				<executions>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${custom.source}</directory>
+									<targetPath>${custom.path}</targetPath>
+									<excludes>
+										<exclude>*.java</exclude>
+										<exclude>/**/</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-            <!-- Package all the dependencies into the JAR -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${custom.main.class}</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+			<!-- Package all the dependencies into the JAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>${custom.main.class}</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -137,12 +162,11 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
 				<configuration>
-                    <configLocation>${custom.checkstyle}</configLocation>
-                    <violationSeverity>warning</violationSeverity>
-		    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <failOnViolation>true</failOnViolation>
-                    <consoleOutput>true</consoleOutput>
-
+					<configLocation>${custom.checkstyle}</configLocation>
+					<violationSeverity>warning</violationSeverity>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<failOnViolation>true</failOnViolation>
+					<consoleOutput>true</consoleOutput>
 				</configuration>
 			</plugin>
 
@@ -212,20 +236,10 @@
 		</dependency>
 
 		<!-- lernstickTools -->
-
 		<dependency>
 			<groupId>com.github.Kennox</groupId>
 			<artifactId>lernstickTools</artifactId>
 			<version>2</version>
 		</dependency>
-
-		<!-- javafxsvg.jar -->
-		<dependency>
-			<groupId>de.codecentric.centerdevice</groupId>
-			<artifactId>javafxsvg</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-
 	</dependencies>
-
 </project>
