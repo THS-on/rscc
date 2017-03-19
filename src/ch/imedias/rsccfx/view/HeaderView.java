@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
  * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
-
   private final Rscc model;
 
   HBox headerBox = new HBox();

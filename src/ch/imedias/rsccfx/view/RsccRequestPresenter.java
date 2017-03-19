@@ -9,16 +9,21 @@ import javafx.scene.Scene;
  * TODO: Javadoc comment here.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
+  private final Rscc model;
+  private final RsccRequestView view;
+
+  private ViewController viewParent;
+
+  HeaderPresenter headerPresenter;
+
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
-  private final Rscc model;
-  private final RsccRequestView view;
+
   String key = "";
-  private ViewController viewParent;
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -26,6 +31,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
     this.view = view;
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
   }
 
@@ -63,7 +69,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    view.headerPresenter.initSize(scene);
+    headerPresenter.initSize(scene);
     view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
   }
 

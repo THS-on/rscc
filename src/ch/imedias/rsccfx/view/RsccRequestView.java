@@ -20,7 +20,6 @@ public class RsccRequestView extends BorderPane {
   private final Rscc model;
 
   HeaderView headerView;
-  HeaderPresenter headerPresenter;
 
   Label keyGenerationLbl = new Label();
   Label supporterAdminLbl = new Label();
@@ -43,8 +42,6 @@ public class RsccRequestView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed generate the token the supporter needs.
-   *
-   * @param model defines what is displayed.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
@@ -57,7 +54,6 @@ public class RsccRequestView extends BorderPane {
     // populate fields which require initial data
     // TODO: String Class implementation!
     headerView = new HeaderView(model);
-    headerPresenter = new HeaderPresenter(model, headerView);
 
     keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
     keyGenerationLbl.setId("keyGenerationLbl");

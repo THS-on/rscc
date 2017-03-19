@@ -16,6 +16,9 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * Starts the Rscc Application.
+ */
 public class RsccApp extends Application {
   public static final String APP_NAME = "Remote Support";
 
@@ -61,7 +64,6 @@ public class RsccApp extends Application {
 
     // Set initial screen
     mainView.setView(RsccApp.HOME_VIEW);
-
 
     // Get Screensize
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();

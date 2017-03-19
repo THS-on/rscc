@@ -12,16 +12,21 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
+  private final Rscc model;
+  private final RsccSupportView view;
+
+  private ViewController viewParent;
+
+  HeaderPresenter headerPresenter;
+
   // For the moment, hardcoded the server parameters
   private static final int FORWARDING_PORT = 5900;
   private static final int KEY_SERVER_SSH_PORT = 2201;
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
-  private final Rscc model;
-  private final RsccSupportView view;
+
   String key = "";
-  private ViewController viewParent;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -29,14 +34,12 @@ public class RsccSupportPresenter implements ControlledPresenter {
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
   }
 
   /**
    * Validates a token.
-   *
-   * @param token the token to be validated.
-   * @return true or false.
    */
   private static boolean validateToken(String token) {
     return (int) (Math.random() * 2) == 1;
@@ -44,9 +47,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   /**
-   * Defines the ViewController to allow changing views.
-   *
-   * @param viewParent the controller to be used.
+   * Defines the ViewController to allow changing of views.
    */
   public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
@@ -62,7 +63,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   public void initSize(Scene scene) {
     view.topBox.prefWidthProperty().bind(scene.widthProperty());
     view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    view.headerPresenter.initSize(scene);
+    headerPresenter.initSize(scene);
   }
 
   /**
