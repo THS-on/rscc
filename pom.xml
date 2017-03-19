@@ -11,10 +11,6 @@
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
 		<custom.resources>resources</custom.resources>
 
-
-
-
-
         <!-- Project independant variables -->
 		<custom.test.source>test/${custom.path}</custom.test.source>
         <custom.source>src/${custom.path}</custom.source>
@@ -59,7 +55,7 @@
 				<dependency>
 					<groupId>com.puppycrawl.tools</groupId>
 					<artifactId>checkstyle</artifactId>
-					<version>[7.3,]</version>
+					<version>[7.5.1,]</version>
 				</dependency>
 				</dependencies>
                 <configuration>
