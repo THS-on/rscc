@@ -1,102 +1,70 @@
 package ch.imedias.rsccfx.view;
 
-/** import statements. */
-import javafx.geometry.Insets;
+import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
- * Creates HeaderView.
+ * Defines all elements shown in the header.
  */
-public class HeaderView extends VBox {
+public class HeaderView extends HBox {
+  private final Rscc model;
 
-  VBox headerbox;
-  HBox boxLine1;
-  HBox boxLine2;
-  Label lblHead;
-  Button btnHead;
-  Button btnSett;
-  Button btnHelp;
-  Separator sep;
+  HBox headerBox = new HBox();
+  Label headLbl = new Label();
+  Button backBtn = new Button();
+  Button settBtn = new Button();
+  Button helpBtn = new Button();
 
-  /** class HeaderView. */
-  public HeaderView() {
-    //this.headerbox = headerbox;
-    layoutForm();
+  /**
+   * Initializes all the GUI components needed in the Header.
+   */
+  public HeaderView(Rscc model) {
+    this.model = model;
     initFieldData();
+    layoutForm();
     bindFieldsToModel();
+  }
+
+  private void initFieldData() {
+    // populate fields which require initial data
+    headLbl.textProperty().set("I need Help");
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerbox = new VBox();
-    boxLine1 = new HBox();
-    boxLine2 = new HBox();
+    headerBox.getChildren().add(backBtn);
+    headerBox.getChildren().add(headLbl);
+    headerBox.getChildren().add(helpBtn);
+    headerBox.getChildren().add(settBtn);
+    headerBox.setId("header");
 
-    boxLine1.setPadding(new Insets(10, 10, 10, 10));
-    boxLine2.setPadding(new Insets(10, 10, 10, 10));
-
-
-    sep = new Separator();
-    boxLine2.getChildren().add(sep);
-
-
-  }
-
-  private void initFieldData() {
-    //populate fields which require initial data
-
-    btnHead = new Button();
-    btnHead.setAlignment(Pos.TOP_LEFT);
-    btnHead.setGraphic(new ImageView(new Image(getClass()
+    backBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/back1.png").toExternalForm())));
-    btnHelp = new Button();
-    btnHelp.setGraphic(new ImageView(new Image(getClass()
+
+    headLbl.setAlignment(Pos.CENTER);
+    headLbl.setId("headerText");
+
+    helpBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/help1.png").toExternalForm())));
-    btnSett = new Button();
-    btnSett.setGraphic(new ImageView(new Image(getClass()
+
+    settBtn.setGraphic(new ImageView(new Image(getClass()
         .getClassLoader().getResource("images/setting1.png").toExternalForm())));
-    btnSett.setAlignment(Pos.TOP_RIGHT);
-    lblHead = new Label("I need Help");
-    lblHead.setFont(new Font("Cantarell",20));
-    lblHead.setAlignment(Pos.CENTER);
-    boxLine1.getChildren().add(btnHead);
-    boxLine1.getChildren().add(lblHead);
-    boxLine1.getChildren().add(btnHelp);
-    boxLine1.getChildren().add(btnSett);
+
+    this.getChildren().add(headerBox);
   }
 
-  /** initSize method. */
-  public void initSize(Scene scene) {
-    sep.prefWidthProperty().bind(scene.widthProperty());
-    lblHead.prefWidthProperty().bind(scene.widthProperty());
-    boxLine1.prefWidthProperty().bind(scene.widthProperty());
-    boxLine2.prefWidthProperty().bind(scene.widthProperty());
-    headerbox.prefWidthProperty().bind(scene.widthProperty());
-
-
-  }
 
   private void bindFieldsToModel() {
-    //make the bindings to the model
+    // make bindings to the model
 
-    headerbox.getChildren().add(boxLine1);
-    headerbox.getChildren().add(boxLine2);
-
-    this.getChildren().add(headerbox);
   }
 
-
 }
-
 
 
