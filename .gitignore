@@ -206,3 +206,6 @@ fabric.properties
 p2p.log
 delete.key
 get.key
+
+## Strings.java is being generated
+Strings.java
