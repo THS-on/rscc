@@ -37,13 +37,13 @@ public class RsccHomeView extends BorderPane {
         .getResource("images/help-browser.png").toExternalForm();
     Image requestSupportImg = new Image(requestHelpImagePath);
     requestViewBtn.setGraphic(new ImageView(requestSupportImg));
-    requestViewBtn.setId("HomeNavigationBtn");
+    requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     String offerSupportImagePath = getClass().getClassLoader()
         .getResource("images/audio-headset.png").toExternalForm();
     Image offerSupportImg = new Image(offerSupportImagePath);
     supportViewBtn.setGraphic(new ImageView(offerSupportImg));
-    supportViewBtn.setId("HomeNavigationBtn");
+    supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     this.setLeft(requestViewBtn);
     this.setRight(supportViewBtn);

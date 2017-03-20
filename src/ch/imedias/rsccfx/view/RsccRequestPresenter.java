@@ -6,7 +6,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 
 /**
- * TODO: Javadoc comment here.
+ * Defines the behaviour of interactions
+ * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
   private final Rscc model;
