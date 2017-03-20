@@ -14,6 +14,7 @@ public class Rscc {
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
+  private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
   private final String pathToResourceDocker;
   private final String scriptShell;
   private final ProcessExecutor processExecutor;
@@ -26,8 +27,9 @@ public class Rscc {
    */
   public Rscc(ProcessExecutor processExecutor) {
     this.processExecutor = processExecutor;
-    pathToResourceDocker = getClass().getClassLoader().getResource("docker-build_p2p")
-        .getFile().toString().replaceFirst("file:", "");
+    pathToResourceDocker =
+        getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
+            .getFile().toString().replaceFirst("file:", "");
     scriptShell = "bash" + " " + pathToResourceDocker + "/";
   }
 
