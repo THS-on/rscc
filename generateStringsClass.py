@@ -15,9 +15,9 @@ VERSION = "0.3.4"
 
 THIS_NAME = "generateStringsClass.py"
 CLASS_NAME = "Strings"
-BUNDLE_DIR = "src/ch/imedias/rsccfx/localisation"
+BUNDLE_DIR = "src/ch/imedias/rsccfx/localization"
 BUNDLE_NAME = BUNDLE_DIR + '/' + argv[1]
-PACKAGE_NAME = "ch.imedias.rsccfx.localisation"
+PACKAGE_NAME = "ch.imedias.rsccfx.localization"
 SOURCE_LOCATION = BUNDLE_DIR + '/' + CLASS_NAME + ".java"
 
 # Strip non-word characters and underlines out of a string and format it to camelCase standards
