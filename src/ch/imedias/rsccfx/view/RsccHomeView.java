@@ -16,8 +16,12 @@ public class RsccHomeView extends BorderPane {
 
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
-  Image requestSupportImg;
-  ImageView requestSupportImgView;
+
+  Image requestImg;
+  Image supportImg;
+
+  ImageView requestImgView;
+  ImageView supportImgView;
 
   /**
    * Initializes all the GUI components needed on the start page.
@@ -41,16 +45,18 @@ public class RsccHomeView extends BorderPane {
     // TODO: Resizing of pictures and size!
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/help-browser.svg");
-    requestSupportImg = new Image(requestHelpImagePath);
-    requestSupportImgView = new ImageView(requestSupportImg);
-    requestSupportImgView.setPreserveRatio(true);
-    requestViewBtn.setGraphic(requestSupportImgView);
+    requestImg = new Image(requestHelpImagePath);
+    requestImgView = new ImageView(requestImg);
+    requestImgView.setPreserveRatio(true);
+    requestViewBtn.setGraphic(requestImgView);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/audio-headset.svg");
-    Image offerSupportImg = new Image(offerSupportImagePath);
-    supportViewBtn.setGraphic(new ImageView(offerSupportImg));
+    supportImg = new Image(offerSupportImagePath);
+    supportImgView = new ImageView(supportImg);
+    supportImgView.setPreserveRatio(true);
+    supportViewBtn.setGraphic(supportImgView);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     this.setLeft(requestViewBtn);

@@ -39,7 +39,8 @@ public class RsccHomePresenter implements ControlledPresenter {
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
     view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
-    view.requestSupportImgView.fitWidthProperty().bind(scene.widthProperty().divide(4));
+    view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(4));
+    view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(4));
   }
 
   private void attachEvents() {
