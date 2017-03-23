@@ -22,10 +22,10 @@ public class RsccHomeView extends BorderPane {
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
+    SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
     bindFieldsToModel();
-    SvgImageLoaderFactory.install();
   }
 
   private void initFieldData() {
