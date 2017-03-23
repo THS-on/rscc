@@ -30,7 +30,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
-    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
   }
@@ -84,6 +83,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     view.tokenTxt.setOnKeyPressed(event -> {
       view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
+      
+    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
+    view.keyInputPane.setOnMouseClicked(event -> view.predefinedAdressesPane.setExpanded(false));
+    view.predefinedAdressesPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
     });
 
     // FIXME: Thank you.
@@ -95,16 +98,15 @@ public class RsccSupportPresenter implements ControlledPresenter {
         }
     );*/
 
-    // TODO: Set actions on buttons (Help, Settings)
-  }
 
-  /**
-   * Initializes the functionality of the header, e.g. back button and settings button.
+   /**
+   * Initializes the functionality of the header, e.g. back and settings button.
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
-  }
-
-
+    // TODO: Set actions on buttons (Help, Settings)
+   }
+  
 }

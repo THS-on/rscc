@@ -22,8 +22,6 @@ public class RsccSupportView extends BorderPane {
   HeaderView headerView;
 
   //FIXME: Those fields are never used. Consider using it in the future. Thx.
-  TitledPane adminSupporterPane = new TitledPane();
-  TitledPane mainPane = new TitledPane();
 
   Label enterTokenLbl = new Label();
   Label keyDescriptionLbl = new Label();
@@ -36,6 +34,9 @@ public class RsccSupportView extends BorderPane {
   HBox tokenValidationBox = new HBox();
 
   TextField tokenTxt = new TextField();
+
+  TitledPane keyInputPane = new TitledPane();
+  TitledPane predefinedAdressesPane = new TitledPane();
 
   ImageView isValidImg = new ImageView();
 
@@ -71,6 +72,12 @@ public class RsccSupportView extends BorderPane {
     connectBtn.textProperty().set("Connect");
     expandOptionBtn.textProperty().set("More");
 
+    // TODO: Implement String Class
+    keyInputPane.setText("Key Input");
+    keyInputPane.setExpanded(true);
+
+    predefinedAdressesPane.setText("Predefined Adresses");
+    predefinedAdressesPane.setExpanded(false);
   }
 
   private void layoutForm() {
@@ -101,10 +108,14 @@ public class RsccSupportView extends BorderPane {
         connectBtn,
         expandOptionBtn);
 
+    keyInputPane.setContent(centerBox);
+    // TODO: Set content for predefinedAdressesPane
+
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
-    setCenter(centerBox);
+    setCenter(keyInputPane);
     topBox.getChildren().add(headerView);
     setTop(topBox);
+    setBottom(predefinedAdressesPane);
   }
 
 
