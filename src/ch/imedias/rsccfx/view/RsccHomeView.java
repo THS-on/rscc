@@ -16,6 +16,8 @@ public class RsccHomeView extends BorderPane {
 
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
+  Image requestSupportImg;
+  ImageView requestSupportImgView;
 
   /**
    * Initializes all the GUI components needed on the start page.
@@ -39,8 +41,10 @@ public class RsccHomeView extends BorderPane {
     // TODO: Resizing of pictures and size!
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/help-browser.svg");
-    Image requestSupportImg = new Image(requestHelpImagePath);
-    requestViewBtn.setGraphic(new ImageView(requestSupportImg));
+    requestSupportImg = new Image(requestHelpImagePath);
+    requestSupportImgView = new ImageView(requestSupportImg);
+    requestSupportImgView.setPreserveRatio(true);
+    requestViewBtn.setGraphic(requestSupportImgView);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
