@@ -36,14 +36,15 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void layoutForm() {
+    // TODO: Resizing of pictures and size!
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/help-browser.svg");
     Image requestSupportImg = new Image(requestHelpImagePath);
     requestViewBtn.setGraphic(new ImageView(requestSupportImg));
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    String offerSupportImagePath = getClass().getClassLoader()
-        .getResource("images/audio-headset.png").toExternalForm();
+    InputStream offerSupportImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/audio-headset.svg");
     Image offerSupportImg = new Image(offerSupportImagePath);
     supportViewBtn.setGraphic(new ImageView(offerSupportImg));
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
