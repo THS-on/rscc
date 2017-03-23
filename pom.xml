@@ -235,21 +235,21 @@
             <scope>test</scope>
         </dependency>
 
-         <!--lernstickTools-->
+        <!-- lernstickTools -->
         <dependency>
             <groupId>com.github.Kennox</groupId>
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
 
-        <!--Overwriting dependency in ice4j dependency -->
+        <!-- Overwriting dependency in ice4j dependency -->
         <dependency>
             <groupId>org.jitsi</groupId>
             <artifactId>jain-sip-ri-ossonly</artifactId>
             <version>1.2.279-jitsi-oss1</version>
         </dependency>
 
-        <!--ICE4J fom github-->
+        <!-- ICE4J fom github -->
         <dependency>
             <groupId>com.github.jitsi</groupId>
             <artifactId>ice4j</artifactId>
