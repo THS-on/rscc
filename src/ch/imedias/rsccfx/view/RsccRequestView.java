@@ -12,8 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-// TODO: Clean up messy code!
-
 /**
  * Defines all elements shown in the request section.
  */
@@ -112,7 +110,6 @@ public class RsccRequestView extends BorderPane {
 
     supporterAdminBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
-    keyGeneratingBox.getChildren().add(supporterAdminBox);
 
     topBox.getChildren().add(headerView);
     centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
@@ -131,8 +128,6 @@ public class RsccRequestView extends BorderPane {
     // make bindings to the model
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
-
-
 }
 
 
