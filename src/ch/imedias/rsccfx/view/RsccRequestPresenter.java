@@ -56,6 +56,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     // TODO: Set actions on buttons (back, Help, Settings)
 
+    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
+    view.keyGeneratorPane.setOnMouseClicked(event -> view.supporterAdminPane.setExpanded(false));
+    view.supporterAdminPane.setOnMouseClicked(event -> view.keyGeneratorPane.setExpanded(false));
   }
 
   /**
