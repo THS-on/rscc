@@ -1,6 +1,8 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import java.io.InputStream;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +25,7 @@ public class RsccHomeView extends BorderPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+    SvgImageLoaderFactory.install();
   }
 
   private void initFieldData() {
@@ -33,8 +36,8 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void layoutForm() {
-    String requestHelpImagePath = getClass().getClassLoader()
-        .getResource("images/help-browser.png").toExternalForm();
+    InputStream requestHelpImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/help-browser.svg");
     Image requestSupportImg = new Image(requestHelpImagePath);
     requestViewBtn.setGraphic(new ImageView(requestSupportImg));
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
