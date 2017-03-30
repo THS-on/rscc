@@ -6,13 +6,20 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
 
+// TODO: add header
+// TODO: put buttons in a VBox
+// TODO: Check mockup for reference here:
+// https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.8?preview=/15991708/15991716/Startscreen.png
+// TODO: Put all things into the box
+
+
 /**
  * Defines the behaviour of interactions
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
   private static final int VIEW_BTN_DIVISOR = 2;
-  private static final int IMG_VIEW_DIVISOR = 4;
+  private static final int IMG_VIEW_DIVISOR = 8;
 
   private final Rscc model;
   private final RsccHomeView view;
