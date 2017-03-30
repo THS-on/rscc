@@ -11,8 +11,8 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
-  private final static int VIEW_BTN_DIVISOR = 2;
-  private final static int IMG_VIEW_DIVISOR = 4;
+  private static final int VIEW_BTN_DIVISOR = 2;
+  private static final int IMG_VIEW_DIVISOR = 4;
 
   private final Rscc model;
   private final RsccHomeView view;
