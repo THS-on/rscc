@@ -58,7 +58,7 @@ public class HeaderView extends HBox {
     headerBox.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/back1.svg");
+        .getResourceAsStream("images/back1.svg");    // FIXME: Picture is in process of creation
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
     backImgView.setPreserveRatio(true);
@@ -66,18 +66,18 @@ public class HeaderView extends HBox {
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/reload.svg");
+        .getResourceAsStream("images/question.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
     helpImgView.fitWidthProperty().set(50);
     helpImgView.fitHeightProperty().set(50);
     helpImgView.setPreserveRatio(true);
-    helpBtn.setGraphic(backImgView);
+    helpBtn.setGraphic(helpImgView);
 
     // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/settings2.svg");
+        .getResourceAsStream("images/settings.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
     settingImgView.setPreserveRatio(true);
