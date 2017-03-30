@@ -1,6 +1,8 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import java.io.InputStream;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,11 +17,18 @@ public class RsccHomeView extends BorderPane {
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
 
+  Image requestImg;
+  Image supportImg;
+
+  ImageView requestImgView;
+  ImageView supportImgView;
+
   /**
    * Initializes all the GUI components needed on the start page.
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
+    SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -33,16 +42,21 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void layoutForm() {
-    String requestHelpImagePath = getClass().getClassLoader()
-        .getResource("images/help-browser.png").toExternalForm();
-    Image requestSupportImg = new Image(requestHelpImagePath);
-    requestViewBtn.setGraphic(new ImageView(requestSupportImg));
+    // TODO: Resizing of pictures and size!
+    InputStream requestHelpImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/help-browser.svg");
+    requestImg = new Image(requestHelpImagePath);
+    requestImgView = new ImageView(requestImg);
+    requestImgView.setPreserveRatio(true);
+    requestViewBtn.setGraphic(requestImgView);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    String offerSupportImagePath = getClass().getClassLoader()
-        .getResource("images/audio-headset.png").toExternalForm();
-    Image offerSupportImg = new Image(offerSupportImagePath);
-    supportViewBtn.setGraphic(new ImageView(offerSupportImg));
+    InputStream offerSupportImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/audio-headset.svg");
+    supportImg = new Image(offerSupportImagePath);
+    supportImgView = new ImageView(supportImg);
+    supportImgView.setPreserveRatio(true);
+    supportViewBtn.setGraphic(supportImgView);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     this.setLeft(requestViewBtn);

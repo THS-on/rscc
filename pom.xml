@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.fhnw</groupId>
@@ -241,6 +241,13 @@
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
+      
+        <!--javafxsvg.jar-->
+        <dependency>
+            <groupId>de.codecentric.centerdevice</groupId>
+            <artifactId>javafxsvg</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
         <!-- Overwriting dependency in ice4j dependency -->
         <dependency>
@@ -255,6 +262,5 @@
             <artifactId>ice4j</artifactId>
             <version>master</version>
         </dependency>
-
     </dependencies>
 </project>

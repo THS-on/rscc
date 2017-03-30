@@ -1,6 +1,8 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import java.io.InputStream;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,13 +42,17 @@ public class RsccRequestView extends BorderPane {
   TextField generatedKeyFld = new TextField();
 
   Button reloadKeyBtn = new Button();
-  Button supporterAdminBtn = new Button();
+
+  Image reloadImg;
+
+  ImageView reloadImgView;
 
   /**
    * Initializes all the GUI components needed generate the token the supporter needs.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
+    SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -73,16 +79,16 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setId("generatedKeyFld");
 
-    reloadKeyBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
-        .getResource("images/reload.png").toExternalForm())));
-    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
+    InputStream reloadImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/reload.svg");
+    reloadImg = new Image(reloadImagePath);
+    reloadImgView = new ImageView(reloadImg);
+    reloadImgView.fitWidthProperty().set(50); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(50); // FIXME: Has this to be in the CSS?
+    reloadImgView.setPreserveRatio(true);
+    reloadKeyBtn.setGraphic(reloadImgView);
     reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
-
-    ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
-        .getResource("images/arrowDown.png").toExternalForm())));
-    imageView.setFitHeight(15); // FIXME: Has this to be in the CSS?
-    imageView.setFitWidth(15); // FIXME: Has this to be in the CSS?
-    supporterAdminBtn.setGraphic(imageView);
+    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
 
     // TODO: Implement String Class
     additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
@@ -108,7 +114,8 @@ public class RsccRequestView extends BorderPane {
     centerBox.setId("centerBox");
     bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
+    // TODO: replace content in supporterAdminBox and delete arrowDown.png afterwards.
+    supporterAdminBox.getChildren().addAll(/*supporterAdminBtn, */supporterAdminLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
 
     topBox.getChildren().add(headerView);
