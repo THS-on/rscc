@@ -241,12 +241,26 @@
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
-
+      
         <!--javafxsvg.jar-->
         <dependency>
             <groupId>de.codecentric.centerdevice</groupId>
             <artifactId>javafxsvg</artifactId>
             <version>1.2.1</version>
+        </dependency>
+
+        <!-- Overwriting dependency in ice4j dependency -->
+        <dependency>
+            <groupId>org.jitsi</groupId>
+            <artifactId>jain-sip-ri-ossonly</artifactId>
+            <version>1.2.279-jitsi-oss1</version>
+        </dependency>
+
+        <!-- ICE4J fom github -->
+        <dependency>
+            <groupId>com.github.jitsi</groupId>
+            <artifactId>ice4j</artifactId>
+            <version>master</version>
         </dependency>
     </dependencies>
 </project>
