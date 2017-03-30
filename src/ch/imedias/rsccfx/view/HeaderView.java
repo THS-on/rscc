@@ -66,19 +66,22 @@ public class HeaderView extends HBox {
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/new/help1.svg");
+        .getResourceAsStream("images/reload.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
+    helpImgView.fitWidthProperty().set(50);
+    helpImgView.fitHeightProperty().set(50);
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(backImgView);
+
     // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/new/settings1.svg");
+        .getResourceAsStream("images/settings2.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
     settingImgView.setPreserveRatio(true);
-    settBtn.setGraphic(backImgView);
+    settBtn.setGraphic(settingImgView);
     // What needs to be added to the CSS?
 
     headLbl.setAlignment(Pos.CENTER);

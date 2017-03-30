@@ -85,7 +85,7 @@ public class RsccRequestView extends BorderPane {
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
     reloadImgView.fitWidthProperty().set(50); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitWidthProperty().set(50); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(50); // FIXME: Has this to be in the CSS?
     reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
     reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
