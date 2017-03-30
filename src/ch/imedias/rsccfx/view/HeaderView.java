@@ -61,8 +61,12 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/back1.svg");    // FIXME: Picture is in process of creation
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
+    backImgView.fitWidthProperty().set(50);
+    backImgView.fitHeightProperty().set(50);
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
+    backBtn.setPrefWidth(50);
+    backBtn.setMinHeight(50);
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()

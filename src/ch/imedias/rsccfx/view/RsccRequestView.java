@@ -88,8 +88,8 @@ public class RsccRequestView extends BorderPane {
     reloadImgView.fitHeightProperty().set(50); // FIXME: Has this to be in the CSS?
     reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
-    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
 
     // ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
     //     .getResource("images/arrowDown.png").toExternalForm())));
