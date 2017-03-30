@@ -42,7 +42,6 @@ public class RsccRequestView extends BorderPane {
   TextField generatedKeyFld = new TextField();
 
   Button reloadKeyBtn = new Button();
-  // Button supporterAdminBtn = new Button();
 
   Image reloadImg;
 
@@ -90,12 +89,6 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setGraphic(reloadImgView);
     reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
-
-    // ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
-    //     .getResource("images/arrowDown.png").toExternalForm())));
-    // imageView.setFitHeight(15); // FIXME: Has this to be in the CSS?
-    // imageView.setFitWidth(15); // FIXME: Has this to be in the CSS?
-    // supporterAdminBtn.setGraphic(imageView);
 
     // TODO: Implement String Class
     additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
