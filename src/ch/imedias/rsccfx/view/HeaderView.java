@@ -66,7 +66,7 @@ public class HeaderView extends HBox {
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/help1.svg");
+        .getResourceAsStream("images/new/help1.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
     helpImgView.setPreserveRatio(true);
