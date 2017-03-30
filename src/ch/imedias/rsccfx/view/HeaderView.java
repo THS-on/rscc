@@ -58,7 +58,7 @@ public class HeaderView extends HBox {
     headerBox.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/back1.svg");    // FIXME: Picture is in process of creation
+        .getResourceAsStream("images/back.svg");    // FIXME: Picture is in process of creation
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
     backImgView.fitWidthProperty().set(50);
@@ -77,15 +77,20 @@ public class HeaderView extends HBox {
     helpImgView.fitHeightProperty().set(50);
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
-
+    helpBtn.setPrefWidth(50);
+    helpBtn.setMinHeight(50);
     // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/settings.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
+    settingImgView.fitWidthProperty().set(50);
+    settingImgView.fitHeightProperty().set(50);
     settingImgView.setPreserveRatio(true);
     settBtn.setGraphic(settingImgView);
+    settBtn.setPrefWidth(50);
+    settBtn.setMinHeight(50);
     // What needs to be added to the CSS?
 
     headLbl.setAlignment(Pos.CENTER);
