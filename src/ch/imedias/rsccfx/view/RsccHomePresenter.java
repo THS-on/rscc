@@ -11,6 +11,9 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
+  private final static int VIEW_BTN_DIVISOR = 2;
+  private final static int IMG_VIEW_DIVISOR = 4;
+
   private final Rscc model;
   private final RsccHomeView view;
   private ViewController viewParent;
@@ -35,12 +38,12 @@ public class RsccHomePresenter implements ControlledPresenter {
    * Initializes the size of the RsccHomeView.
    */
   public void initSize(Scene scene) {
-    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
-    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
-    view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(4));
-    view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(4));
+    view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
+    view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
   }
 
   private void attachEvents() {
