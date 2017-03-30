@@ -31,6 +31,8 @@ public class Rscc {
         getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
             .getFile().toString().replaceFirst("file:", "");
     scriptShell = "bash" + " " + pathToResourceDocker + "/";
+    keyServerSetup("localhost", "800");
+    keyServerSetup();
   }
 
   /**
@@ -95,6 +97,7 @@ public class Rscc {
     }
     output = processExecutor.getOutput();
     output = output.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
+    System.out.println(output);
     return output;
   }
 
