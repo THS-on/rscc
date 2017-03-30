@@ -22,7 +22,7 @@ public class HeaderView extends HBox {
 
   Button backBtn = new Button();
   Button helpBtn = new Button();
-  Button settBtn = new Button();
+  Button settingsButton = new Button();
 
   Image backImg;
   Image helpImg;
@@ -54,11 +54,11 @@ public class HeaderView extends HBox {
     headerBox.getChildren().add(backBtn);
     headerBox.getChildren().add(headLbl);
     headerBox.getChildren().add(helpBtn);
-    headerBox.getChildren().add(settBtn);
+    headerBox.getChildren().add(settingsButton);
     headerBox.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/back.svg");    // FIXME: Picture is in process of creation
+        .getResourceAsStream("images/back.svg");
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
     backImgView.fitWidthProperty().set(50);
@@ -88,9 +88,9 @@ public class HeaderView extends HBox {
     settingImgView.fitWidthProperty().set(50);
     settingImgView.fitHeightProperty().set(50);
     settingImgView.setPreserveRatio(true);
-    settBtn.setGraphic(settingImgView);
-    settBtn.setPrefWidth(50);
-    settBtn.setMinHeight(50);
+    settingsButton.setGraphic(settingImgView);
+    settingsButton.setPrefWidth(50);
+    settingsButton.setMinHeight(50);
     // What needs to be added to the CSS?
 
     headLbl.setAlignment(Pos.CENTER);
