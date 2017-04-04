@@ -1,7 +1,12 @@
 package ch.imedias.rsccfx.model;
 
 import ch.imedias.rscc.ProcessExecutor;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.jar.JarFile;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,17 +27,57 @@ public class Rscc {
   private String keyServerIp;
   private String keyServerHttpPort;
 
+  private ClassLoader cl;
+
   /**
    * Initializes the Rscc model class.
    */
   public Rscc(ProcessExecutor processExecutor) {
     this.processExecutor = processExecutor;
+    cl = this.getClass().getClassLoader();
     pathToResourceDocker =
         getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
             .getFile().toString().replaceFirst("file:", "");
-    scriptShell = "bash" + " " + pathToResourceDocker + "/";
+    scriptShell = pathToResourceDocker + "/";
+
+    try {
+      extractJarContents("/tmp/", DOCKER_FOLDER_NAME);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     keyServerSetup("localhost", "800");
     keyServerSetup();
+  }
+
+  private void extractJarContents(String destinationDirectory, String filter) throws IOException {
+    URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+    java.util.jar.JarFile jarfile = new java.util.jar.JarFile(new java.io.File(location.getFile()));
+
+    java.util.Enumeration<java.util.jar.JarEntry> enu = jarfile.entries();
+    while (enu.hasMoreElements()) {
+      java.util.jar.JarEntry je = enu.nextElement();
+      if (je.getName().contains(filter)) {
+        System.out.println(je.getName());
+        java.io.File fl = new java.io.File(destinationDirectory, je.getName());
+        if (!fl.exists()) {
+          fl.getParentFile().mkdirs();
+          fl = new java.io.File(destinationDirectory, je.getName());
+        }
+        if (je.isDirectory()) {
+          continue;
+        }
+
+        java.io.InputStream is = jarfile.getInputStream(je);
+        java.io.FileOutputStream fo = new java.io.FileOutputStream(fl);
+        while (is.available() > 0) {
+          fo.write(is.read());
+        }
+        fl.setExecutable(true);
+        fo.close();
+        is.close();
+
+      }
+    }
   }
 
   /**
@@ -45,7 +90,14 @@ public class Rscc {
 
   private void keyServerSetup() {
     // Setup the server with use.sh
-    executeP2pScript("use.sh", keyServerIp, keyServerHttpPort);
+    //executeP2pScript("", keyServerIp, keyServerHttpPort);
+    System.out.println(cl);
+    try {
+      Process p = new ProcessBuilder("/tmp/docker-build_p2p/use.sh", "mayAasrg").start();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
   /**
