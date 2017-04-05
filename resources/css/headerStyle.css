@@ -1,5 +1,5 @@
 #header {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #eeeeee;
     -fx-padding: 10;
 }
 
@@ -7,4 +7,11 @@
     -fx-font-size: 20pt;
     -fx-font-weight: bold;
     -fx-font-family: Cantarell;
+}
+#settingsBtn{
+    -fx-background-insets: 5px;
+}
+
+#helpBtn{
+    -fx-background-insets: 5px;
 }

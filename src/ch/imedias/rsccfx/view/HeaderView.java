@@ -22,7 +22,7 @@ public class HeaderView extends HBox {
 
   Button backBtn = new Button();
   Button helpBtn = new Button();
-  Button settingsButton = new Button();
+  Button settingsBtn = new Button();
 
   Image backImg;
   Image helpImg;
@@ -54,7 +54,7 @@ public class HeaderView extends HBox {
     headerBox.getChildren().add(backBtn);
     headerBox.getChildren().add(headLbl);
     headerBox.getChildren().add(helpBtn);
-    headerBox.getChildren().add(settingsButton);
+    headerBox.getChildren().add(settingsBtn);
     headerBox.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -79,6 +79,7 @@ public class HeaderView extends HBox {
     helpBtn.setGraphic(helpImgView);
     helpBtn.setPrefWidth(50);
     helpBtn.setMinHeight(50);
+    helpBtn.setId("helpBtn");
     // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
@@ -88,9 +89,11 @@ public class HeaderView extends HBox {
     settingImgView.fitWidthProperty().set(50);
     settingImgView.fitHeightProperty().set(50);
     settingImgView.setPreserveRatio(true);
-    settingsButton.setGraphic(settingImgView);
-    settingsButton.setPrefWidth(50);
-    settingsButton.setMinHeight(50);
+    settingsBtn.setGraphic(settingImgView);
+    settingsBtn.setPrefWidth(50);
+    settingsBtn.setMinHeight(50);
+    settingsBtn.setId("settingsBtn");
+
     // What needs to be added to the CSS?
 
     headLbl.setAlignment(Pos.CENTER);
