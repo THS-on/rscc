@@ -65,6 +65,7 @@ public class RsccTest {
   /**
    * Test for {@link Rscc#killConnection(String)}.
    */
+  @Ignore
   @Test
   public void testKillConnection() throws Exception {
     model.killConnection(KEY);
@@ -75,6 +76,7 @@ public class RsccTest {
   /**
    * Test for {@link Rscc#requestTokenFromServer()}.
    */
+  @Ignore
   @Test
   public void testRequestTokenFromServer() throws Exception {
     String key = model.requestTokenFromServer();

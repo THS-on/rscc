@@ -3,8 +3,14 @@ package ch.imedias.rsccfx.model;
 import ch.imedias.rscc.ProcessExecutor;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -20,8 +26,7 @@ public class Rscc {
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
-  private final String pathToResourceDocker;
-  private final String scriptShell;
+  private String pathToResourceDocker;
   private final ProcessExecutor processExecutor;
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
@@ -34,48 +39,65 @@ public class Rscc {
    */
   public Rscc(ProcessExecutor processExecutor) {
     this.processExecutor = processExecutor;
-    cl = this.getClass().getClassLoader();
-    pathToResourceDocker =
-        getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-            .getFile().toString().replaceFirst("file:", "");
-    scriptShell = pathToResourceDocker + "/";
 
-    try {
-      extractJarContents("/tmp/", DOCKER_FOLDER_NAME);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    jarOrNotToJar();
+
     keyServerSetup("localhost", "800");
     keyServerSetup();
   }
 
-  private void extractJarContents(String destinationDirectory, String filter) throws IOException {
+  private void jarOrNotToJar() {
     URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
-    java.util.jar.JarFile jarfile = new java.util.jar.JarFile(new java.io.File(location.getFile()));
+    File f = new File(location.getFile());
+    if (f.isDirectory()) {
+      pathToResourceDocker =
+              getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
+                      .getFile().toString().replaceFirst("file:", "");
 
-    java.util.Enumeration<java.util.jar.JarEntry> enu = jarfile.entries();
+    } else {
+      pathToResourceDocker = "/tmp/" + DOCKER_FOLDER_NAME;
+      extractJarContents("/tmp/", DOCKER_FOLDER_NAME);
+    }
+
+    System.out.println(pathToResourceDocker);
+  }
+
+  private void extractJarContents(String destinationDirectory, String filter) {
+    URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+    JarFile jarfile = null;
+    try {
+      jarfile = new JarFile(new File(location.getFile()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Enumeration<JarEntry> enu = jarfile.entries();
     while (enu.hasMoreElements()) {
-      java.util.jar.JarEntry je = enu.nextElement();
+      JarEntry je = enu.nextElement();
       if (je.getName().contains(filter)) {
         System.out.println(je.getName());
-        java.io.File fl = new java.io.File(destinationDirectory, je.getName());
+        File fl = new File(destinationDirectory, je.getName());
         if (!fl.exists()) {
           fl.getParentFile().mkdirs();
-          fl = new java.io.File(destinationDirectory, je.getName());
+          fl = new File(destinationDirectory, je.getName());
         }
         if (je.isDirectory()) {
           continue;
         }
-
-        java.io.InputStream is = jarfile.getInputStream(je);
-        java.io.FileOutputStream fo = new java.io.FileOutputStream(fl);
-        while (is.available() > 0) {
-          fo.write(is.read());
+        try {
+          InputStream is = jarfile.getInputStream(je);
+          FileOutputStream fo = new FileOutputStream(fl);
+          while (is.available() > 0) {
+            fo.write(is.read());
+          }
+          fl.setExecutable(true);
+          fo.close();
+          is.close();
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
         }
-        fl.setExecutable(true);
-        fo.close();
-        is.close();
-
       }
     }
   }
@@ -91,9 +113,9 @@ public class Rscc {
   private void keyServerSetup() {
     // Setup the server with use.sh
     //executeP2pScript("", keyServerIp, keyServerHttpPort);
-    System.out.println(cl);
     try {
-      Process p = new ProcessBuilder("/tmp/docker-build_p2p/use.sh", "mayAasrg").start();
+      Process p = new ProcessBuilder(pathToResourceDocker + "/use.sh",
+              keyServerIp, keyServerHttpPort).start();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -142,7 +164,7 @@ public class Rscc {
   private String executeP2pScript(String fileName, String... parameters) {
     String output = "";
     try {
-      processExecutor.executeScript(true, true, scriptShell + fileName, parameters);
+      processExecutor.executeScript(true, true, pathToResourceDocker + fileName, parameters);
     } catch (IOException writingError) {
       System.out.println("script could not be written to a temp file!");
       writingError.printStackTrace();
