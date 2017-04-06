@@ -85,7 +85,6 @@ public class RsccApp extends Application {
     ((RsccRequestPresenter) mainView.getPresenter(REQUEST_VIEW)).initSize(scene);
     ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
 
-    System.out.println("Bla");
     // Initializing stylesheets
     String supporterSheet = getClass().getClassLoader()
         .getResource("css/supporterStyle.css").toExternalForm();
