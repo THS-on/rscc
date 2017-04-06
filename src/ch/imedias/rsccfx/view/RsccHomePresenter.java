@@ -54,6 +54,11 @@ public class RsccHomePresenter implements ControlledPresenter {
     // view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
     // view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
     // view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
+    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty().divide(5));
+
+    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty().divide(5));
     headerPresenter.initSize(scene);
   }
 
@@ -65,5 +70,6 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void initHeader() {
     // set all the actions regarding buttons in this method
     //headerPresenter.BackBtn.visible(false);
+    headerPresenter.setVisibilityOfBackBtn(false);
   }
 }

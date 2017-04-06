@@ -74,7 +74,7 @@ public class HeaderPresenter {
   // TODO: JavaComment
   // TODO: Implement this for HomeView usage.
   public void setVisibilityOfBackBtn(Boolean visibility) {
-
+    view.backBtn.setVisible(false);
   }
 
 }

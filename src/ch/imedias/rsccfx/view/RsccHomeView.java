@@ -2,7 +2,6 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-import java.io.InputStream;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +42,8 @@ public class RsccHomeView extends BorderPane {
     // populate fields which require initial data
     headerView = new HeaderView(model);
 
+    // set visibility of back button to disabled
+
     //TODO: replace Text, multilangual
     requestViewBtn.textProperty().setValue("I need help");
     supportViewBtn.textProperty().setValue("I want to help someone");
@@ -50,7 +51,7 @@ public class RsccHomeView extends BorderPane {
 
   private void layoutForm() {
     // TODO: Resizing of pictures and size!
-    InputStream requestHelpImagePath = getClass().getClassLoader()
+    /*InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/help-browser.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
@@ -64,7 +65,7 @@ public class RsccHomeView extends BorderPane {
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
     supportViewBtn.setGraphic(supportImgView);
-    supportViewBtn.getStyleClass().add("HomeNavigationBtn");
+    supportViewBtn.getStyleClass().add("HomeNavigationBtn");*/
 
     mainView.getChildren().addAll(requestViewBtn, supportViewBtn);
 
