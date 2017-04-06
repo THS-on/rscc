@@ -72,9 +72,15 @@ public class HeaderPresenter {
   }
 
   // TODO: JavaComment
-  // TODO: Implement this for HomeView usage.
   public void setVisibilityOfBackBtn(Boolean visibility) {
     view.backBtn.setVisible(false);
+  }
+
+  // TODO: JavaComment
+  // Only needed for subtracting in RsccHomePresenter
+  public double getViewHeight() {
+    return view.getHeight();
+
   }
 
 }

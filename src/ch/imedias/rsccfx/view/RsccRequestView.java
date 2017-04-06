@@ -115,7 +115,7 @@ public class RsccRequestView extends BorderPane {
     bottomBox.setId("bottomBox");
 
     // TODO: replace content in supporterAdminBox and delete arrowDown.png afterwards.
-    supporterAdminBox.getChildren().addAll(/*supporterAdminBtn, */supporterAdminLbl);
+    supporterAdminBox.getChildren().addAll(supporterAdminLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
 
     topBox.getChildren().add(headerView);
