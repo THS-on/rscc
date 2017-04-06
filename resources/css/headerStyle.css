@@ -8,14 +8,12 @@
     -fx-font-weight: bold;
     -fx-font-family: Cantarell;
 }
-#settingsBtn{
-    -fx-background-insets: 5px;
+
+#helpBtn, #backBtn, #settingsBtn{
+    -fx-padding: 10px;
+    -fx-border-color: #d5d5d5;
+    -fx-border-width: 3px;
+    -fx-border-radius: 7;
+    -fx-background-radius: 7;
 }
 
-#helpBtn{
-    -fx-background-insets: 5px;
-}
-
-#backBtn{
-    -fx-background-insets: 5px;
-}

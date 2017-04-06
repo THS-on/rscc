@@ -18,8 +18,6 @@ public class HeaderView extends HBox {
 
   HBox headerBox = new HBox();
 
-  Label headLbl = new Label();
-
   Button backBtn = new Button();
   Button helpBtn = new Button();
   Button settingsBtn = new Button();
@@ -45,16 +43,15 @@ public class HeaderView extends HBox {
 
   private void initFieldData() {
     // populate fields which require initial data
-    headLbl.textProperty().set("I need Help");
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
     headerBox.getChildren().add(backBtn);
-    headerBox.getChildren().add(headLbl);
     headerBox.getChildren().add(helpBtn);
     headerBox.getChildren().add(settingsBtn);
+    headerBox.setSpacing(10);
     headerBox.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -66,7 +63,8 @@ public class HeaderView extends HBox {
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
     backBtn.setPrefWidth(50);
-    backBtn.setMinHeight(50);
+    backBtn.setPrefHeight(50);
+    backBtn.setId("backBtn");
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
@@ -78,7 +76,8 @@ public class HeaderView extends HBox {
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
     helpBtn.setPrefWidth(50);
-    helpBtn.setMinHeight(50);
+    helpBtn.setPrefHeight(50);
+    helpBtn.setAlignment(Pos.BASELINE_RIGHT);
     helpBtn.setId("helpBtn");
     // What needs to be added to the CSS?
 
@@ -91,13 +90,9 @@ public class HeaderView extends HBox {
     settingImgView.setPreserveRatio(true);
     settingsBtn.setGraphic(settingImgView);
     settingsBtn.setPrefWidth(50);
-    settingsBtn.setMinHeight(50);
+    settingsBtn.setPrefHeight(50);
     settingsBtn.setId("settingsBtn");
-
     // What needs to be added to the CSS?
-
-    headLbl.setAlignment(Pos.CENTER);
-    headLbl.setId("headerText");
 
     this.getChildren().add(headerBox);
   }
@@ -105,7 +100,6 @@ public class HeaderView extends HBox {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-
   }
 
 }
