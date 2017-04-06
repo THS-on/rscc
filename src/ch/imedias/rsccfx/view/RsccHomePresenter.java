@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
 // TODO: add header
@@ -66,11 +67,9 @@ public class RsccHomePresenter implements ControlledPresenter {
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(2.5));
 
-    // Calculate value for the insets
-    double value = (scene.getWidth() - view.requestViewBtn.getWidth()) / 2;
-    view.mainView.setPadding(new Insets(25, value, 25, value));
-    view.mainView.setSpacing(10);
-
+    view.mainView.setAlignment(Pos.CENTER);
+    view.mainView.setPadding(new Insets(25));
+    view.mainView.setSpacing(20);
   }
 
   private void attachEvents() {
