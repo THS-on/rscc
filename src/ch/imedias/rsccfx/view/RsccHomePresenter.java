@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 
 // TODO: add header
@@ -57,13 +58,16 @@ public class RsccHomePresenter implements ControlledPresenter {
     view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
     view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
 
-    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty());
+    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(2));
+        .subtract(view.headerView.heightProperty()).divide(2.5));
 
-    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty());
+    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(2));
+        .subtract(view.headerView.heightProperty()).divide(2.5));
+
+    double value = (scene.getWidth() - view.requestViewBtn.getWidth()) / 2;
+    view.mainView.setPadding(new Insets(25, value, 25, value));
 
   }
 
@@ -74,7 +78,6 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private void initHeader() {
     // set all the actions regarding buttons in this method
-    //headerPresenter.BackBtn.visible(false);
     headerPresenter.setVisibilityOfBackBtn(false);
   }
 }

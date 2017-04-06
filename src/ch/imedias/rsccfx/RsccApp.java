@@ -47,19 +47,18 @@ public class RsccApp extends Application {
     // HomeView
     Node view = new RsccHomeView(model);
     ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view);
-    ((RsccHomePresenter) presenter).initSize(scene);
+
     mainView.loadView(RsccApp.HOME_VIEW, view, presenter);
 
     // RequestHelpView
     view = new RsccRequestView(model);
     presenter = new RsccRequestPresenter(model, (RsccRequestView) view);
-    ((RsccRequestPresenter) presenter).initSize(scene);
+
     mainView.loadView(RsccApp.REQUEST_VIEW, view, presenter);
 
     // SupporterView
     view = new RsccSupportView(model);
     presenter = new RsccSupportPresenter(model, (RsccSupportView) view);
-    ((RsccSupportPresenter) presenter).initSize(scene);
     mainView.loadView(RsccApp.SUPPORT_VIEW, view, presenter);
 
     // Set initial screen
@@ -81,6 +80,12 @@ public class RsccApp extends Application {
     stage.setTitle(APP_NAME);
     stage.show();
 
+    // set sizes
+    ((RsccHomePresenter) mainView.getPresenter(HOME_VIEW)).initSize(scene);
+    ((RsccRequestPresenter) mainView.getPresenter(REQUEST_VIEW)).initSize(scene);
+    ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
+
+    System.out.println("Bla");
     // Initializing stylesheets
     String supporterSheet = getClass().getClassLoader()
         .getResource("css/supporterStyle.css").toExternalForm();
