@@ -3,12 +3,16 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 
 /**
  * Defines all elements shown in the header.
@@ -16,7 +20,7 @@ import javafx.scene.layout.HBox;
 public class HeaderView extends HBox {
   private final Rscc model;
 
-  HBox headerBox = new HBox();
+  final Pane spacer = new Pane();
 
   Button backBtn = new Button();
   Button helpBtn = new Button();
@@ -48,11 +52,14 @@ public class HeaderView extends HBox {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerBox.getChildren().add(backBtn);
-    headerBox.getChildren().add(helpBtn);
-    headerBox.getChildren().add(settingsBtn);
-    headerBox.setSpacing(10);
-    headerBox.setId("header");
+    HBox.setHgrow(spacer, Priority.ALWAYS);
+    HBox.setMargin(backBtn,new Insets(0,0,0,0));
+    HBox.setMargin(settingsBtn,new Insets(0,5,0,20));
+    HBox.setMargin(helpBtn,new Insets(0,10,0,20));
+
+    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.setId("header");
+
 
     InputStream backImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/back.svg");
@@ -94,7 +101,6 @@ public class HeaderView extends HBox {
     settingsBtn.setId("settingsBtn");
     // What needs to be added to the CSS?
 
-    this.getChildren().add(headerBox);
   }
 
 

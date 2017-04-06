@@ -25,7 +25,6 @@ public class RsccRequestView extends BorderPane {
   Label keyGenerationLbl = new Label();
   Label supporterAdminLbl = new Label();
 
-  VBox topBox = new VBox();
   VBox mainBox = new VBox();
   VBox bottomBox = new VBox();
 
@@ -118,7 +117,6 @@ public class RsccRequestView extends BorderPane {
     supporterAdminBox.getChildren().addAll(/*supporterAdminBtn, */supporterAdminLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
 
-    topBox.getChildren().add(headerView);
     centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
         additionalDescriptionTxt);
     bottomBox.getChildren().add(supporterAdminBox);
@@ -126,7 +124,7 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setContent(centerBox);
     supporterAdminPane.setContent(bottomBox);
 
-    setTop(topBox);
+    setTop(headerView);
     setCenter(keyGeneratorPane);
     setBottom(supporterAdminPane);
   }

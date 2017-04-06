@@ -28,7 +28,6 @@ public class RsccSupportView extends BorderPane {
   Label exampleLbl = new Label();
   Label instructionLbl = new Label();
 
-  VBox topBox = new VBox();
   VBox centerBox = new VBox();
   VBox groupingBox = new VBox();
   HBox tokenValidationBox = new HBox();
@@ -113,8 +112,7 @@ public class RsccSupportView extends BorderPane {
 
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
-    topBox.getChildren().add(headerView);
-    setTop(topBox);
+    setTop(headerView);
     setBottom(predefinedAdressesPane);
   }
 

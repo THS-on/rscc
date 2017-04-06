@@ -66,7 +66,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.topBox.prefWidthProperty().bind(scene.widthProperty());
+    view.headerView.prefWidthProperty().bind(scene.widthProperty());
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
     view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
     view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));

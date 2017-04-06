@@ -10,9 +10,9 @@
 }
 
 #helpBtn, #backBtn, #settingsBtn{
-    -fx-padding: 10px;
+    -fx-padding: 5;
     -fx-border-color: #d5d5d5;
-    -fx-border-width: 3px;
+    -fx-border-width: 3;
     -fx-border-radius: 7;
     -fx-background-radius: 7;
 }
