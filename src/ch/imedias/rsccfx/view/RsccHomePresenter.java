@@ -50,6 +50,7 @@ public class RsccHomePresenter implements ControlledPresenter {
    * Initializes the size of the RsccHomeView.
    */
   public void initSize(Scene scene) {
+    //FIXME: What is needed from those...?
     //view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
     //view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
     //view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
