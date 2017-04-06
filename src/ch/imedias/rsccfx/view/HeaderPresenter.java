@@ -71,16 +71,12 @@ public class HeaderPresenter {
     view.headerBox.prefWidthProperty().bind(scene.widthProperty());
   }
 
-  // TODO: JavaComment
+  /**
+   * Allows to set the visibility to not show the button in the header in the homeView.
+   *
+   * @param visibility boolean value.
+   */
   public void setVisibilityOfBackBtn(Boolean visibility) {
     view.backBtn.setVisible(false);
   }
-
-  // TODO: JavaComment
-  // Only needed for subtracting in RsccHomePresenter
-  public double getViewHeight() {
-    return view.getHeight();
-
-  }
-
 }
