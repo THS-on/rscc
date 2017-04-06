@@ -72,8 +72,6 @@ public class RsccHomeView extends BorderPane {
 
     this.setTop(headerView);
     this.setCenter(mainView);
-    // this.setTop(requestViewBtn);
-    // this.setBottom(supportViewBtn);
   }
 
   private void bindFieldsToModel() {
