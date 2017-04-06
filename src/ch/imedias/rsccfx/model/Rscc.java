@@ -1,7 +1,5 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rscc.ProcessExecutor;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,8 +25,8 @@ public class Rscc {
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
   private static final String RSCC_FOLDER_NAME = ".rscc";
+  private SystemCommander systemCommander;
   private String pathToResourceDocker;
-  private final ProcessExecutor processExecutor;
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
@@ -36,19 +34,21 @@ public class Rscc {
   /**
    * Initializes the Rscc model class.
    */
-  public Rscc(ProcessExecutor processExecutor) {
-    this.processExecutor = processExecutor;
+  public Rscc(SystemCommander systemCommander) {
+    this.systemCommander = systemCommander;
+    defineResourcePath();
 
-    jarOrNotToJar();
-
-    keyServerSetup("localhost", "800");
+    keyServerSetup("86.119.39.89", "800");
     keyServerSetup();
+
+    requestTokenFromServer();
+    killConnection(getKey());
   }
 
   /**
-   * Sets resourcepath differentiated if application runs as JAR or in IDE.
+   * Sets resourcepath - dependet if application runs as JAR or in IDE.
    */
-  private void jarOrNotToJar() {
+  private void defineResourcePath() {
     String userhome = System.getProperty("user.home");
     URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
     File f = new File(location.getFile());
@@ -113,16 +113,14 @@ public class Rscc {
     this.keyServerHttpPort = keyServerHttpPort;
   }
 
+  /**
+   * Setup the server with use.sh
+   */
   private void keyServerSetup() {
-    // Setup the server with use.sh
-    //executeP2pScript("", keyServerIp, keyServerHttpPort);
-    try {
-      Process p = new ProcessBuilder(pathToResourceDocker + "/use.sh",
-              keyServerIp, keyServerHttpPort).start();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    keyServerSetup(keyServerIp, keyServerHttpPort);
 
+    String command = pathToResourceDocker + "/use.sh " + keyServerIp + " " + keyServerHttpPort;
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -130,7 +128,8 @@ public class Rscc {
    */
   public void killConnection(String key) {
     // Execute port_stop.sh with the generated key to kill the connection
-    executeP2pScript("port_stop.sh", key);
+    String command = pathToResourceDocker + "/port_stop.sh " + key;
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -139,8 +138,8 @@ public class Rscc {
   public String requestTokenFromServer() {
     keyServerSetup();
 
-    // Execute port_share.sh and get a key as output
-    String key = executeP2pScript("start_x11vnc.sh", keyServerIp, keyServerHttpPort);
+    String command = pathToResourceDocker + "/start_x11vnc.sh";
+    String key = systemCommander.executeTerminalCommand(command);
     this.key.set(key); // update key in model
     return key;
   }
@@ -151,8 +150,8 @@ public class Rscc {
   public void connectToUser(String key) {
     keyServerSetup();
 
-    // Executes start_vncviewer.sh and connects to the user.
-    executeP2pScript("start_vncviewer.sh", key);
+    String command = pathToResourceDocker + "/start_vncviewer.sh " + key;
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -164,19 +163,6 @@ public class Rscc {
     return requestTokenFromServer();
   }
 
-  private String executeP2pScript(String fileName, String... parameters) {
-    String output = "";
-    try {
-      processExecutor.executeScript(true, true, pathToResourceDocker + fileName, parameters);
-    } catch (IOException writingError) {
-      System.out.println("script could not be written to a temp file!");
-      writingError.printStackTrace();
-    }
-    output = processExecutor.getOutput();
-    output = output.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
-    System.out.println(output);
-    return output;
-  }
 
   public StringProperty keyProperty() {
     return key;
