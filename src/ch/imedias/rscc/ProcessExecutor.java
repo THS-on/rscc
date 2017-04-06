@@ -27,6 +27,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -97,6 +98,7 @@ public class ProcessExecutor {
     public int executeScript(boolean storeStdOut, boolean storeStdErr,
             String script, String... parameters) throws IOException {
         LOGGER.log(Level.INFO, "script:\n{0}", script);
+        LOGGER.log(Level.INFO, "parameters:\n{0}", Arrays.toString(parameters));
         File scriptFile = null;
         try {
             scriptFile = createScript(script);

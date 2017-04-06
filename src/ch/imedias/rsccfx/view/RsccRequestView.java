@@ -67,11 +67,7 @@ public class RsccRequestView extends BorderPane {
 
     supporterAdminLbl.textProperty().set("Supporter administration"); // TODO: String Class
 
-    descriptionTxt.textProperty().set("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
-        + "sed diam voluptua. At vero eos et accusam "
-        + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
-        + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+    descriptionTxt.textProperty().set("Test");
     descriptionTxt.setId("descriptionTxt"); // TODO: Styling
 
     generatedKeyFld.setPrefHeight(60); // FIXME: Has this to be in the CSS?
@@ -90,13 +86,7 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
 
     // TODO: Implement String Class
-    additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
-        + "consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt "
-        + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
-        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet "
-        + "clita kasd gubergren, no sea takimata sanctus est "
-        + "Lorem ipsum dolor sit amet.");
+    additionalDescriptionTxt.textProperty().set("Test");
     additionalDescriptionTxt.setId("additionalDescriptionTxt");
 
     // TODO: Implement String Class

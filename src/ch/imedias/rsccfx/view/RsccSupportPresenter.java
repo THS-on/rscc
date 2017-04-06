@@ -30,6 +30,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
   }
@@ -57,9 +58,11 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.headerView.prefWidthProperty().bind(scene.widthProperty());
-    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    // initialize header
     headerPresenter.initSize(scene);
+
+    // initialize view
+    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
   }
 
   /**
@@ -104,7 +107,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
-    headerPresenter = new HeaderPresenter(model, view.headerView);
     headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
     // TODO: Set actions on buttons (Help, Settings)
   }

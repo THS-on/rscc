@@ -59,7 +59,7 @@ public class RsccSupportView extends BorderPane {
 
     // TODO: Move initialization to matching class...
     enterTokenLbl.textProperty().set("EnterToken");
-    keyDescriptionLbl.textProperty().set("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+    keyDescriptionLbl.textProperty().set("Test");
     exampleLbl.textProperty().set("Number of characters: 8\nexample: 666xx666");
     instructionLbl.textProperty().set("Instructions");
 
