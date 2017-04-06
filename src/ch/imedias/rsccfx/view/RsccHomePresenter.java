@@ -66,8 +66,10 @@ public class RsccHomePresenter implements ControlledPresenter {
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(2.5));
 
+    // Calculate value for the insets
     double value = (scene.getWidth() - view.requestViewBtn.getWidth()) / 2;
     view.mainView.setPadding(new Insets(25, value, 25, value));
+    view.mainView.setSpacing(10);
 
   }
 
