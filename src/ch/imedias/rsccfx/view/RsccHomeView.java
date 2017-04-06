@@ -44,8 +44,8 @@ public class RsccHomeView extends BorderPane {
     headerView = new HeaderView(model);
 
     //TODO: replace Text, multilangual
-    requestViewBtn.textProperty().setValue("I need help");
-    supportViewBtn.textProperty().setValue("I want to help someone");
+    requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
+    supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
   }
 
   private void layoutForm() {

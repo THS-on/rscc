@@ -21,7 +21,8 @@ import javafx.scene.Scene;
  */
 public class RsccHomePresenter implements ControlledPresenter {
   private static final Double IMG_VIEW_DIVISOR = 3d;
-  private static final Double VIEW_BTN_DIVISOR = 2.5d;
+  private static final Double VIEW_BTN_HEIGHT_DIVISOR = 2.5d;
+  private static final Double VIEW_BTN_WIDTH_DIVISOR = 1.5d;
 
   private final Rscc model;
   private final RsccHomeView view;
@@ -59,13 +60,14 @@ public class RsccHomePresenter implements ControlledPresenter {
         .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
 
     view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty()
-        .divide(2));
+        .divide(VIEW_BTN_WIDTH_DIVISOR));
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_DIVISOR));
+        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_HEIGHT_DIVISOR));
 
-    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty()
+        .divide(VIEW_BTN_WIDTH_DIVISOR));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_DIVISOR));
+        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_HEIGHT_DIVISOR));
 
     view.mainView.setAlignment(Pos.CENTER);
     view.mainView.setPadding(new Insets(25));
