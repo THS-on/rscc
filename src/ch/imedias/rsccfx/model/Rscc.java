@@ -26,13 +26,12 @@ public class Rscc {
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
+  private static final String RSCC_FOLDER_NAME = ".rscc";
   private String pathToResourceDocker;
   private final ProcessExecutor processExecutor;
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
-
-  private ClassLoader cl;
 
   /**
    * Initializes the Rscc model class.
@@ -46,7 +45,11 @@ public class Rscc {
     keyServerSetup();
   }
 
+  /**
+   * Sets resourcepath differentiated if application runs as JAR or in IDE.
+   */
   private void jarOrNotToJar() {
+    String userhome = System.getProperty("user.home");
     URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
     File f = new File(location.getFile());
     if (f.isDirectory()) {
@@ -55,18 +58,18 @@ public class Rscc {
                       .getFile().toString().replaceFirst("file:", "");
 
     } else {
-      pathToResourceDocker = "/tmp/" + DOCKER_FOLDER_NAME;
-      extractJarContents("/tmp/", DOCKER_FOLDER_NAME);
+      pathToResourceDocker = userhome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
+      extractJarContents(location, userhome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
     }
-
-    System.out.println(pathToResourceDocker);
   }
 
-  private void extractJarContents(String destinationDirectory, String filter) {
-    URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+  /**
+   * Extract files from running JAR to folder.
+   */
+  private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
     JarFile jarfile = null;
     try {
-      jarfile = new JarFile(new File(location.getFile()));
+      jarfile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -84,20 +87,20 @@ public class Rscc {
         if (je.isDirectory()) {
           continue;
         }
-        try {
-          InputStream is = jarfile.getInputStream(je);
-          FileOutputStream fo = new FileOutputStream(fl);
+        try (
+                InputStream is = jarfile.getInputStream(je);
+                FileOutputStream fo = new FileOutputStream(fl);
+        ) {
           while (is.available() > 0) {
             fo.write(is.read());
           }
-          fl.setExecutable(true);
-          fo.close();
-          is.close();
+
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         } catch (IOException e) {
           e.printStackTrace();
         }
+        fl.setExecutable(true);
       }
     }
   }
