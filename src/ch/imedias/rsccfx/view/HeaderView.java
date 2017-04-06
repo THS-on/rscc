@@ -97,6 +97,7 @@ public class HeaderView extends HBox {
     headLbl.setId("headerText");
 
     this.getChildren().add(headerBox);
+    this.setHeight(250d);
   }
 
 

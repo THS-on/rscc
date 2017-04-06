@@ -59,13 +59,11 @@ public class RsccHomePresenter implements ControlledPresenter {
 
     view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty());
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty())/*.divide(2)*/);
-    // FIXME: Subtracting is not working... actually divide should be (2)
-    // FIXME: Problem is, that there is no height set... it's null.
+        .subtract(view.headerView.heightProperty()).divide(2));
 
     view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty());
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(headerPresenter.getViewHeight())/*.divide(2)*/);
+        .subtract(view.headerView.heightProperty()).divide(2));
 
 
   }
