@@ -71,4 +71,10 @@ public class HeaderPresenter {
     view.headerBox.prefWidthProperty().bind(scene.widthProperty());
   }
 
+  // TODO: JavaComment
+  // TODO: Implement this for HomeView usage.
+  public void setVisibilityOfBackBtn(Boolean visibility) {
+
+  }
+
 }

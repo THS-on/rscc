@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
 
+  HeaderView headerView;
+
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
 
@@ -39,6 +41,8 @@ public class RsccHomeView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
+    headerView = new HeaderView(model);
+
     //TODO: replace Text, multilangual
     requestViewBtn.textProperty().setValue("I need help");
     supportViewBtn.textProperty().setValue("I want to help someone");
@@ -63,6 +67,8 @@ public class RsccHomeView extends BorderPane {
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     mainView.getChildren().addAll(requestViewBtn, supportViewBtn);
+
+    this.setTop(headerView);
     this.setCenter(mainView);
     // this.setTop(requestViewBtn);
     // this.setBottom(supportViewBtn);

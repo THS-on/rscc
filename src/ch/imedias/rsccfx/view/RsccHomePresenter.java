@@ -23,6 +23,7 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private final Rscc model;
   private final RsccHomeView view;
+  HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
@@ -31,7 +32,9 @@ public class RsccHomePresenter implements ControlledPresenter {
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;
     this.view = view;
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
+    initHeader();
   }
 
   /**
@@ -51,10 +54,16 @@ public class RsccHomePresenter implements ControlledPresenter {
     // view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
     // view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
     // view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
+    headerPresenter.initSize(scene);
   }
 
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
     view.requestViewBtn.setOnAction(event -> viewParent.setView(RsccApp.REQUEST_VIEW));
+  }
+
+  private void initHeader() {
+    // set all the actions regarding buttons in this method
+    //headerPresenter.BackBtn.visible(false);
   }
 }
