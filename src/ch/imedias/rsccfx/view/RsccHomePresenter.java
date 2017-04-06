@@ -20,8 +20,8 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
-  private static final int VIEW_BTN_DIVISOR = 2;
-  private static final int IMG_VIEW_DIVISOR = 8;
+  private static final Double IMG_VIEW_DIVISOR = 3d;
+  private static final Double VIEW_BTN_DIVISOR = 2.5d;
 
   private final Rscc model;
   private final RsccHomeView view;
@@ -54,18 +54,18 @@ public class RsccHomePresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(3));
+        .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
     view.supportImgView.fitHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(3));
+        .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
 
     view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty()
         .divide(2));
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(2.5));
+        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_DIVISOR));
 
     view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.heightProperty()).divide(2.5));
+        .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_DIVISOR));
 
     view.mainView.setAlignment(Pos.CENTER);
     view.mainView.setPadding(new Insets(25));
