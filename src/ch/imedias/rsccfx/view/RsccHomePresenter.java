@@ -50,16 +50,17 @@ public class RsccHomePresenter implements ControlledPresenter {
    * Initializes the size of the RsccHomeView.
    */
   public void initSize(Scene scene) {
-    // view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
-    // view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
-    // view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
-    // view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
+    //view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
+    //view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
+    //view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
+    //view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
     headerPresenter.initSize(scene);
 
     view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
     view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
 
-    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(2));
+    view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty()
+        .divide(2));
     view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(2.5));
 
