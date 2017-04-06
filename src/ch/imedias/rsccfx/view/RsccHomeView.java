@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -51,13 +52,13 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void layoutForm() {
-    // TODO: Resizing of pictures and size!
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/IneedHelp.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
     requestViewBtn.setGraphic(requestImgView);
+    requestViewBtn.setContentDisplay(ContentDisplay.LEFT);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
