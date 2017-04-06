@@ -44,6 +44,8 @@ public class RsccHomeView extends BorderPane {
     headerView = new HeaderView(model);
 
     //TODO: replace Text, multilangual
+    //TODO: Different textsizes:
+    //TODO: see here: http://stackoverflow.com/questions/12193785/different-textsizes-in-a-button
     requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
     supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
   }
