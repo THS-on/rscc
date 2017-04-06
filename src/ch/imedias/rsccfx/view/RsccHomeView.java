@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines all elements shown on the start page.
@@ -16,6 +17,8 @@ public class RsccHomeView extends BorderPane {
 
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
+
+  VBox mainView = new VBox();
 
   Image requestImg;
   Image supportImg;
@@ -59,8 +62,10 @@ public class RsccHomeView extends BorderPane {
     supportViewBtn.setGraphic(supportImgView);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    this.setLeft(requestViewBtn);
-    this.setRight(supportViewBtn);
+    mainView.getChildren().addAll(requestViewBtn, supportViewBtn);
+    this.setCenter(mainView);
+    // this.setTop(requestViewBtn);
+    // this.setBottom(supportViewBtn);
   }
 
   private void bindFieldsToModel() {
