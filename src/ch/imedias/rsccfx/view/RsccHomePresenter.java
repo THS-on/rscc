@@ -51,14 +51,12 @@ public class RsccHomePresenter implements ControlledPresenter {
    */
   public void initSize(Scene scene) {
     //FIXME: What is needed from those...?
-    //view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
-    //view.supportViewBtn.prefHeightProperty().bind(scene.heightProperty());
-    //view.requestViewBtn.prefWidthProperty().bind(scene.widthProperty().divide(VIEW_BTN_DIVISOR));
-    //view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty());
     headerPresenter.initSize(scene);
 
-    view.requestImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
-    view.supportImgView.fitWidthProperty().bind(scene.widthProperty().divide(IMG_VIEW_DIVISOR));
+    view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
+        .subtract(view.headerView.heightProperty()).divide(3));
+    view.supportImgView.fitHeightProperty().bind(scene.heightProperty()
+        .subtract(view.headerView.heightProperty()).divide(3));
 
     view.supportViewBtn.prefWidthProperty().bind(scene.widthProperty()
         .divide(2));
