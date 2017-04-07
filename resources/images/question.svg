@@ -5,5 +5,5 @@
 	 id="svg2108" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px" height="48px"
 	 viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<polygon fill-rule="evenodd" clip-rule="evenodd" points="30.75,13.25 30.75,36 12.75,25 "/>
+<text transform="matrix(1 0 0 1 12.375 42.25)" font-family="'DejaVuSans'" font-size="48">?</text>
 </svg>

@@ -56,7 +56,7 @@ public class HeaderPresenter {
    *               when the settings button is clicked.
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
-    view.settBtn.setOnAction(action);
+    view.settingsButton.setOnAction(action);
   }
 
   /**
