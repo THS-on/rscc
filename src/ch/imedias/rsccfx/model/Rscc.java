@@ -37,12 +37,6 @@ public class Rscc {
   public Rscc(SystemCommander systemCommander) {
     this.systemCommander = systemCommander;
     defineResourcePath();
-
-    keyServerSetup("86.119.39.89", "800");
-    keyServerSetup();
-
-    requestTokenFromServer();
-    killConnection(getKey());
   }
 
   /**

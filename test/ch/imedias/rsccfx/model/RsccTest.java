@@ -30,7 +30,7 @@ public class RsccTest {
   @Before
   public void setUp() throws Exception {
     mockProcessExecutor = mock(ProcessExecutor.class);
-    model = new Rscc();
+    model = new Rscc(new SystemCommander());
     model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
     when(mockProcessExecutor.getOutput()).thenReturn("OUTPUT>" + KEY);
   }
