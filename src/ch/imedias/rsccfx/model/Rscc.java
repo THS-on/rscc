@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -25,7 +23,7 @@ public class Rscc {
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
   private static final String RSCC_FOLDER_NAME = ".rscc";
-  private SystemCommander systemCommander;
+  private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
@@ -46,10 +44,10 @@ public class Rscc {
   }
 
   /**
-   * Sets resourcepath - dependet if application runs as JAR or in IDE.
+   * Sets resource path, according to the application running either as a JAR or in the IDE.
    */
   private void defineResourcePath() {
-    String userhome = System.getProperty("user.home");
+    String userHome = System.getProperty("user.home");
     URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
     File f = new File(location.getFile());
     if (f.isDirectory()) {
@@ -58,13 +56,13 @@ public class Rscc {
                       .getFile().toString().replaceFirst("file:", "");
 
     } else {
-      pathToResourceDocker = userhome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
-      extractJarContents(location, userhome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
+      pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
+      extractJarContents(location, userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
     }
   }
 
   /**
-   * Extract files from running JAR to folder.
+   * Extracts files from running JAR to folder.
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
     JarFile jarfile = null;
@@ -114,7 +112,7 @@ public class Rscc {
   }
 
   /**
-   * Setup the server with use.sh
+   * Sets up the server with use.sh.
    */
   private void keyServerSetup() {
     keyServerSetup(keyServerIp, keyServerHttpPort);
