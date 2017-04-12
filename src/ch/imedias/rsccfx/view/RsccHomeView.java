@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+// import ch.imedias.rsccfx.localization.Strings;
+
 /**
  * Defines all elements shown on the start page.
  */
