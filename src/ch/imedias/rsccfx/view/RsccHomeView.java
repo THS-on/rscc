@@ -54,7 +54,7 @@ public class RsccHomeView extends BorderPane {
 
   private void layoutForm() {
     InputStream requestHelpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/IneedHelp.svg");
+        .getResourceAsStream("images/INeedHelp2.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
@@ -62,7 +62,7 @@ public class RsccHomeView extends BorderPane {
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/INeedSupport.svg");
+        .getResourceAsStream("images/support.svg");
     supportImg = new Image(offerSupportImagePath);
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
