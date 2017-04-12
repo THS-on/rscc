@@ -49,6 +49,8 @@ public class RsccHomeView extends BorderPane {
     // idea out of this: make one box, put image and texts (as label) into it and put in the button
     requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
     supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
+    // try this:
+    // https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/SAD#SAD-Localization
   }
 
   private void layoutForm() {
