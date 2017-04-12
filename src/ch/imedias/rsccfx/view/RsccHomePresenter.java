@@ -8,12 +8,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
-// TODO: add header
-// TODO: put buttons in a VBox
 // TODO: Check mockup for reference here:
 // https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.8?preview=/15991708/15991716/Startscreen.png
-// TODO: Put all things into the box
-
 
 /**
  * Defines the behaviour of interactions
