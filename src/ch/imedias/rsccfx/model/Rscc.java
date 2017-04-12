@@ -22,6 +22,8 @@ public class Rscc {
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
+  // sh files can not be executed in the JAR file and therefor must be extracted.
+  // ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
