@@ -49,7 +49,7 @@ public class RsccHomeView extends BorderPane {
     //TODO: http://stackoverflow.com/questions/22128937/is-different-font-sizes-possible-in-a-button-in-javafx
     // idea out of this: make one box, put image and texts (as label) into it and put in the button
     requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
-    supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
+    supportViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
   }
 
   private void layoutForm() {
