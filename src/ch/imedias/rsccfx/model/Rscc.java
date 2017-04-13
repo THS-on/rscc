@@ -138,7 +138,8 @@ public class Rscc {
   public String requestTokenFromServer() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
+    String command = commandStringGenerator(
+        pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     this.key.set(key); // update key in model
     System.out.println(getKey());
