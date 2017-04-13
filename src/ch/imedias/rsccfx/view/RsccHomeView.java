@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
-  HeaderView headerView;
+  private final HeaderView headerView;
 
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
@@ -34,6 +34,7 @@ public class RsccHomeView extends BorderPane {
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
@@ -42,8 +43,6 @@ public class RsccHomeView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    headerView = new HeaderView(model);
-
     //TODO: replace Text, multilangual
     //TODO: Different textsizes:
     //TODO: http://stackoverflow.com/questions/27295505/javafx-button-with-multiple-text-lines
