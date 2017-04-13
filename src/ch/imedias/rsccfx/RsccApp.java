@@ -42,7 +42,7 @@ public class RsccApp extends Application {
 
     Group root = new Group();
     root.getChildren().addAll(mainView);
-    Scene scene = new Scene(root);
+    final Scene scene = new Scene(root);
 
     // Initialize the views and load them into ViewController
     // HomeView

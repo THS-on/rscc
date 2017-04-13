@@ -15,10 +15,9 @@ public class ViewController extends StackPane {
   private HashMap<String, ControlledPresenter> presenters = new HashMap<>();
 
   /**
-   * Returns a presenter to call methods on it.
+   * Returns an already loaded presenter.
    *
-   * @param name of the view.
-   * @return presenter of the according view.
+   * @param name of the view / presenter.
    */
   public ControlledPresenter getPresenter(String name) {
     return presenters.get(name);
