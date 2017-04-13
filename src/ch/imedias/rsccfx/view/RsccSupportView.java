@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,6 +19,7 @@ import javafx.scene.text.Font;
  */
 public class RsccSupportView extends BorderPane {
   private final Rscc model;
+  private final Strings strings = new Strings();
 
   final HeaderView headerView;
 

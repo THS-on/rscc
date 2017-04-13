@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import javafx.scene.layout.Priority;
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
 
+  private final Strings strings = new Strings();
   private final Rscc model;
 
   final Pane spacer = new Pane();
