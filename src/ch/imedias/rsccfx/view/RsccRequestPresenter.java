@@ -18,7 +18,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final boolean IS_COMPRESSION_ENABLED = true;
   private final Rscc model;
   private final RsccRequestView view;
-  HeaderPresenter headerPresenter;
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**

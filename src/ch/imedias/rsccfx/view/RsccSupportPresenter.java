@@ -20,8 +20,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private static final boolean IS_COMPRESSION_ENABLED = true;
   private final Rscc model;
   private final RsccSupportView view;
-  HeaderPresenter headerPresenter;
-  String key = "";
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
