@@ -62,7 +62,6 @@ public class HeaderView extends HBox {
     this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
     this.setId("header");
 
-
     InputStream backImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/back.svg");
     backImg = new Image(backImagePath);
@@ -74,7 +73,6 @@ public class HeaderView extends HBox {
     backBtn.setPrefWidth(50);
     backBtn.setPrefHeight(50);
     backBtn.setId("backBtn");
-    // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/question.svg");
@@ -88,7 +86,6 @@ public class HeaderView extends HBox {
     helpBtn.setPrefHeight(50);
     helpBtn.setAlignment(Pos.BASELINE_RIGHT);
     helpBtn.setId("helpBtn");
-    // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/settings.svg");
@@ -101,7 +98,6 @@ public class HeaderView extends HBox {
     settingsBtn.setPrefWidth(50);
     settingsBtn.setPrefHeight(50);
     settingsBtn.setId("settingsBtn");
-    // TODO: What needs to be added to the CSS?
 
     this.setHeight(HEADER_HEIGHT);
   }

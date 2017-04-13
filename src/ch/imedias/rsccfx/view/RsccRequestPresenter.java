@@ -19,7 +19,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccRequestView view;
   HeaderPresenter headerPresenter;
-  String key = "";
   private ViewController viewParent;
 
   /**
