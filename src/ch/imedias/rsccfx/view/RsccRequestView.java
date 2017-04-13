@@ -62,12 +62,11 @@ public class RsccRequestView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    // TODO: String Class implementation!
 
-    keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
+    keyGenerationLbl.textProperty().set("Key generator");
     keyGenerationLbl.setId("keyGenerationLbl");
 
-    supporterAdminLbl.textProperty().set("Supporter administration"); // TODO: String Class
+    supporterAdminLbl.textProperty().set("Supporter administration");
 
     descriptionTxt.textProperty().set("Test");
     descriptionTxt.setId("descriptionTxt"); // TODO: Styling
@@ -87,11 +86,9 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
 
-    // TODO: Implement String Class
     additionalDescriptionTxt.textProperty().set("Test");
     additionalDescriptionTxt.setId("additionalDescriptionTxt");
 
-    // TODO: Implement String Class
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 

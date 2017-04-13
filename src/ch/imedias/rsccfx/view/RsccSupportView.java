@@ -23,8 +23,6 @@ public class RsccSupportView extends BorderPane {
 
   final HeaderView headerView;
 
-  //FIXME: Those fields are never used. Consider using it in the future. Thx.
-
   Label enterTokenLbl = new Label();
   Label keyDescriptionLbl = new Label();
   Label exampleLbl = new Label();
@@ -44,7 +42,6 @@ public class RsccSupportView extends BorderPane {
   Button connectBtn = new Button();
   Button expandOptionBtn = new Button();
 
-
   /**
    * Initializes all the GUI components needed to enter the token the supporter received.
    */
@@ -58,8 +55,6 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-
-    // TODO: Move initialization to matching class...
     enterTokenLbl.textProperty().set("EnterToken");
     keyDescriptionLbl.textProperty().set("Test");
     exampleLbl.textProperty().set("Number of characters: 8\nexample: 666xx666");
@@ -73,7 +68,6 @@ public class RsccSupportView extends BorderPane {
     connectBtn.textProperty().set("Connect");
     expandOptionBtn.textProperty().set("More");
 
-    // TODO: Implement String Class
     keyInputPane.setText("Key Input");
     keyInputPane.setExpanded(true);
 
