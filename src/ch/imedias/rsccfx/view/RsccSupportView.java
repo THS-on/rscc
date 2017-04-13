@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
  */
 public class RsccSupportView extends BorderPane {
   private final Rscc model;
-  private final Strings strings = new Strings();
+//  private final Strings strings = new Strings();
 
   final HeaderView headerView;
 

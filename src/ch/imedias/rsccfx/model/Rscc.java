@@ -26,13 +26,13 @@ public class Rscc {
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
-    */
+   */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp;
-  private String keyServerHttpPort;
+  private String keyServerIp = "86.119.39.89";;
+  private String keyServerHttpPort = "800";
 
   /**
    * Initializes the Rscc model class.
