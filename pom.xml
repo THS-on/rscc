@@ -262,5 +262,13 @@
             <artifactId>ice4j</artifactId>
             <version>master</version>
         </dependency>
+              
+        <!-- Jsch to exchange files over scp-->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -47,12 +47,12 @@ fi
 ### create a key pair for the connection and get
 ### the key name, remote port and the private key
 keyfile=$(tempfile)
-ssh -p $p2p_port -i keys/create.key vnc@$p2p_server > $keyfile 2>>$logfile
+ssh -o StrictHostKeyChecking=no -p $p2p_port -i keys/create.key vnc@$p2p_server > $keyfile 2>>$logfile
 key=$(sed -n -e '1p' $keyfile | tr -d [:space:])
 remote_port=$(sed -n -e '2p' $keyfile | tr -d [:space:])
 
 ### start the tunnel for port-forwarding
-ssh="ssh -p $p2p_port -f -N -t"
+ssh="ssh -o StrictHostKeyChecking=no -p $p2p_port -f -N -t"
 if [ $compress = 'yes' ]; then ssh="$ssh -C"; fi
 $ssh -R $remote_port:localhost:$local_port \
      -i $keyfile vnc@$p2p_server 2>>$logfile

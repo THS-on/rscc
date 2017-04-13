@@ -1,7 +1,15 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rscc.ProcessExecutor;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,9 +23,13 @@ public class Rscc {
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
-  private final String pathToResourceDocker;
-  private final String scriptShell;
-  private final ProcessExecutor processExecutor;
+  /**
+   * sh files can not be executed in the JAR file and therefore must be extracted.
+   * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
+    */
+  private static final String RSCC_FOLDER_NAME = ".rscc";
+  private final SystemCommander systemCommander;
+  private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
@@ -25,12 +37,72 @@ public class Rscc {
   /**
    * Initializes the Rscc model class.
    */
-  public Rscc(ProcessExecutor processExecutor) {
-    this.processExecutor = processExecutor;
-    pathToResourceDocker =
-        getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-            .getFile().toString().replaceFirst("file:", "");
-    scriptShell = "bash" + " " + pathToResourceDocker + "/";
+  public Rscc(SystemCommander systemCommander) {
+    this.systemCommander = systemCommander;
+    defineResourcePath();
+  }
+
+  /**
+   * Sets resource path, according to the application running either as a JAR or in the IDE.
+   */
+  private void defineResourcePath() {
+    String userHome = System.getProperty("user.home");
+    URL theLocationOftheRunningClass = this.getClass().getProtectionDomain()
+        .getCodeSource().getLocation();
+    File actualClass = new File(theLocationOftheRunningClass.getFile());
+    if (actualClass.isDirectory()) {
+      pathToResourceDocker =
+              getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
+                      .getFile().toString().replaceFirst("file:", "");
+
+    } else {
+      pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
+      extractJarContents(theLocationOftheRunningClass,
+          userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
+    }
+  }
+
+  /**
+   * Extracts files from running JAR to folder.
+   * @param filter filters the files that will be extracted by this string.
+   */
+  private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
+    JarFile jarFile = null;
+    try {
+      jarFile = new JarFile(new File(sourceLocation.getFile()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Enumeration<JarEntry> contentList = jarFile.entries();
+    while (contentList.hasMoreElements()) {
+      JarEntry item = contentList.nextElement();
+      if (item.getName().contains(filter)) {
+        System.out.println(item.getName());
+        File targetFile = new File(destinationDirectory, item.getName());
+        if (!targetFile.exists()) {
+          targetFile.getParentFile().mkdirs();
+          targetFile = new File(destinationDirectory, item.getName());
+        }
+        if (item.isDirectory()) {
+          continue;
+        }
+        try (
+            InputStream fromStream = jarFile.getInputStream(item);
+            FileOutputStream toStream = new FileOutputStream(targetFile);
+        ) {
+          while (fromStream.available() > 0) {
+            toStream.write(fromStream.read());
+          }
+
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        targetFile.setExecutable(true);
+      }
+    }
   }
 
   /**
@@ -41,9 +113,13 @@ public class Rscc {
     this.keyServerHttpPort = keyServerHttpPort;
   }
 
+  /**
+   * Sets up the server with use.sh.
+   */
   private void keyServerSetup() {
-    // Setup the server with use.sh
-    executeP2pScript("use.sh", keyServerIp, keyServerHttpPort);
+    String command = commandStringGenerator(
+        pathToResourceDocker, "use.sh", keyServerIp, keyServerHttpPort);
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -51,7 +127,8 @@ public class Rscc {
    */
   public void killConnection(String key) {
     // Execute port_stop.sh with the generated key to kill the connection
-    executeP2pScript("port_stop.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", key);
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -60,8 +137,8 @@ public class Rscc {
   public String requestTokenFromServer() {
     keyServerSetup();
 
-    // Execute port_share.sh and get a key as output
-    String key = executeP2pScript("start_x11vnc.sh", keyServerIp, keyServerHttpPort);
+    String command = commandStringGenerator(pathToResourceDocker, "start_x11vnc.sh");
+    String key = systemCommander.executeTerminalCommand(command);
     this.key.set(key); // update key in model
     return key;
   }
@@ -72,8 +149,8 @@ public class Rscc {
   public void connectToUser(String key) {
     keyServerSetup();
 
-    // Executes start_vncviewer.sh and connects to the user.
-    executeP2pScript("start_vncviewer.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", key);
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
@@ -85,18 +162,20 @@ public class Rscc {
     return requestTokenFromServer();
   }
 
-  private String executeP2pScript(String fileName, String... parameters) {
-    String output = "";
-    try {
-      processExecutor.executeScript(true, true, scriptShell + fileName, parameters);
-    } catch (IOException writingError) {
-      System.out.println("script could not be written to a temp file!");
-      writingError.printStackTrace();
-    }
-    output = processExecutor.getOutput();
-    output = output.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
-    return output;
+  /**
+   * Generates String to run command.
+   */
+  private String commandStringGenerator(
+      String pathToScript, String scriptName, String... attributes) {
+    StringBuilder commandString = new StringBuilder();
+
+    commandString.append(pathToScript).append("/").append(scriptName);
+    Arrays.stream(attributes)
+        .forEach((s) -> commandString.append(" ").append(s));
+
+    return commandString.toString();
   }
+
 
   public StringProperty keyProperty() {
     return key;
