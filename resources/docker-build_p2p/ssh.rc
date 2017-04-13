@@ -2,7 +2,7 @@
 ### variables for the configuration of a ssh tunnel
 
 ### the IP or DN of the p2p server
-p2p_server=localhost
+p2p_server=86.119.39.89
 
 ### the port of the sshd service in the p2p server
 p2p_port=2201
