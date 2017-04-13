@@ -33,7 +33,7 @@ public class Rscc {
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
-  private String pathToStunDumpFile = "/home/jp/Dropbox/codefolio/rscc/resources/ice4jDemoDump.ice";
+  private String pathToStunDumpFile ;
 
   /**
    * Initializes the Rscc model class.
@@ -41,6 +41,11 @@ public class Rscc {
   public Rscc(SystemCommander systemCommander) {
     this.systemCommander = systemCommander;
     defineResourcePath();
+
+    keyServerSetup("localhost", "800");
+
+    requestTokenFromServer();
+
   }
 
   /**
@@ -136,6 +141,10 @@ public class Rscc {
    * Requests a token from the key server.
    */
   public String requestTokenFromServer() {
+    //TODO: Replace when the StunFileGeneration is ready
+    pathToStunDumpFile = this.getClass().getClassLoader().getResource("ice4jDemoDump.ice")
+        .toExternalForm().replace("file:","");
+
     keyServerSetup();
 
     String command = commandStringGenerator(
