@@ -33,6 +33,7 @@ public class Rscc {
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
+  private String pathToStunDumpFile = "/home/jp/Dropbox/codefolio/rscc/resources/ice4jDemoDump.ice";
 
   /**
    * Initializes the Rscc model class.
@@ -137,9 +138,10 @@ public class Rscc {
   public String requestTokenFromServer() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_x11vnc.sh");
+    String command = commandStringGenerator(pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     this.key.set(key); // update key in model
+    System.out.println(getKey());
     return key;
   }
 
