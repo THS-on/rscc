@@ -22,7 +22,7 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private final Rscc model;
   private final RsccHomeView view;
-  HeaderPresenter headerPresenter;
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
