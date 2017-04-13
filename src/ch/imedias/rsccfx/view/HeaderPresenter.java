@@ -72,11 +72,11 @@ public class HeaderPresenter {
   }
 
   /**
-   * Allows to set the visibility to not show the button in the header in the homeView.
-   *
-   * @param visibility boolean value.
+   * Makes the back button in the header invisible or visible.
+   * Is being used in the HomeView to make the back button invisible,
+   * since there is no previous page to it.
    */
-  public void setVisibilityOfBackBtn(Boolean visibility) {
-    view.backBtn.setVisible(false);
+  public void setBackBtnVisibility(Boolean isVisible) {
+    view.backBtn.setVisible(isVisible);
   }
 }
