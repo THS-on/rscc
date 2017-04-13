@@ -22,7 +22,7 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private final Rscc model;
   private final RsccHomeView view;
-  HeaderPresenter headerPresenter;
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
@@ -77,6 +77,6 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private void initHeader() {
     // set all the actions regarding buttons in this method
-    headerPresenter.setVisibilityOfBackBtn(false);
+    headerPresenter.setBackBtnVisibility(false);
   }
 }
