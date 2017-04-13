@@ -18,6 +18,8 @@ import javafx.scene.layout.Priority;
  * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
+  private static final double HEADER_HEIGHT = 250d;
+
   private final Rscc model;
 
   final Pane spacer = new Pane();
@@ -101,6 +103,11 @@ public class HeaderView extends HBox {
     settingsBtn.setId("settingsBtn");
     // What needs to be added to the CSS?
 
+    headLbl.setAlignment(Pos.CENTER);
+    headLbl.setId("headerText");
+
+    this.getChildren().add(headerBox);
+    this.setHeight(HEADER_HEIGHT);
   }
 
 

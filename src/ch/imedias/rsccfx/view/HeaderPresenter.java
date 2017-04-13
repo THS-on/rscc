@@ -61,4 +61,12 @@ public class HeaderPresenter {
     view.prefWidthProperty().bind(scene.widthProperty());
   }
 
+  /**
+   * Makes the back button in the header invisible or visible.
+   * Is being used in the HomeView to make the back button invisible,
+   * since there is no previous page to it.
+   */
+  public void setBackBtnVisibility(Boolean isVisible) {
+    view.backBtn.setVisible(isVisible);
+  }
 }
