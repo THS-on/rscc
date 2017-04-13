@@ -29,7 +29,7 @@ public class RsccApp extends Application {
   public static final String REQUEST_VIEW = "requestHelp";
   public static final String SUPPORT_VIEW = "supporter";
 
-  Rscc model;
+  private static Rscc model;
 
   public static void main(String[] args) {
     Application.launch(args);
