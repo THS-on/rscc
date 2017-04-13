@@ -7,15 +7,19 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines all elements shown on the start page.
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
+  private final HeaderView headerView;
 
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
+
+  VBox contentBox = new VBox();
 
   Image requestImg;
   Image supportImg;
@@ -28,6 +32,7 @@ public class RsccHomeView extends BorderPane {
    */
   public RsccHomeView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
@@ -36,15 +41,13 @@ public class RsccHomeView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    //TODO: replace Text, multilangual
-    requestViewBtn.textProperty().setValue("I need help");
-    supportViewBtn.textProperty().setValue("I want to help someone");
+    requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
+    supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
   }
 
   private void layoutForm() {
-    // TODO: Resizing of pictures and size!
     InputStream requestHelpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/help-browser.svg");
+        .getResourceAsStream("images/needHelp.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
@@ -52,15 +55,17 @@ public class RsccHomeView extends BorderPane {
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/audio-headset.svg");
+        .getResourceAsStream("images/support.svg");
     supportImg = new Image(offerSupportImagePath);
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
     supportViewBtn.setGraphic(supportImgView);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    this.setLeft(requestViewBtn);
-    this.setRight(supportViewBtn);
+    contentBox.getChildren().addAll(requestViewBtn, supportViewBtn);
+
+    this.setTop(headerView);
+    this.setCenter(contentBox);
   }
 
   private void bindFieldsToModel() {

@@ -3,26 +3,30 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 
 /**
  * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
+  private static final double HEADER_HEIGHT = 250d;
+
   private final Rscc model;
 
-  HBox headerBox = new HBox();
-
-  Label headLbl = new Label();
+  final Pane spacer = new Pane();
 
   Button backBtn = new Button();
   Button helpBtn = new Button();
-  Button settingsButton = new Button();
+  Button settingsBtn = new Button();
 
   Image backImg;
   Image helpImg;
@@ -45,17 +49,19 @@ public class HeaderView extends HBox {
 
   private void initFieldData() {
     // populate fields which require initial data
-    headLbl.textProperty().set("I need Help");
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    headerBox.getChildren().add(backBtn);
-    headerBox.getChildren().add(headLbl);
-    headerBox.getChildren().add(helpBtn);
-    headerBox.getChildren().add(settingsButton);
-    headerBox.setId("header");
+    HBox.setHgrow(spacer, Priority.ALWAYS);
+    HBox.setMargin(backBtn,new Insets(0,0,0,0));
+    HBox.setMargin(settingsBtn,new Insets(0,5,0,20));
+    HBox.setMargin(helpBtn,new Insets(0,10,0,20));
+
+    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.setId("header");
+
 
     InputStream backImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/back.svg");
@@ -66,7 +72,8 @@ public class HeaderView extends HBox {
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
     backBtn.setPrefWidth(50);
-    backBtn.setMinHeight(50);
+    backBtn.setPrefHeight(50);
+    backBtn.setId("backBtn");
     // What needs to be added to the CSS?
 
     InputStream helpImagePath = getClass().getClassLoader()
@@ -78,7 +85,9 @@ public class HeaderView extends HBox {
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
     helpBtn.setPrefWidth(50);
-    helpBtn.setMinHeight(50);
+    helpBtn.setPrefHeight(50);
+    helpBtn.setAlignment(Pos.BASELINE_RIGHT);
+    helpBtn.setId("helpBtn");
     // What needs to be added to the CSS?
 
     InputStream settingImagePath = getClass().getClassLoader()
@@ -88,21 +97,22 @@ public class HeaderView extends HBox {
     settingImgView.fitWidthProperty().set(50);
     settingImgView.fitHeightProperty().set(50);
     settingImgView.setPreserveRatio(true);
-    settingsButton.setGraphic(settingImgView);
-    settingsButton.setPrefWidth(50);
-    settingsButton.setMinHeight(50);
+    settingsBtn.setGraphic(settingImgView);
+    settingsBtn.setPrefWidth(50);
+    settingsBtn.setPrefHeight(50);
+    settingsBtn.setId("settingsBtn");
     // What needs to be added to the CSS?
 
     headLbl.setAlignment(Pos.CENTER);
     headLbl.setId("headerText");
 
     this.getChildren().add(headerBox);
+    this.setHeight(HEADER_HEIGHT);
   }
 
 
   private void bindFieldsToModel() {
     // make bindings to the model
-
   }
 
 }
