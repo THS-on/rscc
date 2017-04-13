@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -46,21 +47,24 @@ public class Rscc {
    */
   private void defineResourcePath() {
     String userHome = System.getProperty("user.home");
-    URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
-    File f = new File(location.getFile());
-    if (f.isDirectory()) {
+    URL theLocationOftheRunningClass = this.getClass().getProtectionDomain()
+        .getCodeSource().getLocation();
+    File actualClass = new File(theLocationOftheRunningClass.getFile());
+    if (actualClass.isDirectory()) {
       pathToResourceDocker =
               getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
                       .getFile().toString().replaceFirst("file:", "");
 
     } else {
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
-      extractJarContents(location, userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
+      extractJarContents(theLocationOftheRunningClass,
+          userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
     }
   }
 
   /**
    * Extracts files from running JAR to folder.
+   * @param filter defines the filter applied by extracting
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
     JarFile jarfile = null;
@@ -75,17 +79,17 @@ public class Rscc {
       JarEntry je = enu.nextElement();
       if (je.getName().contains(filter)) {
         System.out.println(je.getName());
-        File fl = new File(destinationDirectory, je.getName());
-        if (!fl.exists()) {
-          fl.getParentFile().mkdirs();
-          fl = new File(destinationDirectory, je.getName());
+        File targetFileToWriteInto = new File(destinationDirectory, je.getName());
+        if (!targetFileToWriteInto.exists()) {
+          targetFileToWriteInto.getParentFile().mkdirs();
+          targetFileToWriteInto = new File(destinationDirectory, je.getName());
         }
         if (je.isDirectory()) {
           continue;
         }
         try (
-                InputStream is = jarfile.getInputStream(je);
-                FileOutputStream fo = new FileOutputStream(fl);
+            InputStream is = jarfile.getInputStream(je);
+            FileOutputStream fo = new FileOutputStream(targetFileToWriteInto);
         ) {
           while (is.available() > 0) {
             fo.write(is.read());
@@ -96,7 +100,7 @@ public class Rscc {
         } catch (IOException e) {
           e.printStackTrace();
         }
-        fl.setExecutable(true);
+        targetFileToWriteInto.setExecutable(true);
       }
     }
   }
@@ -113,9 +117,8 @@ public class Rscc {
    * Sets up the server with use.sh.
    */
   private void keyServerSetup() {
-    keyServerSetup(keyServerIp, keyServerHttpPort);
-
-    String command = pathToResourceDocker + "/use.sh " + keyServerIp + " " + keyServerHttpPort;
+    String command = commandStringGenerator(
+        pathToResourceDocker, "use.sh", keyServerIp, keyServerHttpPort);
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -124,7 +127,7 @@ public class Rscc {
    */
   public void killConnection(String key) {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = pathToResourceDocker + "/port_stop.sh " + key;
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", key);
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -134,7 +137,7 @@ public class Rscc {
   public String requestTokenFromServer() {
     keyServerSetup();
 
-    String command = pathToResourceDocker + "/start_x11vnc.sh";
+    String command = commandStringGenerator(pathToResourceDocker, "start_x11vnc.sh");
     String key = systemCommander.executeTerminalCommand(command);
     this.key.set(key); // update key in model
     return key;
@@ -146,7 +149,7 @@ public class Rscc {
   public void connectToUser(String key) {
     keyServerSetup();
 
-    String command = pathToResourceDocker + "/start_vncviewer.sh " + key;
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", key);
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -157,6 +160,20 @@ public class Rscc {
   public String refreshKey() {
     killConnection(key.toString());
     return requestTokenFromServer();
+  }
+
+  /**
+   * Generates String to run command.
+   */
+  public String commandStringGenerator(
+      String pathToScript, String scriptName, String... attributes) {
+    StringBuilder commandString = new StringBuilder();
+
+    commandString.append(pathToScript).append("/").append(scriptName);
+    Arrays.stream(attributes)
+        .forEach((s) -> commandString.append(" ").append(s));
+
+    return commandString.toString();
   }
 
 
