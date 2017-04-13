@@ -64,35 +64,35 @@ public class Rscc {
 
   /**
    * Extracts files from running JAR to folder.
-   * @param filter defines the filter applied by extracting
+   * @param filter filters the files that will be extracted by this string.
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
-    JarFile jarfile = null;
+    JarFile jarFile = null;
     try {
-      jarfile = new JarFile(new File(sourceLocation.getFile()));
+      jarFile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    Enumeration<JarEntry> enu = jarfile.entries();
-    while (enu.hasMoreElements()) {
-      JarEntry je = enu.nextElement();
-      if (je.getName().contains(filter)) {
-        System.out.println(je.getName());
-        File targetFileToWriteInto = new File(destinationDirectory, je.getName());
-        if (!targetFileToWriteInto.exists()) {
-          targetFileToWriteInto.getParentFile().mkdirs();
-          targetFileToWriteInto = new File(destinationDirectory, je.getName());
+    Enumeration<JarEntry> contentList = jarFile.entries();
+    while (contentList.hasMoreElements()) {
+      JarEntry item = contentList.nextElement();
+      if (item.getName().contains(filter)) {
+        System.out.println(item.getName());
+        File targetFile = new File(destinationDirectory, item.getName());
+        if (!targetFile.exists()) {
+          targetFile.getParentFile().mkdirs();
+          targetFile = new File(destinationDirectory, item.getName());
         }
-        if (je.isDirectory()) {
+        if (item.isDirectory()) {
           continue;
         }
         try (
-            InputStream is = jarfile.getInputStream(je);
-            FileOutputStream fo = new FileOutputStream(targetFileToWriteInto);
+            InputStream fromStream = jarFile.getInputStream(item);
+            FileOutputStream toStream = new FileOutputStream(targetFile);
         ) {
-          while (is.available() > 0) {
-            fo.write(is.read());
+          while (fromStream.available() > 0) {
+            toStream.write(fromStream.read());
           }
 
         } catch (FileNotFoundException e) {
@@ -100,7 +100,7 @@ public class Rscc {
         } catch (IOException e) {
           e.printStackTrace();
         }
-        targetFileToWriteInto.setExecutable(true);
+        targetFile.setExecutable(true);
       }
     }
   }
@@ -165,7 +165,7 @@ public class Rscc {
   /**
    * Generates String to run command.
    */
-  public String commandStringGenerator(
+  private String commandStringGenerator(
       String pathToScript, String scriptName, String... attributes) {
     StringBuilder commandString = new StringBuilder();
 
