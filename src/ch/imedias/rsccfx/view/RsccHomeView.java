@@ -56,7 +56,7 @@ public class RsccHomeView extends BorderPane {
 
   private void layoutForm() {
     InputStream requestHelpImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/INeedHelp2.svg");
+        .getResourceAsStream("images/needHelp.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
