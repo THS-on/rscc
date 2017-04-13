@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
 public class RsccSupportView extends BorderPane {
   private final Rscc model;
 
-  HeaderView headerView;
+  final HeaderView headerView;
 
   //FIXME: Those fields are never used. Consider using it in the future. Thx.
 
@@ -48,6 +48,7 @@ public class RsccSupportView extends BorderPane {
    */
   public RsccSupportView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -55,7 +56,6 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    headerView = new HeaderView(model);
 
     // TODO: Move initialization to matching class...
     enterTokenLbl.textProperty().set("EnterToken");

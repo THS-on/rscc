@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
 public class RsccRequestView extends BorderPane {
   private final Rscc model;
 
-  HeaderView headerView;
+  final HeaderView headerView;
 
   Label keyGenerationLbl = new Label();
   Label supporterAdminLbl = new Label();
@@ -51,6 +51,7 @@ public class RsccRequestView extends BorderPane {
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
@@ -60,7 +61,6 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
     // TODO: String Class implementation!
-    headerView = new HeaderView(model);
 
     keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
     keyGenerationLbl.setId("keyGenerationLbl");

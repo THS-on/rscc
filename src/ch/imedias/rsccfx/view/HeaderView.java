@@ -3,11 +3,9 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -101,12 +99,8 @@ public class HeaderView extends HBox {
     settingsBtn.setPrefWidth(50);
     settingsBtn.setPrefHeight(50);
     settingsBtn.setId("settingsBtn");
-    // What needs to be added to the CSS?
+    // TODO: What needs to be added to the CSS?
 
-    headLbl.setAlignment(Pos.CENTER);
-    headLbl.setId("headerText");
-
-    this.getChildren().add(headerBox);
     this.setHeight(HEADER_HEIGHT);
   }
 
