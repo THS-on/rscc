@@ -31,15 +31,6 @@ public class HeaderPresenter {
   }
 
   /**
-   * Sets the title in the center of the HeaderView.
-   *
-   * @param title new title for the header.
-   */
-  public void setHeaderTitle(String title) {
-    view.headLbl.textProperty().set(title);
-  }
-
-  /**
    * Sets the behaviour of the help button in the HeaderView.
    *
    * @param action is used to give the method a lambda expression and defines what happens
@@ -56,7 +47,7 @@ public class HeaderPresenter {
    *               when the settings button is clicked.
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
-    view.settingsButton.setOnAction(action);
+    view.settingsBtn.setOnAction(action);
   }
 
   /**
@@ -67,8 +58,7 @@ public class HeaderPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.headLbl.prefWidthProperty().bind(scene.widthProperty());
-    view.headerBox.prefWidthProperty().bind(scene.widthProperty());
+    view.prefWidthProperty().bind(scene.widthProperty());
   }
 
   /**
