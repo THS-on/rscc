@@ -14,6 +14,8 @@ import javafx.scene.layout.HBox;
  * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
+  private static final double HEIGHT_OF_HEADER = 250d;
+
   private final Rscc model;
 
   HBox headerBox = new HBox();
@@ -97,7 +99,7 @@ public class HeaderView extends HBox {
     headLbl.setId("headerText");
 
     this.getChildren().add(headerBox);
-    this.setHeight(250d);
+    this.setHeight(HEIGHT_OF_HEADER);
   }
 
 
