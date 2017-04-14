@@ -72,7 +72,10 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
-    view.requestViewBtn.setOnAction(event -> viewParent.setView(RsccApp.REQUEST_VIEW));
+    view.requestViewBtn.setOnAction(event -> {
+      model.requestTokenFromServer();
+      viewParent.setView(RsccApp.REQUEST_VIEW);
+    });
   }
 
   private void initHeader() {

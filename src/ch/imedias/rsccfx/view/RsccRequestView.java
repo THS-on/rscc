@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
  */
 public class RsccRequestView extends BorderPane {
   private final Rscc model;
-//  private final Strings strings = new Strings();
+  //  private final Strings strings = new Strings();
 
   final HeaderView headerView;
 

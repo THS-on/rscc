@@ -19,7 +19,7 @@ import javafx.scene.layout.Priority;
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
 
-//  private final Strings strings = new Strings();
+  //  private final Strings strings = new Strings();
   private final Rscc model;
 
   final Pane spacer = new Pane();

@@ -31,7 +31,7 @@ public class Rscc {
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp = "86.119.39.89";;
+  private String keyServerIp = "86.119.39.89";
   private String keyServerHttpPort = "800";
 
   /**
