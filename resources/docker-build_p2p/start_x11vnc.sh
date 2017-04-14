@@ -2,7 +2,7 @@
 
 function usage {
     echo "
-Usage: $0 [OPTIONS] <stunDumpFileLoaction>
+Usage: $0 [OPTIONS] <stunDumpFullPath>
 
 Share the VNC port and start an x11vnc server.
 The options from command line override the settings
@@ -54,10 +54,10 @@ then
     usage
 fi
 
-stunDumpFileLoaction="$1";
+stunDumpFullPath="$1";
 
 ### share the vnc port and get the key name
-read key < <(./port_share.sh $vnc_port $stunDumpFileLoaction)
+read key < <(./port_share.sh $vnc_port $stunDumpFullPath)
 
 ### start x11vnc
 x11vnc="x11vnc -bg -nopw -q"

@@ -33,7 +33,12 @@ public class Rscc {
   private StringProperty key = new SimpleStringProperty();
   private String keyServerIp;
   private String keyServerHttpPort;
-  private String pathToStunDumpFile ;
+  //TODO: Replace when the StunFileGeneration is ready
+  private String pathToStunDumpFile = this.getClass()
+      .getClassLoader().getResource("ice4jDemoDump.ice")
+      .toExternalForm().replace("file:","");
+
+
 
   /**
    * Initializes the Rscc model class.
@@ -41,11 +46,6 @@ public class Rscc {
   public Rscc(SystemCommander systemCommander) {
     this.systemCommander = systemCommander;
     defineResourcePath();
-
-    keyServerSetup("localhost", "800");
-
-    requestTokenFromServer();
-
   }
 
   /**
@@ -141,17 +141,12 @@ public class Rscc {
    * Requests a token from the key server.
    */
   public String requestTokenFromServer() {
-    //TODO: Replace when the StunFileGeneration is ready
-    pathToStunDumpFile = this.getClass().getClassLoader().getResource("ice4jDemoDump.ice")
-        .toExternalForm().replace("file:","");
-
     keyServerSetup();
 
     String command = commandStringGenerator(
         pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-    this.key.set(key); // update key in model
-    System.out.println(getKey());
+    setKey(key); // update key in model
     return key;
   }
 
@@ -195,6 +190,10 @@ public class Rscc {
 
   public String getKey() {
     return key.get();
+  }
+
+  public void setKey(String key) {
+    this.key.set(key);
   }
 
   public String getKeyServerIp() {

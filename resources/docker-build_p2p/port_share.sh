@@ -2,7 +2,7 @@
 
 function usage {
     echo "
-Usage: $0 [OPTIONS] <local_port> <STUN Dump File>
+Usage: $0 [OPTIONS] <local_port> <stunDumpFullPath>
 
 Share a local port through a ssh tunnel.
 The options from command line override the settings
@@ -38,18 +38,13 @@ do
     esac
 done
 
-if [ "$1" = '' ]
-then
-    usage
-fi
-
-if [ "$2" = '' ]
+if [ "$1" = '' ] || [ "$2" = '' ]
 then
     usage
 fi
 
 local_port="$1";
-inputFilePath="$2";
+stunDumpFullPath="$2";
 
 ### check the presence of the required arguments
 if [ "$local_port" = '' ]
@@ -73,7 +68,7 @@ chmod 0600 $keyfile
 chmod 0600 $uploadkey
 
 dumpUploadfile=$(tempfile -n /tmp/$key.stn)
-cp $inputFilePath $dumpUploadfile
+cp $stunDumpFullPath $dumpUploadfile
 
 ###upload file
 scp -q -o StrictHostKeyChecking=no -P $p2p_port -i $uploadkey $dumpUploadfile vnc@$p2p_server:~/stun_dumps >$logfile 2>>$logfile
