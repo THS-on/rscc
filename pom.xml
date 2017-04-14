@@ -102,27 +102,23 @@
                 </executions>
             </plugin>
 
-            <!-- add resources like *.properties files to the build -->
+            <!-- copy resources folder to build -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>add-resource</id>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>add-resource</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <outputDirectory>${basedir}/target/classes/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${custom.source}</directory>
-                                    <targetPath>${custom.path}</targetPath>
-                                    <excludes>
-                                        <exclude>*.java</exclude>
-                                        <exclude>/**/</exclude>
-                                    </excludes>
+                                    <directory>${custom.resources.path}</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -241,7 +237,7 @@
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
-      
+
         <!--javafxsvg.jar-->
         <dependency>
             <groupId>de.codecentric.centerdevice</groupId>
