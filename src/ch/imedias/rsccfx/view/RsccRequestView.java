@@ -19,11 +19,11 @@ import javafx.scene.text.Text;
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private static final double STANDARD_SIZE = 50d;
+  private static final double GENERATEKEYFIELD_HEIGHT = 60d;
+  final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
-
-  final HeaderView headerView;
-
   Label keyGenerationLbl = new Label();
   Label supporterAdminLbl = new Label();
 
@@ -71,7 +71,7 @@ public class RsccRequestView extends BorderPane {
     descriptionTxt.textProperty().set("Test");
     descriptionTxt.setId("descriptionTxt"); // TODO: Styling
 
-    generatedKeyFld.setPrefHeight(60); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setPrefHeight(GENERATEKEYFIELD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setId("generatedKeyFld");
 
@@ -79,12 +79,12 @@ public class RsccRequestView extends BorderPane {
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
-    reloadImgView.fitWidthProperty().set(50); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitHeightProperty().set(50); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitWidthProperty().set(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
     reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
-    reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefWidth(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
 
     additionalDescriptionTxt.textProperty().set("Test");
     additionalDescriptionTxt.setId("additionalDescriptionTxt");
