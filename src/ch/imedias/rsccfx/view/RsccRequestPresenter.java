@@ -16,6 +16,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
+  private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
+  private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
+
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
@@ -69,9 +72,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_KEYFIELD));
+    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_GENERAL));
+    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
   }
 

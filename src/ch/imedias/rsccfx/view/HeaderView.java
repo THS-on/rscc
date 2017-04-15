@@ -104,7 +104,6 @@ public class HeaderView extends HBox {
     this.setHeight(HEADER_HEIGHT);
   }
 
-
   private void bindFieldsToModel() {
     // make bindings to the model
   }
