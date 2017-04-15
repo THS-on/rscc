@@ -34,6 +34,9 @@ import javax.sdp.Connection;
 import javax.sdp.MediaDescription;
 import javax.sdp.SdpFactory;
 import javax.sdp.SessionDescription;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -220,6 +223,57 @@ public class SdpUtils
         component.addRemoteCandidate(cand);
 
         return cand;
+    }
+
+
+    /**
+     * Reads an SDP description from the standard input. We expect descriptions
+     * provided to this method to be originating from instances of this
+     * application running on remote computers.
+     *
+     * @return whatever we got on stdin (hopefully an SDP description.
+     * @throws Throwable if something goes wrong with console reading.
+     */
+    static String readSDP(File file) throws Throwable {
+        System.out.println("Paste remote SDP here. Enter an empty "
+            + "line to proceed:");
+        System.out.println("(we don't mind the [java] prefix in SDP intput)");
+
+
+
+        String sCurrentLine;
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuffer remoteSDP= new StringBuffer("");
+
+        while ((sCurrentLine = br.readLine()) != null) {
+            remoteSDP.append(sCurrentLine);
+
+        }
+        return remoteSDP.toString();
+
+
+
+
+/*
+        BufferedReader reader
+            = new BufferedReader(new InputStreamReader(System.in));
+
+        StringBuffer buff = new StringBuffer();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            line = line.replace("[java]", "");
+            line = line.trim();
+            if (line.length() == 0) {
+                break;
+            }
+
+            buff.append(line);
+            buff.append("\r\n");
+        }
+        return buff.toString();
+        */
     }
 
 

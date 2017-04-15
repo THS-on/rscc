@@ -41,9 +41,9 @@ public class IceProcess {
   private DatagramSocket socket;
 
 
-  public IceProcess() throws Throwable {
-    this.localAgent = createAgent(2020, false, null);
-    this.stateListener = new StateListener();
+  public IceProcess(int port) throws Throwable {
+    this.localAgent = createAgent(port, false, null);
+    this.stateListener = new StateListener(this);
     localAgent.setNominationStrategy(NominationStrategy.NOMINATE_HIGHEST_PRIO);
     localAgent.addStateChangeListener(stateListener);
   }
@@ -54,7 +54,6 @@ public class IceProcess {
     localSDP = SdpUtils.createSDPDescription(localAgent);
     //wait a bit so that the logger can stop dumping stuff:
     Thread.sleep(500);
-    saveToFile(localSDP);
     return localSDP;
   }
 
@@ -69,32 +68,26 @@ public class IceProcess {
     System.out.println();
   }
 
-  public DatagramSocket tryConnect(String sdp) throws Throwable {
+  public void startConnectivityEstablishment() {
+    localAgent.startConnectivityEstablishment();
+  }
+
+  public void tryConnect(String sdp) throws Throwable {
     startTime = System.currentTimeMillis();
     SdpUtils.parseSDP(localAgent, sdp);
     localAgent.startConnectivityEstablishment();
-    socket = stateListener.getSocket();
-    if (socket != null) {
-      System.out.println("We Have a socket");
-      return socket;
-    }
+   //Does not work! Evt weil Multithreading??
+//    if (socket != null) {
+//      System.out.println("We Have a socket");
+//      return socket;
+//    }
 
     //Give processing enough time to finish. We'll System.exit() anyway
     //as soon as localAgent enters a final state.
     Thread.sleep(10000);
-    System.out.println("ICE was not sucessful");
-    return null;
   }
 
 
-  private static void saveToFile(String localSDP) {
-    /*  TODO: SDP as File
-    PrintWriter out = new PrintWriter( "SDP"+ sdpCount++ +".txt" );
-    out.println(localSDP);
-*/
-
-
-  }
 
   /**
    * Creates an ICE <tt>Agent</tt> (vanilla or trickle, depending on the
@@ -208,6 +201,13 @@ public class IceProcess {
   }
 
 
+  public DatagramSocket getSocket() {
+    return socket;
+  }
+
+  public void setSocket(DatagramSocket socket) {
+    this.socket = socket;
+  }
 }
 
 

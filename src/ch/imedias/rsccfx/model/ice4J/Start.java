@@ -1,79 +1,102 @@
 package ch.imedias.rsccfx.model.ice4J;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpClientProvider;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.Map;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URL;
+import java.util.Scanner;
 
 /**
  * Created by pwg on 13.04.17.
  */
 public class Start {
 
+  public static final String COMPUTERNAME = "PwgMacbook";
+  public static final String REMOTECOMPUTERNAME = "PwgRaspberryPie";
+  public static final int PORT = 2020;
+
+
   public static void main(String[] args) throws Throwable {
 
-    IceProcess iceProcess = new IceProcess();
-    String localSDP=iceProcess.generateLocalSDP();
+
+    IceProcess iceProcess = new IceProcess(PORT);
+    String localSDP = iceProcess.generateLocalSDP();
     iceProcess.printSDP();
-  DatagramSocket socket = iceProcess.tryConnect(readSDP());
-//  startListener(UDPsocket.getPort());
-    sendTestPackages(socket);
+    File file = new File("resources/IceSDP/sdp" + COMPUTERNAME + ".txt");
+    saveToFile(localSDP, file);
+    uploadFile(file);
+    String remoteSDP = null;
+
+    for (int i = 0; i < 10 || remoteSDP != null; i++) {
+      remoteSDP = downloadFile("http://www.pwigger.ch/rbp/sdp" + REMOTECOMPUTERNAME + ".txt");
+      Thread.sleep(5000);
+    }
+    System.out.println("Got remote SDP from server");
+
+    iceProcess.tryConnect(remoteSDP);
+
+
+    DatagramSocket socket = iceProcess.getSocket();
+    if (socket == null) {
+      throw new Exception("not sucessful connecting");
+    }
+
+    //Start TCP Server - Person die Remote Support will
+    IcePseudoTcp.LocalPseudoTcpJob server = new IcePseudoTcp.LocalPseudoTcpJob(socket);
+    server.start();
+
+
+    //Start TCP Client - Person die Support gibt
+    IcePseudoTcp.RemotePseudoTcpJob client = new IcePseudoTcp.RemotePseudoTcpJob(socket, new InetSocketAddress(socket.getInetAddress(), PORT));
+    client.start();
+
+
+    Thread.sleep(10000);
+
   }
 
-  private static String getComputerName()
-  {
-    Map<String, String> env = System.getenv();
-    if (env.containsKey("COMPUTERNAME"))
-      return env.get("COMPUTERNAME");
-    else if (env.containsKey("HOSTNAME"))
-      return env.get("HOSTNAME");
-    else
-      return "Unknown Computer";
-  }
 
-  private static void startListener(int port){
-    PortListener portListener= new PortListener(port);
+  private static void startListener(int port) {
+    PortListener portListener = new PortListener(port);
     portListener.start();
   }
 
-  private static void sendTestPackages(DatagramSocket socket) throws Throwable{
-    for(int i=0; i<100; i++) {
-      String message = "Testpackage"+i+" from"+ getComputerName();
+  private static void sendTestPackages(DatagramSocket socket) throws Throwable {
+    for (int i = 0; i < 100; i++) {
+      String message = "Testpackage" + i + " from " + COMPUTERNAME;
       DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length());
       socket.send(packet);
     }
   }
 
-  /**
-   * Reads an SDP description from the standard input. We expect descriptions
-   * provided to this method to be originating from instances of this
-   * application running on remote computers.
-   *
-   * @return whatever we got on stdin (hopefully an SDP description.
-   * @throws Throwable if something goes wrong with console reading.
-   */
-  static String readSDP() throws Throwable {
-    System.out.println("Paste remote SDP here. Enter an empty "
-        + "line to proceed:");
-    System.out.println("(we don't mind the [java] prefix in SDP intput)");
-    BufferedReader reader
-        = new BufferedReader(new InputStreamReader(System.in));
+  private static void saveToFile(String localSDP, File file) throws Throwable {
+    FileOutputStream fos = new FileOutputStream(file);
+    fos.write(localSDP.getBytes());
+  }
 
-    StringBuffer buff = new StringBuffer();
-    String line;
+  static void uploadFile(File file) throws Exception {
+    FtpClientProvider ftpClientProvider = FtpClientProvider.provider();
+    FtpClient ftp = ftpClientProvider.createFtpClient();
+    ftp.connect(new InetSocketAddress(InetAddress.getByName("94.126.16.19"), 21));
+    ftp = ftp.login("rbp", "qJ4bu_12".toCharArray());
+    ftp.putFile(file.getName(), new FileInputStream(file));
+  }
 
-    while ((line = reader.readLine()) != null) {
-      line = line.replace("[java]", "");
-      line = line.trim();
-      if (line.length() == 0) {
-        break;
-      }
-
-      buff.append(line);
-      buff.append("\r\n");
+  private static String downloadFile(String urlAsString) throws Throwable {
+    URL url = new URL(urlAsString);
+    Scanner s = new Scanner(url.openStream());
+    StringBuilder remoteSDP = new StringBuilder("");
+    while (s.hasNext()) {
+      remoteSDP.append(s.next());
     }
-    return buff.toString();
+    return remoteSDP.toString();
   }
 
 
