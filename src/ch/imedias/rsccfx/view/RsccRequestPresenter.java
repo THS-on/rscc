@@ -30,7 +30,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Defines the ViewController to allow changing views.
    */
   public void setViewParent(ViewController viewParent) {
-
     this.viewParent = viewParent;
   }
 
@@ -69,6 +68,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
-    headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
+    headerPresenter.setBackBtnAction(event -> {
+      model.killConnection(model.getKey());
+      viewParent.setView("home");
+    });
   }
 }

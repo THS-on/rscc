@@ -129,6 +129,7 @@ public class Rscc {
     // Execute port_stop.sh with the generated key to kill the connection
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", key);
     systemCommander.executeTerminalCommand(command);
+    setKey("");
   }
 
   /**
@@ -147,6 +148,7 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser(String key) {
+    setKey(key);
     keyServerSetup();
 
     String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", key);
@@ -183,6 +185,10 @@ public class Rscc {
 
   public String getKey() {
     return key.get();
+  }
+
+  private void setKey(String key) {
+    this.key.set(key);
   }
 
   public String getKeyServerIp() {
