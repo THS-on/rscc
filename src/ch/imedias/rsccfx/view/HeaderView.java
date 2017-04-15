@@ -19,6 +19,10 @@ import javafx.scene.layout.Priority;
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
   private static final double WIDTH_HEIGHT_PROPERTY_VALUE = 50d;
+  private static final Insets BACK_BUTTON_INSETS = new Insets(0);
+  private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
+  private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
+
   final Pane spacer = new Pane();
   private final Strings strings = new Strings();
   private final Rscc model;
@@ -53,9 +57,9 @@ public class HeaderView extends HBox {
     //setup layout (aka setup specific pane etc.)
 
     HBox.setHgrow(spacer, Priority.ALWAYS);
-    HBox.setMargin(backBtn,new Insets(0,0,0,0));
-    HBox.setMargin(settingsBtn,new Insets(0,5,0,20));
-    HBox.setMargin(helpBtn,new Insets(0,10,0,20));
+    HBox.setMargin(backBtn, BACK_BUTTON_INSETS);
+    HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
+    HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
     this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
     this.setId("header");
