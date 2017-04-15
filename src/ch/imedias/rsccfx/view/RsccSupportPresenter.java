@@ -18,6 +18,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private static final String KEY_SERVER_IP = "86.119.39.89";
   private static final int KEY_SERVER_HTTP_PORT = 800;
   private static final boolean IS_COMPRESSION_ENABLED = true;
+  private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
+
   private final Rscc model;
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
@@ -61,7 +63,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
-    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERTOKEN));
   }
 
   /**
