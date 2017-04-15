@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 public class RsccRequestView extends BorderPane {
   private static final double STANDARD_SIZE = 50d;
   private static final double GENERATEKEYFIELD_HEIGHT = 60d;
+
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
