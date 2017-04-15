@@ -18,12 +18,10 @@ import javafx.scene.layout.Priority;
  */
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
-
+  private static final double WIDTH_HEIGHT_PROPERTY_VALUE = 50d;
+  final Pane spacer = new Pane();
   private final Strings strings = new Strings();
   private final Rscc model;
-
-  final Pane spacer = new Pane();
-
   Button backBtn = new Button();
   Button helpBtn = new Button();
   Button settingsBtn = new Button();
@@ -66,24 +64,24 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/back.svg");
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
-    backImgView.fitWidthProperty().set(50);
-    backImgView.fitHeightProperty().set(50);
+    backImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    backImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
-    backBtn.setPrefWidth(50);
-    backBtn.setPrefHeight(50);
+    backBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
+    backBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
     backBtn.setId("backBtn");
 
     InputStream helpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/question.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
-    helpImgView.fitWidthProperty().set(50);
-    helpImgView.fitHeightProperty().set(50);
+    helpImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    helpImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
-    helpBtn.setPrefWidth(50);
-    helpBtn.setPrefHeight(50);
+    helpBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
+    helpBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
     helpBtn.setAlignment(Pos.BASELINE_RIGHT);
     helpBtn.setId("helpBtn");
 
@@ -91,12 +89,12 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/settings.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
-    settingImgView.fitWidthProperty().set(50);
-    settingImgView.fitHeightProperty().set(50);
+    settingImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    settingImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
     settingImgView.setPreserveRatio(true);
     settingsBtn.setGraphic(settingImgView);
-    settingsBtn.setPrefWidth(50);
-    settingsBtn.setPrefHeight(50);
+    settingsBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
+    settingsBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
