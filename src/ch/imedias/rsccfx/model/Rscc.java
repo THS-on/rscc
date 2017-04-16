@@ -31,7 +31,7 @@ public class Rscc {
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp = "86.119.39.89";
+  private String keyServerIp = "192.168.1.112";
   private String keyServerHttpPort = "800";
   //TODO: Replace when the StunFileGeneration is ready
   private String pathToStunDumpFile = this.getClass()
@@ -142,24 +142,22 @@ public class Rscc {
   /**
    * Requests a token from the key server.
    */
-  public String requestTokenFromServer() {
+  public void requestTokenFromServer() {
     keyServerSetup();
 
     String command = commandStringGenerator(
         pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
-    return key;
   }
 
   /**
    * Starts connection to the user.
    */
-  public void connectToUser(String key) {
-    setKey(key);
+  public void connectToUser() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -167,9 +165,9 @@ public class Rscc {
    * Refreshes the key by killing the connection, requesting a new key and starting the server
    * again.
    */
-  public String refreshKey() {
-    killConnection(key.toString());
-    return requestTokenFromServer();
+  public void refreshKey() {
+    killConnection(getKey());
+    requestTokenFromServer();
   }
 
   /**
@@ -195,7 +193,7 @@ public class Rscc {
     return key.get();
   }
 
-  private void setKey(String key) {
+  public void setKey(String key) {
     this.key.set(key);
   }
 

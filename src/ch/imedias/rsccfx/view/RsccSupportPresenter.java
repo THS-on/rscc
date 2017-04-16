@@ -63,14 +63,14 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @param token the token to be validated.
    * @return path to the image to display.
    */
-  public String validationImage(String token) {
+  public Image validationImage(String token) {
 
     if (validateToken(token)) {
       view.connectBtn.setDisable(false);
-      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
+      return new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
     }
     view.connectBtn.setDisable(true);
-    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
+    return new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
   }
 
   /**
@@ -79,12 +79,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private void attachEvents() {
 
     view.tokenTxt.setOnKeyReleased(event -> {
-      view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
+      view.isValidImg.setImage(validationImage(view.tokenTxt.getText()));
     });
 
 
     view.connectBtn.setOnAction(event -> {
-      model.connectToUser(view.tokenTxt.getText());
+      model.setKey(view.tokenTxt.getText());
+      model.connectToUser();
     });
 
 

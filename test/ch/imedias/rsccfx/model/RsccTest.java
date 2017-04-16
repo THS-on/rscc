@@ -80,8 +80,8 @@ public class RsccTest {
   @Ignore
   @Test
   public void testRequestTokenFromServer() throws Exception {
-    String key = model.requestTokenFromServer();
-
+    model.requestTokenFromServer();
+    String key = model.getKey();
     testPrivateKeyServerSetup();
     // make sure the script was executed
     verify(mockProcessExecutor).executeScript(eq(true), eq(true),
