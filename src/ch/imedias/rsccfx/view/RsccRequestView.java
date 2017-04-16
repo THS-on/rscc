@@ -19,8 +19,8 @@ import javafx.scene.text.Text;
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
-  private static final double STANDARD_SIZE = 50d;
-  private static final double GENERATEKEYFIELD_HEIGHT = 60d;
+  private static final double BUTTON_SIZE = 50d;
+  private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
   private final Rscc model;
@@ -72,7 +72,7 @@ public class RsccRequestView extends BorderPane {
     descriptionTxt.textProperty().set("Test");
     descriptionTxt.setId("descriptionTxt"); // TODO: Styling
 
-    generatedKeyFld.setPrefHeight(GENERATEKEYFIELD_HEIGHT); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setId("generatedKeyFld");
 
@@ -80,12 +80,12 @@ public class RsccRequestView extends BorderPane {
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
-    reloadImgView.fitWidthProperty().set(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitHeightProperty().set(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
-    reloadKeyBtn.setPrefWidth(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefHeight(STANDARD_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
     additionalDescriptionTxt.textProperty().set("Test");
     additionalDescriptionTxt.setId("additionalDescriptionTxt");

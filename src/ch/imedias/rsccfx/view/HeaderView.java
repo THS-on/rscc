@@ -18,7 +18,7 @@ import javafx.scene.layout.Priority;
  */
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
-  private static final double WIDTH_HEIGHT_PROPERTY_VALUE = 50d;
+  private static final double BUTTON_SIZE = 50d;
   private static final Insets BACK_BUTTON_INSETS = new Insets(0);
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
@@ -68,24 +68,24 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/back.svg");
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
-    backImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
-    backImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    backImgView.fitWidthProperty().set(BUTTON_SIZE);
+    backImgView.fitHeightProperty().set(BUTTON_SIZE);
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
-    backBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
-    backBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
+    backBtn.setPrefWidth(BUTTON_SIZE);
+    backBtn.setPrefHeight(BUTTON_SIZE);
     backBtn.setId("backBtn");
 
     InputStream helpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/question.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
-    helpImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
-    helpImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    helpImgView.fitWidthProperty().set(BUTTON_SIZE);
+    helpImgView.fitHeightProperty().set(BUTTON_SIZE);
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
-    helpBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
-    helpBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
+    helpBtn.setPrefWidth(BUTTON_SIZE);
+    helpBtn.setPrefHeight(BUTTON_SIZE);
     helpBtn.setAlignment(Pos.BASELINE_RIGHT);
     helpBtn.setId("helpBtn");
 
@@ -93,12 +93,12 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/settings.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
-    settingImgView.fitWidthProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
-    settingImgView.fitHeightProperty().set(WIDTH_HEIGHT_PROPERTY_VALUE);
+    settingImgView.fitWidthProperty().set(BUTTON_SIZE);
+    settingImgView.fitHeightProperty().set(BUTTON_SIZE);
     settingImgView.setPreserveRatio(true);
     settingsBtn.setGraphic(settingImgView);
-    settingsBtn.setPrefWidth(WIDTH_HEIGHT_PROPERTY_VALUE);
-    settingsBtn.setPrefHeight(WIDTH_HEIGHT_PROPERTY_VALUE);
+    settingsBtn.setPrefWidth(BUTTON_SIZE);
+    settingsBtn.setPrefHeight(BUTTON_SIZE);
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
