@@ -13,11 +13,6 @@ import javafx.scene.image.Image;
  */
 public class RsccSupportPresenter implements ControlledPresenter {
   // For the moment, hardcoded the server parameters
-  private static final int FORWARDING_PORT = 5900;
-  private static final int KEY_SERVER_SSH_PORT = 2201;
-  private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final int KEY_SERVER_HTTP_PORT = 800;
-  private static final boolean IS_COMPRESSION_ENABLED = true;
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
 
   private final Rscc model;

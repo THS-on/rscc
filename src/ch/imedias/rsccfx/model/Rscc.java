@@ -31,7 +31,7 @@ public class Rscc {
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp = "192.168.1.112";
+  private String keyServerIp = "86.119.39.89";
   private String keyServerHttpPort = "800";
   //TODO: Replace when the StunFileGeneration is ready
   private String pathToStunDumpFile = this.getClass()
