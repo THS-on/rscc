@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
@@ -70,7 +71,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection(model.getKey());
-      viewParent.setView("home");
+      viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
 }
