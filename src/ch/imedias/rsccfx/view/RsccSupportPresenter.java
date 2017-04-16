@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
+  private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
+
   private final Rscc model;
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
@@ -54,7 +56,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
-    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERTOKEN));
   }
 
   /**
@@ -63,14 +66,16 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @param token the token to be validated.
    * @return path to the image to display.
    */
-  public String validationImage(String token) {
+  public Image validationImage(String token) {
 
     if (validateToken(token)) {
       view.connectBtn.setDisable(false);
-      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
+      return new Image(getClass().getClassLoader().getResource("emblem-default.png")
+          .toExternalForm());
     }
     view.connectBtn.setDisable(true);
-    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
+    return new Image(getClass().getClassLoader().getResource("dialog-error.png")
+        .toExternalForm());
   }
 
   /**
@@ -79,12 +84,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private void attachEvents() {
 
     view.tokenTxt.setOnKeyReleased(event -> {
-      view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
+      view.isValidImg.setImage(validationImage(view.tokenTxt.getText()));
     });
 
 
     view.connectBtn.setOnAction(event -> {
-      model.connectToUser(view.tokenTxt.getText());
+      model.setKey(view.tokenTxt.getText());
+      model.connectToUser();
     });
 
 
