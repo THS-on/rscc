@@ -67,10 +67,12 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     if (validateToken(token)) {
       view.connectBtn.setDisable(false);
-      return new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
+      return new Image(getClass().getClassLoader().getResource("emblem-default.png")
+          .toExternalForm());
     }
     view.connectBtn.setDisable(true);
-    return new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
+    return new Image(getClass().getClassLoader().getResource("dialog-error.png")
+        .toExternalForm());
   }
 
   /**
