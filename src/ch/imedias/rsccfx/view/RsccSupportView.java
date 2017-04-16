@@ -32,7 +32,7 @@ public class RsccSupportView extends BorderPane {
   VBox groupingBox = new VBox();
   HBox tokenValidationBox = new HBox();
 
-  TextField tokenTxt = new TextField();
+  TextField tokenFld = new TextField();
 
   TitledPane keyInputPane = new TitledPane();
   TitledPane predefinedAdressesPane = new TitledPane();
@@ -86,13 +86,13 @@ public class RsccSupportView extends BorderPane {
 
     keyDescriptionLbl.setWrapText(true);
 
-    tokenTxt.setFont(new Font(30)); // TODO: Move to CSS
+    tokenFld.setFont(new Font(30)); // TODO: Move to CSS
 
     isValidImg.setSmooth(true);
 
-    tokenValidationBox.getChildren().addAll(tokenTxt, isValidImg);
+    tokenValidationBox.getChildren().addAll(tokenFld, isValidImg);
     tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    tokenValidationBox.setHgrow(tokenTxt, Priority.ALWAYS);
+    tokenValidationBox.setHgrow(tokenFld, Priority.ALWAYS);
     tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
     groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
