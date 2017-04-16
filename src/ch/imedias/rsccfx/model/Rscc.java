@@ -56,8 +56,8 @@ public class Rscc {
     File actualClass = new File(theLocationOftheRunningClass.getFile());
     if (actualClass.isDirectory()) {
       pathToResourceDocker =
-              getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-                      .getFile().toString().replaceFirst("file:", "");
+          getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
+              .getFile().toString().replaceFirst("file:", "");
 
     } else {
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;

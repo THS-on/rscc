@@ -124,4 +124,3 @@ public class RsccRequestView extends BorderPane {
   }
 }
 
-
