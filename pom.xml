@@ -102,27 +102,23 @@
                 </executions>
             </plugin>
 
-            <!-- add resources like *.properties files to the build -->
+            <!-- copy resources folder to build -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>add-resource</id>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>add-resource</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <outputDirectory>${basedir}/target/classes/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${custom.source}</directory>
-                                    <targetPath>${custom.path}</targetPath>
-                                    <excludes>
-                                        <exclude>*.java</exclude>
-                                        <exclude>/**/</exclude>
-                                    </excludes>
+                                    <directory>${custom.resources.path}</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -149,6 +145,27 @@
                                 </transformer>
                             </transformers>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Set permission on shell-scripts when starting app from IDE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>process-classes</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <target>
+                                <chmod file="target/classes/docker-build_p2p/*" perm="744"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -241,7 +258,7 @@
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
         </dependency>
-      
+
         <!--javafxsvg.jar-->
         <dependency>
             <groupId>de.codecentric.centerdevice</groupId>
@@ -261,13 +278,6 @@
             <groupId>com.github.jitsi</groupId>
             <artifactId>ice4j</artifactId>
             <version>master</version>
-        </dependency>
-              
-        <!-- Jsch to exchange files over scp-->
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.54</version>
         </dependency>
 
     </dependencies>

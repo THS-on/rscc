@@ -26,19 +26,17 @@ public class Rscc {
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
-    */
+   */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp;
-  private String keyServerHttpPort;
+  private String keyServerIp = "86.119.39.89";
+  private String keyServerHttpPort = "800";
   //TODO: Replace when the StunFileGeneration is ready
   private String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource("ice4jDemoDump.ice")
       .toExternalForm().replace("file:","");
-
-
 
   /**
    * Initializes the Rscc model class.
@@ -131,32 +129,32 @@ public class Rscc {
   /**
    * Kills the connection to the keyserver.
    */
-  public void killConnection(String key) {
+  public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
+    setKey("");
   }
 
   /**
    * Requests a token from the key server.
    */
-  public String requestTokenFromServer() {
+  public void requestTokenFromServer() {
     keyServerSetup();
 
     String command = commandStringGenerator(
         pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
-    return key;
   }
 
   /**
    * Starts connection to the user.
    */
-  public void connectToUser(String key) {
+  public void connectToUser() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -164,9 +162,9 @@ public class Rscc {
    * Refreshes the key by killing the connection, requesting a new key and starting the server
    * again.
    */
-  public String refreshKey() {
-    killConnection(key.toString());
-    return requestTokenFromServer();
+  public void refreshKey() {
+    killConnection();
+    requestTokenFromServer();
   }
 
   /**
@@ -182,7 +180,6 @@ public class Rscc {
 
     return commandString.toString();
   }
-
 
   public StringProperty keyProperty() {
     return key;

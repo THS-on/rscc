@@ -12,12 +12,6 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
-  private static final int FORWARDING_PORT = 5900;
-  private static final int KEY_SERVER_SSH_PORT = 2201;
-  private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final int KEY_SERVER_HTTP_PORT = 800;
-  private static final boolean IS_COMPRESSION_ENABLED = true;
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
 
   private final Rscc model;
@@ -40,8 +34,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * Validates a token.
    */
   private static boolean validateToken(String token) {
-    return (int) (Math.random() * 2) == 1;
-    //TODO: Validate token
+    return token.matches("\\d{9}");
   }
 
   /**
@@ -73,12 +66,16 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @param token the token to be validated.
    * @return path to the image to display.
    */
-  public String validationImage(String token) {
+  public Image validationImage(String token) {
 
     if (validateToken(token)) {
-      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
+      view.connectBtn.setDisable(false);
+      return new Image(getClass().getClassLoader().getResource("emblem-default.png")
+          .toExternalForm());
     }
-    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
+    view.connectBtn.setDisable(true);
+    return new Image(getClass().getClassLoader().getResource("dialog-error.png")
+        .toExternalForm());
   }
 
   /**
@@ -86,22 +83,22 @@ public class RsccSupportPresenter implements ControlledPresenter {
    */
   private void attachEvents() {
 
-    view.tokenTxt.setOnKeyPressed(event -> {
-      view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
+    view.tokenTxt.setOnKeyReleased(event -> {
+      view.isValidImg.setImage(validationImage(view.tokenTxt.getText()));
     });
+
+
+    view.connectBtn.setOnAction(event -> {
+      model.setKey(view.tokenTxt.getText());
+      model.connectToUser();
+    });
+
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
     view.keyInputPane.setOnMouseClicked(event -> view.predefinedAdressesPane.setExpanded(false));
     view.predefinedAdressesPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
   }
-  // FIXME: Thank you.
-  /*view.connectBtn.setOnAction(
-        event -> {
-          model.keyProperty().set(view.tokenTxt.getText());
-          model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
-              KEY_SERVER_HTTP_PORT);
-        }
-    );*/
+
 
 
   /**

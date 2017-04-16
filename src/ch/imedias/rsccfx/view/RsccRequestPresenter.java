@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.Scene;
@@ -10,12 +11,6 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
-  private static final int FORWARDING_PORT = 5900;
-  private static final int KEY_SERVER_SSH_PORT = 2201;
-  private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final int KEY_SERVER_HTTP_PORT = 800;
-  private static final boolean IS_COMPRESSION_ENABLED = true;
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
 
@@ -43,17 +38,11 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void attachEvents() {
-    //TODO put all setOnAction/addListeners in here
-    // FIXME: Please fix it.
-    /* view.reloadKeyBtn.setOnAction(
+    view.reloadKeyBtn.setOnAction(
         event -> {
-          String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
-              KEY_SERVER_SSH_PORT, KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);
-          model.keyProperty().set(newKey);
+          model.refreshKey();
         }
-    );*/
-
-    // TODO: Set actions on buttons (back, Help, Settings)
+    );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
     view.keyGeneratorPane.setOnMouseClicked(event -> view.supporterAdminPane.setExpanded(false));
@@ -86,6 +75,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
-    headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
+    headerPresenter.setBackBtnAction(event -> {
+      model.killConnection();
+      viewParent.setView(RsccApp.HOME_VIEW);
+    });
   }
 }

@@ -36,7 +36,7 @@ public class RsccTest {
   }
 
   /**
-   * Test for Constructor {@link Rscc#Rscc(ProcessExecutor)}.
+   * Test for Constructor {@link Rscc#Rscc(SystemCommander)}.
    */
   @Ignore
   @Test
@@ -64,12 +64,12 @@ public class RsccTest {
   }
 
   /**
-   * Test for {@link Rscc#killConnection(String)}.
+   * Test for {@link Rscc#killConnection()}.
    */
   @Ignore
   @Test
   public void testKillConnection() throws Exception {
-    model.killConnection(KEY);
+    model.killConnection();
     verify(mockProcessExecutor).executeScript(eq(true), eq(true),
         argThat(script -> script.startsWith("bash ") && script.endsWith("port_stop.sh")), eq(KEY));
   }
@@ -80,8 +80,8 @@ public class RsccTest {
   @Ignore
   @Test
   public void testRequestTokenFromServer() throws Exception {
-    String key = model.requestTokenFromServer();
-
+    model.requestTokenFromServer();
+    String key = model.getKey();
     testPrivateKeyServerSetup();
     // make sure the script was executed
     verify(mockProcessExecutor).executeScript(eq(true), eq(true),
@@ -92,7 +92,7 @@ public class RsccTest {
   }
 
   /**
-   * Test for {@link Rscc#connectToUser(String)}.
+   * Test for {@link Rscc#connectToUser()}.
    */
   @Ignore
   @Test

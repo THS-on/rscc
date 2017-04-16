@@ -57,7 +57,7 @@ public class RsccSupportView extends BorderPane {
     // populate fields which require initial data
     enterTokenLbl.textProperty().set("EnterToken");
     keyDescriptionLbl.textProperty().set("Test");
-    exampleLbl.textProperty().set("Number of characters: 8\nexample: 666xx666");
+    exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
     instructionLbl.textProperty().set("Instructions");
 
     isValidImg = new ImageView(getClass()
@@ -66,6 +66,7 @@ public class RsccSupportView extends BorderPane {
         .toExternalForm());                     // TODO: Check what to do here.
 
     connectBtn.textProperty().set("Connect");
+    connectBtn.setDisable(true);
     expandOptionBtn.textProperty().set("More");
 
     keyInputPane.setText("Key Input");
