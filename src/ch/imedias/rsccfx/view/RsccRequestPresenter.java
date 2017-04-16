@@ -11,7 +11,6 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
 

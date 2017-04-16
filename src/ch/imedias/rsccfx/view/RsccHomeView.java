@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
  */
 public class RsccHomeView extends BorderPane {
   private final Rscc model;
-  //private final Strings strings = new Strings();
+  private final Strings strings = new Strings();
   final HeaderView headerView;
 
   Button requestViewBtn = new Button();

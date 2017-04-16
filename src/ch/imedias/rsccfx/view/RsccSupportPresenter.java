@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
 
   private final Rscc model;
