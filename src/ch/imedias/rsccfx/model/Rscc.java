@@ -38,9 +38,6 @@ public class Rscc {
       .getClassLoader().getResource("ice4jDemoDump.ice")
       .toExternalForm().replace("file:","");
 
-
-
-
   /**
    * Initializes the Rscc model class.
    */
@@ -132,9 +129,9 @@ public class Rscc {
   /**
    * Kills the connection to the keyserver.
    */
-  public void killConnection(String key) {
+  public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
     setKey("");
   }
@@ -166,7 +163,7 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
-    killConnection(getKey());
+    killConnection();
     requestTokenFromServer();
   }
 
@@ -183,7 +180,6 @@ public class Rscc {
 
     return commandString.toString();
   }
-
 
   public StringProperty keyProperty() {
     return key;

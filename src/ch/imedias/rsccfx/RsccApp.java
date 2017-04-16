@@ -100,7 +100,7 @@ public class RsccApp extends Application {
   public void stop() throws Exception {
     String key = model.getKey();
     if (key != null) {
-      model.killConnection(key);
+      model.killConnection();
     }
     super.stop();
   }

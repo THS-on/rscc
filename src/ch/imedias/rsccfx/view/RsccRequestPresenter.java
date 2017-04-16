@@ -76,7 +76,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
-      model.killConnection(model.getKey());
+      model.killConnection();
       viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
