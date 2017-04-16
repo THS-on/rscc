@@ -18,12 +18,14 @@ import javafx.scene.layout.Priority;
  */
 public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
-
-  private final Strings strings = new Strings();
-  private final Rscc model;
+  private static final double BUTTON_SIZE = 50d;
+  private static final Insets BACK_BUTTON_INSETS = new Insets(0);
+  private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
+  private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
   final Pane spacer = new Pane();
-
+  private final Strings strings = new Strings();
+  private final Rscc model;
   Button backBtn = new Button();
   Button helpBtn = new Button();
   Button settingsBtn = new Button();
@@ -55,9 +57,9 @@ public class HeaderView extends HBox {
     //setup layout (aka setup specific pane etc.)
 
     HBox.setHgrow(spacer, Priority.ALWAYS);
-    HBox.setMargin(backBtn,new Insets(0,0,0,0));
-    HBox.setMargin(settingsBtn,new Insets(0,5,0,20));
-    HBox.setMargin(helpBtn,new Insets(0,10,0,20));
+    HBox.setMargin(backBtn, BACK_BUTTON_INSETS);
+    HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
+    HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
     this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
     this.setId("header");
@@ -66,24 +68,24 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/back.svg");
     backImg = new Image(backImagePath);
     backImgView = new ImageView(backImg);
-    backImgView.fitWidthProperty().set(50);
-    backImgView.fitHeightProperty().set(50);
+    backImgView.fitWidthProperty().set(BUTTON_SIZE);
+    backImgView.fitHeightProperty().set(BUTTON_SIZE);
     backImgView.setPreserveRatio(true);
     backBtn.setGraphic(backImgView);
-    backBtn.setPrefWidth(50);
-    backBtn.setPrefHeight(50);
+    backBtn.setPrefWidth(BUTTON_SIZE);
+    backBtn.setPrefHeight(BUTTON_SIZE);
     backBtn.setId("backBtn");
 
     InputStream helpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/question.svg");
     helpImg = new Image(helpImagePath);
     helpImgView = new ImageView(helpImg);
-    helpImgView.fitWidthProperty().set(50);
-    helpImgView.fitHeightProperty().set(50);
+    helpImgView.fitWidthProperty().set(BUTTON_SIZE);
+    helpImgView.fitHeightProperty().set(BUTTON_SIZE);
     helpImgView.setPreserveRatio(true);
     helpBtn.setGraphic(helpImgView);
-    helpBtn.setPrefWidth(50);
-    helpBtn.setPrefHeight(50);
+    helpBtn.setPrefWidth(BUTTON_SIZE);
+    helpBtn.setPrefHeight(BUTTON_SIZE);
     helpBtn.setAlignment(Pos.BASELINE_RIGHT);
     helpBtn.setId("helpBtn");
 
@@ -91,17 +93,16 @@ public class HeaderView extends HBox {
         .getResourceAsStream("images/settings.svg");
     settingImg = new Image(settingImagePath);
     settingImgView = new ImageView(settingImg);
-    settingImgView.fitWidthProperty().set(50);
-    settingImgView.fitHeightProperty().set(50);
+    settingImgView.fitWidthProperty().set(BUTTON_SIZE);
+    settingImgView.fitHeightProperty().set(BUTTON_SIZE);
     settingImgView.setPreserveRatio(true);
     settingsBtn.setGraphic(settingImgView);
-    settingsBtn.setPrefWidth(50);
-    settingsBtn.setPrefHeight(50);
+    settingsBtn.setPrefWidth(BUTTON_SIZE);
+    settingsBtn.setPrefHeight(BUTTON_SIZE);
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
   }
-
 
   private void bindFieldsToModel() {
     // make bindings to the model
