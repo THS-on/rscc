@@ -15,7 +15,7 @@ VERSION = "0.3.4"
 
 THIS_NAME = "generateStringsClass.py"
 CLASS_NAME = "Strings"
-BUNDLE_DIR = "src/ch/imedias/rsccfx/localization"
+BUNDLE_DIR = "ch/imedias/rsccfx/localization"
 BUNDLE_NAME = BUNDLE_DIR + '/' + argv[1]
 PACKAGE_NAME = "ch.imedias.rsccfx.localization"
 SOURCE_LOCATION = BUNDLE_DIR + '/' + CLASS_NAME + ".java"
@@ -102,7 +102,7 @@ def main():
 		header += "public class %s {\n\n" % (CLASS_NAME)
 		header += "  private ResourceBundle rscBndl;\n\n"
 		ctor = "\n  public %s() {\n\n" % (CLASS_NAME)
-		ctor += "    rscBndl = ResourceBundle.getBundle(\"%s\", Locale.getDefault());\n\n" % (BUNDLE_NAME)
+		ctor += "    rscBndl = ResourceBundle.getBundle(\"%s\");\n\n" % (BUNDLE_NAME)
 
 		# Allocate and set a String field for each line in properties
 		for entry in properties:
