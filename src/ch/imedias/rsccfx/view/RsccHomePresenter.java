@@ -47,7 +47,6 @@ public class RsccHomePresenter implements ControlledPresenter {
    * Initializes the size of the RsccHomeView.
    */
   public void initSize(Scene scene) {
-    //FIXME: What is needed from those...?
     headerPresenter.initSize(scene);
 
     view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
