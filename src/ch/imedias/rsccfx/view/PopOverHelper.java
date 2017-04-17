@@ -18,43 +18,34 @@ import org.controlsfx.control.PopOver;
  * @date 17.04.2017.
  */
 public class PopOverHelper {
+  private static final int COMPRESSION_MAX = 9;
+  private static final int COMPRESSION_MIN = 0;
+  private static final int COMPRESSION_VALUE = 6;
+  private static final int QUALITY_MAX = 9;
+  private static final int QUALITY_MIN = 0;
+  private static final int QUALITY_VALUE = 6;
   private final Rscc model;
   VBox homeHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
   VBox requestHelpBox = new VBox();
   VBox supporterSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
-
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
-
   Text compressionSliderTxt = new Text();
   Text qualitySliderTxt = new Text();
-
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
   Label requestBitSettingsLbl = new Label();
   Label requestBitCurrentSettingsLbl = new Label();
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
-
   Slider compressionSldr;
   Slider qualitySldr;
-
   Pane compressionSliderPane = new Pane();
   Pane qualitySliderPane = new Pane();
-
   ToggleButton toggleBtn = new ToggleButton();
-
   private ViewController viewParent;
-
-  private static final int COMPRESSION_MAX = 9;
-  private static final int COMPRESSION_MIN = 0;
-  private static final int COMPRESSION_VALUE = 6;
-
-  private static final int QUALITY_MAX = 9;
-  private static final int QUALITY_MIN = 0;
-  private static final int QUALITY_VALUE = 6;
 
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
@@ -153,7 +144,10 @@ public class PopOverHelper {
     requestSettingsBox.getChildren().add(new VBox(requestBitSettingsLbl, toggleBtn));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
-    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    // Help popover - request
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
+        "or help someone in need");
+    requestHelpLbl.setId("requestHelpLbl");
 
     // TODO: If we have more labels, we can add it to the box.
     requestHelpBox.getChildren().addAll(requestHelpLbl);
@@ -191,17 +185,6 @@ public class PopOverHelper {
     // TODO: If we have more labels, we can add it to the box.
     supporterHelpBox.getChildren().addAll(requestHelpLbl);
 
-
-    // Help popover
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
-    requestHelpLbl.setId("helpLbl");
-
-    // TODO: If we have more labels, we can add it to the box.
-    requestHelpBox.getChildren().addAll(requestHelpLbl);
-
-    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-
     // PopOver related
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
     settingsPopOver.setDetachable(false);
@@ -214,8 +197,8 @@ public class PopOverHelper {
   }
 
   private void initChangeListeners() {
-    viewParent.nameActiveViewProperty().addListener((observableValue, s, t1) ->
-    changingView(t1));
+    viewParent.nameActiveViewProperty().addListener((observable, oldValue, newValue)
+        -> changingView(newValue));
   }
 
   private void changingView(String newValue) {
@@ -224,18 +207,22 @@ public class PopOverHelper {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);
         settingsPopOver.setContentNode(null);
+        System.out.println("Home");
         break;
       case "requestHelp":
         helpPopOver.setContentNode(requestHelpBox);
         settingsPopOver.setContentNode(requestSettingsBox);
+        System.out.println("RequestHelp");
         break;
       case "supporter":
         helpPopOver.setContentNode(supporterHelpBox);
         settingsPopOver.setContentNode(supporterSettingsBox);
+        System.out.println("Supporter");
         break;
       default:
         helpPopOver.setContentNode(null);
         settingsPopOver.setContentNode(null);
+        System.out.println("Default");
         break;
     }
 
