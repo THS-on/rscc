@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 //import ch.imedias.rsccfx.localization.Strings;
+
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import org.controlsfx.control.PopOver;
 
 /**
  * Defines all elements shown in the header.
@@ -38,6 +40,8 @@ public class HeaderView extends HBox {
   ImageView helpImgView;
   ImageView settingImgView;
 
+  PopOver popOver = new PopOver(settingsBtn);
+
   /**
    * Initializes all the GUI components needed in the Header.
    */
@@ -61,7 +65,7 @@ public class HeaderView extends HBox {
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
-    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.getChildren().addAll(backBtn, spacer, helpBtn/*, settingsBtn*/);
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -102,6 +106,9 @@ public class HeaderView extends HBox {
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
+
+    helpBtn.setOnAction(event -> popOver.show(helpBtn));
+
   }
 
   private void bindFieldsToModel() {
