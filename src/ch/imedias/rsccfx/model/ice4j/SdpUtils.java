@@ -15,8 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.imedias.rsccfx.model.ice4J;
+package ch.imedias.rsccfx.model.ice4j;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import javax.sdp.Attribute;
+import javax.sdp.Connection;
+import javax.sdp.MediaDescription;
+import javax.sdp.SdpFactory;
+import javax.sdp.SessionDescription;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
@@ -28,16 +37,6 @@ import org.ice4j.ice.RemoteCandidate;
 import org.ice4j.ice.sdp.CandidateAttribute;
 import org.ice4j.ice.sdp.IceSdpUtils;
 import org.opentelecoms.javax.sdp.NistSdpFactory;
-
-import javax.sdp.Attribute;
-import javax.sdp.Connection;
-import javax.sdp.MediaDescription;
-import javax.sdp.SdpFactory;
-import javax.sdp.SessionDescription;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
  * Utilities for manipulating SDP. Some of the utilities in this method <b>do
@@ -216,7 +215,6 @@ public class SdpUtils {
 
     return cand;
   }
-
 
 
   static String readSDP() throws Throwable {

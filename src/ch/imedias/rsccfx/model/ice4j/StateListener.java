@@ -1,5 +1,9 @@
-package ch.imedias.rsccfx.model.ice4J;
+package ch.imedias.rsccfx.model.ice4j;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
 import org.ice4j.ice.CandidatePair;
@@ -8,17 +12,12 @@ import org.ice4j.ice.IceMediaStream;
 import org.ice4j.ice.IceProcessingState;
 import org.ice4j.socket.IceSocketWrapper;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
 public class StateListener implements PropertyChangeListener {
 
+  int port;
   private DatagramSocket socket = null;
   private IceProcess iceProcess;
   private InetAddress hostname;
-  int port;
 
   public StateListener(IceProcess iceProcess) {
     this.iceProcess = iceProcess;

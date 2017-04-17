@@ -1,5 +1,9 @@
-package ch.imedias.rsccfx.model.ice4J;
+package ch.imedias.rsccfx.model.ice4j;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.List;
+import java.util.logging.Logger;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
@@ -10,11 +14,6 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
 import org.ice4j.ice.harvest.TurnCandidateHarvester;
 import org.ice4j.ice.harvest.UPNPHarvester;
 import org.ice4j.security.LongTermCredential;
-
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by pwg on 13.04.17.
@@ -35,11 +34,12 @@ public class IceProcess {
   private static int sdpCount = 0;
   private Agent localAgent;
   private StateListener stateListener;
-  private String localSDP;
+  private String localSdp;
   private DatagramSocket socket;
 
   /**
-   * Make things ready for the ICE Process
+   * Make things ready for the ICE Process.
+   *
    * @param port specified port on which hole punching process should be tried (>1024)
    */
   public IceProcess(int port) throws Throwable {
@@ -47,44 +47,8 @@ public class IceProcess {
     this.stateListener = new StateListener(this);
     localAgent.setNominationStrategy(NominationStrategy.NOMINATE_HIGHEST_PRIO);
     localAgent.addStateChangeListener(stateListener);
+
   }
-
-  /**
-   * Contacts STUN Server and gets information like own IP, creates SDP
-   */
-  public String generateLocalSDP() throws Throwable {
-    //let them fight ... fights forge character.
-    localAgent.setControlling(false);
-    localSDP = SdpUtils.createSDPDescription(localAgent);
-    //wait a bit so that the logger can stop dumping stuff:
-    Thread.sleep(500);
-    return localSDP;
-  }
-
-  public void printSDP() {
-    System.out.println("=================== feed the following"
-        + " to the remote agent ===================");
-
-    System.out.println(localSDP);
-
-    System.out.println("======================================"
-        + "========================================\n");
-    System.out.println();
-  }
-
-  /**
-   * tries to connect to a remote client
-   * @param sdp the remote clients generated sdp
-   */
-  public void tryConnect(String sdp) throws Throwable {
-    startTime = System.currentTimeMillis();
-    SdpUtils.parseSDP(localAgent, sdp);
-    localAgent.startConnectivityEstablishment();
-    //Give processing enough time to finish. We'll System.exit() anyway
-    //as soon as localAgent enters a final state.
-    Thread.sleep(10000);
-  }
-
 
   /**
    * Creates an ICE <tt>Agent</tt> (vanilla or trickle, depending on the
@@ -98,13 +62,13 @@ public class IceProcess {
    * @param harvesters  the list of {@link CandidateHarvester}s that the new
    *                    agent should use or <tt>null</tt> if it should include the default ones.
    * @return an ICE <tt>Agent</tt> with an audio stream with RTP and RTCP
-   * components.
+   *                    components.
    * @throws Throwable if anything goes wrong.
    */
   private static Agent createAgent(int rtpPort, boolean isTrickling,
                                    List<CandidateHarvester> harvesters) throws Throwable {
 
-    long startTime = System.currentTimeMillis();
+    final long startTime = System.currentTimeMillis();
     Agent agent = new Agent();
     agent.setTrickling(isTrickling);
 
@@ -120,10 +84,7 @@ public class IceProcess {
 
       // TURN
       String[] hostnames = new String[]
-          {
-              "stun.jitsi.net",
-              "stun6.jitsi.net"
-          };
+          {"stun.jitsi.net", "stun6.jitsi.net", "stun:stun.l.google.com:19302"};
       int port = 3478;
       LongTermCredential longTermCredential
           = new LongTermCredential("guest", "anonymouspower!!");
@@ -170,7 +131,7 @@ public class IceProcess {
    * @throws Throwable if anything goes wrong.
    */
   private static IceMediaStream createStream(int rtpPort, String streamName, Agent agent)
-        throws Throwable {
+      throws Throwable {
     IceMediaStream stream = agent.createMediaStream(streamName);
 
     long startTime = System.currentTimeMillis();
@@ -200,6 +161,46 @@ public class IceProcess {
     return stream;
   }
 
+  /**
+   * Contacts STUN Server and gets information like own IP, creates SDP.
+   */
+  public String generateLocalSdp() throws Throwable {
+    //let them fight ... fights forge character.
+    localAgent.setControlling(false);
+    localSdp = SdpUtils.createSDPDescription(localAgent);
+
+    //wait a bit so that the logger can stop dumping stuff:
+    Thread.sleep(500);
+    return localSdp;
+  }
+
+  /**
+   * Prints the SDP.
+   */
+  public void printSdp() {
+    System.out.println("=================== feed the following"
+        + " to the remote agent ===================");
+
+    System.out.println(localSdp);
+
+    System.out.println("======================================"
+        + "========================================\n");
+    System.out.println();
+  }
+
+  /**
+   * tries to connect to a remote client.
+   *
+   * @param sdp the remote clients generated sdp
+   */
+  public void tryConnect(String sdp) throws Throwable {
+    startTime = System.currentTimeMillis();
+    SdpUtils.parseSDP(localAgent, sdp);
+    localAgent.startConnectivityEstablishment();
+    //Give processing enough time to finish. We'll System.exit() anyway
+    //as soon as localAgent enters a final state.
+    Thread.sleep(10000);
+  }
 
   public DatagramSocket getSocket() {
     return socket;

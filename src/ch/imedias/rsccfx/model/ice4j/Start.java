@@ -1,7 +1,4 @@
-package ch.imedias.rsccfx.model.ice4J;
-
-import sun.net.ftp.FtpClient;
-import sun.net.ftp.FtpClientProvider;
+package ch.imedias.rsccfx.model.ice4j;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +9,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.util.Scanner;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpClientProvider;
 
 /**
  * Created by pwg on 13.04.17.
@@ -22,22 +21,26 @@ public class Start {
   public static final String REMOTECOMPUTERNAME = "PwgRaspberryPie";
   public static final int PORT = 2020;
 
+  /**
+   * starts the IceProcess.
+   *
+   */
   public static void main(String[] args) throws Throwable {
     IceProcess iceProcess = new IceProcess(PORT);
-    String localSDP = iceProcess.generateLocalSDP();
-    iceProcess.printSDP();
+    String localSdp = iceProcess.generateLocalSdp();
+    iceProcess.printSdp();
     File file = new File("resources/IceSDP/sdp" + COMPUTERNAME + ".txt");
-    saveToFile(localSDP, file);
+    saveToFile(localSdp, file);
     uploadFile(file);
-    String remoteSDP = null;
+    String remoteSdp = null;
 
-    while (remoteSDP == null) {
-      remoteSDP = downloadFile("http://www.pwigger.ch/rbp/sdp" + REMOTECOMPUTERNAME + ".txt");
+    while (remoteSdp == null) {
+      remoteSdp = downloadFile("http://www.pwigger.ch/rbp/sdp" + REMOTECOMPUTERNAME + ".txt");
       System.out.println("trying to get remote sdp...");
     }
     System.out.println("Got remote SDP from server");
 
-    iceProcess.tryConnect(remoteSDP);
+    iceProcess.tryConnect(remoteSdp);
 
 
     DatagramSocket socket = iceProcess.getSocket();
@@ -63,7 +66,8 @@ public class Start {
   }
 
   /**
-   * starts listening on the specified port and prints all incoming packets
+   * starts listening on the specified port and prints all incoming packets.
+   *
    * @param port >1024<65535
    */
   private static void startListener(int port) {
@@ -72,7 +76,8 @@ public class Start {
   }
 
   /**
-   * sends UDP test-packets over the argument socket
+   * sends UDP test-packets over the argument socket.
+   *
    * @socket
    */
   private static void sendTestPackages(DatagramSocket socket) throws Throwable {
@@ -82,49 +87,54 @@ public class Start {
       socket.send(packet);
     }
   }
+
   /**
-   * saves a SDP into a file
+   * saves a SDP into a file.
    *
-   * @param localSDP Spd-String
-   * @param file
+   * @param localSdp Spd-String
+   * @param file the file to store the sdp in.
    */
-  private static void saveToFile(String localSDP, File file) throws Throwable {
+  private static void saveToFile(String localSdp, File file) throws Throwable {
     FileOutputStream fos = new FileOutputStream(file);
-    fos.write(localSDP.getBytes());
+    fos.write(localSdp.getBytes());
   }
+
   /**
-   * uploads the file to a predefined server
+   * uploads the file to a predefined server.
    *
-   * @param file
+   * @param file the file to be uploaded
    */
- private static void uploadFile(File file) throws Exception {
+  private static void uploadFile(File file) throws Exception {
     FtpClientProvider ftpClientProvider = FtpClientProvider.provider();
     FtpClient ftp = ftpClientProvider.createFtpClient();
     ftp.connect(new InetSocketAddress(InetAddress.getByName("94.126.16.19"), 21));
     ftp = ftp.login("rbp", "qJ4bu_12".toCharArray());
     ftp.putFile(file.getName(), new FileInputStream(file));
   }
+
   /**
-   * checks for the sdp of the remote Computer and downloads it
+   * checks for the sdp of the remote Computer and downloads it.
+   *
    * @param urlAsString url in form "http://www.pwigger.ch/rbp/sdp"
    * @return the remoteSDP as String
    */
   private static String downloadFile(String urlAsString) throws Throwable {
     URL url = new URL(urlAsString);
     Scanner s = new Scanner(url.openStream());
-    StringBuilder remoteSDP = new StringBuilder("");
+    StringBuilder remoteSdp = new StringBuilder("");
     while (s.hasNext()) {
-      String line=s.nextLine();
-        line = line.replace("[java]", "");
-        line = line.trim();
-        if (line.length() == 0) {
-          break;}
-        remoteSDP.append(line);
-        remoteSDP.append("\r\n");
+      String line = s.nextLine();
+      line = line.replace("[java]", "");
+      line = line.trim();
+      if (line.length() == 0) {
+        break;
+      }
+      remoteSdp.append(line);
+      remoteSdp.append("\r\n");
     }
-    System.out.println(remoteSDP.toString());
+    System.out.println(remoteSdp.toString());
 
-    return remoteSDP.toString();
+    return remoteSdp.toString();
   }
 
 
