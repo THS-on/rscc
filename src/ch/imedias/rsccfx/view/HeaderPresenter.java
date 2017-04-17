@@ -71,12 +71,12 @@ public class HeaderPresenter {
   }
 
   /**
-   * Makes the settings button in the header disabled or enabled.
-   * Is being used in the HomeView to make the settings button disabled,
+   * Makes the settings button in the header invisible or visible.
+   * Is being used in the HomeView to make the settings button invisible,
    * since there are no settings in it.
    */
 
-  public void setSettingsBtnDisable(Boolean isDisable) {
-    view.settingsBtn.setDisable(isDisable);
+  public void setSettingsBtnVisibility(Boolean isVisible) {
+    view.settingsBtn.setVisible(isVisible);
   }
 }
