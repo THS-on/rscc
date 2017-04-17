@@ -12,7 +12,7 @@ import javafx.scene.Scene;
  */
 public class RsccRequestPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
+  private static final double WIDTH_SUBTRACTION_KEYFIELD = 250d;
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -61,13 +61,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
+    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionTxt.prefWidthProperty().bind(scene.widthProperty()
+    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.additionalDescriptionTxt.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
   }
 
   /**
