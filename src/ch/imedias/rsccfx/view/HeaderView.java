@@ -50,6 +50,16 @@ public class HeaderView extends HBox {
   PopOver settingsPopOver = new PopOver(settingsBox);
   PopOver helpPopOver = new PopOver(helpBox);
 
+  Label compressionLbl = new Label();
+  Label qualityLbl = new Label();
+  Label bitSettingsLbl = new Label();
+  Label bitCurrentSettingsLbl = new Label();
+
+  Slider compressionSldr;
+
+  ToggleButton toggleBtn = new ToggleButton();
+
+
   /**
    * Initializes all the GUI components needed in the Header.
    */
@@ -115,15 +125,24 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
-    Label compressionLbl = new Label("Kompression");
+    // TODO: Move up
+
+
+    // Settings PopOver
+    compressionLbl.textProperty().set("Kompression");
     compressionLbl.setId("compressionLbl");
-    Slider compressionSldr = new Slider(0, 100, 30);
+
+    compressionSldr = new Slider(0, 100, 30);
     compressionSldr.setId("compressionSldr");
-    Label qualityLbl = new Label("Qualität");
+
+    qualityLbl.textProperty().set("Qualität");
     Slider qualitySldr = new Slider(0, 100, 10);
-    Label bitSettingsLbl = new Label("8-Bit-Farben");
-    ToggleButton toggleBtn = new ToggleButton("On");
-    Label bitCurrentSettingsLbl = new Label("Ihre momentane Einstellung ist");
+    bitSettingsLbl.textProperty().set("8-Bit-Farben");
+
+    toggleBtn.textProperty().set("On");
+
+    bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
+
     settingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
     settingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
     settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
@@ -131,7 +150,10 @@ public class HeaderView extends HBox {
 
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
 
+    // TODO: Use according method in "HeaderPresenter.java"!
     settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
+    helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
+
 
   }
 
