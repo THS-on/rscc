@@ -32,14 +32,6 @@ public class HeaderView extends HBox {
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
-  private static final int COMPRESSION_MAX = 9;
-  private static final int COMPRESSION_MIN = 0;
-  private static final int COMPRESSION_VALUE = 6;
-
-  private static final int QUALITY_MAX = 9;
-  private static final int QUALITY_MIN = 0;
-  private static final int QUALITY_VALUE = 6;
-
   final Pane spacer = new Pane();
   //private final Strings strings = new Strings();
   private final Rscc model;
@@ -55,30 +47,7 @@ public class HeaderView extends HBox {
   ImageView helpImgView;
   ImageView settingImgView;
 
-  VBox settingsBox = new VBox();
-  VBox helpBox = new VBox();
 
-  PopOver settingsPopOver = new PopOver(settingsBox);
-  PopOver helpPopOver = new PopOver(helpBox);
-
-  Text compressionSliderTxt = new Text();
-  Text qualitySliderTxt = new Text();
-
-
-  Label compressionLbl = new Label();
-  Label qualityLbl = new Label();
-  Label bitSettingsLbl = new Label();
-  Label bitCurrentSettingsLbl = new Label();
-
-  Slider compressionSldr;
-  Slider qualitySldr;
-  Pane compressionSliderPane = new Pane();
-  Pane qualitySliderPane = new Pane();
-
-
-  Label helpLbl = new Label();
-
-  ToggleButton toggleBtn = new ToggleButton();
 
   /**
    * Initializes all the GUI components needed in the Header.
@@ -145,94 +114,6 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
-    // Settings PopOver TODO: StringsClass
-
-    // Compression Settings
-    compressionSldr = new Slider(COMPRESSION_MIN, COMPRESSION_MAX, COMPRESSION_VALUE) {
-      @Override
-      protected void layoutChildren() {
-        super.layoutChildren();
-
-        Region thumb = (Region) lookup(".thumb");
-        if (thumb != null) {
-          compressionSliderTxt.setLayoutX(
-              thumb.getLayoutX()
-                  + thumb.getWidth() / 2
-                  - compressionSliderTxt.getLayoutBounds().getWidth() / 2
-          );
-        }
-      }
-    };
-
-    compressionSldr.setId("compressionSldr");
-    compressionSldr.setLayoutY(20);
-
-    compressionLbl.textProperty().set("Kompression");
-    compressionLbl.setId("compressionLbl");
-
-    compressionSliderTxt.setTextOrigin(VPos.TOP);
-    compressionSliderTxt.textProperty().bind(
-                                        compressionSldr.valueProperty().asString("%,.0f"));
-
-    // Quality Settings
-    qualitySldr = new Slider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE) {
-      @Override
-      protected void layoutChildren() {
-        super.layoutChildren();
-
-        Region thumb = (Region) lookup(".thumb");
-        if (thumb != null) {
-          qualitySliderTxt.setLayoutX(
-              thumb.getLayoutX()
-                  + thumb.getWidth() / 2
-                  - qualitySliderTxt.getLayoutBounds().getWidth() / 2
-          );
-        }
-      }
-    };
-
-    qualitySldr.setId("qualitySldr");
-    qualitySldr.setLayoutY(20);
-
-    qualityLbl.textProperty().set("Qualität");
-    qualityLbl.setId("qualityLbl");
-
-    qualitySliderTxt.setTextOrigin(VPos.TOP);
-    qualitySliderTxt.textProperty().bind(qualitySldr.valueProperty().asString("%,.0f"));
-
-    bitSettingsLbl.textProperty().set("8-Bit-Farben");
-    bitSettingsLbl.setId("bitSettingsLbl");
-
-    toggleBtn.textProperty().set("On");
-    toggleBtn.setId("toggleBtn");
-
-    bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    bitCurrentSettingsLbl.setId("bitCurrentSettingsLbl");
-
-    compressionSliderPane.getChildren().addAll(compressionSldr,compressionSliderTxt);
-    qualitySliderPane.getChildren().addAll(qualitySldr,qualitySliderTxt);
-
-    settingsBox.getChildren().add(new VBox(compressionSliderPane, compressionLbl));
-    settingsBox.getChildren().add(new VBox(qualitySliderPane, qualityLbl));
-    settingsBox.getChildren().add(new VBox(bitSettingsLbl, toggleBtn));
-    settingsBox.getChildren().add(bitCurrentSettingsLbl);
-
-    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-
-
-    // Help popover
-    helpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
-    helpLbl.setId("helpLbl");
-
-    // TODO: If we have more labels, we can add it to the box.
-    helpBox.getChildren().addAll(helpLbl);
-
-    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-
-    // TODO: Use according method in "HeaderPresenter.java"!
-    settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
-    helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
 
 
   }

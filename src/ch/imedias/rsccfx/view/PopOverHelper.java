@@ -2,11 +2,15 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -20,18 +24,37 @@ public class PopOverHelper {
   VBox requestHelpBox = new VBox();
   VBox supporterSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
-  PopOver settingsPopOver = new PopOver(requestSettingsBox);
-  PopOver helpPopOver = new PopOver(requestHelpBox);
-  Label homeHelpLbl = new Label();
+
+  PopOver settingsPopOver = new PopOver();
+  PopOver helpPopOver = new PopOver();
+
+  Text compressionSliderTxt = new Text();
+  Text qualitySliderTxt = new Text();
+
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
   Label requestBitSettingsLbl = new Label();
   Label requestBitCurrentSettingsLbl = new Label();
+  Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
+
   Slider compressionSldr;
   Slider qualitySldr;
+
+  Pane compressionSliderPane = new Pane();
+  Pane qualitySliderPane = new Pane();
+
   ToggleButton toggleBtn = new ToggleButton();
+
   private ViewController viewParent;
+
+  private static final int COMPRESSION_MAX = 9;
+  private static final int COMPRESSION_MIN = 0;
+  private static final int COMPRESSION_VALUE = 6;
+
+  private static final int QUALITY_MAX = 9;
+  private static final int QUALITY_MIN = 0;
+  private static final int QUALITY_VALUE = 6;
 
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
@@ -58,14 +81,60 @@ public class PopOverHelper {
     homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
 
     // Settings PopOver - request
+    // Settings PopOver TODO: StringsClass
+
+    // Compression Settings
+    compressionSldr = new Slider(COMPRESSION_MIN, COMPRESSION_MAX, COMPRESSION_VALUE) {
+      @Override
+      protected void layoutChildren() {
+        super.layoutChildren();
+
+        Region thumb = (Region) lookup(".thumb");
+        if (thumb != null) {
+          compressionSliderTxt.setLayoutX(
+              thumb.getLayoutX()
+                  + thumb.getWidth() / 2
+                  - compressionSliderTxt.getLayoutBounds().getWidth() / 2
+          );
+        }
+      }
+    };
+
+    compressionSldr.setId("compressionSldr");
+    compressionSldr.setLayoutY(20);
+
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.setId("requestCompressionLbl");
 
-    compressionSldr = new Slider(0, 100, 30);
-    compressionSldr.setId("compressionSldr");
+    compressionSliderTxt.setTextOrigin(VPos.TOP);
+    compressionSliderTxt.textProperty().bind(
+        compressionSldr.valueProperty().asString("%,.0f"));
+
+    // Quality Settings
+    qualitySldr = new Slider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE) {
+      @Override
+      protected void layoutChildren() {
+        super.layoutChildren();
+
+        Region thumb = (Region) lookup(".thumb");
+        if (thumb != null) {
+          qualitySliderTxt.setLayoutX(
+              thumb.getLayoutX()
+                  + thumb.getWidth() / 2
+                  - qualitySliderTxt.getLayoutBounds().getWidth() / 2
+          );
+        }
+      }
+    };
+
+    qualitySldr.setId("qualitySldr");
+    qualitySldr.setLayoutY(20);
 
     requestQualityLbl.textProperty().set("Qualität");
-    qualitySldr = new Slider(0, 100, 10);
+    requestQualityLbl.setId("requestQualityLbl");
+
+    qualitySliderTxt.setTextOrigin(VPos.TOP);
+    qualitySliderTxt.textProperty().bind(qualitySldr.valueProperty().asString("%,.0f"));
 
     requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
     requestBitSettingsLbl.setId("requestBitSettingsLbl");
@@ -76,15 +145,15 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    requestSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
-    requestSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
-    requestSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
+    compressionSliderPane.getChildren().addAll(compressionSldr,compressionSliderTxt);
+    qualitySliderPane.getChildren().addAll(qualitySldr,qualitySliderTxt);
+
+    requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
+    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
+    requestSettingsBox.getChildren().add(new VBox(requestBitSettingsLbl, toggleBtn));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
-    // Help popover - request
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
-    requestHelpLbl.setId("requestHelpLbl");
+    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
 
     // TODO: If we have more labels, we can add it to the box.
     requestHelpBox.getChildren().addAll(requestHelpLbl);
@@ -122,6 +191,17 @@ public class PopOverHelper {
     // TODO: If we have more labels, we can add it to the box.
     supporterHelpBox.getChildren().addAll(requestHelpLbl);
 
+
+    // Help popover
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
+        "or help someone in need");
+    requestHelpLbl.setId("helpLbl");
+
+    // TODO: If we have more labels, we can add it to the box.
+    requestHelpBox.getChildren().addAll(requestHelpLbl);
+
+    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+
     // PopOver related
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
     settingsPopOver.setDetachable(false);
@@ -134,12 +214,13 @@ public class PopOverHelper {
   }
 
   private void initChangeListeners() {
-    viewParent.nameActiveViewProperty().addListener(observable -> changingView());
+    viewParent.nameActiveViewProperty().addListener((observableValue, s, t1) ->
+    changingView(t1));
   }
 
-  private void changingView() {
+  private void changingView(String newValue) {
     // FIXME: It is not working... yet.
-    switch (viewParent.getNameActiveView()) {
+    switch (newValue) {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);
         settingsPopOver.setContentNode(null);
