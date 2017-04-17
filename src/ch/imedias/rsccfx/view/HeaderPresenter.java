@@ -69,4 +69,8 @@ public class HeaderPresenter {
   public void setBackBtnVisibility(Boolean isVisible) {
     view.backBtn.setVisible(isVisible);
   }
+
+  public void setSettingsBtnDisable(Boolean isDisable) {
+    view.settingsBtn.setDisable(isDisable);
+  }
 }
