@@ -202,22 +202,18 @@ public class PopOverHelper {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);
         settingsPopOver.setContentNode(null);
-        System.out.println("Home");
         break;
       case "requestHelp":
         helpPopOver.setContentNode(requestHelpBox);
         settingsPopOver.setContentNode(requestSettingsBox);
-        System.out.println("RequestHelp");
         break;
       case "supporter":
         helpPopOver.setContentNode(supporterHelpBox);
         settingsPopOver.setContentNode(supporterSettingsBox);
-        System.out.println("Supporter");
         break;
       default:
         helpPopOver.setContentNode(null);
         settingsPopOver.setContentNode(null);
-        System.out.println("Default");
         break;
     }
 
