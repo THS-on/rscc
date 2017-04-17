@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
  */
 public class RsccSupportPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
+  private static final String VALID_IMAGE_FILENAME = "emblem-default.png";
+  private static final String INVALID_IMAGE_FILENAME = "dialog-error.png";
 
   private final Rscc model;
   private final RsccSupportView view;
@@ -66,15 +68,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * Sets the token validation image depending on the validity of the token.
    */
   public void setValidationImage(boolean isValid) {
-    Image validationImage = null;
-    if(isValid){
-      validationImage = new Image(getClass().getClassLoader().getResource("emblem-default.png")
-          .toExternalForm());
-    }else{
-      new Image(getClass().getClassLoader().getResource("dialog-error.png")
-          .toExternalForm());
-    }
-    view.isValidImg.setImage(validationImage);
+    String imageFileName = isValid ? VALID_IMAGE_FILENAME : INVALID_IMAGE_FILENAME;
+    view.isValidImg.setImage(
+        new Image(getClass().getClassLoader().getResource(imageFileName).toExternalForm())
+    );
   }
 
   /**
@@ -99,12 +96,20 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   private void initBindings() {
-    view.connectBtn.disableProperty().bind(Bindings.when(
-        view.tokenFld.textProperty().isNotEqualTo("").and(
-            Bindings.createBooleanBinding(() -> view.tokenFld.textProperty().get().matches("\\d{9}"))
-        ))
-        .then(true)
-        .otherwise(false));
+    view.connectBtn.disableProperty().bind(
+        Bindings.when(
+            view.tokenFld.textProperty()
+                .isNotEqualTo("")
+                .and(
+                    Bindings.createBooleanBinding(
+                        () -> view.tokenFld.getText().matches("\\d{9}"),
+                        view.tokenFld.textProperty()
+                    )
+                )
+        )
+            .then(false)
+            .otherwise(true)
+    );
   }
 
   /**
