@@ -2,8 +2,11 @@ package ch.imedias.rsccfx.model;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 public class SystemCommander {
+  private static final Logger LOGGER =
+      Logger.getLogger(SystemCommander.class.getName());
 
   /**
    * Executes a command in the Linux terminal.
@@ -31,7 +34,9 @@ public class SystemCommander {
       outputReader.close();
       return output.toString().trim();
     } catch (Exception exception) {
-      exception.printStackTrace();
+      LOGGER.severe("Exception thrown when running the command: "
+          + command
+          + "\n Exception Message: " + exception.getMessage());
     }
     return "";
   }

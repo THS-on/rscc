@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
@@ -10,6 +11,8 @@ import javafx.scene.layout.StackPane;
  * which gives them access to the methods in this class.
  */
 public class ViewController extends StackPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(ViewController.class.getName());
 
   private HashMap<String, Node> views = new HashMap<>();
   private HashMap<String, ControlledPresenter> presenters = new HashMap<>();

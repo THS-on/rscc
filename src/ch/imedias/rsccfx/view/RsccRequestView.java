@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,6 +20,9 @@ import javafx.scene.text.Text;
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestView.class.getName());
+
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 

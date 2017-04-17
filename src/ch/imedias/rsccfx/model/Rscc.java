@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,6 +19,8 @@ import javafx.beans.property.StringProperty;
  * Handles communication with the keyserver.
  */
 public class Rscc {
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
   /**
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
@@ -75,7 +78,9 @@ public class Rscc {
     try {
       jarFile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.severe("Exception thrown when trying to get file from: "
+          + sourceLocation
+          + "\n Exception Message: " + e.getMessage());
     }
 
     Enumeration<JarEntry> contentList = jarFile.entries();
@@ -100,9 +105,12 @@ public class Rscc {
           }
 
         } catch (FileNotFoundException e) {
-          e.printStackTrace();
+          LOGGER.severe("Exception thrown when reading from file: "
+              + targetFile.getName()
+              + "\n Exception Message: " + e.getMessage());
         } catch (IOException e) {
-          e.printStackTrace();
+          LOGGER.severe("Exception thrown when trying to copy jar file contents to local"
+              + "\n Exception Message: " + e.getMessage());
         }
         targetFile.setExecutable(true);
       }

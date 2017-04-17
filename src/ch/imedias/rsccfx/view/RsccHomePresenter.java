@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +17,9 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccHomePresenter.class.getName());
+
   private static final Double IMG_VIEW_DIVISOR = 3d;
   private static final Double VIEW_BTN_HEIGHT_DIVISOR = 2.5d;
   private static final Double VIEW_BTN_WIDTH_DIVISOR = 1.5d;
