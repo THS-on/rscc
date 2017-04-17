@@ -8,11 +8,15 @@ import java.io.InputStream;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -40,7 +44,8 @@ public class HeaderView extends HBox {
   ImageView helpImgView;
   ImageView settingImgView;
 
-  PopOver popOver = new PopOver(settingsBtn);
+  VBox settingsBox = new VBox();
+  PopOver popOver = new PopOver(settingsBox);
 
   /**
    * Initializes all the GUI components needed in the Header.
@@ -65,7 +70,7 @@ public class HeaderView extends HBox {
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
-    this.getChildren().addAll(backBtn, spacer, helpBtn/*, settingsBtn*/);
+    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -107,15 +112,30 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
+    Label compressionLbl = new Label("Kompression");
+    compressionLbl.setId("compressionLbl");
+    Slider compressionSldr = new Slider(0, 100, 30);
+    compressionSldr.setId("compressionSldr");
+    Label qualityLbl = new Label("Qualität");
+    Slider qualitySldr = new Slider(0, 100, 10);
+    Label bitSettingsLbl = new Label("8-Bit-Farben");
+    ToggleButton toggleBtn = new ToggleButton("On");
+    Label bitCurrentSettingsLbl = new Label("Ihre momentane Einstellung ist");
+    settingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
+    settingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
+    settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
+    settingsBox.getChildren().add(bitCurrentSettingsLbl);
+
     popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
 
-    helpBtn.setOnAction(event -> popOver.show(helpBtn));
+    settingsBtn.setOnAction(event -> popOver.show(settingsBtn));
 
   }
 
   private void bindFieldsToModel() {
     // make bindings to the model
   }
+
 
 }
 
