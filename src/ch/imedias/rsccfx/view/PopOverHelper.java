@@ -14,21 +14,25 @@ import org.controlsfx.control.PopOver;
  * @date 17.04.2017.
  */
 public class PopOverHelper {
-
   private final Rscc model;
+  VBox homeHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
   VBox requestHelpBox = new VBox();
+  VBox supporterSettingsBox = new VBox();
+  VBox supporterHelpBox = new VBox();
   PopOver settingsPopOver = new PopOver(requestSettingsBox);
   PopOver helpPopOver = new PopOver(requestHelpBox);
-  Label compressionLbl = new Label();
-  Label qualityLbl = new Label();
-  Label bitSettingsLbl = new Label();
-  Label bitCurrentSettingsLbl = new Label();
+  Label homeHelpLbl = new Label();
+  Label requestCompressionLbl = new Label();
+  Label requestQualityLbl = new Label();
+  Label requestBitSettingsLbl = new Label();
+  Label requestBitCurrentSettingsLbl = new Label();
+  Label requestHelpLbl = new Label();
   Slider compressionSldr;
   Slider qualitySldr;
-  Label helpLbl = new Label();
   ToggleButton toggleBtn = new ToggleButton();
   private ViewController viewParent;
+
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
     this.viewParent = viewParent;
@@ -46,41 +50,81 @@ public class PopOverHelper {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
+    // Help PopOver - Home
+    homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, " +
+        "jemandem zu helfen oder Hilfe zu bekommen");
+    homeHelpLbl.setId("homeHelpLbl");
+
+    homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
+
     // Settings PopOver - request
-    compressionLbl.textProperty().set("Kompression");
-    compressionLbl.setId("compressionLbl");
+    requestCompressionLbl.textProperty().set("Kompression");
+    requestCompressionLbl.setId("requestCompressionLbl");
 
     compressionSldr = new Slider(0, 100, 30);
     compressionSldr.setId("compressionSldr");
 
-    qualityLbl.textProperty().set("Qualität");
+    requestQualityLbl.textProperty().set("Qualität");
     qualitySldr = new Slider(0, 100, 10);
 
-    bitSettingsLbl.textProperty().set("8-Bit-Farben");
-    bitSettingsLbl.setId("bitSettingsLbl");
+    requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
+    requestBitSettingsLbl.setId("requestBitSettingsLbl");
 
     toggleBtn.textProperty().set("On");
     toggleBtn.setId("toggleBtn");
 
-    bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    bitCurrentSettingsLbl.setId("bitCurrentSettingsLbl");
+    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
+    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    requestSettingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
-    requestSettingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
-    requestSettingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
-    requestSettingsBox.getChildren().add(bitCurrentSettingsLbl);
-
-    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-    settingsPopOver.setDetachable(false);
+    requestSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
+    requestSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
+    requestSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
+    requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     // Help popover - request
-    helpLbl.textProperty().set("The remote support tool allows you to get help " +
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
         "or help someone in need");
-    helpLbl.setId("helpLbl");
+    requestHelpLbl.setId("requestHelpLbl");
 
     // TODO: If we have more labels, we can add it to the box.
-    requestHelpBox.getChildren().addAll(helpLbl);
+    requestHelpBox.getChildren().addAll(requestHelpLbl);
 
+    // Settings PopOver - supporter
+
+    /*requestCompressionLbl.textProperty().set("Kompression");
+    requestCompressionLbl.setId("requestCompressionLbl");
+
+    compressionSldr = new Slider(0, 100, 30);
+    compressionSldr.setId("compressionSldr");
+
+    requestQualityLbl.textProperty().set("Qualität");
+    qualitySldr = new Slider(0, 100, 10);
+
+    requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
+    requestBitSettingsLbl.setId("requestBitSettingsLbl");
+
+    toggleBtn.textProperty().set("On");
+    toggleBtn.setId("toggleBtn");
+
+    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
+    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");*/
+
+    supporterSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
+    supporterSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
+    supporterSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
+    supporterSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+
+    // Help popover - supporter
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
+        "or help someone in need");
+    requestHelpLbl.setId("requestHelpLbl");
+
+    // TODO: If we have more labels, we can add it to the box.
+    supporterHelpBox.getChildren().addAll(requestHelpLbl);
+
+    // PopOver related
+    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    settingsPopOver.setDetachable(false);
     helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
     helpPopOver.setDetachable(false);
   }
@@ -94,6 +138,7 @@ public class PopOverHelper {
   }
 
   private void changingView() {
+    // FIXME: It is not working... yet.
     switch (viewParent.getNameActiveView()) {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);

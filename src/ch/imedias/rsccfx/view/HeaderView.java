@@ -131,45 +131,6 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
-    // Settings PopOver TODO: StringsClass
-    compressionLbl.textProperty().set("Kompression");
-    compressionLbl.setId("compressionLbl");
-
-    compressionSldr = new Slider(SETTINGS_SLIDER_MIN, SETTINGS_SLIDER_MAX, SETTINGS_SLIDER_VALUE);
-    compressionSldr.setId("compressionSldr");
-
-    qualityLbl.textProperty().set("Qualität");
-    qualitySldr = new Slider(0, 100, 10);
-
-    bitSettingsLbl.textProperty().set("8-Bit-Farben");
-    bitSettingsLbl.setId("bitSettingsLbl");
-
-    toggleBtn.textProperty().set("On");
-    toggleBtn.setId("toggleBtn");
-
-    bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    bitCurrentSettingsLbl.setId("bitCurrentSettingsLbl");
-
-    settingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
-    settingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
-    settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
-    settingsBox.getChildren().add(bitCurrentSettingsLbl);
-
-    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-
-    // Help popover
-    helpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
-    helpLbl.setId("helpLbl");
-
-    // TODO: If we have more labels, we can add it to the box.
-    helpBox.getChildren().addAll(helpLbl);
-
-    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-
-    // TODO: Use according method in "HeaderPresenter.java"!
-    settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
-    // helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
   }
 
   private void bindFieldsToModel() {
