@@ -82,6 +82,8 @@
 
 #keyGeneratingBox{
     -fx-spacing: 25;
+    -fx-alignment: center;
+    -fx-padding: 25;
 }
 
 /***************************************************************************
