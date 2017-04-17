@@ -29,10 +29,13 @@ public class RsccRequestView extends BorderPane {
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
+
+  final Label descriptionTxt = new Label();
+  final Label additionalDescriptionTxt = new Label();
   final Label keyGenerationLbl = new Label();
   final Label supporterAdminLbl = new Label();
 
-  VBox mainBox = new VBox();
+  final VBox mainBox = new VBox();
   final VBox bottomBox = new VBox();
 
   final HBox supporterAdminBox = new HBox();
@@ -41,9 +44,6 @@ public class RsccRequestView extends BorderPane {
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane supporterAdminPane = new TitledPane();
-
-  final Text descriptionTxt = new Text();
-  final Text additionalDescriptionTxt = new Text();
 
   final TextField generatedKeyFld = new TextField();
 
@@ -99,7 +99,7 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    supporterAdminPane.setText("Supporter Administration");
+    supporterAdminPane.setText("Addressbook");
     supporterAdminPane.setExpanded(false);
 
   }
