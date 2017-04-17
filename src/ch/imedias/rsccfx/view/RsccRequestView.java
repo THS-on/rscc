@@ -73,7 +73,7 @@ public class RsccRequestView extends BorderPane {
     keyGenerationLbl.textProperty().set("Key generator");
     keyGenerationLbl.setId("keyGenerationLbl");
 
-    supporterAdminLbl.textProperty().set("Supporter administration");
+    supporterAdminLbl.textProperty().set("Addressbook");
 
     descriptionTxt.textProperty().set("Test");
     descriptionTxt.setId("descriptionTxt"); // TODO: Styling
