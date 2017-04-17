@@ -42,9 +42,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> {
-          model.refreshKey();
-        }
+        event -> model.refreshKey()
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.

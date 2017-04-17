@@ -14,8 +14,8 @@ public class ViewController extends StackPane {
   private static final Logger LOGGER =
       Logger.getLogger(ViewController.class.getName());
 
-  private HashMap<String, Node> views = new HashMap<>();
-  private HashMap<String, ControlledPresenter> presenters = new HashMap<>();
+  private final HashMap<String, Node> views = new HashMap<>();
+  private final HashMap<String, ControlledPresenter> presenters = new HashMap<>();
 
   /**
    * Returns an already loaded presenter.

@@ -20,16 +20,16 @@ public class SystemCommander {
     Process process;
 
     try {
-      StringBuffer output = new StringBuffer();
+      StringBuilder output = new StringBuilder();
       // Execute Command
       process = Runtime.getRuntime().exec(command);
       process.waitFor();
       // read the output from the command
       BufferedReader outputReader = new BufferedReader(new
           InputStreamReader(process.getInputStream()));
-      String line = null;
+      String line;
       while ((line = outputReader.readLine()) != null) {
-        output.append(line + "\n");
+        output.append(line).append("\n");
       }
       outputReader.close();
       return output.toString().trim();

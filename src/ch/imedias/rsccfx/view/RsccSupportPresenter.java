@@ -87,9 +87,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
    */
   private void attachEvents() {
 
-    view.tokenFld.setOnKeyReleased(event -> {
-      view.isValidImg.setImage(validationImage(view.tokenFld.getText()));
-    });
+    view.tokenFld.setOnKeyReleased(event ->
+        view.isValidImg.setImage(validationImage(view.tokenFld.getText())));
 
 
     view.connectBtn.setOnAction(event -> {

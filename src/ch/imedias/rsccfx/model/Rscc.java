@@ -33,11 +33,11 @@ public class Rscc {
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
-  private StringProperty key = new SimpleStringProperty();
+  private final StringProperty key = new SimpleStringProperty();
   private String keyServerIp = "86.119.39.89";
   private String keyServerHttpPort = "800";
   //TODO: Replace when the StunFileGeneration is ready
-  private String pathToStunDumpFile = this.getClass()
+  private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource("ice4jDemoDump.ice")
       .toExternalForm().replace("file:","");
 
@@ -60,7 +60,7 @@ public class Rscc {
     if (actualClass.isDirectory()) {
       pathToResourceDocker =
           getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-              .getFile().toString().replaceFirst("file:", "");
+              .getFile().replaceFirst("file:", "");
 
     } else {
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
@@ -82,7 +82,6 @@ public class Rscc {
           + sourceLocation
           + "\n Exception Message: " + e.getMessage());
     }
-
     Enumeration<JarEntry> contentList = jarFile.entries();
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
@@ -98,7 +97,7 @@ public class Rscc {
         }
         try (
             InputStream fromStream = jarFile.getInputStream(item);
-            FileOutputStream toStream = new FileOutputStream(targetFile);
+            FileOutputStream toStream = new FileOutputStream(targetFile)
         ) {
           while (fromStream.available() > 0) {
             toStream.write(fromStream.read());

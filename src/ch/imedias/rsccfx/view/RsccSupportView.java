@@ -27,24 +27,24 @@ public class RsccSupportView extends BorderPane {
 
   final HeaderView headerView;
 
-  Label enterTokenLbl = new Label();
-  Label keyDescriptionLbl = new Label();
-  Label exampleLbl = new Label();
-  Label instructionLbl = new Label();
+  final Label enterTokenLbl = new Label();
+  final Label keyDescriptionLbl = new Label();
+  final Label exampleLbl = new Label();
+  final Label instructionLbl = new Label();
 
-  VBox centerBox = new VBox();
-  VBox groupingBox = new VBox();
-  HBox tokenValidationBox = new HBox();
+  final VBox centerBox = new VBox();
+  final VBox groupingBox = new VBox();
+  final HBox tokenValidationBox = new HBox();
 
-  TextField tokenFld = new TextField();
+  final TextField tokenFld = new TextField();
 
-  TitledPane keyInputPane = new TitledPane();
-  TitledPane predefinedAdressesPane = new TitledPane();
+  final TitledPane keyInputPane = new TitledPane();
+  final TitledPane predefinedAdressesPane = new TitledPane();
 
   ImageView isValidImg = new ImageView();
 
-  Button connectBtn = new Button();
-  Button expandOptionBtn = new Button();
+  final Button connectBtn = new Button();
+  final Button expandOptionBtn = new Button();
 
   /**
    * Initializes all the GUI components needed to enter the token the supporter received.
@@ -96,7 +96,7 @@ public class RsccSupportView extends BorderPane {
 
     tokenValidationBox.getChildren().addAll(tokenFld, isValidImg);
     tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    tokenValidationBox.setHgrow(tokenFld, Priority.ALWAYS);
+    HBox.setHgrow(tokenFld, Priority.ALWAYS);
     tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
 
     groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);

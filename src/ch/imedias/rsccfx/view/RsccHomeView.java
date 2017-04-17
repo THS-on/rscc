@@ -22,10 +22,10 @@ public class RsccHomeView extends BorderPane {
   private final Strings strings = new Strings();
   final HeaderView headerView;
 
-  Button requestViewBtn = new Button();
-  Button supportViewBtn = new Button();
+  final Button requestViewBtn = new Button();
+  final Button supportViewBtn = new Button();
 
-  VBox contentBox = new VBox();
+  final VBox contentBox = new VBox();
 
   Image requestImg;
   Image supportImg;
