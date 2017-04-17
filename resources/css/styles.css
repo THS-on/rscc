@@ -73,17 +73,29 @@
 }
 
 #centerBox{
+    -fx-alignment: center;
     -fx-padding: 10, 20, 10, 20;
     -fx-spacing: 150;
+
 }
 #bottomBox{
     -fx-padding: 10 ,20 ,1 ,20;
 }
 
 #keyGeneratingBox{
-    -fx-spacing: 25;
     -fx-alignment: center;
+    -fx-spacing: 25;
     -fx-padding: 25;
+}
+
+#descriptionBox {
+    -fx-alignment: left;
+    -fx-spacing: 50;
+    -fx-padding: 25;
+}
+
+#readyBtn{
+    -fx-alignment: bottom-right;
 }
 
 /***************************************************************************
