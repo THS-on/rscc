@@ -35,13 +35,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   /**
-   * Validates a token.
-   */
-  private static boolean validateToken(String token) {
-    return token.matches("\\d{9}");
-  }
-
-  /**
    * Defines the ViewController to allow changing of views.
    */
   public void setViewParent(ViewController viewParent) {
@@ -88,7 +81,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
       model.setKey(view.tokenFld.getText());
       model.connectToUser();
     });
-
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
     view.keyInputPane.setOnMouseClicked(event -> view.predefinedAdressesPane.setExpanded(false));
