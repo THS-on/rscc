@@ -1,7 +1,11 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -9,29 +13,55 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.ToggleSwitch;
+
+
 
 /**
  * @author Lukas Marchesi
  * @date 17.04.2017.
  */
 public class PopOverHelper {
+  // Get Screensize
+  Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
   private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_VALUE = 6;
+
   private static final int QUALITY_MAX = 9;
   private static final int QUALITY_MIN = 0;
   private static final int QUALITY_VALUE = 6;
+
+  private final double OVERLAY_HEIGHT = primaryScreenBounds.getHeight() / 4;
+  private final double OVERLAY_WIDTH = primaryScreenBounds.getWidth() / 4;
+
+
+
+
+
+  RsccApp rsccApp = new RsccApp();
+
+  private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
+
   private final Rscc model;
   private ViewController viewParent;
+
+  ToggleSwitch eightBitTgl = new ToggleSwitch();
+  ToggleSwitch viewOnlyTgl = new ToggleSwitch();
 
   VBox homeHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
   VBox requestHelpBox = new VBox();
   VBox supporterSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
+
+  Pane requestSettingsPane = new Pane();
 
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
@@ -43,6 +73,7 @@ public class PopOverHelper {
   Label requestQualityLbl = new Label();
   Label requestBitSettingsLbl = new Label();
   Label requestBitCurrentSettingsLbl = new Label();
+  Label requestViewOnlyLbl = new Label();
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supporterHelpLbl = new Label();
@@ -73,6 +104,7 @@ public class PopOverHelper {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    eightBitTgl.setId("eightBitTgl");
 
     // Help PopOver - Home
     homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, " +
@@ -103,6 +135,7 @@ public class PopOverHelper {
 
     compressionSldr.setId("compressionSldr");
     compressionSldr.setLayoutY(20);
+    compressionSldr.setPrefWidth(500);
 
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.setId("requestCompressionLbl");
@@ -140,8 +173,8 @@ public class PopOverHelper {
     requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
     requestBitSettingsLbl.setId("requestBitSettingsLbl");
 
-    eightBitToggl.textProperty().set("On");
-    eightBitToggl.setId("eightBitToggl");
+    requestViewOnlyLbl.textProperty().set("View only");
+    requestViewOnlyLbl.setId("requestViewOnlyLbl");
 
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
@@ -151,8 +184,15 @@ public class PopOverHelper {
 
     requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
     requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
-    requestSettingsBox.getChildren().add(new VBox(requestBitSettingsLbl, eightBitToggl));
+    requestSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBitSettingsLbl));
+    requestSettingsBox.getChildren().add(new HBox(viewOnlyTgl, requestViewOnlyLbl));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+
+    requestSettingsBox.setPrefWidth(OVERLAY_WIDTH);
+    requestSettingsBox.setPrefHeight(OVERLAY_HEIGHT);
+
+
+    requestSettingsPane.getChildren().add(requestSettingsBox);
 
     // Help popover - request
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
@@ -196,6 +236,7 @@ public class PopOverHelper {
         -> changingView(newValue));
   }
 
+
   private void changingView(String newValue) {
     // FIXME: It is not working... yet.
     switch (newValue) {
@@ -206,7 +247,7 @@ public class PopOverHelper {
         break;
       case "requestHelp":
         helpPopOver.setContentNode(requestHelpBox);
-        settingsPopOver.setContentNode(requestSettingsBox);
+        settingsPopOver.setContentNode(requestSettingsPane);
         System.out.println("RequestHelp");
         break;
       case "supporter":
@@ -223,4 +264,7 @@ public class PopOverHelper {
 
   }
 
-}
+
+  }
+
+

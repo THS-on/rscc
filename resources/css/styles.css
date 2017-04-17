@@ -17,11 +17,21 @@
 
 #helpBtn, #backBtn, #settingsBtn{
     -fx-padding: 5;
-    -fx-border-color: #d5d5d5;
-    -fx-border-width: 3;
-    -fx-border-radius: 7;
-    -fx-background-radius: 7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-border-color:#A7A7A7;
+    -fx-font-size: 0.9em;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
+    }
+
+#helpBtn:hover, #backBtn:hover, #settingsBtn:hover{
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
 }
+
+
+
 
 /***************************************************************************
  *                                                                         *
@@ -33,7 +43,19 @@
     -fx-font-size: 18pt;
     -fx-fit-to-width: true;
     -fx-content-display: left;
+    -fx-border-color:#A7A7A7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
 }
+
+.HomeNavigationBtn:hover {
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
+}
+
+
 
 /***************************************************************************
  *                                                                         *
@@ -90,4 +112,18 @@
 #settingsBox{
     -fx-padding: 50;
 }
+
+.slider .track {
+    -fx-pref-height:20;
+}
+
+.slider:vertical .track {
+    -fx-pref-width:20;
+}
+
+.slider .thumb {
+    -fx-pref-height: 20;
+    -fx-pref-width: 20;
+}
+
 
