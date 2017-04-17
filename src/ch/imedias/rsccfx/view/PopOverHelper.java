@@ -25,15 +25,20 @@ public class PopOverHelper {
   private static final int QUALITY_MIN = 0;
   private static final int QUALITY_VALUE = 6;
   private final Rscc model;
+  private ViewController viewParent;
+
   VBox homeHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
   VBox requestHelpBox = new VBox();
   VBox supporterSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
+
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
+
   Text compressionSliderTxt = new Text();
   Text qualitySliderTxt = new Text();
+
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
   Label requestBitSettingsLbl = new Label();
@@ -41,15 +46,17 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supporterHelpLbl = new Label();
+
   Slider compressionSldr;
   Slider qualitySldr;
   Slider pictureScalingSldr;
+
   Pane compressionSliderPane = new Pane();
   Pane qualitySliderPane = new Pane();
+
   // TODO: 8 bit Toggle is according to SA not needed anymore.
   ToggleButton eightBitToggl = new ToggleButton();
   ToggleButton showOnlyToggl = new ToggleButton();
-  private ViewController viewParent;
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
     this.viewParent = viewParent;
