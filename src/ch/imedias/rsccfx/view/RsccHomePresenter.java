@@ -74,10 +74,6 @@ public class RsccHomePresenter implements ControlledPresenter {
         .divide(VIEW_BTN_WIDTH_DIVISOR));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_HEIGHT_DIVISOR));
-
-    view.contentBox.setAlignment(Pos.CENTER);
-    view.contentBox.setPadding(new Insets(25));
-    view.contentBox.setSpacing(20);
   }
 
   private void attachEvents() {
