@@ -47,6 +47,9 @@ public class RsccRequestView extends BorderPane {
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
+  final Button reloadKeyBtn = new Button();
+  final Button readyBtn = new Button();
+  final Button supporterOneBtn = new Button();
 
   Image reloadImg;
 
@@ -99,6 +102,15 @@ public class RsccRequestView extends BorderPane {
     supporterAdminLbl.textProperty().set("Addressbook");
     supporterAdminPane.setText("Addressbook");
     supporterAdminPane.setExpanded(false);
+
+    // TODO: Finish all the buttons here according to mockup.
+    // Admin Buttons
+    // label, six Buttons, six images
+    /*supporterOneBtn.setGraphic();*/
+    supporterOneBtn.textProperty().setValue("Supporter 1");
+    supporterOneBtn.getStyleClass().add("supporterBtn");
+    /*supporterTwoBtn.setGraphic();*/
+    // two HBox'es
 
   }
 
