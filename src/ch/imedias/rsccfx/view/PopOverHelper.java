@@ -172,10 +172,10 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");*/
 
-    supporterSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
-    supporterSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
-    supporterSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
-    supporterSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+    // supporterSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
+    // supporterSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
+    // supporterSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
+    // supporterSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     // Help popover - supporter
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
