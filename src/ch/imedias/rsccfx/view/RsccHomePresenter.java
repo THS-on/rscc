@@ -80,6 +80,8 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void initHeader() {
     // set all the actions regarding buttons in this method
     headerPresenter.setBackBtnVisibility(false);
-//    headerPresenter.setSettingsBtnDisable(true);
+    headerPresenter.setSettingsBtnDisable(true);
+    headerPresenter.setHelpBtnAction(event ->
+        view.headerView.helpPopOver.show(view.headerView.helpBtn));
   }
 }

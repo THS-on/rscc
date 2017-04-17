@@ -80,7 +80,6 @@ public class HeaderView extends HBox {
 
   ToggleButton toggleBtn = new ToggleButton();
 
-
   /**
    * Initializes all the GUI components needed in the Header.
    */
@@ -240,7 +239,6 @@ public class HeaderView extends HBox {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-
   }
 
 
