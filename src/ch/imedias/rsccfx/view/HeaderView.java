@@ -45,7 +45,10 @@ public class HeaderView extends HBox {
   ImageView settingImgView;
 
   VBox settingsBox = new VBox();
-  PopOver popOver = new PopOver(settingsBox);
+  VBox helpBox = new VBox();
+
+  PopOver settingsPopOver = new PopOver(settingsBox);
+  PopOver helpPopOver = new PopOver(helpBox);
 
   /**
    * Initializes all the GUI components needed in the Header.
@@ -126,9 +129,9 @@ public class HeaderView extends HBox {
     settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
     settingsBox.getChildren().add(bitCurrentSettingsLbl);
 
-    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
 
-    settingsBtn.setOnAction(event -> popOver.show(settingsBtn));
+    settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
 
   }
 
