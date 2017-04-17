@@ -81,5 +81,6 @@ public class RsccHomePresenter implements ControlledPresenter {
     // set all the actions regarding buttons in this method
     headerPresenter.setBackBtnVisibility(false);
     headerPresenter.setSettingsBtnDisable(true);
+    headerPresenter.setHelpBtnAction(event -> helpPopOver.show(helpBtn));
   }
 }
