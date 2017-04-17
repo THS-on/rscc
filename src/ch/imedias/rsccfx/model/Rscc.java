@@ -31,6 +31,7 @@ public class Rscc {
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
+  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDumpe.ice";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty key = new SimpleStringProperty();
@@ -38,8 +39,8 @@ public class Rscc {
   private String keyServerHttpPort = "800";
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
-      .getClassLoader().getResource("ice4jDemoDump.ice")
-      .toExternalForm().replace("file:","");
+          .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+          .toExternalForm().replace("file:","");
 
   /**
    * Initializes the Rscc model class.
