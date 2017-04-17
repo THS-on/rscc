@@ -1,10 +1,11 @@
-#descriptionTxt{
+#descriptionLbl{
     -fx-wrap-text: true;
 }
 
 #keyGenerationLbl{
     -fx-font-family: Cantarell;
-    -fx-font-size: 30pt;
+    -fx-font-size: 32pt;
+    -fx-font-weight: bold;
 }
 
 #generatedKeyFld{

@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Defines all elements shown in the request section.
@@ -30,12 +29,11 @@ public class RsccRequestView extends BorderPane {
   private final Rscc model;
   private final Strings strings = new Strings();
 
-  final Label descriptionTxt = new Label();
-  final Label additionalDescriptionTxt = new Label();
   final Label keyGenerationLbl = new Label();
   final Label supporterAdminLbl = new Label();
+  final Label descriptionLbl = new Label();
 
-  final VBox mainBox = new VBox();
+  final VBox descriptionBox = new VBox();
   final VBox bottomBox = new VBox();
 
   final HBox supporterAdminBox = new HBox();
@@ -70,13 +68,12 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
 
-    keyGenerationLbl.textProperty().set("Key generator");
+    keyGenerationLbl.textProperty().set("Generate key");
     keyGenerationLbl.setId("keyGenerationLbl");
 
-    supporterAdminLbl.textProperty().set("Addressbook");
-
-    descriptionTxt.textProperty().set("Test");
-    descriptionTxt.setId("descriptionTxt"); // TODO: Styling
+    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. " +
+        "Once your supporter enters this code, the remote support will start.");
+    descriptionLbl.setId("descriptionLbl"); // TODO: Styling
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
@@ -93,12 +90,10 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
-    additionalDescriptionTxt.textProperty().set("Test");
-    additionalDescriptionTxt.setId("additionalDescriptionTxt");
-
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
+    supporterAdminLbl.textProperty().set("Addressbook");
     supporterAdminPane.setText("Addressbook");
     supporterAdminPane.setExpanded(false);
 
@@ -111,9 +106,9 @@ public class RsccRequestView extends BorderPane {
 
     supporterAdminBox.getChildren().addAll(supporterAdminLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
+    descriptionBox.getChildren().addAll(keyGenerationLbl, descriptionLbl);
 
-    centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
-        additionalDescriptionTxt);
+    centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
