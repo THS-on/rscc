@@ -102,23 +102,27 @@
                 </executions>
             </plugin>
 
-            <!-- copy resources folder to build -->
+            <!-- add resources like *.properties files to the build -->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
-                        <!-- here the phase you need -->
+                        <id>add-resource</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>add-resource</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${custom.resources.path}</directory>
+                                    <directory>${custom.source}</directory>
+                                    <targetPath>${custom.path}</targetPath>
+                                    <excludes>
+                                        <exclude>*.java</exclude>
+                                        <exclude>/**/</exclude>
+                                    </excludes>
                                 </resource>
                             </resources>
                         </configuration>
