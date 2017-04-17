@@ -73,7 +73,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private void attachEvents() {
     view.connectBtn.disableProperty().addListener(
         (observable, oldValue, newValue) -> {
-          setValidationImage(newValue);
+          // value = whether the button is disabled or not
+          setValidationImage(!newValue);
         }
     );
 
