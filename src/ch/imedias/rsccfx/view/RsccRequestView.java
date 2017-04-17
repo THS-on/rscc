@@ -43,6 +43,7 @@ public class RsccRequestView extends BorderPane {
   TextField generatedKeyFld = new TextField();
 
   Button reloadKeyBtn = new Button();
+  Button readyBtn = new Button();
 
   Image reloadImg;
 
@@ -85,6 +86,8 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
+    readyBtn.textProperty().set("Ready");
+
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
@@ -103,7 +106,9 @@ public class RsccRequestView extends BorderPane {
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
-    descriptionBox.getChildren().addAll(keyGenerationLbl, descriptionLbl);
+    readyBtn.setId("readyBtn");
+
+    descriptionBox.getChildren().addAll(keyGenerationLbl, descriptionLbl, readyBtn);
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
