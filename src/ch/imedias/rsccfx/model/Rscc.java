@@ -31,8 +31,8 @@ public class Rscc {
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp = "86.119.39.89";
-  private String keyServerHttpPort = "800";
+  private StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
+  private StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
   private String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource("ice4jDemoDump.ice")
@@ -42,6 +42,8 @@ public class Rscc {
    * Initializes the Rscc model class.
    */
   public Rscc(SystemCommander systemCommander) {
+    if (systemCommander == null)
+      throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     this.systemCommander = systemCommander;
     defineResourcePath();
   }
@@ -113,8 +115,8 @@ public class Rscc {
    * Sets the IP and HTTP port of the keyserver in the model.
    */
   public void keyServerSetup(String keyServerIp, String keyServerHttpPort) {
-    this.keyServerIp = keyServerIp;
-    this.keyServerHttpPort = keyServerHttpPort;
+    setKeyServerIp(keyServerIp);
+    setKeyServerHttpPort(keyServerHttpPort);
   }
 
   /**
@@ -122,7 +124,7 @@ public class Rscc {
    */
   private void keyServerSetup() {
     String command = commandStringGenerator(
-        pathToResourceDocker, "use.sh", keyServerIp, keyServerHttpPort);
+        pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -194,10 +196,26 @@ public class Rscc {
   }
 
   public String getKeyServerIp() {
+    return keyServerIp.get();
+  }
+
+  public StringProperty keyServerIpProperty() {
     return keyServerIp;
   }
 
+  public void setKeyServerIp(String keyServerIp) {
+    this.keyServerIp.set(keyServerIp);
+  }
+
   public String getKeyServerHttpPort() {
+    return keyServerHttpPort.get();
+  }
+
+  public StringProperty keyServerHttpPortProperty() {
     return keyServerHttpPort;
+  }
+
+  public void setKeyServerHttpPort(String keyServerHttpPort) {
+    this.keyServerHttpPort.set(keyServerHttpPort);
   }
 }
