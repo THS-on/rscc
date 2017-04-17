@@ -70,6 +70,12 @@ public class HeaderPresenter {
     view.backBtn.setVisible(isVisible);
   }
 
+  /**
+   * Makes the settings button in the header disabled or enabled.
+   * Is being used in the HomeView to make the settings button disabled,
+   * since there are no settings in it.
+   */
+
   public void setSettingsBtnDisable(Boolean isDisable) {
     view.settingsBtn.setDisable(isDisable);
   }
