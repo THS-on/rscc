@@ -1,6 +1,6 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
+//import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public class HeaderView extends HBox {
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
   final Pane spacer = new Pane();
-  private final Strings strings = new Strings();
+  //private final Strings strings = new Strings();
   private final Rscc model;
   Button backBtn = new Button();
   Button helpBtn = new Button();

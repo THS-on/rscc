@@ -1,6 +1,6 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
+// import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,11 +18,9 @@ import javafx.scene.text.Font;
  * Defines all elements shown in the support section.
  */
 public class RsccSupportView extends BorderPane {
-  private final Rscc model;
-  private final Strings strings = new Strings();
-
   final HeaderView headerView;
-
+  //private final Strings strings = new Strings();
+  private final Rscc model;
   Label enterTokenLbl = new Label();
   Label keyDescriptionLbl = new Label();
   Label exampleLbl = new Label();

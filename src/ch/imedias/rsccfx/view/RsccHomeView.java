@@ -1,6 +1,6 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
+//import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -14,10 +14,9 @@ import javafx.scene.layout.VBox;
  * Defines all elements shown on the start page.
  */
 public class RsccHomeView extends BorderPane {
-  private final Rscc model;
-  private final Strings strings = new Strings();
+  //private final Strings strings = new Strings();
   final HeaderView headerView;
-
+  private final Rscc model;
   Button requestViewBtn = new Button();
   Button supportViewBtn = new Button();
 
