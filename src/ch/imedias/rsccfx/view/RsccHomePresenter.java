@@ -7,7 +7,6 @@ import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import org.controlsfx.control.PopOver;
 
 // TODO: Check mockup for reference here:
 // https://www.cs.technik.fhnw.ch/confluence16/display/VTDESGB/Mockups+-+Remote+Support+-+Version+0.8?preview=/15991708/15991716/Startscreen.png
@@ -83,7 +82,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void initHeader() {
     // set all the actions regarding buttons in this method
     headerPresenter.setBackBtnVisibility(false);
-    headerPresenter.setSettingsBtnDisable(true);
+    headerPresenter.setSettingsBtnVisibility(false);
     headerPresenter.setHelpBtnAction(event ->
         popOverHelper.helpPopOver.show(view.headerView.helpBtn));
   }

@@ -1,5 +1,7 @@
 package ch.imedias.rsccfx.view;
 
+//import ch.imedias.rsccfx.localization.Strings;
+
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -61,7 +63,7 @@ public class HeaderView extends HBox {
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
-    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()

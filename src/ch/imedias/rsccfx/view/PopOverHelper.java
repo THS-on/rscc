@@ -135,7 +135,6 @@ public class PopOverHelper {
 
     compressionSldr.setId("compressionSldr");
     compressionSldr.setLayoutY(20);
-    compressionSldr.setPrefWidth(500);
 
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.setId("requestCompressionLbl");
@@ -236,35 +235,27 @@ public class PopOverHelper {
         -> changingView(newValue));
   }
 
-
   private void changingView(String newValue) {
     // FIXME: It is not working... yet.
     switch (newValue) {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);
         settingsPopOver.setContentNode(null);
-        System.out.println("Home");
         break;
       case "requestHelp":
         helpPopOver.setContentNode(requestHelpBox);
         settingsPopOver.setContentNode(requestSettingsPane);
-        System.out.println("RequestHelp");
         break;
       case "supporter":
         helpPopOver.setContentNode(supporterHelpBox);
         settingsPopOver.setContentNode(supporterSettingsBox);
-        System.out.println("Supporter");
         break;
       default:
         helpPopOver.setContentNode(null);
         settingsPopOver.setContentNode(null);
-        System.out.println("Default");
         break;
     }
 
   }
 
-
-  }
-
-
+}
