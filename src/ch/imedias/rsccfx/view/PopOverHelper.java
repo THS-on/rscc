@@ -1,5 +1,7 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.ViewController;
+import ch.imedias.rsccfx.model.Rscc;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -13,28 +15,28 @@ import org.controlsfx.control.PopOver;
  */
 public class PopOverHelper {
 
-  VBox settingsBox = new VBox();
-  VBox helpBox = new VBox();
-
-  PopOver settingsPopOver = new PopOver(settingsBox);
-  PopOver helpPopOver = new PopOver(helpBox);
-
+  private final Rscc model;
+  VBox requestSettingsBox = new VBox();
+  VBox requestHelpBox = new VBox();
+  PopOver settingsPopOver = new PopOver(requestSettingsBox);
+  PopOver helpPopOver = new PopOver(requestHelpBox);
   Label compressionLbl = new Label();
   Label qualityLbl = new Label();
   Label bitSettingsLbl = new Label();
   Label bitCurrentSettingsLbl = new Label();
-
   Slider compressionSldr;
   Slider qualitySldr;
-
   Label helpLbl = new Label();
-
   ToggleButton toggleBtn = new ToggleButton();
+  private ViewController viewParent;
 
-  public PopOverHelper() {
+  public PopOverHelper(ViewController viewParent, Rscc model) {
+    this.viewParent = viewParent;
+    this.model = model;
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+    initChangeListeners();
   }
 
   private void initFieldData() {
@@ -44,7 +46,7 @@ public class PopOverHelper {
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
 
-    // Settings PopOver
+    // Settings PopOver - request
     compressionLbl.textProperty().set("Kompression");
     compressionLbl.setId("compressionLbl");
 
@@ -63,26 +65,54 @@ public class PopOverHelper {
     bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     bitCurrentSettingsLbl.setId("bitCurrentSettingsLbl");
 
-    settingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
-    settingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
-    settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
-    settingsBox.getChildren().add(bitCurrentSettingsLbl);
+    requestSettingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
+    requestSettingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
+    requestSettingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
+    requestSettingsBox.getChildren().add(bitCurrentSettingsLbl);
 
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    settingsPopOver.setDetachable(false);
 
-    // Help popover
+    // Help popover - request
     helpLbl.textProperty().set("The remote support tool allows you to get help " +
         "or help someone in need");
     helpLbl.setId("helpLbl");
 
     // TODO: If we have more labels, we can add it to the box.
-    helpBox.getChildren().addAll(helpLbl);
+    requestHelpBox.getChildren().addAll(helpLbl);
 
     helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    helpPopOver.setDetachable(false);
   }
 
   private void bindFieldsToModel() {
     // make bindings to the model
+  }
+
+  private void initChangeListeners() {
+    viewParent.nameActiveViewProperty().addListener(observable -> changingView());
+  }
+
+  private void changingView() {
+    switch (viewParent.getNameActiveView()) {
+      case "home":
+        helpPopOver.setContentNode(homeHelpBox);
+        settingsPopOver.setContentNode(null);
+        break;
+      case "requestHelp":
+        helpPopOver.setContentNode(requestHelpBox);
+        settingsPopOver.setContentNode(requestSettingsBox);
+        break;
+      case "supporter":
+        helpPopOver.setContentNode(supporterHelpBox);
+        settingsPopOver.setContentNode(supporterSettingsBox);
+        break;
+      default:
+        helpPopOver.setContentNode(null);
+        settingsPopOver.setContentNode(null);
+        break;
+    }
+
   }
 
 }

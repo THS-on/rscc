@@ -169,9 +169,7 @@ public class HeaderView extends HBox {
 
     // TODO: Use according method in "HeaderPresenter.java"!
     settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
-    helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
-
-
+    // helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
   }
 
   private void bindFieldsToModel() {
