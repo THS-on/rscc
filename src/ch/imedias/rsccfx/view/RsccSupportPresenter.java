@@ -88,19 +88,21 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   private void initBindings() {
+    // disable connect button if key is not valid
     view.connectBtn.disableProperty().bind(
         Bindings.when(
             view.tokenFld.textProperty()
-                .isNotEqualTo("")
+                .isNotEqualTo("") // disable if key is null
                 .and(
+                    // disable if key is not 9 digit number
                     Bindings.createBooleanBinding(
                         () -> view.tokenFld.getText().matches("\\d{9}"),
                         view.tokenFld.textProperty()
                     )
                 )
         )
-            .then(false)
-            .otherwise(true)
+            .then(false)             // set disableProperty to false, if key is valid
+            .otherwise(true)    // set disableProperty to true, if key is invalid
     );
   }
 
