@@ -7,6 +7,7 @@ import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -16,7 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -29,9 +32,13 @@ public class HeaderView extends HBox {
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
-  private static final int SETTINGS_SLIDER_MAX = 9;
-  private static final int SETTINGS_SLIDER_MIN = 0;
-  private static final int SETTINGS_SLIDER_VALUE = 6;
+  private static final int COMPRESSION_MAX = 9;
+  private static final int COMPRESSION_MIN = 0;
+  private static final int COMPRESSION_VALUE = 6;
+
+  private static final int QUALITY_MAX = 9;
+  private static final int QUALITY_MIN = 0;
+  private static final int QUALITY_VALUE = 6;
 
   final Pane spacer = new Pane();
   //private final Strings strings = new Strings();
@@ -54,6 +61,10 @@ public class HeaderView extends HBox {
   PopOver settingsPopOver = new PopOver(settingsBox);
   PopOver helpPopOver = new PopOver(helpBox);
 
+  Text compressionSliderTxt = new Text();
+  Text qualitySliderTxt = new Text();
+
+
   Label compressionLbl = new Label();
   Label qualityLbl = new Label();
   Label bitSettingsLbl = new Label();
@@ -61,6 +72,9 @@ public class HeaderView extends HBox {
 
   Slider compressionSldr;
   Slider qualitySldr;
+  Pane compressionSliderPane = new Pane();
+  Pane qualitySliderPane = new Pane();
+
 
   Label helpLbl = new Label();
 
@@ -133,14 +147,59 @@ public class HeaderView extends HBox {
     this.setHeight(HEADER_HEIGHT);
 
     // Settings PopOver TODO: StringsClass
+
+    // Compression Settings
+    compressionSldr = new Slider(COMPRESSION_MIN, COMPRESSION_MAX, COMPRESSION_VALUE) {
+      @Override
+      protected void layoutChildren() {
+        super.layoutChildren();
+
+        Region thumb = (Region) lookup(".thumb");
+        if (thumb != null) {
+          compressionSliderTxt.setLayoutX(
+              thumb.getLayoutX()
+                  + thumb.getWidth() / 2
+                  - compressionSliderTxt.getLayoutBounds().getWidth() / 2
+          );
+        }
+      }
+    };
+
+    compressionSldr.setId("compressionSldr");
+    compressionSldr.setLayoutY(20);
+
     compressionLbl.textProperty().set("Kompression");
     compressionLbl.setId("compressionLbl");
 
-    compressionSldr = new Slider(SETTINGS_SLIDER_MIN, SETTINGS_SLIDER_MAX, SETTINGS_SLIDER_VALUE);
-    compressionSldr.setId("compressionSldr");
+    compressionSliderTxt.setTextOrigin(VPos.TOP);
+    compressionSliderTxt.textProperty().bind(
+                                        compressionSldr.valueProperty().asString("%,.0f"));
+
+    // Quality Settings
+    qualitySldr = new Slider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE) {
+      @Override
+      protected void layoutChildren() {
+        super.layoutChildren();
+
+        Region thumb = (Region) lookup(".thumb");
+        if (thumb != null) {
+          qualitySliderTxt.setLayoutX(
+              thumb.getLayoutX()
+                  + thumb.getWidth() / 2
+                  - qualitySliderTxt.getLayoutBounds().getWidth() / 2
+          );
+        }
+      }
+    };
+
+    qualitySldr.setId("qualitySldr");
+    qualitySldr.setLayoutY(20);
 
     qualityLbl.textProperty().set("Qualität");
-    qualitySldr = new Slider(0, 100, 10);
+    qualityLbl.setId("qualityLbl");
+
+    qualitySliderTxt.setTextOrigin(VPos.TOP);
+    qualitySliderTxt.textProperty().bind(qualitySldr.valueProperty().asString("%,.0f"));
 
     bitSettingsLbl.textProperty().set("8-Bit-Farben");
     bitSettingsLbl.setId("bitSettingsLbl");
@@ -151,12 +210,16 @@ public class HeaderView extends HBox {
     bitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     bitCurrentSettingsLbl.setId("bitCurrentSettingsLbl");
 
-    settingsBox.getChildren().add(new HBox(compressionLbl, compressionSldr));
-    settingsBox.getChildren().add(new HBox(qualityLbl, qualitySldr));
-    settingsBox.getChildren().add(new HBox(bitSettingsLbl, toggleBtn));
+    compressionSliderPane.getChildren().addAll(compressionSldr,compressionSliderTxt);
+    qualitySliderPane.getChildren().addAll(qualitySldr,qualitySliderTxt);
+
+    settingsBox.getChildren().add(new VBox(compressionSliderPane, compressionLbl));
+    settingsBox.getChildren().add(new VBox(qualitySliderPane, qualityLbl));
+    settingsBox.getChildren().add(new VBox(bitSettingsLbl, toggleBtn));
     settingsBox.getChildren().add(bitCurrentSettingsLbl);
 
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+
 
     // Help popover
     helpLbl.textProperty().set("The remote support tool allows you to get help " +
@@ -177,6 +240,7 @@ public class HeaderView extends HBox {
 
   private void bindFieldsToModel() {
     // make bindings to the model
+
   }
 
 
