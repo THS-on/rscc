@@ -7,20 +7,12 @@ import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import org.controlsfx.control.PopOver;
 
 /**
  * Defines all elements shown in the header.
@@ -47,8 +39,6 @@ public class HeaderView extends HBox {
   ImageView helpImgView;
   ImageView settingImgView;
 
-
-
   /**
    * Initializes all the GUI components needed in the Header.
    */
@@ -72,7 +62,7 @@ public class HeaderView extends HBox {
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
-    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -113,9 +103,6 @@ public class HeaderView extends HBox {
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
-
-
-
   }
 
   private void bindFieldsToModel() {
