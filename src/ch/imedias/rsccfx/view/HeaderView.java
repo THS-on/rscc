@@ -29,6 +29,10 @@ public class HeaderView extends HBox {
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
+  private static final int SETTINGS_SLIDER_MAX = 9;
+  private static final int SETTINGS_SLIDER_MIN = 0;
+  private static final int SETTINGS_SLIDER_VALUE = 6;
+
   final Pane spacer = new Pane();
   //private final Strings strings = new Strings();
   private final Rscc model;
@@ -127,11 +131,11 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
-    // Settings PopOver
+    // Settings PopOver TODO: StringsClass
     compressionLbl.textProperty().set("Kompression");
     compressionLbl.setId("compressionLbl");
 
-    compressionSldr = new Slider(0, 100, 30);
+    compressionSldr = new Slider(SETTINGS_SLIDER_MIN, SETTINGS_SLIDER_MAX, SETTINGS_SLIDER_VALUE);
     compressionSldr.setId("compressionSldr");
 
     qualityLbl.textProperty().set("Qualität");
@@ -166,6 +170,8 @@ public class HeaderView extends HBox {
     // TODO: Use according method in "HeaderPresenter.java"!
     settingsBtn.setOnAction(event -> settingsPopOver.show(settingsBtn));
     helpBtn.setOnAction(event -> helpPopOver.show(helpBtn));
+
+
   }
 
   private void bindFieldsToModel() {

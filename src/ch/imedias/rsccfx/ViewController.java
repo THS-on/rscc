@@ -1,6 +1,9 @@
 package ch.imedias.rsccfx;
 
 import java.util.HashMap;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
@@ -13,6 +16,8 @@ public class ViewController extends StackPane {
 
   private HashMap<String, Node> views = new HashMap<>();
   private HashMap<String, ControlledPresenter> presenters = new HashMap<>();
+
+  private StringProperty nameActiveView = new SimpleStringProperty();
 
   /**
    * Returns an already loaded presenter.
@@ -29,6 +34,7 @@ public class ViewController extends StackPane {
   private void addView(String name, Node view, ControlledPresenter presenter) {
     views.put(name, view);
     presenters.put(name, presenter);
+
   }
 
   /**
@@ -43,11 +49,12 @@ public class ViewController extends StackPane {
   }
 
   /**
-   * Sets the current view to the one referenced by 'name'.
+   * Sets the current view to the one referenced by 'nameActiveView'.
    * This method can be called in the presenter to switch to a different view.
    * Controls the way views are being transitioned from one to another.
    */
   public boolean setView(final String name) {
+    nameActiveView.set(name);
     if (views.get(name) != null) { // view is loaded
       // If at least one view is already being displayed
       if (!getChildren().isEmpty()) {
@@ -79,4 +86,11 @@ public class ViewController extends StackPane {
     }
   }
 
+  public String getNameActiveView() {
+    return nameActiveView.get();
+  }
+
+  public StringProperty nameActiveViewProperty() {
+    return nameActiveView;
+  }
 }
