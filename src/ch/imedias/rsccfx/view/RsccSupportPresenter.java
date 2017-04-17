@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -28,6 +29,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    initBindings();
   }
 
   /**
@@ -61,32 +63,29 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   /**
-   * Validates the token and displays a symbolic image.
-   *
-   * @param token the token to be validated.
-   * @return path to the image to display.
+   * Sets the token validation image depending on the validity of the token.
    */
-  public Image validationImage(String token) {
-
-    if (validateToken(token)) {
-      view.connectBtn.setDisable(false);
-      return new Image(getClass().getClassLoader().getResource("emblem-default.png")
+  public void setValidationImage(boolean isValid) {
+    Image validationImage = null;
+    if(isValid){
+      validationImage = new Image(getClass().getClassLoader().getResource("emblem-default.png")
+          .toExternalForm());
+    }else{
+      new Image(getClass().getClassLoader().getResource("dialog-error.png")
           .toExternalForm());
     }
-    view.connectBtn.setDisable(true);
-    return new Image(getClass().getClassLoader().getResource("dialog-error.png")
-        .toExternalForm());
+    view.isValidImg.setImage(validationImage);
   }
 
   /**
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
-
-    view.tokenFld.setOnKeyReleased(event -> {
-      view.isValidImg.setImage(validationImage(view.tokenFld.getText()));
-    });
-
+    view.connectBtn.disableProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          setValidationImage(newValue);
+        }
+    );
 
     view.connectBtn.setOnAction(event -> {
       model.setKey(view.tokenFld.getText());
@@ -99,7 +98,14 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.predefinedAdressesPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
   }
 
-
+  private void initBindings() {
+    view.connectBtn.disableProperty().bind(Bindings.when(
+        view.tokenFld.textProperty().isNotEqualTo("").and(
+            Bindings.createBooleanBinding(() -> view.tokenFld.textProperty().get().matches("\\d{9}"))
+        ))
+        .then(true)
+        .otherwise(false));
+  }
 
   /**
    * Initializes the functionality of the header, e.g. back and settings button.

@@ -89,6 +89,8 @@ public class RsccSupportView extends BorderPane {
     tokenFld.setFont(new Font(30)); // TODO: Move to CSS
 
     isValidImg.setSmooth(true);
+    isValidImg.fitHeightProperty().setValue(50);
+    isValidImg.fitWidthProperty().setValue(50);
 
     tokenValidationBox.getChildren().addAll(tokenFld, isValidImg);
     tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
