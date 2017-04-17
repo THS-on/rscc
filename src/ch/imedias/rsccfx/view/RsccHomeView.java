@@ -64,6 +64,8 @@ public class RsccHomeView extends BorderPane {
     supportViewBtn.setGraphic(supportImgView);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
+    contentBox.setId("contentBox");
+
     contentBox.getChildren().addAll(requestViewBtn, supportViewBtn);
 
     this.setTop(headerView);
