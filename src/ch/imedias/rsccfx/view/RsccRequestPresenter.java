@@ -72,8 +72,11 @@ public class RsccRequestPresenter implements ControlledPresenter {
         .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
-    view.keyGeneratorPane.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(150d));
+    // FIXME: need assistance here. Doesn't do what I would like it to do... 🙈
+    view.keyGeneratorPane.minHeight(25d);
+    view.keyGeneratorPane.prefHeight(500d);
+    view.keyGeneratorPane.maxHeightProperty().bind(scene.heightProperty()
+        .subtract(view.headerView.getHeight()));
   }
 
   /**
