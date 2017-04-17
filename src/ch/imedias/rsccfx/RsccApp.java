@@ -85,15 +85,10 @@ public class RsccApp extends Application {
     ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
 
     // Initialize stylesheets
-    String supporterSheet = getClass().getClassLoader()
-        .getResource("css/supporterStyle.css").toExternalForm();
-    String headerSheet = getClass().getClassLoader()
-        .getResource("css/headerStyle.css").toExternalForm();
-    String homeSheet = getClass().getClassLoader()
-        .getResource("css/HomeStyle.css").toExternalForm();
-    String requestSheet = getClass().getClassLoader()
-        .getResource("css/requestStyle.css").toExternalForm();
-    scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet, requestSheet);
+    String styleSheet = getClass().getClassLoader()
+        .getResource("css/styles.css").toExternalForm();
+
+    scene.getStylesheets().add(styleSheet);
   }
 
   @Override
