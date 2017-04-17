@@ -30,8 +30,6 @@ public class IceProcess {
    * Start time for debugging purposes.
    */
   static long startTime;
-
-
   private static InetAddress hostname;
   private static int port;
   private static int sdpCount = 0;
@@ -40,7 +38,10 @@ public class IceProcess {
   private String localSDP;
   private DatagramSocket socket;
 
-
+  /**
+   * Make things ready for the ICE Process
+   * @param port specified port on which hole punching process should be tried (>1024)
+   */
   public IceProcess(int port) throws Throwable {
     this.localAgent = createAgent(port, false, null);
     this.stateListener = new StateListener(this);
@@ -48,6 +49,9 @@ public class IceProcess {
     localAgent.addStateChangeListener(stateListener);
   }
 
+  /**
+   * Contacts STUN Server and gets information like own IP, creates SDP
+   */
   public String generateLocalSDP() throws Throwable {
     //let them fight ... fights forge character.
     localAgent.setControlling(false);
@@ -68,25 +72,18 @@ public class IceProcess {
     System.out.println();
   }
 
-  public void startConnectivityEstablishment() {
-    localAgent.startConnectivityEstablishment();
-  }
-
+  /**
+   * tries to connect to a remote client
+   * @param sdp the remote clients generated sdp
+   */
   public void tryConnect(String sdp) throws Throwable {
     startTime = System.currentTimeMillis();
     SdpUtils.parseSDP(localAgent, sdp);
     localAgent.startConnectivityEstablishment();
-   //Does not work! Evt weil Multithreading??
-//    if (socket != null) {
-//      System.out.println("We Have a socket");
-//      return socket;
-//    }
-
     //Give processing enough time to finish. We'll System.exit() anyway
     //as soon as localAgent enters a final state.
     Thread.sleep(10000);
   }
-
 
 
   /**
@@ -104,7 +101,8 @@ public class IceProcess {
    * components.
    * @throws Throwable if anything goes wrong.
    */
-  private static Agent createAgent(int rtpPort, boolean isTrickling, List<CandidateHarvester> harvesters) throws Throwable {
+  private static Agent createAgent(int rtpPort, boolean isTrickling,
+                                   List<CandidateHarvester> harvesters) throws Throwable {
 
     long startTime = System.currentTimeMillis();
     Agent agent = new Agent();
@@ -171,7 +169,8 @@ public class IceProcess {
    * @return the newly created <tt>IceMediaStream</tt>.
    * @throws Throwable if anything goes wrong.
    */
-  private static IceMediaStream createStream(int rtpPort, String streamName, Agent agent) throws Throwable {
+  private static IceMediaStream createStream(int rtpPort, String streamName, Agent agent)
+        throws Throwable {
     IceMediaStream stream = agent.createMediaStream(streamName);
 
     long startTime = System.currentTimeMillis();
@@ -191,7 +190,8 @@ public class IceProcess {
     startTime = endTime;
     //rtcpComp
     agent.createComponent(
-        stream, Transport.UDP, rtpPort + 1, rtpPort + 1, rtpPort + 101);
+        stream, Transport.UDP, rtpPort + 1,
+        rtpPort + 1, rtpPort + 101);
 
     endTime = System.currentTimeMillis();
     logger.info("RTCP Component created in "

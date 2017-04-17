@@ -15,8 +15,10 @@ import java.net.InetAddress;
 
 public class StateListener implements PropertyChangeListener {
 
-  DatagramSocket socket = null;
-  IceProcess iceProcess;
+  private DatagramSocket socket = null;
+  private IceProcess iceProcess;
+  private InetAddress hostname;
+  int port;
 
   public StateListener(IceProcess iceProcess) {
     this.iceProcess = iceProcess;
@@ -33,9 +35,7 @@ public class StateListener implements PropertyChangeListener {
           if (stream.getName().contains("audio")) {
             Component rtpComponent = stream.getComponent(org.ice4j.ice.Component.RTP);
             CandidatePair rtpPair = rtpComponent.getSelectedPair();
-
             IceSocketWrapper wrapper = rtpComponent.getSocketWrapper();
-
             // We use IceSocketWrapper, but you can just use the UDP socket
             // The advantage is that you can change the protocol from UDP to TCP easily
             // Currently only UDP exists so you might not need to use the wrapper.
@@ -51,18 +51,9 @@ public class StateListener implements PropertyChangeListener {
     }
   }
 
-  private InetAddress hostname;
-  int port;
-
-  public InetAddress getHostname() {
-    return hostname;
-  }
 
   public int getPort() {
     return port;
   }
 
-  public DatagramSocket getSocket() {
-    return socket;
-  }
 }

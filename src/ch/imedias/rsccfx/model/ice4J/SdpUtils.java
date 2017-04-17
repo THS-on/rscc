@@ -35,8 +35,7 @@ import javax.sdp.MediaDescription;
 import javax.sdp.SdpFactory;
 import javax.sdp.SessionDescription;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -50,231 +49,198 @@ import java.util.Vector;
  *
  * @author Emil Ivov
  */
-public class SdpUtils
-{
-    /**
-     * Creates a session description containing the streams from the specified
-     * <tt>agent</tt> using dummy codecs. This method is unlikely to be of use
-     * to integrating applications as they would likely just want to feed a
-     * {@link MediaDescription} and have it populated with all the necessary
-     * attributes.
-     *
-     * @param agent the {@link Agent} we'd like to generate.
-     *
-     * @return a {@link SessionDescription} representing <tt>agent</tt>'s
-     * streams.
-     *
-     * @throws Throwable on rainy days
-     */
-    public static String createSDPDescription(Agent agent) throws Throwable
-    {
-        SdpFactory factory = new NistSdpFactory();
-        SessionDescription sdess = factory.createSessionDescription();
+public class SdpUtils {
+  /**
+   * Creates a session description containing the streams from the specified
+   * <tt>agent</tt> using dummy codecs. This method is unlikely to be of use
+   * to integrating applications as they would likely just want to feed a
+   * {@link MediaDescription} and have it populated with all the necessary
+   * attributes.
+   *
+   * @param agent the {@link Agent} we'd like to generate.
+   * @return a {@link SessionDescription} representing <tt>agent</tt>'s
+   * streams.
+   * @throws Throwable on rainy days
+   */
+  public static String createSDPDescription(Agent agent) throws Throwable {
+    SdpFactory factory = new NistSdpFactory();
+    SessionDescription sdess = factory.createSessionDescription();
 
-        IceSdpUtils.initSessionDescription(sdess, agent);
+    IceSdpUtils.initSessionDescription(sdess, agent);
 
-        return sdess.toString();
+    return sdess.toString();
+  }
+
+  /**
+   * Configures <tt>localAgent</tt> the the remote peer streams, components,
+   * and candidates specified in <tt>sdp</tt>
+   *
+   * @param localAgent the {@link Agent} that we'd like to configure.
+   * @param sdp        the SDP string that the remote peer sent.
+   * @throws Exception for all sorts of reasons.
+   */
+  @SuppressWarnings("unchecked") // jain-sdp legacy code.
+  public static void parseSDP(Agent localAgent, String sdp)
+      throws Exception {
+    SdpFactory factory = new NistSdpFactory();
+    SessionDescription sdess = factory.createSessionDescription(sdp);
+
+    for (IceMediaStream stream : localAgent.getStreams()) {
+      stream.setRemotePassword(sdess.getAttribute("ice-pwd"));
+      stream.setRemoteUfrag(sdess.getAttribute("ice-ufrag"));
     }
 
-    /**
-     * Configures <tt>localAgent</tt> the the remote peer streams, components,
-     * and candidates specified in <tt>sdp</tt>
-     *
-     * @param localAgent the {@link Agent} that we'd like to configure.
-     *
-     * @param sdp the SDP string that the remote peer sent.
-     *
-     * @throws Exception for all sorts of reasons.
-     */
-    @SuppressWarnings("unchecked") // jain-sdp legacy code.
-    public static void parseSDP(Agent localAgent, String sdp)
-        throws Exception
-    {
-        SdpFactory factory = new NistSdpFactory();
-        SessionDescription sdess = factory.createSessionDescription(sdp);
-
-        for(IceMediaStream stream : localAgent.getStreams())
-        {
-            stream.setRemotePassword(sdess.getAttribute("ice-pwd"));
-            stream.setRemoteUfrag(sdess.getAttribute("ice-ufrag"));
-        }
-
-        Connection globalConn = sdess.getConnection();
-        String globalConnAddr = null;
-        if(globalConn != null)
-            globalConnAddr = globalConn.getAddress();
-
-        Vector<MediaDescription> mdescs = sdess.getMediaDescriptions(true);
-
-        for (MediaDescription desc : mdescs)
-        {
-            String streamName = desc.getMedia().getMediaType();
-
-            IceMediaStream stream = localAgent.getStream(streamName);
-
-            if(stream == null)
-                continue;
-
-            Vector<Attribute> attributes = desc.getAttributes(true);
-            for (Attribute attribute : attributes)
-            {
-                if (attribute.getName().equals(CandidateAttribute.NAME))
-                    parseCandidate(attribute, stream);
-            }
-
-            //set default candidates
-            Connection streamConn = desc.getConnection();
-            String streamConnAddr = null;
-            if(streamConn != null)
-                streamConnAddr = streamConn.getAddress();
-            else
-                streamConnAddr = globalConnAddr;
-
-            int port = desc.getMedia().getMediaPort();
-
-            TransportAddress defaultRtpAddress =
-                new TransportAddress(streamConnAddr, port, Transport.UDP);
-
-            int rtcpPort = port + 1;
-            String rtcpAttributeValue = desc.getAttribute("rtcp");
-
-            if (rtcpAttributeValue != null)
-                rtcpPort = Integer.parseInt(rtcpAttributeValue);
-
-            TransportAddress defaultRtcpAddress =
-                new TransportAddress(streamConnAddr, rtcpPort, Transport.UDP);
-
-            Component rtpComponent = stream.getComponent(Component.RTP);
-            Component rtcpComponent = stream.getComponent(Component.RTCP);
-
-            Candidate<?> defaultRtpCandidate
-                = rtpComponent.findRemoteCandidate(defaultRtpAddress);
-            rtpComponent.setDefaultRemoteCandidate(defaultRtpCandidate);
-
-            if(rtcpComponent != null)
-            {
-                Candidate<?> defaultRtcpCandidate
-                    = rtcpComponent.findRemoteCandidate(defaultRtcpAddress);
-                rtcpComponent.setDefaultRemoteCandidate(defaultRtcpCandidate);
-            }
-        }
+    Connection globalConn = sdess.getConnection();
+    String globalConnAddr = null;
+    if (globalConn != null) {
+      globalConnAddr = globalConn.getAddress();
     }
 
-    /**
-     * Parses the <tt>attribute</tt>.
-     *
-     * @param attribute the attribute that we need to parse.
-     * @param stream the {@link IceMediaStream} that the candidate is supposed
-     * to belong to.
-     *
-     * @return a newly created {@link RemoteCandidate} matching the
-     * content of the specified <tt>attribute</tt> or <tt>null</tt> if the
-     * candidate belonged to a component we don't have.
-     */
-    private static RemoteCandidate parseCandidate(Attribute      attribute,
-                                                  IceMediaStream stream)
-    {
-        String value = null;
+    Vector<MediaDescription> mdescs = sdess.getMediaDescriptions(true);
 
-        try{
-            value = attribute.getValue();
-        }catch (Throwable t){}//can't happen
+    for (MediaDescription desc : mdescs) {
+      String streamName = desc.getMedia().getMediaType();
 
-        StringTokenizer tokenizer = new StringTokenizer(value);
+      IceMediaStream stream = localAgent.getStream(streamName);
 
-        //XXX add exception handling.
-        String foundation = tokenizer.nextToken();
-        int componentID = Integer.parseInt( tokenizer.nextToken() );
-        Transport transport = Transport.parse(tokenizer.nextToken());
-        long priority = Long.parseLong(tokenizer.nextToken());
-        String address = tokenizer.nextToken();
-        int port = Integer.parseInt(tokenizer.nextToken());
+      if (stream == null) {
+        continue;
+      }
 
-        TransportAddress transAddr
-            = new TransportAddress(address, port, transport);
-
-        tokenizer.nextToken(); //skip the "typ" String
-        CandidateType type = CandidateType.parse(tokenizer.nextToken());
-
-        Component component = stream.getComponent(componentID);
-
-        if(component == null)
-            return null;
-
-        // check if there's a related address property
-
-        RemoteCandidate relatedCandidate = null;
-        if (tokenizer.countTokens() >= 4)
-        {
-            tokenizer.nextToken(); // skip the raddr element
-            String relatedAddr = tokenizer.nextToken();
-            tokenizer.nextToken(); // skip the rport element
-            int relatedPort = Integer.parseInt(tokenizer.nextToken());
-
-            TransportAddress raddr = new TransportAddress(
-                            relatedAddr, relatedPort, Transport.UDP);
-
-            relatedCandidate = component.findRemoteCandidate(raddr);
+      Vector<Attribute> attributes = desc.getAttributes(true);
+      for (Attribute attribute : attributes) {
+        if (attribute.getName().equals(CandidateAttribute.NAME)) {
+          parseCandidate(attribute, stream);
         }
+      }
 
-        RemoteCandidate cand = new RemoteCandidate(transAddr, component, type,
-                        foundation, priority, relatedCandidate);
+      //set default candidates
+      Connection streamConn = desc.getConnection();
+      String streamConnAddr = null;
+      if (streamConn != null) {
+        streamConnAddr = streamConn.getAddress();
+      } else {
+        streamConnAddr = globalConnAddr;
+      }
 
-        component.addRemoteCandidate(cand);
+      int port = desc.getMedia().getMediaPort();
 
-        return cand;
+      TransportAddress defaultRtpAddress =
+          new TransportAddress(streamConnAddr, port, Transport.UDP);
+
+      int rtcpPort = port + 1;
+      String rtcpAttributeValue = desc.getAttribute("rtcp");
+
+      if (rtcpAttributeValue != null) {
+        rtcpPort = Integer.parseInt(rtcpAttributeValue);
+      }
+
+      TransportAddress defaultRtcpAddress =
+          new TransportAddress(streamConnAddr, rtcpPort, Transport.UDP);
+
+      Component rtpComponent = stream.getComponent(Component.RTP);
+      Component rtcpComponent = stream.getComponent(Component.RTCP);
+
+      Candidate<?> defaultRtpCandidate
+          = rtpComponent.findRemoteCandidate(defaultRtpAddress);
+      rtpComponent.setDefaultRemoteCandidate(defaultRtpCandidate);
+
+      if (rtcpComponent != null) {
+        Candidate<?> defaultRtcpCandidate
+            = rtcpComponent.findRemoteCandidate(defaultRtcpAddress);
+        rtcpComponent.setDefaultRemoteCandidate(defaultRtcpCandidate);
+      }
+    }
+  }
+
+  /**
+   * Parses the <tt>attribute</tt>.
+   *
+   * @param attribute the attribute that we need to parse.
+   * @param stream    the {@link IceMediaStream} that the candidate is supposed
+   *                  to belong to.
+   * @return a newly created {@link RemoteCandidate} matching the
+   * content of the specified <tt>attribute</tt> or <tt>null</tt> if the
+   * candidate belonged to a component we don't have.
+   */
+  private static RemoteCandidate parseCandidate(Attribute attribute,
+                                                IceMediaStream stream) {
+    String value = null;
+
+    try {
+      value = attribute.getValue();
+    } catch (Throwable t) {
+    }//can't happen
+
+    StringTokenizer tokenizer = new StringTokenizer(value);
+
+    //XXX add exception handling.
+    String foundation = tokenizer.nextToken();
+    int componentID = Integer.parseInt(tokenizer.nextToken());
+    Transport transport = Transport.parse(tokenizer.nextToken());
+    long priority = Long.parseLong(tokenizer.nextToken());
+    String address = tokenizer.nextToken();
+    int port = Integer.parseInt(tokenizer.nextToken());
+
+    TransportAddress transAddr
+        = new TransportAddress(address, port, transport);
+
+    tokenizer.nextToken(); //skip the "typ" String
+    CandidateType type = CandidateType.parse(tokenizer.nextToken());
+
+    Component component = stream.getComponent(componentID);
+
+    if (component == null) {
+      return null;
     }
 
+    // check if there's a related address property
 
-    /**
-     * Reads an SDP description from the standard input. We expect descriptions
-     * provided to this method to be originating from instances of this
-     * application running on remote computers.
-     *
-     * @return whatever we got on stdin (hopefully an SDP description.
-     * @throws Throwable if something goes wrong with console reading.
-     */
-    static String readSDP(File file) throws Throwable {
-        System.out.println("Paste remote SDP here. Enter an empty "
-            + "line to proceed:");
-        System.out.println("(we don't mind the [java] prefix in SDP intput)");
+    RemoteCandidate relatedCandidate = null;
+    if (tokenizer.countTokens() >= 4) {
+      tokenizer.nextToken(); // skip the raddr element
+      String relatedAddr = tokenizer.nextToken();
+      tokenizer.nextToken(); // skip the rport element
+      int relatedPort = Integer.parseInt(tokenizer.nextToken());
 
+      TransportAddress raddr = new TransportAddress(
+          relatedAddr, relatedPort, Transport.UDP);
 
-
-        String sCurrentLine;
-
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        StringBuffer remoteSDP= new StringBuffer("");
-
-        while ((sCurrentLine = br.readLine()) != null) {
-            remoteSDP.append(sCurrentLine);
-
-        }
-        return remoteSDP.toString();
-
-
-
-
-/*
-        BufferedReader reader
-            = new BufferedReader(new InputStreamReader(System.in));
-
-        StringBuffer buff = new StringBuffer();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            line = line.replace("[java]", "");
-            line = line.trim();
-            if (line.length() == 0) {
-                break;
-            }
-
-            buff.append(line);
-            buff.append("\r\n");
-        }
-        return buff.toString();
-        */
+      relatedCandidate = component.findRemoteCandidate(raddr);
     }
 
+    RemoteCandidate cand = new RemoteCandidate(transAddr, component, type,
+        foundation, priority, relatedCandidate);
 
+    component.addRemoteCandidate(cand);
+
+    return cand;
+  }
+
+
+
+  static String readSDP() throws Throwable {
+    System.out.println("Paste remote SDP here. Enter an empty "
+        + "line to proceed:");
+    System.out.println("(we don't mind the [java] prefix in SDP intput)");
+    BufferedReader reader
+        = new BufferedReader(new InputStreamReader(System.in));
+
+    StringBuffer buff = new StringBuffer();
+    String line;
+
+    while ((line = reader.readLine()) != null) {
+      line = line.replace("[java]", "");
+      line = line.trim();
+      if (line.length() == 0) {
+        break;
+      }
+
+      buff.append(line);
+      buff.append("\r\n");
+    }
+    return buff.toString();
+
+
+  }
 }
