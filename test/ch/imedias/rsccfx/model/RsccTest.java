@@ -4,15 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import ch.imedias.rscc.ProcessExecutor;
-import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationsException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -43,10 +39,11 @@ public class RsccTest {
    */
   @Test
   public void testRsccConstructorIllegalArguments() {
-    try{
+    try {
       new Rscc(null);
       fail("Test has to fail");
     } catch (IllegalArgumentException e) {
+      e.getMessage();
     }
   }
 
@@ -55,7 +52,7 @@ public class RsccTest {
    */
   @Test
   public void testRsccConstructor() {
-    try{
+    try {
       new Rscc(new SystemCommander());
       new Rscc(mockProcessExecutor);
     } catch (Exception e) {
@@ -83,9 +80,9 @@ public class RsccTest {
    */
   public void testPrivateKeyServerSetup() throws Exception {
     verify(mockProcessExecutor).executeTerminalCommand(
-        argThat(script -> script.contains("use.sh") &&
-            script.contains(KEY_SERVER_IP) &&
-            script.contains(KEY_SERVER_HTTP_PORT)));
+        argThat(script -> script.contains("use.sh")
+            && script.contains(KEY_SERVER_IP)
+            && script.contains(KEY_SERVER_HTTP_PORT)));
   }
 
 
@@ -97,8 +94,8 @@ public class RsccTest {
     model.setKey(KEY);
     model.killConnection();
     verify(mockProcessExecutor).executeTerminalCommand(
-        argThat(script -> script.contains("port_stop.sh") &&
-            script.endsWith(KEY)));
+        argThat(script -> script.contains("port_stop.sh")
+            && script.endsWith(KEY)));
   }
 
 
@@ -127,8 +124,8 @@ public class RsccTest {
     // make sure the scripts were executed
     this.testPrivateKeyServerSetup();
     verify(mockProcessExecutor).executeTerminalCommand(
-        argThat(script -> script.contains("start_vncviewer.sh") &&
-            script.endsWith(KEY)));
+        argThat(script -> script.contains("start_vncviewer.sh")
+            && script.endsWith(KEY)));
   }
 
   /**

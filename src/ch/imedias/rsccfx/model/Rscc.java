@@ -42,8 +42,9 @@ public class Rscc {
    * Initializes the Rscc model class.
    */
   public Rscc(SystemCommander systemCommander) {
-    if (systemCommander == null)
+    if (systemCommander == null) {
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
+    }
     this.systemCommander = systemCommander;
     defineResourcePath();
   }
