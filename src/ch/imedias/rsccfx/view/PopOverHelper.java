@@ -40,13 +40,16 @@ public class PopOverHelper {
   Label requestBitCurrentSettingsLbl = new Label();
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
+  Label supporterHelpLbl = new Label();
   Slider compressionSldr;
   Slider qualitySldr;
+  Slider pictureScalingSldr;
   Pane compressionSliderPane = new Pane();
   Pane qualitySliderPane = new Pane();
-  ToggleButton toggleBtn = new ToggleButton();
+  // TODO: 8 bit Toggle is according to SA not needed anymore.
+  ToggleButton eightBitToggl = new ToggleButton();
+  ToggleButton showOnlyToggl = new ToggleButton();
   private ViewController viewParent;
-
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
     this.viewParent = viewParent;
@@ -130,8 +133,8 @@ public class PopOverHelper {
     requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
     requestBitSettingsLbl.setId("requestBitSettingsLbl");
 
-    toggleBtn.textProperty().set("On");
-    toggleBtn.setId("toggleBtn");
+    eightBitToggl.textProperty().set("On");
+    eightBitToggl.setId("eightBitToggl");
 
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
@@ -141,7 +144,7 @@ public class PopOverHelper {
 
     requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
     requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
-    requestSettingsBox.getChildren().add(new VBox(requestBitSettingsLbl, toggleBtn));
+    requestSettingsBox.getChildren().add(new VBox(requestBitSettingsLbl, eightBitToggl));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     // Help popover - request
@@ -154,36 +157,21 @@ public class PopOverHelper {
 
     // Settings PopOver - supporter
 
-    /*requestCompressionLbl.textProperty().set("Kompression");
-    requestCompressionLbl.setId("requestCompressionLbl");
+    pictureScalingSldr = new Slider();
+    pictureScalingSldr.setId("pictureScalingSldr");
 
-    compressionSldr = new Slider(0, 100, 30);
-    compressionSldr.setId("compressionSldr");
+    // TODO: Check what we can really use in the settings.
+    // TODO: SA, please let UM know which settings we need.
+    showOnlyToggl.textProperty().set("Show only");
 
-    requestQualityLbl.textProperty().set("Qualität");
-    qualitySldr = new Slider(0, 100, 10);
-
-    requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
-    requestBitSettingsLbl.setId("requestBitSettingsLbl");
-
-    toggleBtn.textProperty().set("On");
-    toggleBtn.setId("toggleBtn");
-
-    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");*/
-
-    // supporterSettingsBox.getChildren().add(new HBox(requestCompressionLbl, compressionSldr));
-    // supporterSettingsBox.getChildren().add(new HBox(requestQualityLbl, qualitySldr));
-    // supporterSettingsBox.getChildren().add(new HBox(requestBitSettingsLbl, toggleBtn));
-    // supporterSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+    supporterSettingsBox.getChildren().addAll(pictureScalingSldr, showOnlyToggl);
 
     // Help popover - supporter
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
-    requestHelpLbl.setId("requestHelpLbl");
+    supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
+    supporterHelpLbl.setId("supporterHelpLbl");
 
     // TODO: If we have more labels, we can add it to the box.
-    supporterHelpBox.getChildren().addAll(requestHelpLbl);
+    supporterHelpBox.getChildren().addAll(supporterHelpLbl);
 
     // PopOver related
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
