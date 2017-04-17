@@ -107,6 +107,8 @@ public class HeaderView extends HBox {
 
     this.setHeight(HEADER_HEIGHT);
 
+    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+
     helpBtn.setOnAction(event -> popOver.show(helpBtn));
 
   }
