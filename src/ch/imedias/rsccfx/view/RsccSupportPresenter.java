@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-  private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
+  private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
   private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
   private final Image invalidImage =
@@ -59,8 +59,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
-    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_ENTERTOKEN));
+    view.enterKeyLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
   /**
@@ -76,12 +76,12 @@ public class RsccSupportPresenter implements ControlledPresenter {
    */
   private void attachEvents() {
     // update keyValidityProperty property every time the textfield with the key changes
-    view.tokenFld.textProperty().addListener(
+    view.keyFld.textProperty().addListener(
         (observable, oldKey, newKey) -> keyValidityProperty.set(validateKey(newKey))
     );
 
     view.connectBtn.setOnAction(event -> {
-      model.setKey(view.tokenFld.getText());
+      model.setKey(view.keyFld.getText());
       model.connectToUser();
     });
 

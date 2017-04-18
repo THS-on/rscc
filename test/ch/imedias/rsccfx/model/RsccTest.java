@@ -75,12 +75,12 @@ public class RsccTest {
   }
 
   /**
-   * Test for {@link Rscc#requestTokenFromServer()}.
+   * Test for {@link Rscc#requestKeyFromServer()}.
    */
   @Ignore
   @Test
-  public void testRequestTokenFromServer() throws Exception {
-    model.requestTokenFromServer();
+  public void testRequestKeyFromServer() throws Exception {
+    model.requestKeyFromServer();
     String key = model.getKey();
     testPrivateKeyServerSetup();
     // make sure the script was executed

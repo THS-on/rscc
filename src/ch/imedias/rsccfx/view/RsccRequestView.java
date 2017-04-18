@@ -50,7 +50,7 @@ public class RsccRequestView extends BorderPane {
   ImageView reloadImgView;
 
   /**
-   * Initializes all the GUI components needed generate the token the supporter needs.
+   * Initializes all the GUI components needed generate the key the supporter needs.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
