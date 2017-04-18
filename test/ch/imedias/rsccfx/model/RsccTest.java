@@ -88,11 +88,11 @@ public class RsccTest {
 
 
   /**
-   * Test for {@link Rscc#requestTokenFromServer()}.
+   * Test for {@link Rscc#requestKeyFromServer()} .
    */
   @Test
   public void testRequestTokenFromServer() throws Exception {
-    model.requestTokenFromServer();
+    model.requestKeyFromServer();
     testPrivateKeyServerSetup();
     // make sure the script was executed
     verify(mockSystemCommander).executeTerminalCommand(
