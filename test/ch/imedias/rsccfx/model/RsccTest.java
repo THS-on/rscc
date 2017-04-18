@@ -54,7 +54,6 @@ public class RsccTest {
   @Test
   public void testRsccConstructor() {
     try {
-      new Rscc(new SystemCommander());
       new Rscc(mockSystemCommander);
     } catch (Exception e) {
       fail(e.getMessage());
