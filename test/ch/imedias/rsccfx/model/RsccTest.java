@@ -20,17 +20,17 @@ public class RsccTest {
   private static final String KEY_SERVER_HTTP_PORT = "800";
 
   Rscc model;
-  SystemCommander mockProcessExecutor;
+  SystemCommander mockSystemCommander;
 
   /**
    * Initializes test fixture before each test.
    */
   @Before
   public void setUp() throws Exception {
-    mockProcessExecutor = mock(SystemCommander.class);
-    model = new Rscc(mockProcessExecutor);
+    mockSystemCommander = mock(SystemCommander.class);
+    model = new Rscc(mockSystemCommander);
     model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
-    when(mockProcessExecutor.executeTerminalCommand(
+    when(mockSystemCommander.executeTerminalCommand(
         argThat(string -> string.contains("start_x11vnc.sh")))).thenReturn(KEY);
   }
 
@@ -54,7 +54,7 @@ public class RsccTest {
   public void testRsccConstructor() {
     try {
       new Rscc(new SystemCommander());
-      new Rscc(mockProcessExecutor);
+      new Rscc(mockSystemCommander);
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -79,7 +79,7 @@ public class RsccTest {
    * Not marked with a @Test annotation because it is indirectly called in other tests.
    */
   public void testPrivateKeyServerSetup() throws Exception {
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("use.sh")
             && script.contains(KEY_SERVER_IP)
             && script.contains(KEY_SERVER_HTTP_PORT)));
@@ -93,7 +93,7 @@ public class RsccTest {
   public void testKillConnection() throws Exception {
     model.setKey(KEY);
     model.killConnection();
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")
             && script.endsWith(KEY)));
   }
@@ -107,7 +107,7 @@ public class RsccTest {
     model.requestTokenFromServer();
     testPrivateKeyServerSetup();
     // make sure the script was executed
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
     // make sure the key which is being returned is right
     assertEquals(KEY, model.getKey());
@@ -123,7 +123,7 @@ public class RsccTest {
     model.connectToUser();
     // make sure the scripts were executed
     this.testPrivateKeyServerSetup();
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_vncviewer.sh")
             && script.endsWith(KEY)));
   }
@@ -135,9 +135,9 @@ public class RsccTest {
   public void testRefreshKey() {
     model.refreshKey();
     // make sure the scripts were executed
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")));
-    verify(mockProcessExecutor).executeTerminalCommand(
+    verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
     // make sure the key which is being returned is right
     assertEquals(KEY, model.getKey());
