@@ -4,6 +4,9 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -14,8 +17,12 @@ import javafx.scene.image.Image;
  */
 public class RsccSupportPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
-  private static final String VALID_IMAGE_FILENAME = "emblem-default.png";
-  private static final String INVALID_IMAGE_FILENAME = "dialog-error.png";
+  private final Image VALID_IMAGE =
+      new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
+  private  final Image INVALID_IMAGE =
+      new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
+
+  private final BooleanProperty keyValidityProperty = new SimpleBooleanProperty(false);
 
   private final Rscc model;
   private final RsccSupportView view;
@@ -58,24 +65,20 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   /**
-   * Sets the token validation image depending on the validity of the token.
+   * Determines if a key is valid or not.
+   * The key must not be null and must be a number with exactly 9 digits.
    */
-  public void setValidationImage(boolean isValid) {
-    String imageFileName = isValid ? VALID_IMAGE_FILENAME : INVALID_IMAGE_FILENAME;
-    view.isValidImg.setImage(
-        new Image(getClass().getClassLoader().getResource(imageFileName).toExternalForm())
-    );
+  private boolean validateKey(String key) {
+    return key != null && key.matches("\\d{9}");
   }
 
   /**
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
-    view.connectBtn.disableProperty().addListener(
-        (observable, oldValue, newValue) -> {
-          // value = whether the button is disabled or not
-          setValidationImage(!newValue);
-        }
+    // update keyValidityProperty property every time the textfield with the key changes
+    view.tokenFld.textProperty().addListener(
+        (observable, oldKey, newKey) -> keyValidityProperty.set(validateKey(newKey))
     );
 
     view.connectBtn.setOnAction(event -> {
@@ -89,21 +92,14 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   private void initBindings() {
-    // disable connect button if key is not valid
-    view.connectBtn.disableProperty().bind(
-        Bindings.when(
-            view.tokenFld.textProperty()
-                .isNotEqualTo("") // disable if key is null
-                .and(
-                    // disable if key is not 9 digit number
-                    Bindings.createBooleanBinding(
-                        () -> view.tokenFld.getText().matches("\\d{9}"),
-                        view.tokenFld.textProperty()
-                    )
-                )
-        )
-            .then(false)             // set disableProperty to false, if key is valid
-            .otherwise(true)    // set disableProperty to true, if key is invalid
+    // disable connect button if key is NOT valid
+    view.connectBtn.disableProperty().bind(keyValidityProperty.not());
+
+    // bind validation image to keyValidityProperty
+    view.isValidImg.imageProperty().bind(
+        Bindings.when(keyValidityProperty)
+            .then(VALID_IMAGE)
+            .otherwise(INVALID_IMAGE)
     );
   }
 
