@@ -87,7 +87,7 @@ public class RsccTest {
 
 
   /**
-   * Test for {@link Rscc#requestKeyFromServer()} .
+   * Test for {@link Rscc#requestKeyFromServer()}.
    */
   @Test
   public void testRequestTokenFromServer() throws Exception {
