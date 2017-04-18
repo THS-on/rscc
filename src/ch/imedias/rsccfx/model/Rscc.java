@@ -31,7 +31,7 @@ public class Rscc {
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
-  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDumpe.ice";
+  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty key = new SimpleStringProperty();
