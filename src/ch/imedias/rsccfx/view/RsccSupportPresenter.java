@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,6 +16,9 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccSupportPresenter.class.getName());
+
   private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
   private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());

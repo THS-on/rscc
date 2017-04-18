@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,6 +19,8 @@ import javafx.beans.property.StringProperty;
  * Handles communication with the keyserver.
  */
 public class Rscc {
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
   /**
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
@@ -28,15 +31,16 @@ public class Rscc {
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
+  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
-  private StringProperty key = new SimpleStringProperty();
-  private StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
-  private StringProperty keyServerHttpPort = new SimpleStringProperty("800");
+  private final StringProperty key = new SimpleStringProperty();
+  private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
-  private String pathToStunDumpFile = this.getClass()
-      .getClassLoader().getResource("ice4jDemoDump.ice")
-      .toExternalForm().replace("file:","");
+  private final String pathToStunDumpFile = this.getClass()
+          .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+          .toExternalForm().replace("file:","");
 
   /**
    * Initializes the Rscc model class.
@@ -60,7 +64,7 @@ public class Rscc {
     if (actualClass.isDirectory()) {
       pathToResourceDocker =
           getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-              .getFile().toString().replaceFirst("file:", "");
+              .getFile().replaceFirst("file:", "");
 
     } else {
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
@@ -78,9 +82,10 @@ public class Rscc {
     try {
       jarFile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.severe("Exception thrown when trying to get file from: "
+          + sourceLocation
+          + "\n Exception Message: " + e.getMessage());
     }
-
     Enumeration<JarEntry> contentList = jarFile.entries();
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
@@ -96,16 +101,19 @@ public class Rscc {
         }
         try (
             InputStream fromStream = jarFile.getInputStream(item);
-            FileOutputStream toStream = new FileOutputStream(targetFile);
+            FileOutputStream toStream = new FileOutputStream(targetFile)
         ) {
           while (fromStream.available() > 0) {
             toStream.write(fromStream.read());
           }
 
         } catch (FileNotFoundException e) {
-          e.printStackTrace();
+          LOGGER.severe("Exception thrown when reading from file: "
+              + targetFile.getName()
+              + "\n Exception Message: " + e.getMessage());
         } catch (IOException e) {
-          e.printStackTrace();
+          LOGGER.severe("Exception thrown when trying to copy jar file contents to local"
+              + "\n Exception Message: " + e.getMessage());
         }
         targetFile.setExecutable(true);
       }

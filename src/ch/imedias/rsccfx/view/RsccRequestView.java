@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,31 +20,34 @@ import javafx.scene.text.Text;
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestView.class.getName());
+
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
-  Label keyGenerationLbl = new Label();
-  Label supporterAdminLbl = new Label();
+  final Label keyGenerationLbl = new Label();
+  final Label supporterAdminLbl = new Label();
 
   VBox mainBox = new VBox();
-  VBox bottomBox = new VBox();
+  final VBox bottomBox = new VBox();
 
-  HBox supporterAdminBox = new HBox();
-  VBox centerBox = new VBox();
-  HBox keyGeneratingBox = new HBox();
+  final HBox supporterAdminBox = new HBox();
+  final VBox centerBox = new VBox();
+  final HBox keyGeneratingBox = new HBox();
 
-  TitledPane keyGeneratorPane = new TitledPane();
-  TitledPane supporterAdminPane = new TitledPane();
+  final TitledPane keyGeneratorPane = new TitledPane();
+  final TitledPane supporterAdminPane = new TitledPane();
 
-  Text descriptionTxt = new Text();
-  Text additionalDescriptionTxt = new Text();
+  final Text descriptionTxt = new Text();
+  final Text additionalDescriptionTxt = new Text();
 
-  TextField generatedKeyFld = new TextField();
+  final TextField generatedKeyFld = new TextField();
 
-  Button reloadKeyBtn = new Button();
+  final Button reloadKeyBtn = new Button();
 
   Image reloadImg;
 

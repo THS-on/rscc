@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 
 /**
@@ -11,6 +12,8 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
 
@@ -39,9 +42,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> {
-          model.refreshKey();
-        }
+        event -> model.refreshKey()
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
