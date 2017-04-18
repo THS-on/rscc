@@ -27,27 +27,27 @@ public class RsccSupportView extends BorderPane {
 
   final HeaderView headerView;
 
-  final Label enterTokenLbl = new Label();
+  final Label enterKeyLbl = new Label();
   final Label keyDescriptionLbl = new Label();
   final Label exampleLbl = new Label();
   final Label instructionLbl = new Label();
 
   final VBox centerBox = new VBox();
   final VBox groupingBox = new VBox();
-  final HBox tokenValidationBox = new HBox();
+  final HBox keyValidationBox = new HBox();
 
-  final TextField tokenFld = new TextField();
+  final TextField keyFld = new TextField();
 
   final TitledPane keyInputPane = new TitledPane();
   final TitledPane predefinedAdressesPane = new TitledPane();
 
-  ImageView isValidImg = new ImageView();
+  ImageView validationImgView = new ImageView();
 
   final Button connectBtn = new Button();
   final Button expandOptionBtn = new Button();
 
   /**
-   * Initializes all the GUI components needed to enter the token the supporter received.
+   * Initializes all the GUI components needed to enter the key the supporter received.
    */
   public RsccSupportView(Rscc model) {
     this.model = model;
@@ -59,12 +59,12 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    enterTokenLbl.textProperty().set("EnterToken");
+    enterKeyLbl.textProperty().set("EnterKey");
     keyDescriptionLbl.textProperty().set("Test");
     exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
     instructionLbl.textProperty().set("Instructions");
 
-    isValidImg = new ImageView(getClass()
+    validationImgView = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
@@ -81,27 +81,22 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-    // TODO: import CSS accordingly. Ask SA where it needs to be defined.
-    // this.setPadding(new Insets(5, 25, 5, 25)); // TODO: set paddings for "center"
-    // this.setId("SupporterView");
-
-    //enterTokenLbl.setFont(new Font(25));
-    enterTokenLbl.setId("EnterTokenLbl");
+    enterKeyLbl.setId("EnterKeyLbl");
 
     keyDescriptionLbl.setWrapText(true);
 
-    tokenFld.setFont(new Font(30)); // TODO: Move to CSS
+    keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
-    isValidImg.setSmooth(true);
+    validationImgView.setSmooth(true);
 
-    tokenValidationBox.getChildren().addAll(tokenFld, isValidImg);
-    tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    HBox.setHgrow(tokenFld, Priority.ALWAYS);
-    tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
+    keyValidationBox.getChildren().addAll(keyFld, validationImgView);
+    keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
+    keyValidationBox.setHgrow(keyFld, Priority.ALWAYS);
+    keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
+    groupingBox.getChildren().addAll(keyValidationBox, instructionLbl);
 
-    centerBox.getChildren().addAll(enterTokenLbl,
+    centerBox.getChildren().addAll(enterKeyLbl,
         keyDescriptionLbl,
         exampleLbl,
         groupingBox,
