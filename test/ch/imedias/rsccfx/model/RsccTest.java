@@ -29,7 +29,8 @@ public class RsccTest {
   public void setUp() throws Exception {
     mockSystemCommander = mock(SystemCommander.class);
     model = new Rscc(mockSystemCommander);
-    model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
+    model.setKeyServerIp(KEY_SERVER_IP);
+    model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
     when(mockSystemCommander.executeTerminalCommand(
         argThat(string -> string.contains("start_x11vnc.sh")))).thenReturn(KEY);
   }
@@ -41,9 +42,9 @@ public class RsccTest {
   public void testRsccConstructorIllegalArguments() {
     try {
       new Rscc(null);
-      fail("Test has to fail");
+      fail("IllegalArgumentException was expected when SystemCommander is null");
     } catch (IllegalArgumentException e) {
-      e.getMessage();
+      // expected behavior
     }
   }
 
@@ -58,19 +59,6 @@ public class RsccTest {
     } catch (Exception e) {
       fail(e.getMessage());
     }
-  }
-
-
-  /**
-   * Test for {@link Rscc#keyServerSetup(String, String)}.
-   */
-  @Test
-  public void testPublicKeyServerSetup() {
-    model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
-    assertNotNull(model.getKeyServerHttpPort());
-    assertNotNull(model.getKeyServerIp());
-    assertEquals(model.getKeyServerIp(), KEY_SERVER_IP);
-    assertEquals(model.getKeyServerHttpPort(), KEY_SERVER_HTTP_PORT);
   }
 
 

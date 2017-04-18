@@ -113,14 +113,6 @@ public class Rscc {
   }
 
   /**
-   * Sets the IP and HTTP port of the keyserver in the model.
-   */
-  public void keyServerSetup(String keyServerIp, String keyServerHttpPort) {
-    setKeyServerIp(keyServerIp);
-    setKeyServerHttpPort(keyServerHttpPort);
-  }
-
-  /**
    * Sets up the server with use.sh.
    */
   private void keyServerSetup() {
