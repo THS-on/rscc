@@ -77,11 +77,6 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-    // TODO: import CSS accordingly. Ask SA where it needs to be defined.
-    // this.setPadding(new Insets(5, 25, 5, 25)); // TODO: set paddings for "center"
-    // this.setId("SupporterView");
-
-    //enterKeyLbl.setFont(new Font(25));
     enterKeyLbl.setId("EnterKeyLbl");
 
     keyDescriptionLbl.setWrapText(true);
