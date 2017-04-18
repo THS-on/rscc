@@ -90,7 +90,7 @@ public class RsccTest {
    * Test for {@link Rscc#requestKeyFromServer()}.
    */
   @Test
-  public void testRequestTokenFromServer() throws Exception {
+  public void testRequestKeyFromServer() throws Exception {
     model.requestKeyFromServer();
     testPrivateKeyServerSetup();
     // make sure the script was executed
