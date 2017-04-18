@@ -5,7 +5,6 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,9 +16,9 @@ import javafx.scene.image.Image;
  */
 public class RsccSupportPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_ENTERTOKEN = 80d;
-  private final Image VALID_IMAGE =
+  private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
-  private  final Image INVALID_IMAGE =
+  private final Image invalidImage =
       new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
 
   private final BooleanProperty keyValidityProperty = new SimpleBooleanProperty(false);
@@ -98,8 +97,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // bind validation image to keyValidityProperty
     view.isValidImg.imageProperty().bind(
         Bindings.when(keyValidityProperty)
-            .then(VALID_IMAGE)
-            .otherwise(INVALID_IMAGE)
+            .then(validImage)
+            .otherwise(invalidImage)
     );
   }
 
