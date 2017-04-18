@@ -34,10 +34,9 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
-  private StringProperty key = new SimpleStringProperty();
   private final StringProperty key = new SimpleStringProperty();
-  private final String keyServerIp = "86.119.39.89";
-  private final String keyServerHttpPort = "800";
+  private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
           .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
