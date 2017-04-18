@@ -65,7 +65,7 @@ public class RsccTest {
    * Test for {@link Rscc#keyServerSetup()}.
    * Not marked with a @Test annotation because it is indirectly called in other tests.
    */
-  public void testPrivateKeyServerSetup() throws Exception {
+  public void testKeyServerSetup() throws Exception {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("use.sh")
             && script.contains(KEY_SERVER_IP)
@@ -92,7 +92,7 @@ public class RsccTest {
   @Test
   public void testRequestKeyFromServer() throws Exception {
     model.requestKeyFromServer();
-    testPrivateKeyServerSetup();
+    testKeyServerSetup();
     // make sure the script was executed
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
@@ -109,7 +109,7 @@ public class RsccTest {
     model.setKey(KEY);
     model.connectToUser();
     // make sure the scripts were executed
-    this.testPrivateKeyServerSetup();
+    this.testKeyServerSetup();
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_vncviewer.sh")
             && script.endsWith(KEY)));
