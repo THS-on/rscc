@@ -37,7 +37,7 @@ public class RsccSupportView extends BorderPane {
   TitledPane keyInputPane = new TitledPane();
   TitledPane predefinedAdressesPane = new TitledPane();
 
-  ImageView isValidImg = new ImageView();
+  ImageView validationImgView = new ImageView();
 
   Button connectBtn = new Button();
   Button expandOptionBtn = new Button();
@@ -60,7 +60,7 @@ public class RsccSupportView extends BorderPane {
     exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
     instructionLbl.textProperty().set("Instructions");
 
-    isValidImg = new ImageView(getClass()
+    validationImgView = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
@@ -83,9 +83,9 @@ public class RsccSupportView extends BorderPane {
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
-    isValidImg.setSmooth(true);
+    validationImgView.setSmooth(true);
 
-    keyValidationBox.getChildren().addAll(keyFld, isValidImg);
+    keyValidationBox.getChildren().addAll(keyFld, validationImgView);
     keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
     keyValidationBox.setHgrow(keyFld, Priority.ALWAYS);
     keyValidationBox.setAlignment(Pos.CENTER_LEFT);

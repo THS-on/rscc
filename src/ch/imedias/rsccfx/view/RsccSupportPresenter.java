@@ -95,7 +95,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.connectBtn.disableProperty().bind(keyValidityProperty.not());
 
     // bind validation image to keyValidityProperty
-    view.isValidImg.imageProperty().bind(
+    view.validationImgView.imageProperty().bind(
         Bindings.when(keyValidityProperty)
             .then(validImage)
             .otherwise(invalidImage)
