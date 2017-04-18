@@ -132,9 +132,9 @@ public class Rscc {
   }
 
   /**
-   * Requests a token from the key server.
+   * Requests a key from the key server.
    */
-  public void requestTokenFromServer() {
+  public void requestKeyFromServer() {
     keyServerSetup();
 
     String command = commandStringGenerator(
@@ -159,7 +159,7 @@ public class Rscc {
    */
   public void refreshKey() {
     killConnection();
-    requestTokenFromServer();
+    requestKeyFromServer();
   }
 
   /**
