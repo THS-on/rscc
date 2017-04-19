@@ -1,6 +1,12 @@
-# Project Title
+# RSCC - Remote Support Connection Client
 
-One Paragraph of project description goes here
+RSCC is a RemoteSupport application written in Java and using bash scripts. 
+Key features:
+ - Uses VNC-Server and viewer
+ - Client-to-Client connection using STUN-Technology
+ - Fallback solution using a relay-server
+ - Runs on Linux only
+ - OpenSource
 
 ## Getting Started
 
@@ -8,17 +14,19 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
+- Working Linux installation
+- Java-IDE of your choice
+- VNC-Server
+- VNC-Viewer
+- Python
+- Access to a running Server (use this [Dockerimage](https://hub.docker.com/r/jpduloch/p2p/) based on [Repo](https://github.com/jpduloch/p2p))
 ```
 Give examples
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+Seting up the Development-Environment
 
 ```
 Give the example
@@ -34,7 +42,11 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The WitheBox-Test are made with JUnit. Therefor you can run them in your favorite IDE or with Maven
+````
+$ mvn package
+````
+
 
 ### Break down into end to end tests
 
@@ -54,13 +66,11 @@ Give an example
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+To use the RSCC you need a server running the 
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
 
@@ -68,17 +78,15 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+ - 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/Kennox/rscc/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+GNU
 
 ## Acknowledgments
 
