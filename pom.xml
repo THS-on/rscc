@@ -183,7 +183,7 @@
                         <!-- exclude non-JavaFX related files -->
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
                         <!-- exclude View classes, since views are not tested -->
-                        <exclude>/**/*View*.class</exclude>
+                        <exclude>/**/*View.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
