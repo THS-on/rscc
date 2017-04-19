@@ -223,6 +223,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <charset>UTF-8</charset>
+                    <sourcepath>${basedir}/src/ch/imedias/rsccfx</sourcepath>
                 </configuration>
                 <reportSets>
                     <reportSet>
