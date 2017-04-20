@@ -174,11 +174,21 @@
                 </executions>
             </plugin>
 
+            <!-- Generates CodeCoverage Report -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.9</version>
                 <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View classes, since views are not tested -->
+                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -210,6 +220,8 @@
                 <version>2.17</version>
                 <configuration>
                     <configLocation>${custom.checkstyle}</configLocation>
+                    <suppressionsLocation>${custom.checkstyle.suppressions}</suppressionsLocation>
+                    <encoding>UTF-8</encoding>
                     <violationSeverity>warning</violationSeverity>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
@@ -223,6 +235,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <charset>UTF-8</charset>
+                    <sourcepath>${basedir}/src/ch/imedias/rsccfx</sourcepath>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -234,6 +247,30 @@
                 </reportSets>
             </plugin>
 
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View classes, since views are not tested -->
+                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <!-- Include the JaCoCo-standard-report in the Maven-report -->
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+
+            </plugin>
         </plugins>
     </reporting>
 
