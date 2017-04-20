@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the SystemCommander Class
+ * Tests the SystemCommander Class.
  */
 public class SystemCommanderTest {
 
