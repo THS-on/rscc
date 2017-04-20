@@ -258,6 +258,7 @@
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
+
                     </excludes>
                 </configuration>
                 <reportSets>
