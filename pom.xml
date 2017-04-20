@@ -263,7 +263,7 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <!-- Include the JaCoCo-standard-report in the Maven-report-->
+                            <!-- Include the JaCoCo-standard-report in the Maven-report -->
                             <report>report</report>
                         </reports>
                     </reportSet>
