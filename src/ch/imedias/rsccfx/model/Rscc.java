@@ -190,7 +190,7 @@ public class Rscc {
   }
 
   /**
-   * Reads Serverconfig from File pathToResourceDocker/ssh.rc
+   * Reads the docker server configuration from file ssh.rc under "/pathToResourceDocker".
    */
   private void readServerConfig() {
     String configFilePath = pathToResourceDocker + "/ssh.rc";
@@ -203,7 +203,8 @@ public class Rscc {
           setKeyServerHttpPort(line.split("=")[1]);
         }
       }
-
+      LOGGER.fine("Set serverIP to: " + getKeyServerIp()
+          + "\n Set serverHTTP-port to: " + getKeyServerHttpPort());
     } catch (IOException e) {
       LOGGER.severe("Exception thrown when reading from file: "
           + configFilePath
