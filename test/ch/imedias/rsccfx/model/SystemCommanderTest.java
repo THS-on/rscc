@@ -36,7 +36,7 @@ public class SystemCommanderTest {
 
   /**
    * Test for {@link SystemCommander#executeTerminalCommand(String)}.
-   * Tests method with standard Linux shell-command "echo"
+   * Compares method output using standard Linux shell-command "echo".
    */
   @Test
   public void testExecuteTerminalCommand() throws Exception {
