@@ -44,6 +44,7 @@ public class Rscc {
 
   /**
    * Initializes the Rscc model class.
+   * @param systemCommander a SystemComander-object that executes shell commands.
    */
   public Rscc(SystemCommander systemCommander) {
     if (systemCommander == null) {

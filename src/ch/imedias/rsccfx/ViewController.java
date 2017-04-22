@@ -21,6 +21,7 @@ public class ViewController extends StackPane {
    * Returns an already loaded presenter.
    *
    * @param name of the view / presenter.
+   * @return presenter-object.
    */
   public ControlledPresenter getPresenter(String name) {
     return presenters.get(name);
