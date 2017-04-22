@@ -113,17 +113,23 @@
     -fx-padding: 50;
 }
 
-.slider .track {
-    -fx-pref-height:20;
-}
-
-.slider:vertical .track {
-    -fx-pref-width:20;
-}
-
 .slider .thumb {
-    -fx-pref-height: 20;
-    -fx-pref-width: 20;
+    -fx-pref-height: 25;
+    -fx-pref-width: 25;
+}
+.slider .thumb:hover {
+ -fx-cursor: hand;
+}
+
+
+.slider{
+    -fx-border-color: white;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+}
+
+.sliderTxts, .sliderLbls{
+ -fx-font-size: 200%;
 }
 
 

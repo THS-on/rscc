@@ -39,11 +39,10 @@ public class PopOverHelper {
   private static final int QUALITY_VALUE = 6;
 
   private final double OVERLAY_HEIGHT = primaryScreenBounds.getHeight() / 4;
-  private final double OVERLAY_WIDTH = primaryScreenBounds.getWidth() / 4;
+  private final double OVERLAY_WIDTH = primaryScreenBounds.getWidth() / 9;
 
-
-
-
+  private final double SLIDER_WIDTH = OVERLAY_WIDTH/1.2;
+  private final double START_X_SLIDER = (OVERLAY_WIDTH / 2) - (SLIDER_WIDTH/2);
 
   RsccApp rsccApp = new RsccApp();
 
@@ -128,20 +127,24 @@ public class PopOverHelper {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - compressionSliderTxt.getLayoutBounds().getWidth() / 2
+                  + START_X_SLIDER
           );
         }
       }
     };
 
-    compressionSldr.setId("compressionSldr");
-    compressionSldr.setLayoutY(20);
-
-    requestCompressionLbl.textProperty().set("Kompression");
-    requestCompressionLbl.setId("requestCompressionLbl");
+    compressionSldr.setLayoutY(40);
+    compressionSldr.setPrefWidth(SLIDER_WIDTH);
 
     compressionSliderTxt.setTextOrigin(VPos.TOP);
     compressionSliderTxt.textProperty().bind(
         compressionSldr.valueProperty().asString("%,.0f"));
+    compressionSliderTxt.getStyleClass().add("sliderTxts");
+    qualitySliderTxt.getStyleClass().add("sliderTxts");
+
+    requestCompressionLbl.textProperty().set("Kompression");
+    requestCompressionLbl.getStyleClass().add("sliderLbls");
+
 
     // Quality Settings
     qualitySldr = new Slider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE) {
@@ -155,16 +158,20 @@ public class PopOverHelper {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - qualitySliderTxt.getLayoutBounds().getWidth() / 2
+              + START_X_SLIDER
           );
         }
       }
     };
 
-    qualitySldr.setId("qualitySldr");
-    qualitySldr.setLayoutY(20);
+    qualitySldr.setLayoutY(40);
+    qualitySldr.setPrefWidth(SLIDER_WIDTH);
+    qualitySldr.setShowTickLabels(true);
+    qualitySldr.setShowTickMarks(true);
+
 
     requestQualityLbl.textProperty().set("Qualität");
-    requestQualityLbl.setId("requestQualityLbl");
+    requestQualityLbl.getStyleClass().add("sliderLbls");
 
     qualitySliderTxt.setTextOrigin(VPos.TOP);
     qualitySliderTxt.textProperty().bind(qualitySldr.valueProperty().asString("%,.0f"));
@@ -181,12 +188,16 @@ public class PopOverHelper {
     compressionSliderPane.getChildren().addAll(compressionSldr,compressionSliderTxt);
     qualitySliderPane.getChildren().addAll(qualitySldr,qualitySliderTxt);
 
+
     requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
-    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
+    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane,requestQualityLbl));
     requestSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBitSettingsLbl));
     requestSettingsBox.getChildren().add(new HBox(viewOnlyTgl, requestViewOnlyLbl));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
+    requestQualityLbl.setLayoutX(qualitySldr.getLayoutX());
+    qualitySldr.setLayoutX(START_X_SLIDER);
+    compressionSldr.setLayoutX(START_X_SLIDER);
     requestSettingsBox.setPrefWidth(OVERLAY_WIDTH);
     requestSettingsBox.setPrefHeight(OVERLAY_HEIGHT);
 
