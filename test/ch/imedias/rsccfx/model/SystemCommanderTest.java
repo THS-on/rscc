@@ -40,9 +40,9 @@ public class SystemCommanderTest {
    */
   @Test
   public void testExecuteTerminalCommand() throws Exception {
-    String teststring = "testExecuteTerminalCommand";
-    StringBuilder command = new StringBuilder("echo ").append(teststring);
+    String testTerminalCommand = "testExecuteTerminalCommand";
+    StringBuilder command = new StringBuilder("echo ").append(testTerminalCommand);
     String output = systemCommander.executeTerminalCommand(command.toString());
-    assertEquals(teststring, output);
+    assertEquals(testTerminalCommand, output);
   }
 }
