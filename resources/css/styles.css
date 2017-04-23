@@ -53,10 +53,12 @@
  **************************************************************************/
 
 #descriptionLbl{
+    /*-fx-alignment: left;*/
     -fx-wrap-text: true;
 }
 
 #keyGenerationLbl{
+    /*-fx-alignment: left;*/
     -fx-font-family: Cantarell;
     -fx-font-size: 32pt;
     -fx-font-weight: bold;
@@ -83,13 +85,13 @@
 }
 
 #keyGeneratingBox{
-    -fx-alignment: top-center;
+    -fx-alignment: center;
     -fx-spacing: 25;
     -fx-padding: 25;
 }
 
 #descriptionBox {
-    -fx-alignment: left;
+    -fx-alignment: center;
     -fx-spacing: 50;
     -fx-padding: 25;
 }
