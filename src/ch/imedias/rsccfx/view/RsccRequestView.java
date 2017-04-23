@@ -101,6 +101,7 @@ public class RsccRequestView extends BorderPane {
 
     supporterAdminLbl.textProperty().set("Addressbook");
     supporterAdminPane.setText("Addressbook");
+    //supporterAdminPane.setPrefHeight(25d);
     supporterAdminPane.setExpanded(false);
     supporterAdminPane.setId("supporterAdminPane");
 
@@ -134,6 +135,7 @@ public class RsccRequestView extends BorderPane {
 
     keyGeneratorPane.setContent(centerBox);
     supporterAdminPane.setContent(bottomBox);
+    System.out.println(supporterAdminPane.getHeight());
 
     setTop(headerView);
     setCenter(keyGeneratorPane);

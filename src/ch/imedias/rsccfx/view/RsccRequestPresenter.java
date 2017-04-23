@@ -78,10 +78,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     //view.keyGeneratorPane.maxHeightProperty().bind(scene.heightProperty()
     //    .subtract(view.headerView.getHeight()));
 
-    view.centerBox.minHeight(25d);
-    // view.centerBox.prefHeight(500d);
+    //view.centerBox.minHeight(25d);
+    //view.supporterAdminPane.getClip().get
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(view.headerView.getHeight()));
+        .subtract(140d));
 
   }
 
