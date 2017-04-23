@@ -128,7 +128,6 @@ public class RsccRequestView extends BorderPane {
 
     keyGeneratorPane.setContent(centerBox);
     supporterAdminPane.setContent(bottomBox);
-    System.out.println(supporterAdminPane.getHeight());
 
     setTop(headerView);
     setCenter(keyGeneratorPane);

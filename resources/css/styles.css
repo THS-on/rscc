@@ -102,10 +102,11 @@
     -fx-padding: 13;
 }
 
-/*#supporterAdminPane {
-    -fx-alignment: bottom-center;
+.titled-pane > .title {
+    -fx-pref-height: 36.0;
+    -fx-font-size: 14pt;
 
-}*/
+}
 
 .supporterBtn {
 
