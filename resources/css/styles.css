@@ -83,7 +83,7 @@
 }
 
 #keyGeneratingBox{
-    -fx-alignment: center;
+    -fx-alignment: top-center;
     -fx-spacing: 25;
     -fx-padding: 25;
 }
@@ -97,6 +97,11 @@
 #readyBtn{
     -fx-alignment: bottom-right;
 }
+
+/*#supporterAdminPane {
+    -fx-alignment: bottom-center;
+
+}*/
 
 .supporterBtn {
 
