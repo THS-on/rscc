@@ -125,6 +125,7 @@ public class RsccRequestView extends BorderPane {
     keyGeneratingBox.setId("keyGeneratingBox");
 
     readyBtn.setId("readyBtn");
+    reloadKeyBtn.setId("reloadKeyBtn");
 
     descriptionBox.getChildren().addAll(keyGenerationLbl, descriptionLbl, readyBtn);
 

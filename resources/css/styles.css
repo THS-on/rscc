@@ -98,6 +98,10 @@
     -fx-alignment: bottom-right;
 }
 
+#reloadKeyBtn {
+    -fx-padding: 13;
+}
+
 /*#supporterAdminPane {
     -fx-alignment: bottom-center;
 
