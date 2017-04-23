@@ -102,6 +102,7 @@ public class RsccRequestView extends BorderPane {
     supporterAdminLbl.textProperty().set("Addressbook");
     supporterAdminPane.setText("Addressbook");
     supporterAdminPane.setExpanded(false);
+    supporterAdminPane.setId("supporterAdminPane");
 
     // TODO: Finish all the buttons here according to mockup.
     // Admin Buttons
