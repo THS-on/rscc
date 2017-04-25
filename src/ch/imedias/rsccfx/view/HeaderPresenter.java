@@ -17,6 +17,10 @@ public class HeaderPresenter {
 
   /**
    * Initializes a new HeaderPresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view  the view belonging to the presenter.
+   *
    */
   public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;
@@ -68,6 +72,8 @@ public class HeaderPresenter {
    * Makes the back button in the header invisible or visible.
    * Is being used in the HomeView to make the back button invisible,
    * since there is no previous page to it.
+   *
+   * @param isVisible value to set the visibilty of the button to.
    */
   public void setBackBtnVisibility(Boolean isVisible) {
     view.backBtn.setVisible(isVisible);

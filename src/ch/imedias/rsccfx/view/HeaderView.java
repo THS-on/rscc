@@ -45,6 +45,8 @@ public class HeaderView extends HBox {
 
   /**
    * Initializes all the GUI components needed in the Header.
+   *
+   * @param model
    */
   public HeaderView(Rscc model) {
     this.model = model;
