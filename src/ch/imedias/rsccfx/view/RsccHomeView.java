@@ -35,6 +35,8 @@ public class RsccHomeView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed on the start page.
+   *
+   * @param model the model to handle the data.
    */
   public RsccHomeView(Rscc model) {
     this.model = model;

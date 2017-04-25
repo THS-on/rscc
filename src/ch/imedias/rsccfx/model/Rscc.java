@@ -48,6 +48,8 @@ public class Rscc {
 
   /**
    * Initializes the Rscc model class.
+   *
+   * @param systemCommander a SystemComander-object that executes shell commands.
    */
   public Rscc(SystemCommander systemCommander) {
     if (systemCommander == null) {
@@ -80,6 +82,7 @@ public class Rscc {
 
   /**
    * Extracts files from running JAR to folder.
+   *
    * @param filter filters the files that will be extracted by this string.
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {

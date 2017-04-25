@@ -24,6 +24,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view the view belonging to the presenter.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
