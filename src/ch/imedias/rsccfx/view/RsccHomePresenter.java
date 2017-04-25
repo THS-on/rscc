@@ -51,9 +51,11 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   /**
-   * Initializes the size of the RsccHomeView.
+   * Initializes the size of the whole RsccHomeView elements.
    *
-   * @param scene scene where the size have to be set.
+   * @param scene must be initialized and displayed before calling this method;
+   *              The size of all header elements are based on it.
+   * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
     headerPresenter.initSize(scene);
