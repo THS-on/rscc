@@ -3,8 +3,6 @@ package ch.imedias.rsccfx.view;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by jp on 20/04/17.
  */
