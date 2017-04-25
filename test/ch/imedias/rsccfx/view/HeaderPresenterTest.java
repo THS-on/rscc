@@ -26,7 +26,7 @@ public class HeaderPresenterTest {
   Rscc mockModel;
 
   /**
-   * Initializes test fixture before each test.
+   * Initializes test fixture before each test .
    */
   @Before
   public void setUp() throws Exception {
