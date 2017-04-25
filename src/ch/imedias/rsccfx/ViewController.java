@@ -42,13 +42,11 @@ public class ViewController extends StackPane {
    * @param name Name of the view / presenter pair.
    * @param view The view to load.
    * @param presenter the presenter to load.
-   * @return returns true in every case.
    */
-  public boolean loadView(String name, Node view, ControlledPresenter presenter) {
+  public void loadView(String name, Node view, ControlledPresenter presenter) {
     // properly initialize view and presenter and put into HashMap
     presenter.setViewParent(this);
     addView(name, view, presenter);
-    return true;  //TODO: return true is nonsense.
   }
 
   /**
