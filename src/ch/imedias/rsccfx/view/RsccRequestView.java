@@ -55,6 +55,8 @@ public class RsccRequestView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed generate the key the supporter needs.
+   *
+   * @param model the model to handle the data.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;

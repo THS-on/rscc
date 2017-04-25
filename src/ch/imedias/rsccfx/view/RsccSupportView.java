@@ -48,6 +48,8 @@ public class RsccSupportView extends BorderPane {
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
+   *
+   * @param model the model to handle the data.
    */
   public RsccSupportView(Rscc model) {
     this.model = model;

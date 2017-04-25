@@ -31,6 +31,9 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   /**
    * Initializes a new RsccHomePresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view  the view belonging to the presenter.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;
@@ -49,6 +52,8 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   /**
    * Initializes the size of the RsccHomeView.
+   *
+   * @param scene scene where the size have to be set.
    */
   public void initSize(Scene scene) {
     headerPresenter.initSize(scene);
