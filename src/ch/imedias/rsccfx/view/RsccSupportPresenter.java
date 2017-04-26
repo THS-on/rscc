@@ -93,8 +93,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     });
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyInputPane.setOnMouseClicked(event -> view.predefinedAdressesPane.setExpanded(false));
-    view.predefinedAdressesPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
+    view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
+    view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
   }
 
   private void initBindings() {

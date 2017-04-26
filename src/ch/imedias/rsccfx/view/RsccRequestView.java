@@ -30,7 +30,7 @@ public class RsccRequestView extends BorderPane {
   private final Strings strings = new Strings();
 
   final Label titleLbl = new Label();
-  final Label supporterAdminLbl = new Label();
+  final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
 
   final VBox descriptionBox = new VBox();
@@ -41,7 +41,7 @@ public class RsccRequestView extends BorderPane {
   final HBox keyGeneratingBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
-  final TitledPane supporterAdminPane = new TitledPane();
+  final TitledPane predefinedAddressesPane = new TitledPane();
 
   final TextField generatedKeyFld = new TextField();
 
@@ -86,10 +86,10 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    supporterAdminLbl.textProperty().set("Addressbook");
-    supporterAdminPane.setText("Addressbook");
-    supporterAdminPane.setExpanded(false);
-    supporterAdminPane.setId("supporterAdminPane");
+    predefinedAddressesLbl.textProperty().set("Predefined Addresses");
+    predefinedAddressesPane.setText("Predefined Addresses");
+    predefinedAddressesPane.setExpanded(false);
+    predefinedAddressesPane.setId("predefinedAddressesPane");
 
     // TODO: Finish all the buttons here according to mockup.
     // Admin Buttons
@@ -120,7 +120,7 @@ public class RsccRequestView extends BorderPane {
     centerBox.setId("centerBox");
     bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(supporterAdminLbl);
+    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
@@ -135,11 +135,11 @@ public class RsccRequestView extends BorderPane {
     bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
-    supporterAdminPane.setContent(bottomBox);
+    predefinedAddressesPane.setContent(bottomBox);
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
-    setBottom(supporterAdminPane);
+    setBottom(predefinedAddressesPane);
   }
 
   private void bindFieldsToModel() {

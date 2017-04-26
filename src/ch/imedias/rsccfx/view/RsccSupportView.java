@@ -37,7 +37,7 @@ public class RsccSupportView extends BorderPane {
   final TextField keyFld = new TextField();
 
   final TitledPane keyInputPane = new TitledPane();
-  final TitledPane predefinedAdressesPane = new TitledPane();
+  final TitledPane addressbookPane = new TitledPane();
 
   ImageView validationImgView = new ImageView();
 
@@ -71,11 +71,11 @@ public class RsccSupportView extends BorderPane {
 
     keyInputPane.setText("Key Input");
 
-    predefinedAdressesPane.setText("Predefined Adresses");
+    addressbookPane.setText("Addressbook");
   }
 
   private void layoutForm() {
-    predefinedAdressesPane.setExpanded(false);
+    addressbookPane.setExpanded(false);
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -99,13 +99,13 @@ public class RsccSupportView extends BorderPane {
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
-    // TODO: Set content for predefinedAdressesPane
+    // TODO: Set content for addressbookPane
 
     connectBtn.setDisable(true);
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
-    setBottom(predefinedAdressesPane);
+    setBottom(addressbookPane);
   }
 
 
