@@ -31,9 +31,9 @@ public class HeaderView extends HBox {
   final Pane spacer = new Pane();
   private final Strings strings = new Strings();
   private final Rscc model;
-  final Button backBtn = new Button();
-  final Button helpBtn = new Button();
-  final Button settingsBtn = new Button();
+   Button backBtn;
+   Button helpBtn;
+   Button settingsBtn;
 
   Image backImg;
   Image helpImg;
@@ -48,10 +48,14 @@ public class HeaderView extends HBox {
    */
   public HeaderView(Rscc model) {
     this.model = model;
+    backBtn = new Button();
+    helpBtn = new Button();
+    settingsBtn = new Button();
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+
   }
 
   private void initFieldData() {
