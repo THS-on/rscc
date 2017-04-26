@@ -29,7 +29,7 @@ public class RsccRequestView extends BorderPane {
   private final Rscc model;
   private final Strings strings = new Strings();
 
-  final Label keyGenerationLbl = new Label();
+  final Label titleLbl = new Label();
   final Label supporterAdminLbl = new Label();
   final Label descriptionLbl = new Label();
 
@@ -70,8 +70,8 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
 
-    keyGenerationLbl.textProperty().set("Generate key");
-    keyGenerationLbl.setId("keyGenerationLbl");
+    titleLbl.textProperty().set("Generate key");
+    titleLbl.setId("titleLbl");
 
     descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
         + "Once your supporter enters this code, the remote support will start.");
@@ -126,7 +126,7 @@ public class RsccRequestView extends BorderPane {
     readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionBox.getChildren().addAll(keyGenerationLbl, descriptionLbl, readyBtn);
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);

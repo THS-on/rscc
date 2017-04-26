@@ -27,10 +27,8 @@ public class RsccSupportView extends BorderPane {
 
   final HeaderView headerView;
 
-  final Label enterKeyLbl = new Label();
-  final Label keyDescriptionLbl = new Label();
-  final Label exampleLbl = new Label();
-  final Label instructionLbl = new Label();
+  final Label titleLbl = new Label();
+  final Label descriptionLbl = new Label();
 
   final VBox centerBox = new VBox();
   final VBox groupingBox = new VBox();
@@ -61,10 +59,8 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    enterKeyLbl.textProperty().set("EnterKey");
-    keyDescriptionLbl.textProperty().set("Test");
-    exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
-    instructionLbl.textProperty().set("Instructions");
+    titleLbl.textProperty().set("EnterKey");
+    descriptionLbl.textProperty().set("Test");
 
     validationImgView = new ImageView(getClass()
         .getClassLoader()
@@ -83,9 +79,9 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-    enterKeyLbl.setId("EnterKeyLbl");
+    titleLbl.setId("EnterKeyLbl");
 
-    keyDescriptionLbl.setWrapText(true);
+    descriptionLbl.setWrapText(true);
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
@@ -93,14 +89,13 @@ public class RsccSupportView extends BorderPane {
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
     keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    keyValidationBox.setHgrow(keyFld, Priority.ALWAYS);
+    HBox.setHgrow(keyFld, Priority.ALWAYS);
     keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingBox.getChildren().addAll(keyValidationBox, instructionLbl);
+    groupingBox.getChildren().addAll(keyValidationBox);
 
-    centerBox.getChildren().addAll(enterKeyLbl,
-        keyDescriptionLbl,
-        exampleLbl,
+    centerBox.getChildren().addAll(titleLbl,
+        descriptionLbl,
         groupingBox,
         connectBtn,
         expandOptionBtn);

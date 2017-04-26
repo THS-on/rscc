@@ -66,7 +66,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
-    view.enterKeyLbl.prefWidthProperty().bind(scene.widthProperty()
+    view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
