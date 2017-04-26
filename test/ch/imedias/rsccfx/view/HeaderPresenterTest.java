@@ -6,82 +6,57 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import ch.imedias.rsccfx.model.Rscc;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Created by jp on 20/04/17.
  */
 public class HeaderPresenterTest {
-  EventHandler<ActionEvent> eventHandler;
   HeaderPresenter headerPresenter;
-  HeaderView headerView;
+
+  @Mock
+  EventHandler<ActionEvent> mockEventHandler;
+
+  @Mock
   Rscc mockModel;
+
+  @Mock
+  HeaderView mockHeaderView;
 
   /**
    * Initializes test fixture before each test .
    */
   @Before
   public void setUp() throws Exception {
-    EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-      }
-    };
     mockModel = mock(Rscc.class);
-    headerView = new HeaderView(mockModel);
-    headerPresenter = new HeaderPresenter(mockModel, headerView);
+    headerPresenter = new HeaderPresenter(mockModel, mockHeaderView);
   }
-
-  /**
-   * Test JavaFX application:
-   * http://stackoverflow.com/questions/11385604/how-do-you-unit-test-a-javafx-controller-with-junit.
-   */
-  @BeforeClass
-  public static void initJavaFx() {
-    Thread t = new Thread("JavaFX Init Thread") {
-      public void run() {
-        Application.launch(AsNonApp.class, new String[0]);
-      }
-    };
-    t.setDaemon(true);
-    t.start();
-  }
-
-  public static class AsNonApp extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-      // noop
-    }
-  }
-
 
   @Test
   public void testSetBackBtnAction() throws Exception {
-    headerPresenter.setBackBtnAction(eventHandler);
-    EventHandler retunedEventHandler = headerView.backBtn.getOnAction();
-    assertEquals(eventHandler, retunedEventHandler);
+    headerPresenter.setBackBtnAction(mockEventHandler);
+    EventHandler retunedEventHandler = mockHeaderView.backBtn.getOnAction();
+    assertEquals(mockEventHandler, retunedEventHandler);
   }
 
   @Test
   public void testSetHelpBtnAction() throws Exception {
-    headerPresenter.setHelpBtnAction(eventHandler);
-    EventHandler retunedEventHandler = headerView.helpBtn.getOnAction();
-    assertEquals(eventHandler, retunedEventHandler);
+    headerPresenter.setHelpBtnAction(mockEventHandler);
+    EventHandler retunedEventHandler = mockHeaderView.helpBtn.getOnAction();
+    assertEquals(mockEventHandler, retunedEventHandler);
   }
 
   @Test
   public void testSetSettingsBtnAction() throws Exception {
-    headerPresenter.setSettingsBtnAction(eventHandler);
-    EventHandler retunedEventHandler = headerView.settingsBtn.getOnAction();
-    assertEquals(eventHandler, retunedEventHandler);
+    headerPresenter.setSettingsBtnAction(mockEventHandler);
+    EventHandler retunedEventHandler = mockHeaderView.settingsBtn.getOnAction();
+    assertEquals(mockEventHandler, retunedEventHandler);
   }
 
   @Test
@@ -91,7 +66,7 @@ public class HeaderPresenterTest {
 
     headerPresenter.initSize(scene);
 
-    double viewWitdh = headerView.prefWidthProperty().getValue();
+    double viewWitdh = mockHeaderView.prefWidthProperty().getValue();
     double sceneWidth = scene.getWidth();
 
     assertEquals(sceneWidth, viewWitdh, 1);
@@ -100,9 +75,9 @@ public class HeaderPresenterTest {
   @Test
   public void testSetBackBtnVisibilityTrue() throws Exception {
     headerPresenter.setBackBtnVisibility(true);
-    assertTrue(headerView.backBtn.isVisible());
+    assertTrue(mockHeaderView.backBtn.isVisible());
     headerPresenter.setBackBtnVisibility(false);
-    assertFalse(headerView.backBtn.isVisible());
+    assertFalse(mockHeaderView.backBtn.isVisible());
 
   }
 
