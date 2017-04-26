@@ -44,7 +44,7 @@ public class RsccHomeView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
     requestViewBtn.textProperty().setValue("I need help\nGet somebody to help you remotely");
-    supportViewBtn.textProperty().setValue("I want to help someone\nSomebody needs my help");
+    supportViewBtn.textProperty().setValue("I want to assist someone\nSomebody needs my help");
   }
 
   private void layoutForm() {
