@@ -59,8 +59,8 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    titleLbl.textProperty().set("EnterKey");
-    descriptionLbl.textProperty().set("Test");
+    titleLbl.textProperty().set("Enter key");
+    descriptionLbl.textProperty().set("Initiate a new remote support connection by entering the keyphrase your supporter sent you.");
 
     validationImgView = new ImageView(getClass()
         .getClassLoader()
@@ -69,7 +69,6 @@ public class RsccSupportView extends BorderPane {
 
     connectBtn.textProperty().set("Connect");
     connectBtn.setDisable(true);
-    expandOptionBtn.textProperty().set("More");
 
     keyInputPane.setText("Key Input");
     keyInputPane.setExpanded(true);
