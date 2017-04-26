@@ -133,7 +133,7 @@ public class Rscc {
    * Kills the connection to the keyserver.
    */
   public void killConnection() {
-    // Execute port_stop.sh with the generated key to kill the connection
+    // Execute port_stop.sh with the generated key to kill the connection.
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
     setKey("");
