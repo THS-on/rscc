@@ -73,8 +73,8 @@ public class RsccRequestView extends BorderPane {
     keyGenerationLbl.textProperty().set("Generate key");
     keyGenerationLbl.setId("keyGenerationLbl");
 
-    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. " +
-        "Once your supporter enters this code, the remote support will start.");
+    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
+        + "Once your supporter enters this code, the remote support will start.");
     descriptionLbl.setId("descriptionLbl"); // TODO: Styling
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
