@@ -71,26 +71,15 @@ public class RsccRequestView extends BorderPane {
     // populate fields which require initial data
 
     titleLbl.textProperty().set("Generate key");
-    titleLbl.setId("titleLbl");
 
     descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
         + "Once your supporter enters this code, the remote support will start.");
-    descriptionLbl.setId("descriptionLbl"); // TODO: Styling
-
-    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setId("generatedKeyFld");
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
-    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
-    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
     readyBtn.textProperty().set("Ready");
 
@@ -99,7 +88,6 @@ public class RsccRequestView extends BorderPane {
 
     supporterAdminLbl.textProperty().set("Addressbook");
     supporterAdminPane.setText("Addressbook");
-    //supporterAdminPane.setPrefHeight(25d);
     supporterAdminPane.setExpanded(false);
     supporterAdminPane.setId("supporterAdminPane");
 
@@ -116,6 +104,19 @@ public class RsccRequestView extends BorderPane {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    titleLbl.getStyleClass().add("titleLbl");
+
+    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setId("generatedKeyFld");
+
+    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.setPreserveRatio(true);
+
+    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+
     centerBox.setId("centerBox");
     bottomBox.setId("bottomBox");
 
@@ -127,6 +128,8 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setId("reloadKeyBtn");
 
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);

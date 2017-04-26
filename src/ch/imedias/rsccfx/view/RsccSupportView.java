@@ -78,9 +78,9 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-    titleLbl.setId("EnterKeyLbl");
+    titleLbl.getStyleClass().add("titleLbl");
 
-    descriptionLbl.setWrapText(true);
+    descriptionLbl.getStyleClass().add("descriptionLbl");
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
