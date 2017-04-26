@@ -42,7 +42,6 @@ public class RsccSupportView extends BorderPane {
   ImageView validationImgView = new ImageView();
 
   final Button connectBtn = new Button();
-  final Button expandOptionBtn = new Button();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -96,8 +95,7 @@ public class RsccSupportView extends BorderPane {
     centerBox.getChildren().addAll(titleLbl,
         descriptionLbl,
         groupingBox,
-        connectBtn,
-        expandOptionBtn);
+        connectBtn);
 
     keyInputPane.setContent(centerBox);
     // TODO: Set content for predefinedAdressesPane
