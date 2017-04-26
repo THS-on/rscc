@@ -47,8 +47,6 @@ public class RsccRequestView extends BorderPane {
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
-  final Button reloadKeyBtn = new Button();
-  final Button readyBtn = new Button();
   final Button supporterOneBtn = new Button();
 
   Image reloadImg;
