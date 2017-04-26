@@ -37,7 +37,7 @@ public class RsccRequestView extends BorderPane {
   final VBox bottomBox = new VBox();
 
   final HBox supporterAdminBox = new HBox();
-  final VBox centerBox = new VBox();
+  final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
