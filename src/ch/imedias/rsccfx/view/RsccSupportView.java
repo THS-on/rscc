@@ -68,16 +68,15 @@ public class RsccSupportView extends BorderPane {
         .toExternalForm());                     // TODO: Check what to do here.
 
     connectBtn.textProperty().set("Connect");
-    connectBtn.setDisable(true);
 
     keyInputPane.setText("Key Input");
-    keyInputPane.setExpanded(true);
 
     predefinedAdressesPane.setText("Predefined Adresses");
-    predefinedAdressesPane.setExpanded(false);
   }
 
   private void layoutForm() {
+    predefinedAdressesPane.setExpanded(false);
+
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
@@ -99,8 +98,10 @@ public class RsccSupportView extends BorderPane {
         connectBtn);
 
     keyInputPane.setContent(centerBox);
+    keyInputPane.setExpanded(true);
     // TODO: Set content for predefinedAdressesPane
 
+    connectBtn.setDisable(true);
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
