@@ -121,15 +121,28 @@
  -fx-cursor: hand;
 }
 
-
 .slider{
     -fx-border-color: white;
     -fx-border-style: dashed;
     -fx-border-width: 2;
 }
 
-.sliderTxts, .sliderLbls{
- -fx-font-size: 200%;
+.sliderTxts{
+    -fx-font-size: 200%;
+
 }
+
+.sliderLbls{
+ -fx-font-size: 150%;
+}
+
+.toggles:selected .thumb-area {
+    -fx-background-color: #A7A7A7;
+}
+
+.toggles {
+    -fx-
+}
+
 
 

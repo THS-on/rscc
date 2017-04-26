@@ -21,7 +21,6 @@ import org.controlsfx.control.PopOver;
 import org.controlsfx.control.ToggleSwitch;
 
 
-
 /**
  * @author Lukas Marchesi
  * @date 17.04.2017.
@@ -41,8 +40,8 @@ public class PopOverHelper {
   private final double OVERLAY_HEIGHT = primaryScreenBounds.getHeight() / 4;
   private final double OVERLAY_WIDTH = primaryScreenBounds.getWidth() / 9;
 
-  private final double SLIDER_WIDTH = OVERLAY_WIDTH/1.2;
-  private final double START_X_SLIDER = (OVERLAY_WIDTH / 2) - (SLIDER_WIDTH/2);
+  private final double SLIDER_WIDTH = OVERLAY_WIDTH / 1.2;
+  private final double START_X_SLIDER = (OVERLAY_WIDTH / 2) - (SLIDER_WIDTH / 2);
 
   RsccApp rsccApp = new RsccApp();
 
@@ -60,8 +59,6 @@ public class PopOverHelper {
   VBox supporterSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
 
-  Pane requestSettingsPane = new Pane();
-
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
 
@@ -76,12 +73,13 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supporterHelpLbl = new Label();
-
   Slider compressionSldr;
+
   Slider qualitySldr;
   Slider pictureScalingSldr;
 
   Pane compressionSliderPane = new Pane();
+  Pane requestSettingsPane = new Pane();
   Pane qualitySliderPane = new Pane();
 
   // TODO: 8 bit Toggle is according to SA not needed anymore.
@@ -103,7 +101,9 @@ public class PopOverHelper {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    eightBitTgl.setId("eightBitTgl");
+
+    eightBitTgl.getStyleClass().add("toggles");
+    viewOnlyTgl.getStyleClass().add("toggles");
 
     // Help PopOver - Home
     homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, " +
@@ -158,7 +158,7 @@ public class PopOverHelper {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - qualitySliderTxt.getLayoutBounds().getWidth() / 2
-              + START_X_SLIDER
+                  + START_X_SLIDER
           );
         }
       }
@@ -185,17 +185,16 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    compressionSliderPane.getChildren().addAll(compressionSldr,compressionSliderTxt);
-    qualitySliderPane.getChildren().addAll(qualitySldr,qualitySliderTxt);
+    compressionSliderPane.getChildren().addAll(compressionSldr, compressionSliderTxt);
+    qualitySliderPane.getChildren().addAll(qualitySldr, qualitySliderTxt);
 
 
     requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
-    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane,requestQualityLbl));
+    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
     requestSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBitSettingsLbl));
     requestSettingsBox.getChildren().add(new HBox(viewOnlyTgl, requestViewOnlyLbl));
     requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
-    requestQualityLbl.setLayoutX(qualitySldr.getLayoutX());
     qualitySldr.setLayoutX(START_X_SLIDER);
     compressionSldr.setLayoutX(START_X_SLIDER);
     requestSettingsBox.setPrefWidth(OVERLAY_WIDTH);
@@ -247,7 +246,6 @@ public class PopOverHelper {
   }
 
   private void changingView(String newValue) {
-    // FIXME: It is not working... yet.
     switch (newValue) {
       case "home":
         helpPopOver.setContentNode(homeHelpBox);
