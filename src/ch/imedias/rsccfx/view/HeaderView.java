@@ -31,9 +31,9 @@ public class HeaderView extends HBox {
   final Pane spacer = new Pane();
   private final Strings strings = new Strings();
   private final Rscc model;
-   Button backBtn;
-   Button helpBtn;
-   Button settingsBtn;
+  Button backBtn;
+  Button helpBtn;
+  Button settingsBtn;
 
   Image backImg;
   Image helpImg;

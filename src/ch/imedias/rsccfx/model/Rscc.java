@@ -184,6 +184,17 @@ public class Rscc {
     return commandString.toString();
   }
 
+  /**
+   * Determines if a key is valid or not.
+   * The key must not be null and must be a number with exactly 9 digits.
+   *
+   * @param key the string to validate.
+   * @return true when key has a valid format.
+   */
+  public boolean validateKey(String key) {
+    return key != null && key.matches("\\d{9}");
+  }
+
   public StringProperty keyProperty() {
     return key;
   }

@@ -183,8 +183,8 @@
                     <excludes>
                         <!-- exclude non-JavaFX related files -->
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
-                        <!-- exclude View classes, since views are not tested -->
-                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
@@ -254,8 +254,8 @@
                     <excludes>
                         <!-- exclude non-JavaFX related files -->
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
-                        <!-- exclude View classes, since views are not tested -->
-                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
@@ -319,19 +319,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>[2.2.27,]</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>[1.7.0RC4,]</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <version>[1.7.0RC4,]</version>
             <scope>test</scope>
         </dependency>
 
