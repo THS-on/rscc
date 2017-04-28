@@ -17,6 +17,9 @@ public class SystemCommander {
    * @return String trimmed output of the terminal without whitespaces at beginning / end.
    */
   public String executeTerminalCommand(String command) {
+    if (command == null) {
+      throw new IllegalArgumentException();
+    }
     Process process;
 
     try {

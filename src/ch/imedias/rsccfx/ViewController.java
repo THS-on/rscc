@@ -20,7 +20,9 @@ public class ViewController extends StackPane {
   /**
    * Returns an already loaded presenter.
    *
-   * @param name of the view / presenter.
+   * @param name of the view / presenter
+   *
+   * @return presenter object
    */
   public ControlledPresenter getPresenter(String name) {
     return presenters.get(name);
@@ -37,18 +39,24 @@ public class ViewController extends StackPane {
   /**
    * Loads a view / presenter pair and sets up a reference in the presenter to this object.
    * Usually only needs to be called once for every pair before the start of the app.
+   * @param name of the view / presenter pair
+   * @param view to be loaded
+   * @param presenter to be loaded
    */
-  public boolean loadView(String name, Node view, ControlledPresenter presenter) {
+  public void loadView(String name, Node view, ControlledPresenter presenter) {
     // properly initialize view and presenter and put into HashMap
     presenter.setViewParent(this);
     addView(name, view, presenter);
-    return true;
   }
 
   /**
    * Sets the current view to the one referenced by 'name'.
    * This method can be called in the presenter to switch to a different view.
    * Controls the way views are being transitioned from one to another.
+   *
+   * @param name of the view that will be set
+   *
+   * @return true if successfully loaded, false if view is nonexistent
    */
   public boolean setView(final String name) {
     if (views.get(name) != null) { // view is loaded
@@ -72,6 +80,10 @@ public class ViewController extends StackPane {
   /**
    * Unloads a view / presenter pair from the HashMaps.
    * This method can be used in case a view / presenter pair needs to be reloaded.
+   *
+   * @param name of the view / presenter pair to be unloaded.
+   *
+   * @return true if the view and presenter were unloaded and false if view doesn't exist.
    */
   public boolean unloadView(String name) {
     if (views.remove(name) == null | presenters.remove(name) == null) {

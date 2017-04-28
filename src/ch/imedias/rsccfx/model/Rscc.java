@@ -6,8 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
@@ -44,6 +48,8 @@ public class Rscc {
 
   /**
    * Initializes the Rscc model class.
+   *
+   * @param systemCommander a SystemComander-object that executes shell commands.
    */
   public Rscc(SystemCommander systemCommander) {
     if (systemCommander == null) {
@@ -51,6 +57,7 @@ public class Rscc {
     }
     this.systemCommander = systemCommander;
     defineResourcePath();
+    readServerConfig();
   }
 
   /**
@@ -75,6 +82,7 @@ public class Rscc {
 
   /**
    * Extracts files from running JAR to folder.
+   *
    * @param filter filters the files that will be extracted by this string.
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
@@ -183,6 +191,30 @@ public class Rscc {
 
     return commandString.toString();
   }
+
+  /**
+   * Reads the docker server configuration from file ssh.rc under "/pathToResourceDocker".
+   */
+  private void readServerConfig() {
+    String configFilePath = pathToResourceDocker + "/ssh.rc";
+    try {
+      List<String> lines = Files.readAllLines(Paths.get(configFilePath), Charset.forName("UTF-8"));
+      for (String line : lines) {
+        if (line.contains("p2p_server=") && !line.endsWith("=")) {
+          setKeyServerIp(line.split("=")[1]);
+        } else if (line.contains("http_port=") && !line.endsWith("=")) {
+          setKeyServerHttpPort(line.split("=")[1]);
+        }
+      }
+      LOGGER.fine("Set serverIP to: " + getKeyServerIp()
+          + "\n Set serverHTTP-port to: " + getKeyServerHttpPort());
+    } catch (IOException e) {
+      LOGGER.severe("Exception thrown when reading from file: "
+          + configFilePath
+          + "\n Exception Message: " + e.getMessage());
+    }
+  }
+
 
   /**
    * Determines if a key is valid or not.
