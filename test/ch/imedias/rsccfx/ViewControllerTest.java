@@ -33,7 +33,7 @@ public class ViewControllerTest {
    * Initializes test fixture before each test.
    */
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     viewController = new ViewController();
     mockHomeView =  mock(RsccHomeView.class);
     mockHomePresenter = mock(RsccHomePresenter.class);
@@ -44,21 +44,21 @@ public class ViewControllerTest {
 
 
   @Test
-  public void testGetPresenter() throws Exception {
+  public void testGetPresenter() {
     viewController.loadView("test", mockHomeView, mockHomePresenter);
     ControlledPresenter returnedPresenter = viewController.getPresenter("test");
     assertEquals(mockHomePresenter, returnedPresenter);
   }
 
   @Test
-  public void testLoadView() throws Exception {
+  public void testLoadView() {
     assertTrue(viewController.loadView("test", mockHomeView, mockHomePresenter));
     verify(mockHomePresenter, times(1)).setViewParent(any(ViewController.class));
   }
 
   @Ignore //TODO test throws nullpointer, needs rework
   @Test
-  public void testSetView() throws Exception {
+  public void testSetView() {
     final String requestViewName = "testRequestView";
     final String homeViewName = "testHomeView";
     viewController.loadView(requestViewName, mockRequestView, mockRequestPresenter);
@@ -67,7 +67,7 @@ public class ViewControllerTest {
   }
 
   @Test
-  public void testSetViewNOtLoadedView() throws Exception {
+  public void testSetViewNotLoadedView() {
     String viewName = "testView";
     String wrongViewName = "test";
     viewController.loadView(viewName, mockHomeView, mockHomePresenter);
@@ -75,14 +75,14 @@ public class ViewControllerTest {
   }
 
   @Test
-  public void testUnloadView() throws Exception {
+  public void testUnloadView() {
     String viewName = "testView";
     viewController.loadView(viewName, mockHomeView, mockHomePresenter);
     assertTrue(viewController.unloadView(viewName));
   }
 
   @Test
-  public void testUnloadViewIllegalArgument() throws Exception {
+  public void testUnloadViewIllegalArgument() {
     String viewName = "testView";
     String wrongViewName = "test";
     viewController.loadView(viewName, mockHomeView, mockHomePresenter);
