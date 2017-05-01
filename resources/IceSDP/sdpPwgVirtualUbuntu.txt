@@ -1,0 +1,13 @@
+v=0
+o=ice4j.org 0 0 IN null null
+s=-
+t=0 0
+a=ice-options:trickle
+a=ice-ufrag:6u5ud1bf1t6t2d
+a=ice-pwd:4ec8t7vfmqt91nmsn7rdbekff9
+m=data 5050 RTP/AVP 0
+c=IN 46.126.99.73 IP4
+a=mid:data
+a=candidate:1 1 udp 2130706431 fe80:0:0:0:f993:93f5:b0a7:bb53 5050 typ host
+a=candidate:2 1 udp 2130706431 192.168.192.132 5050 typ host
+a=candidate:3 1 udp 1677724415 46.126.99.73 5050 typ srflx raddr 192.168.192.132 rport 5050

@@ -17,6 +17,13 @@
  */
 package ch.imedias.ice4j;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URL;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.sdp.Attribute;
@@ -35,6 +42,8 @@ import org.ice4j.ice.RemoteCandidate;
 import org.ice4j.ice.sdp.CandidateAttribute;
 import org.ice4j.ice.sdp.IceSdpUtils;
 import org.opentelecoms.javax.sdp.NistSdpFactory;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpClientProvider;
 
 /**
  * Utilities for manipulating SDP. Some of the utilities in this method <b>do
@@ -48,6 +57,10 @@ import org.opentelecoms.javax.sdp.NistSdpFactory;
  */
 public class SdpUtils
 {
+
+    private static final String FTPSERVER="94.126.16.19";
+    private static final String USERNAME="rbp";
+    private static final String PASSWORD="";
     /**
      * Creates a session description containing the streams from the specified
      * <tt>agent</tt> using dummy codecs. This method is unlikely to be of use
@@ -219,6 +232,58 @@ public class SdpUtils
         component.addRemoteCandidate(cand);
 
         return cand;
+    }
+
+    /**
+     * saves a SDP into a file.
+     *
+     * @param localSdp Spd-String
+     * @param file     the file to store the sdp in.
+     */
+    public static void saveToFile(String localSdp, File file) throws Throwable {
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(localSdp.getBytes());
+    }
+
+    /**
+     * uploads the file to a predefined server.
+     *
+     * @param file the file to be uploaded
+     */
+    public static void uploadFile(File file) throws Exception {
+        FtpClientProvider ftpClientProvider = FtpClientProvider.provider();
+        FtpClient ftp = ftpClientProvider.createFtpClient();
+        ftp.connect(new InetSocketAddress(InetAddress.getByName(FTPSERVER), 21));
+        //Git: Ask patrick for Password: This is only for testing reasons!
+        ftp = ftp.login(USERNAME, PASSWORD.toCharArray());
+        ftp.putFile(file.getName(), new FileInputStream(file));
+    }
+
+    /**
+     * checks for the sdp of the remote Computer and downloads it.
+     *
+     * @param urlAsString url in form "http://www.pwigger.ch/rbp/sdp"
+     * @return the remoteSDP as String
+     */
+    public static String downloadFile(String urlAsString) throws Throwable {
+        URL url = new URL(urlAsString);
+        Scanner s = new Scanner(url.openStream());
+        StringBuilder remoteSdp = new StringBuilder("");
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            line = line.replace("[java]", "");
+            line = line.trim();
+            if (line.length() == 0) {
+                break;
+            }
+            remoteSdp.append(line);
+            remoteSdp.append("\r\n");
+        }
+        System.out.println(remoteSdp.toString());
+
+        return remoteSdp.toString();
     }
 
 
