@@ -256,5 +256,12 @@
             <version>master</version>
         </dependency>
 
+        <!-- Udt-java fom github -->
+        <dependency>
+            <groupId>com.github.JohannesBuchner</groupId>
+            <artifactId>udt-java</artifactId>
+            <version>master</version>
+        </dependency>
+
     </dependencies>
 </project>
