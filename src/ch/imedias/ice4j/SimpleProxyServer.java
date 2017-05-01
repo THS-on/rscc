@@ -8,6 +8,7 @@ import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
 import udt.UDPEndPoint;
+import udt.UDTServerSocket;
 import udt.UDTSocket;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,8 +23,8 @@ import java.net.Socket;
 //This
 public class SimpleProxyServer {
 
-    public static final String OWNNAME = "PwgMacbook";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntu";
+    public static final String OWNNAME = "PwgVirtualUbuntuClient";
+    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
     public static final int localPort =2601;
 
     public static void main(String[] args) throws Throwable {
@@ -57,10 +58,10 @@ public class SimpleProxyServer {
         // Create a ServerSocket to listen for connections
         ServerSocket serverSocket = new ServerSocket(localPort);
         System.out.println("Starting x11vnc now and connect to localhost:"+localPort);
-
+/*
         ProcessExecutor startx11vnc=new ProcessExecutor();
         startx11vnc.executeScript("x11vnc -connect 127.0.0.1:"+localPort);
-
+*/
         while (true) {
             Socket localSocket = null;
             UDTSocket udtSocket = null;
@@ -91,7 +92,7 @@ public class SimpleProxyServer {
                     //UDTServerSocket test= new UDTServerSocket(ice4jsocket);
 
                     UDPEndPoint endPoint= new UDPEndPoint(udpSocket);
-                    RsccUDTServerSocket udtServerSocket = new RsccUDTServerSocket(endPoint);
+                    UDTServerSocket udtServerSocket = new RsccUDTServerSocket(endPoint);
 
                     System.out.println(endPoint.getSocket() + " == "+ udtServerSocket.getEndpoint().getSocket());
 

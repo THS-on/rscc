@@ -258,7 +258,7 @@
 
         <!-- Udt-java fom github -->
         <dependency>
-            <groupId>com.github.JohannesBuchner</groupId>
+            <groupId>com.github.pwigger</groupId>
             <artifactId>udt-java</artifactId>
             <version>master</version>
         </dependency>

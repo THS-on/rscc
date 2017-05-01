@@ -19,8 +19,8 @@ import java.net.Socket;
 
 public class SimpleProxyClient {
 
-    public static final String OWNNAME = "PwgVirtualUbuntu";
-    public static final String REMOTECOMPUTERNAME = "PwgMacbook";
+    public static final String OWNNAME = "PwgVirtualUbuntuClient";
+    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
     public static final int VNCPort=5500;
 
     public static void main(String[] args) throws Throwable {
@@ -46,11 +46,11 @@ public class SimpleProxyClient {
 
         final byte[] request = new byte[2048];
         byte[] reply = new byte[2048];
-
+/*
         ProcessExecutor runVncViewer= new ProcessExecutor();
         runVncViewer.executeScript("xtightvncviewer -listen");
 
-
+*/
 
         // Create a ServerSocket to listen for connections with
         // ServerSocket ss = new ServerSocket(localPort);
