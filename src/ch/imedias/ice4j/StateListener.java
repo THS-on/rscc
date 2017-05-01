@@ -38,9 +38,8 @@ public class StateListener implements PropertyChangeListener {
             // We use IceSocketWrapper, but you can just use the UDP socket
             // The advantage is that you can change the protocol from UDP to TCP easily
             // Currently only UDP exists so you might not need to use the wrapper.
-            DatagramSocket sock= rtpPair.getDatagramSocket();
 
-            IceSocketWrapper wrapper  = rtpPair.getIceSocketWrapper();
+
             socket = rtpComponent.getSocket(); //wrapper.getUDPSocket()
 
            // DatagramSocket ds=agent.getStunStack().sendUdpMessage();
@@ -49,13 +48,13 @@ public class StateListener implements PropertyChangeListener {
 
             try {
               for(int i=0; i<25; i++){
-                wrapper.send(new DatagramPacket("hello from Macbook".getBytes(),"hello from Macbook".length()));}
+                socket.send(new DatagramPacket("hello from Macbook".getBytes(),"hello from Macbook".length()));}
               Thread.sleep(4000);
               for(int i=0; i<25; i++){
-                wrapper.send(new DatagramPacket("hello from Macbook 1".getBytes(),"hello from Macbook 1".length()));}
+                socket.send(new DatagramPacket("hello from Macbook 1".getBytes(),"hello from Macbook 1".length()));}
               Thread.sleep(4000);
               for(int i=0; i<25; i++){
-                wrapper.send(new DatagramPacket("hello from Macbook 2".getBytes(),"hello from Macbook 2".length()));}
+                socket.send(new DatagramPacket("hello from Macbook 2".getBytes(),"hello from Macbook 2".length()));}
 
 
 

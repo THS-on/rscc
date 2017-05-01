@@ -60,6 +60,7 @@ public class SdpUtils
 
     private static final String FTPSERVER="94.126.16.19";
     private static final String USERNAME="rbp";
+    //FTP only for testing reasons! Ask @pwigger for password
     private static final String PASSWORD="";
     /**
      * Creates a session description containing the streams from the specified
@@ -259,6 +260,8 @@ public class SdpUtils
         //Git: Ask patrick for Password: This is only for testing reasons!
         ftp = ftp.login(USERNAME, PASSWORD.toCharArray());
         ftp.putFile(file.getName(), new FileInputStream(file));
+        ftp.close();
+
     }
 
     /**
@@ -284,6 +287,16 @@ public class SdpUtils
         System.out.println(remoteSdp.toString());
 
         return remoteSdp.toString();
+    }
+
+    public static void deleteFile(String file) throws Exception{
+        FtpClientProvider ftpClientProvider = FtpClientProvider.provider();
+        FtpClient ftp = ftpClientProvider.createFtpClient();
+        ftp.connect(new InetSocketAddress(InetAddress.getByName(FTPSERVER), 21));
+        ftp = ftp.login(USERNAME, PASSWORD.toCharArray());
+        ftp.deleteFile(file);
+        ftp.close();
+
     }
 
 
