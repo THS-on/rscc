@@ -34,7 +34,7 @@ public class Rscc {
   }
 
   /**
-   * Sets the IP and HTTP port of the keyserver in the model.
+   * Sets the IP and HTTP localPort of the keyserver in the model.
    */
   public void keyServerSetup(String keyServerIp, String keyServerHttpPort) {
     this.keyServerIp = keyServerIp;

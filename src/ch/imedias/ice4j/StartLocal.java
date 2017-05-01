@@ -1,5 +1,7 @@
 package ch.imedias.ice4j;
 
+import org.ice4j.ice.Component;
+
 import java.net.DatagramSocket;
 
 /**
@@ -14,7 +16,8 @@ public class StartLocal {
 
 
   public static void main(String[] args) throws Throwable{
-    DatagramSocket udpSocket=IceProcess.startIce(5050, OWNNAME,REMOTECOMPUTERNAME);
+    Component rtpComponent=IceProcess.startIce(5050, OWNNAME,REMOTECOMPUTERNAME);
+
   }
 
 

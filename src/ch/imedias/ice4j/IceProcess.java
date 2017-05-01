@@ -4,6 +4,7 @@ package ch.imedias.ice4j;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
+import org.ice4j.ice.Component;
 import org.ice4j.ice.IceMediaStream;
 import org.ice4j.ice.IceProcessingState;
 import org.ice4j.ice.harvest.StunCandidateHarvester;
@@ -25,13 +26,13 @@ public class IceProcess {
 
 
 
-    public static DatagramSocket startIce(int port, String ownName, String remoteComputername) throws Throwable {
+    public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
 
 /*** Setup the STUN servers: ***/
         String[] hostnames = new String[] {STUNSERVER1,STUNSERVER2};
 // Look online for actively working public STUN Servers. You can find free servers.
-// Now add these URLS as Stun Servers with standard 3478 port for STUN servrs.
+// Now add these URLS as Stun Servers with standard 3478 localPort for STUN servrs.
         for(String hostname: hostnames){
             try {
                 // InetAddress qualifies a url to an IP Address, if you have an error here, make sure the url is reachable and correct
@@ -69,9 +70,11 @@ public class IceProcess {
         while(agent.getState() != IceProcessingState.TERMINATED){Thread.sleep(1000);
             System.out.println("no working socket yet");}
         System.out.println("Got a working socket");
-        DatagramSocket ds= stateListener.getSocket();
-        SdpUtils.deleteFile("sdp" + ownName + ".txt");
-        return ds;
+        Component rtpComponent= stateListener.rtpComponent;
+
+
+       SdpUtils.deleteFile("sdp" + ownName + ".txt");
+        return rtpComponent;
     }
 
 
