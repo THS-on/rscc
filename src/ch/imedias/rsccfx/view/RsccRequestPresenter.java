@@ -15,7 +15,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
+  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -49,8 +49,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(event -> view.supporterAdminPane.setExpanded(false));
-    view.supporterAdminPane.setOnMouseClicked(event -> view.keyGeneratorPane.setExpanded(false));
+    view.keyGeneratorPane.setOnMouseClicked(
+        event -> view.predefinedAddressesPane.setExpanded(false)
+    );
+    view.predefinedAddressesPane.setOnMouseClicked(
+        event -> view.keyGeneratorPane.setExpanded(false)
+    );
   }
 
   /**
@@ -65,13 +69,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
+    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
+    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+
+    // FIXME: need the height of the titlePane itself...
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
   }
 
   /**

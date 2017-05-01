@@ -27,10 +27,8 @@ public class RsccSupportView extends BorderPane {
 
   final HeaderView headerView;
 
-  final Label enterKeyLbl = new Label();
-  final Label keyDescriptionLbl = new Label();
-  final Label exampleLbl = new Label();
-  final Label instructionLbl = new Label();
+  final Label titleLbl = new Label();
+  final Label descriptionLbl = new Label();
 
   final VBox centerBox = new VBox();
   final VBox groupingBox = new VBox();
@@ -39,12 +37,11 @@ public class RsccSupportView extends BorderPane {
   final TextField keyFld = new TextField();
 
   final TitledPane keyInputPane = new TitledPane();
-  final TitledPane predefinedAdressesPane = new TitledPane();
+  final TitledPane addressbookPane = new TitledPane();
 
   ImageView validationImgView = new ImageView();
 
   final Button connectBtn = new Button();
-  final Button expandOptionBtn = new Button();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -61,10 +58,9 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    enterKeyLbl.textProperty().set("EnterKey");
-    keyDescriptionLbl.textProperty().set("Test");
-    exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
-    instructionLbl.textProperty().set("Instructions");
+    titleLbl.textProperty().set("Enter key");
+    descriptionLbl.textProperty().set("Initiate a new remote support connection by entering the "
+        + "keyphrase your supporter sent you.");
 
     validationImgView = new ImageView(getClass()
         .getClassLoader()
@@ -72,20 +68,18 @@ public class RsccSupportView extends BorderPane {
         .toExternalForm());                     // TODO: Check what to do here.
 
     connectBtn.textProperty().set("Connect");
-    connectBtn.setDisable(true);
-    expandOptionBtn.textProperty().set("More");
 
     keyInputPane.setText("Key Input");
-    keyInputPane.setExpanded(true);
 
-    predefinedAdressesPane.setText("Predefined Adresses");
-    predefinedAdressesPane.setExpanded(false);
+    addressbookPane.setText("Addressbook");
   }
 
   private void layoutForm() {
-    enterKeyLbl.setId("EnterKeyLbl");
+    addressbookPane.setExpanded(false);
 
-    keyDescriptionLbl.setWrapText(true);
+    titleLbl.getStyleClass().add("titleLbl");
+
+    descriptionLbl.getStyleClass().add("descriptionLbl");
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
@@ -93,25 +87,25 @@ public class RsccSupportView extends BorderPane {
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
     keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    keyValidationBox.setHgrow(keyFld, Priority.ALWAYS);
+    HBox.setHgrow(keyFld, Priority.ALWAYS);
     keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingBox.getChildren().addAll(keyValidationBox, instructionLbl);
+    groupingBox.getChildren().addAll(keyValidationBox);
 
-    centerBox.getChildren().addAll(enterKeyLbl,
-        keyDescriptionLbl,
-        exampleLbl,
+    centerBox.getChildren().addAll(titleLbl,
+        descriptionLbl,
         groupingBox,
-        connectBtn,
-        expandOptionBtn);
+        connectBtn);
 
     keyInputPane.setContent(centerBox);
-    // TODO: Set content for predefinedAdressesPane
+    keyInputPane.setExpanded(true);
+    // TODO: Set content for addressbookPane
 
+    connectBtn.setDisable(true);
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
-    setBottom(predefinedAdressesPane);
+    setBottom(addressbookPane);
   }
 
 

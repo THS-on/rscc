@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Defines all elements shown in the request section.
@@ -29,25 +28,26 @@ public class RsccRequestView extends BorderPane {
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
-  final Label keyGenerationLbl = new Label();
-  final Label supporterAdminLbl = new Label();
 
-  VBox mainBox = new VBox();
+  final Label titleLbl = new Label();
+  final Label predefinedAddressesLbl = new Label();
+  final Label descriptionLbl = new Label();
+
+  final VBox descriptionBox = new VBox();
   final VBox bottomBox = new VBox();
 
   final HBox supporterAdminBox = new HBox();
-  final VBox centerBox = new VBox();
+  final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
-  final TitledPane supporterAdminPane = new TitledPane();
-
-  final Text descriptionTxt = new Text();
-  final Text additionalDescriptionTxt = new Text();
+  final TitledPane predefinedAddressesPane = new TitledPane();
 
   final TextField generatedKeyFld = new TextField();
 
   final Button reloadKeyBtn = new Button();
+  final Button readyBtn = new Button();
+  final Button supporterOneBtn = new Button();
 
   Image reloadImg;
 
@@ -70,58 +70,76 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
 
-    keyGenerationLbl.textProperty().set("Key generator");
-    keyGenerationLbl.setId("keyGenerationLbl");
+    titleLbl.textProperty().set("Generate key");
 
-    supporterAdminLbl.textProperty().set("Supporter administration");
-
-    descriptionTxt.textProperty().set("Test");
-    descriptionTxt.setId("descriptionTxt"); // TODO: Styling
-
-    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setId("generatedKeyFld");
+    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
+        + "Once your supporter enters this code, the remote support will start.");
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
-    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.setPreserveRatio(true);
     reloadKeyBtn.setGraphic(reloadImgView);
-    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
-    additionalDescriptionTxt.textProperty().set("Test");
-    additionalDescriptionTxt.setId("additionalDescriptionTxt");
+    readyBtn.textProperty().set("Ready");
 
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    supporterAdminPane.setText("Supporter Administration");
-    supporterAdminPane.setExpanded(false);
+    predefinedAddressesLbl.textProperty().set("Predefined Addresses");
+    predefinedAddressesPane.setText("Predefined Addresses");
+    predefinedAddressesPane.setExpanded(false);
+    predefinedAddressesPane.setId("predefinedAddressesPane");
+
+    // TODO: Finish all the buttons here according to mockup.
+    // Admin Buttons
+    // label, six Buttons, six images
+    /*supporterOneBtn.setGraphic();*/
+    supporterOneBtn.textProperty().setValue("Supporter 1");
+    supporterOneBtn.getStyleClass().add("supporterBtn");
+    /*supporterTwoBtn.setGraphic();*/
+    // two HBox'es
 
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    titleLbl.getStyleClass().add("titleLbl");
+
+    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setId("generatedKeyFld");
+
+    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.setPreserveRatio(true);
+
+    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+
     centerBox.setId("centerBox");
     bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(supporterAdminLbl);
+    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
+    keyGeneratingBox.setId("keyGeneratingBox");
 
-    centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
-        additionalDescriptionTxt);
+    readyBtn.setId("readyBtn");
+    reloadKeyBtn.setId("reloadKeyBtn");
+
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+
+    centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
-    supporterAdminPane.setContent(bottomBox);
+    predefinedAddressesPane.setContent(bottomBox);
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
-    setBottom(supporterAdminPane);
+    setBottom(predefinedAddressesPane);
   }
 
   private void bindFieldsToModel() {
