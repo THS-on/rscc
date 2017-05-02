@@ -29,10 +29,11 @@ public class SimpleProxyRequester {
     public static final String OWNNAME = "PwgVirtualUbuntuClient";
     public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
     public static final int VNCPORT =5900;
+    public static final int ICEPORT=5050;
 
     public static void main(String[] args) throws Throwable {
 
-        Component rtpComponent = IceProcessActive.startIce(5060, OWNNAME,REMOTECOMPUTERNAME);
+        Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME,REMOTECOMPUTERNAME);
 
 
         try {
@@ -53,13 +54,12 @@ public class SimpleProxyRequester {
         byte[] reply = new byte[2048];
 
         //Extract rtp Component
-        DatagramSocket udpSocket = rtpComponent.getSocket();
+       // DatagramSocket udpSocket = rtpComponent.getSocket();
         CandidatePair candidatePair=rtpComponent.getSelectedPair();
         TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
         InetAddress remoteAddress = transportAddress.getAddress();
         String remoteAddressAsString = remoteAddress.getHostAddress();
         int remotePort = transportAddress.getPort();
-
 
 /*TODO: does not work yet
         SystemCommander startx11vnc=new SystemCommander();
@@ -67,13 +67,20 @@ public class SimpleProxyRequester {
 */
         while (true) {
             Socket tcpClientSocket=null;
-            UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(),3030);
-          //    UDTClient udtClient = new UDTClient(new UDPEndPoint(udpSocket));
-            System.out.println("von Ice erhaltenes socket "+" "+udpSocket.getLocalPort());
+            UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(),ICEPORT);
+            //  UDTClient udtClient = new UDTClient(new UDPEndPoint(udpSocket));
+          //  System.out.println("von Ice erhaltenes socket "+" "+udpSocket.getLocalPort());
 
 
            try {
-              udtClient.connect("10.0.2.6",2020);
+             // udtClient.connect("10.0.2.6",2020);
+              // System.out.println("getRemoteSocketAddress "+udpSocket.getRemoteSocketAddress().toString());
+               // System.out.println("getHostAddress "+transportAddress.getHostAddress());
+               // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
+
+               System.out.println("connect to "+remoteAddressAsString+":"+remotePort);
+               udtClient.connect(remoteAddressAsString,remotePort);
+            //  udtClient.connect("remoteAddressAsString",2020);
               tcpClientSocket=new Socket(InetAddress.getLocalHost(),VNCPort);
 
            }
