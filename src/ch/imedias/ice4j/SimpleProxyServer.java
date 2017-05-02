@@ -3,13 +3,14 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
-import ch.fhnw.util.ProcessExecutor;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
 import udt.UDPEndPoint;
 import udt.UDTServerSocket;
 import udt.UDTSocket;
+import udt.util.Util;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,13 +24,13 @@ import java.net.Socket;
 //This
 public class SimpleProxyServer {
 
-    public static final String OWNNAME = "PwgVirtualUbuntuClient";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
+    public static final String OWNNAME = "PwgVirtualUbuntuServer";
+    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuClient";
     public static final int localPort =2601;
 
     public static void main(String[] args) throws Throwable {
 
-        Component rtpComponent = IceProcess.startIce(5060, OWNNAME,REMOTECOMPUTERNAME);
+        Component rtpComponent = IceProcessActive.startIce(5060, OWNNAME,REMOTECOMPUTERNAME);
 
 
 
@@ -54,6 +55,13 @@ public class SimpleProxyServer {
         final byte[] request = new byte[2048];
         byte[] reply = new byte[2048];
 
+        //Extract rtp Component
+        DatagramSocket udpSocket = rtpComponent.getSocket();
+        CandidatePair candidatePair=rtpComponent.getSelectedPair();
+        TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
+        InetAddress remoteAddress = transportAddress.getAddress();
+        String remoteAddressAsString = remoteAddress.getHostAddress();
+        int remotePort = transportAddress.getPort();
 
         // Create a ServerSocket to listen for connections
         ServerSocket serverSocket = new ServerSocket(localPort);
@@ -66,20 +74,10 @@ public class SimpleProxyServer {
             Socket localSocket = null;
             UDTSocket udtSocket = null;
 
-            //Extract rtp Component
-            DatagramSocket udpSocket= rtpComponent.getSocket();
-            CandidatePair candidatePair=rtpComponent.getSelectedPair();
-            TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
-            InetAddress remoteAddress=transportAddress.getAddress();
-            String remoteAddressAsString=remoteAddress.getHostAddress();
-            int remotePort= transportAddress.getPort();
-
-
-
 
             try {
                 localSocket = serverSocket.accept();
-                localSocket.setTcpNoDelay(true);
+              //  localSocket.setTcpNoDelay(true);
 
 
                 final InputStream inFromTCPLocalhostVNCCommands = localSocket.getInputStream();
@@ -92,17 +90,19 @@ public class SimpleProxyServer {
                     //UDTServerSocket test= new UDTServerSocket(ice4jsocket);
 
                     UDPEndPoint endPoint= new UDPEndPoint(udpSocket);
-                    UDTServerSocket udtServerSocket = new RsccUDTServerSocket(endPoint);
+                    UDTServerSocket udtServerSocket = new UDTServerSocket(endPoint);
 
                     System.out.println(endPoint.getSocket() + " == "+ udtServerSocket.getEndpoint().getSocket());
 
                     //holepunch probably not necessary as ice is doing the job
-                //    InetAddress clientAddress = InetAddress.getByName("192.168.192.98");
+                    InetAddress clientAddress = remoteAddress;
 
-                  //  Util.doHolePunch(udtServerSocket.getEndpoint(), clientAddress, 3030);
+                    Util.doHolePunch(udtServerSocket.getEndpoint(), clientAddress, localPort);
 
                     //Wait for other udt Endpoint to accept;
-                    udtSocket = udtServerSocket.accept();
+                    System.out.println("1");
+                            udtSocket = udtServerSocket.accept();
+                    System.out.println("2");
 
 
                     //We got now a UDT Connection!!

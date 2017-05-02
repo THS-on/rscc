@@ -16,7 +16,7 @@ import java.net.InetAddress;
 /**
  * Created by pwigger on 01.05.17.
  */
-public class IceProcess {
+public class IceProcessActive {
 
     private static final String STUNSERVER1="numb.viagenie.ca";
     private static final String STUNSERVER2="stun.ekiga.net";
@@ -28,7 +28,7 @@ public class IceProcess {
 
     public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
-
+        agent.setControlling(true);
 /*** Setup the STUN servers: ***/
         String[] hostnames = new String[] {STUNSERVER1,STUNSERVER2};
 // Look online for actively working public STUN Servers. You can find free servers.

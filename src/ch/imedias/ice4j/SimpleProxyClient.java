@@ -4,7 +4,6 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
-import ch.fhnw.util.ProcessExecutor;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -25,7 +24,7 @@ public class SimpleProxyClient {
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent=IceProcess.startIce(5050, OWNNAME,REMOTECOMPUTERNAME);
+            Component rtpComponent= IceProcessActive.startIce(5050, OWNNAME,REMOTECOMPUTERNAME);
             System.out.println("Ice done, starting UDT");
 
 
