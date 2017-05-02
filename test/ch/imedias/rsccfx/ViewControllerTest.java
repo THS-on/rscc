@@ -41,8 +41,6 @@ public class ViewControllerTest {
     mockRequestPresenter = mock(RsccRequestPresenter.class);
   }
 
-
-
   @Test
   public void testGetPresenter() {
     viewController.loadView("test", mockHomeView, mockHomePresenter);
@@ -56,7 +54,6 @@ public class ViewControllerTest {
     verify(mockHomePresenter, times(1)).setViewParent(any(ViewController.class));
   }
 
-  @Ignore //TODO test throws nullpointer, needs rework
   @Test
   public void testSetView() {
     final String requestViewName = "testRequestView";
