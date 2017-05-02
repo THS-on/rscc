@@ -29,7 +29,7 @@ public class IceProcessActive {
 /*** Setup the STUN servers: ***/
         String[] hostnames = new String[] {STUNSERVER1,STUNSERVER2};
 // Look online for actively working public STUN Servers. You can find free servers.
-// Now add these URLS as Stun Servers with standard 3478 localPort for STUN servrs.
+// Now add these URLS as Stun Servers with standard 3478 VNCPORT for STUN servrs.
         for(String hostname: hostnames){
             try {
                 // InetAddress qualifies a url to an IP Address, if you have an error here, make sure the url is reachable and correct

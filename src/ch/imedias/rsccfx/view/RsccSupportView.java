@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
@@ -23,7 +22,6 @@ public class RsccSupportView extends BorderPane {
       Logger.getLogger(RsccSupportView.class.getName());
 
   private final Rscc model;
-  private final Strings strings = new Strings();
 
   final HeaderView headerView;
 

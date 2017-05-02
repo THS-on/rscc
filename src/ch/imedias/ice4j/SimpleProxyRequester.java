@@ -3,38 +3,40 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
+import ch.fhnw.util.ProcessExecutor;
+import ch.imedias.rsccfx.model.SystemCommander;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
 import udt.UDPEndPoint;
-import udt.UDTServerSocket;
-import udt.UDTSocket;
-import udt.util.Util;
+import udt.UDTClient;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 //Working Solution 22. Apr
 //This
 public class SimpleProxyRequester {
 
-    public static final String OWNNAME = "PwgVirtualUbuntuServer";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuClient";
-    public static final int localPort =5500;
+    //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
+
+    public static final String OWNNAME = "PwgVirtualUbuntuClient";
+    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
+    public static final int VNCPORT =5900;
 
     public static void main(String[] args) throws Throwable {
 
-        Component rtpComponent = IceProcessPassive.startIce(5060, OWNNAME,REMOTECOMPUTERNAME);
+        Component rtpComponent = IceProcessActive.startIce(5060, OWNNAME,REMOTECOMPUTERNAME);
 
 
         try {
-            runServer(rtpComponent, localPort); // never returns
+            runServer(rtpComponent, VNCPORT); // never returns
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -42,11 +44,10 @@ public class SimpleProxyRequester {
 
     /**
      * runs a single-threaded proxy server on
-     * the specified local localPort. It never returns.
+     * the specified local VNCPORT. It never returns.
      */
     public static void runServer(Component rtpComponent,int VNCPort)
             throws IOException {
-
 
         final byte[] request = new byte[2048];
         byte[] reply = new byte[2048];
@@ -59,31 +60,29 @@ public class SimpleProxyRequester {
         String remoteAddressAsString = remoteAddress.getHostAddress();
         int remotePort = transportAddress.getPort();
 
-        // Create a ServerSocket to listen for connections
-      //  ServerSocket serverSocket = new ServerSocket(2601);
-      //  System.out.println("Starting xtightvnc now and connect to localhost:"+localPort);
-/*
-        ProcessExecutor startx11vnc=new ProcessExecutor();
-        startx11vnc.executeScript("x11vnc -connect 127.0.0.1:"+localPort);
+
+/*TODO: does not work yet
+        SystemCommander startx11vnc=new SystemCommander();
+        startx11vnc.executeTerminalCommand("x11vnc -forever:");
 */
         while (true) {
             Socket tcpClientSocket=null;
-            UDTSocket udtSocket = null;
+            UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(),3030);
+          //    UDTClient udtClient = new UDTClient(new UDPEndPoint(udpSocket));
+            System.out.println("von Ice erhaltenes socket "+" "+udpSocket.getLocalPort());
 
-            UDPEndPoint endPoint = new UDPEndPoint(udpSocket);
-            UDTServerSocket udtServerSocket = new UDTServerSocket(endPoint);
 
            try {
-               udtSocket = udtServerSocket.accept();
-               tcpClientSocket=new Socket(InetAddress.getLocalHost(),VNCPort);
+              udtClient.connect("10.0.2.6",2020);
+              tcpClientSocket=new Socket(InetAddress.getLocalHost(),VNCPort);
 
            }
            catch(Exception e){}
 
 
 
-            final InputStream inFromUDTVNCVideoStream = udtSocket.getInputStream();
-            final OutputStream outViaUDTVNCCommands = udtSocket.getOutputStream();
+            final InputStream inFromUDTVNCVideoStream = udtClient.getInputStream();
+            final OutputStream outViaUDTVNCCommands = udtClient.getOutputStream();
             final InputStream inFromTCPLocalhostVNCCommands = tcpClientSocket.getInputStream();
             final OutputStream outViaTCPLocalhostVNCVideoStream = tcpClientSocket.getOutputStream();
 
@@ -103,7 +102,7 @@ public class SimpleProxyRequester {
                 // Get server streams.
 
 
-                // a thread to read the client's requests and pass them
+                // a thread to read the udtClient's requests and pass them
                 // to the server. A separate thread for asynchronous.
                 Thread t = new Thread() {
                     public void run() {
@@ -116,7 +115,7 @@ public class SimpleProxyRequester {
                         } catch (IOException e) {
                         }
 
-                        // the client closed the connection to us, so close our
+                        // the udtClient closed the connection to us, so close our
                         // connection to the server.
                         try {
                             outViaUDTVNCCommands.close();
@@ -125,11 +124,11 @@ public class SimpleProxyRequester {
                     }
                 };
 
-                // Start the client-to-server request thread running
+                // Start the udtClient-to-server request thread running
                 t.start();
 
                 // Read the server's responses
-                // and pass them back to the client.
+                // and pass them back to the udtClient.
                 int bytesRead;
                 try {
                     while ((bytesRead = inFromUDTVNCVideoStream.read(reply)) != -1) {
@@ -140,7 +139,7 @@ public class SimpleProxyRequester {
                 }
 
                 // The server closed its connection to us, so we close our
-                // connection to our client.
+                // connection to our udtClient.
                 outViaTCPLocalhostVNCVideoStream.close();
             }
         }

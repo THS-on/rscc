@@ -21,9 +21,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SimpleProxyServer {
+public class SimpleProxyViewer {
 
-    public static final String OWNNAME = "PwgVirtualUbuntuClient";
+    //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
+
+    public static final String OWNNAME = "PwgVirtualUbuntuViewer";
     public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
     public static final int VNCPort=5900;
 
@@ -43,7 +45,7 @@ public class SimpleProxyServer {
 
     /**
      * runs a single-threaded proxy server on
-     * the specified local localPort. It never returns.
+     * the specified local VNCPORT. It never returns.
      */
     public static void runServer(Component rtpComponent, int VNCPort)
             throws IOException {
@@ -55,11 +57,12 @@ public class SimpleProxyServer {
         startVNCServer.executeTerminalCommand("x11vnc -forever");
 */
         // Create a ServerSocket to listen for connections with
-        // ServerSocket ss = new ServerSocket(localPort);
+        // ServerSocket ss = new ServerSocket(VNCPORT);
 
         while (true) {
             ServerSocket tcpServerSocket= null;
-           UDTServerSocket udtServerSocket =null;
+            UDTServerSocket udtServerSocket =null;
+            UDTSocket udtSocket=null;
             final InputStream streamFromClient;
             final OutputStream streamToClient;
             final InputStream streamFromServer;
@@ -78,9 +81,14 @@ public class SimpleProxyServer {
                     int remotePort= transportAddress.getPort();
 
                     //now create a UDT Client and establish UDT connection
-                     udtServerSocket= new UDTServerSocket(new UDPEndPoint(udpSocket));
                      tcpServerSocket= new ServerSocket(2601);
-                  UDTSocket udtSocket= udtServerSocket.accept();
+                    udtServerSocket= new UDTServerSocket(2020);
+                     udtSocket= udtServerSocket.accept();
+                     /*TODO: does not work yet: maybe needs multithreading??
+        SystemCommander startxTightVncViewer=new SystemCommander();
+       startxTightVncViewer.executeTerminalCommand("xtightvncviewer 127.0.0.1::2601");
+*/
+
                    Socket tcpSocket = tcpServerSocket.accept();
 
 
