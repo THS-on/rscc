@@ -136,11 +136,17 @@ public class RsccTest {
    */
   @Test
   public void testValidateKey() {
-    String invalidKey = "123123";
-    String validKey = "123456789";
+    final String[] invalidKeys = {"123123","0","12345678","1234567890","abcdefghi"};
+    final String[] validKeys = {"123456789","000000000","999999999"};
 
     assertFalse(model.validateKey(null));
-    assertFalse(model.validateKey(invalidKey));
-    assertTrue(model.validateKey(validKey));
+
+    for (String invalidKey : invalidKeys) {
+      assertFalse(model.validateKey(invalidKey));
+    }
+
+    for (String validKey : validKeys) {
+      assertTrue(model.validateKey(validKey));
+    }
   }
 }
