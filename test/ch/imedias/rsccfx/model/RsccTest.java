@@ -1,7 +1,8 @@
 package ch.imedias.rsccfx.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -128,5 +129,24 @@ public class RsccTest {
         argThat(script -> script.contains("start_x11vnc.sh")));
     // make sure the key which is being returned is right
     assertEquals(KEY, model.getKey());
+  }
+
+  /**
+   * Test for {@link Rscc#validateKey(String)}.
+   */
+  @Test
+  public void testValidateKey() {
+    final String[] invalidKeys = {"123123","0","12345678","1234567890","abcdefghi"};
+    final String[] validKeys = {"123456789","000000000","999999999"};
+
+    assertFalse(model.validateKey(null));
+
+    for (String invalidKey : invalidKeys) {
+      assertFalse(model.validateKey(invalidKey));
+    }
+
+    for (String validKey : validKeys) {
+      assertTrue(model.validateKey(validKey));
+    }
   }
 }

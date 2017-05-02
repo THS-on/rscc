@@ -39,8 +39,8 @@ public class Rscc {
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty key = new SimpleStringProperty();
-  private final StringProperty keyServerIp = new SimpleStringProperty();
-  private final StringProperty keyServerHttpPort = new SimpleStringProperty();
+  private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
           .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
@@ -215,6 +215,17 @@ public class Rscc {
     }
   }
 
+
+  /**
+   * Determines if a key is valid or not.
+   * The key must not be null and must be a number with exactly 9 digits.
+   *
+   * @param key the string to validate.
+   * @return true when key has a valid format.
+   */
+  public boolean validateKey(String key) {
+    return key != null && key.matches("\\d{9}");
+  }
 
   public StringProperty keyProperty() {
     return key;

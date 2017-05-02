@@ -71,20 +71,12 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   /**
-   * Determines if a key is valid or not.
-   * The key must not be null and must be a number with exactly 9 digits.
-   */
-  private boolean validateKey(String key) {
-    return key != null && key.matches("\\d{9}");
-  }
-
-  /**
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
     // update keyValidityProperty property every time the textfield with the key changes
     view.keyFld.textProperty().addListener(
-        (observable, oldKey, newKey) -> keyValidityProperty.set(validateKey(newKey))
+        (observable, oldKey, newKey) -> keyValidityProperty.set(model.validateKey(newKey))
     );
 
     view.connectBtn.setOnAction(event -> {

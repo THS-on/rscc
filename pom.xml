@@ -183,8 +183,8 @@
                     <excludes>
                         <!-- exclude non-JavaFX related files -->
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
-                        <!-- exclude View classes, since views are not tested -->
-                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
@@ -255,8 +255,8 @@
                     <excludes>
                         <!-- exclude non-JavaFX related files -->
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
-                        <!-- exclude View classes, since views are not tested -->
-                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
