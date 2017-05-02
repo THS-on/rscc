@@ -23,12 +23,9 @@ public class IceProcessActive {
     private static final int STUNPORT=3478;
 
 
-
-
-
     public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
-        agent.setControlling(true);
+    //    agent.setControlling(true);
 /*** Setup the STUN servers: ***/
         String[] hostnames = new String[] {STUNSERVER1,STUNSERVER2};
 // Look online for actively working public STUN Servers. You can find free servers.
