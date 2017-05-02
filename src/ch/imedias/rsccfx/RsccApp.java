@@ -1,13 +1,14 @@
 package ch.imedias.rsccfx;
 
-import ch.imedias.rscc.ProcessExecutor;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
 import ch.imedias.rsccfx.view.RsccRequestView;
 import ch.imedias.rsccfx.view.RsccSupportPresenter;
 import ch.imedias.rsccfx.view.RsccSupportView;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -20,6 +21,9 @@ import javafx.stage.Stage;
  * Starts the Rscc Application.
  */
 public class RsccApp extends Application {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccApp.class.getName());
+
   public static final String APP_NAME = "Remote Support";
 
   /**
@@ -29,7 +33,7 @@ public class RsccApp extends Application {
   public static final String REQUEST_VIEW = "requestHelp";
   public static final String SUPPORT_VIEW = "supporter";
 
-  Rscc model;
+  private Rscc model;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -37,29 +41,27 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
-    model = new Rscc(new ProcessExecutor());
+    model = new Rscc(new SystemCommander());
     ViewController mainView = new ViewController();
 
     Group root = new Group();
     root.getChildren().addAll(mainView);
-    Scene scene = new Scene(root);
+    final Scene scene = new Scene(root);
 
+    // Initialize the views and load them into ViewController
     // HomeView
     Node view = new RsccHomeView(model);
     ControlledPresenter presenter = new RsccHomePresenter(model, (RsccHomeView) view);
-    ((RsccHomePresenter) presenter).initSize(scene);
     mainView.loadView(RsccApp.HOME_VIEW, view, presenter);
 
     // RequestHelpView
     view = new RsccRequestView(model);
     presenter = new RsccRequestPresenter(model, (RsccRequestView) view);
-    ((RsccRequestPresenter) presenter).initSize(scene);
     mainView.loadView(RsccApp.REQUEST_VIEW, view, presenter);
 
     // SupporterView
     view = new RsccSupportView(model);
     presenter = new RsccSupportPresenter(model, (RsccSupportView) view);
-    ((RsccSupportPresenter) presenter).initSize(scene);
     mainView.loadView(RsccApp.SUPPORT_VIEW, view, presenter);
 
     // Set initial screen
@@ -81,23 +83,23 @@ public class RsccApp extends Application {
     stage.setTitle(APP_NAME);
     stage.show();
 
-    // Initializing stylesheets
-    String supporterSheet = getClass().getClassLoader()
-        .getResource("css/supporterStyle.css").toExternalForm();
-    String headerSheet = getClass().getClassLoader()
-        .getResource("css/headerStyle.css").toExternalForm();
-    String homeSheet = getClass().getClassLoader()
-        .getResource("css/HomeStyle.css").toExternalForm();
-    String requestSheet = getClass().getClassLoader()
-        .getResource("css/requestStyle.css").toExternalForm();
-    scene.getStylesheets().addAll(supporterSheet, headerSheet, homeSheet, requestSheet);
+    // Initialize sizing of views
+    ((RsccHomePresenter) mainView.getPresenter(HOME_VIEW)).initSize(scene);
+    ((RsccRequestPresenter) mainView.getPresenter(REQUEST_VIEW)).initSize(scene);
+    ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
+
+    // Initialize stylesheets
+    String styleSheet = getClass().getClassLoader()
+        .getResource("css/styles.css").toExternalForm();
+
+    scene.getStylesheets().add(styleSheet);
   }
 
   @Override
   public void stop() throws Exception {
     String key = model.getKey();
     if (key != null) {
-      model.killConnection(key);
+      model.killConnection();
     }
     super.stop();
   }

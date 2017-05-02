@@ -1,6 +1,10 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import java.io.InputStream;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,43 +14,54 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestView.class.getName());
+
+  private static final double BUTTON_SIZE = 50d;
+  private static final double GENERATEDKEYFLD_HEIGHT = 60d;
+
+  final HeaderView headerView;
   private final Rscc model;
+  private final Strings strings = new Strings();
 
-  HeaderView headerView;
+  final Label titleLbl = new Label();
+  final Label predefinedAddressesLbl = new Label();
+  final Label descriptionLbl = new Label();
 
-  Label keyGenerationLbl = new Label();
-  Label supporterAdminLbl = new Label();
+  final VBox descriptionBox = new VBox();
+  final VBox bottomBox = new VBox();
 
-  VBox topBox = new VBox();
-  VBox mainBox = new VBox();
-  VBox bottomBox = new VBox();
+  final HBox supporterAdminBox = new HBox();
+  final HBox centerBox = new HBox();
+  final HBox keyGeneratingBox = new HBox();
 
-  HBox supporterAdminBox = new HBox();
-  VBox centerBox = new VBox();
-  HBox keyGeneratingBox = new HBox();
+  final TitledPane keyGeneratorPane = new TitledPane();
+  final TitledPane predefinedAddressesPane = new TitledPane();
 
-  TitledPane keyGeneratorPane = new TitledPane();
-  TitledPane supporterAdminPane = new TitledPane();
+  final TextField generatedKeyFld = new TextField();
 
-  Text descriptionTxt = new Text();
-  Text additionalDescriptionTxt = new Text();
+  final Button reloadKeyBtn = new Button();
+  final Button readyBtn = new Button();
+  final Button supporterOneBtn = new Button();
 
-  TextField generatedKeyFld = new TextField();
+  Image reloadImg;
 
-  Button reloadKeyBtn = new Button();
-  Button supporterAdminBtn = new Button();
+  ImageView reloadImgView;
 
   /**
-   * Initializes all the GUI components needed generate the token the supporter needs.
+   * Initializes all the GUI components needed generate the key the supporter needs.
+   *
+   * @param model the model to handle the data.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
+    SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -54,74 +69,77 @@ public class RsccRequestView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    // TODO: String Class implementation!
-    headerView = new HeaderView(model);
 
-    keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
-    keyGenerationLbl.setId("keyGenerationLbl");
+    titleLbl.textProperty().set("Generate key");
 
-    supporterAdminLbl.textProperty().set("Supporter administration"); // TODO: String Class
+    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
+        + "Once your supporter enters this code, the remote support will start.");
 
-    descriptionTxt.textProperty().set("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
-        + "sed diam voluptua. At vero eos et accusam "
-        + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
-        + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-    descriptionTxt.setId("descriptionTxt"); // TODO: Styling
+    InputStream reloadImagePath = getClass().getClassLoader()
+        .getResourceAsStream("images/reload.svg");
+    reloadImg = new Image(reloadImagePath);
+    reloadImgView = new ImageView(reloadImg);
+    reloadKeyBtn.setGraphic(reloadImgView);
 
-    generatedKeyFld.setPrefHeight(60); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setId("generatedKeyFld");
+    readyBtn.textProperty().set("Ready");
 
-    reloadKeyBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
-        .getResource("images/reload.png").toExternalForm())));
-    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
-
-    ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
-        .getResource("images/arrowDown.png").toExternalForm())));
-    imageView.setFitHeight(15); // FIXME: Has this to be in the CSS?
-    imageView.setFitWidth(15); // FIXME: Has this to be in the CSS?
-    supporterAdminBtn.setGraphic(imageView);
-
-    // TODO: Implement String Class
-    additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
-        + "consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt "
-        + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
-        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet "
-        + "clita kasd gubergren, no sea takimata sanctus est "
-        + "Lorem ipsum dolor sit amet.");
-    additionalDescriptionTxt.setId("additionalDescriptionTxt");
-
-    // TODO: Implement String Class
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    supporterAdminPane.setText("Supporter Administration");
-    supporterAdminPane.setExpanded(false);
+    predefinedAddressesLbl.textProperty().set("Predefined Addresses");
+    predefinedAddressesPane.setText("Predefined Addresses");
+    predefinedAddressesPane.setExpanded(false);
+    predefinedAddressesPane.setId("predefinedAddressesPane");
+
+    // TODO: Finish all the buttons here according to mockup.
+    // Admin Buttons
+    // label, six Buttons, six images
+    /*supporterOneBtn.setGraphic();*/
+    supporterOneBtn.textProperty().setValue("Supporter 1");
+    supporterOneBtn.getStyleClass().add("supporterBtn");
+    /*supporterTwoBtn.setGraphic();*/
+    // two HBox'es
 
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    titleLbl.getStyleClass().add("titleLbl");
+
+    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
+    generatedKeyFld.setId("generatedKeyFld");
+
+    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.setPreserveRatio(true);
+
+    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+
     centerBox.setId("centerBox");
     bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
+    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
+    keyGeneratingBox.setId("keyGeneratingBox");
 
-    topBox.getChildren().add(headerView);
-    centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
-        additionalDescriptionTxt);
+    readyBtn.setId("readyBtn");
+    reloadKeyBtn.setId("reloadKeyBtn");
+
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+
+    centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
-    supporterAdminPane.setContent(bottomBox);
+    predefinedAddressesPane.setContent(bottomBox);
 
-    setTop(topBox);
+    setTop(headerView);
     setCenter(keyGeneratorPane);
-    setBottom(supporterAdminPane);
+    setBottom(predefinedAddressesPane);
   }
 
   private void bindFieldsToModel() {
@@ -129,5 +147,4 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 }
-
 

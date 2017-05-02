@@ -1,8 +1,10 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 
 /**
@@ -10,20 +12,21 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
-  private static final int FORWARDING_PORT = 5900;
-  private static final int KEY_SERVER_SSH_PORT = 2201;
-  private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final int KEY_SERVER_HTTP_PORT = 800;
-  private static final boolean IS_COMPRESSION_ENABLED = true;
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestPresenter.class.getName());
+  private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
+  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
+
   private final Rscc model;
   private final RsccRequestView view;
-  HeaderPresenter headerPresenter;
-  String key = "";
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view the view belonging to the presenter.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
@@ -41,21 +44,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void attachEvents() {
-    //TODO put all setOnAction/addListeners in here
-    // FIXME: Please fix it.
-    /* view.reloadKeyBtn.setOnAction(
-        event -> {
-          String newKey = model.refreshKey(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
-              KEY_SERVER_SSH_PORT, KEY_SERVER_HTTP_PORT, IS_COMPRESSION_ENABLED);
-          model.keyProperty().set(newKey);
-        }
-    );*/
-
-    // TODO: Set actions on buttons (back, Help, Settings)
+    view.reloadKeyBtn.setOnAction(
+        event -> model.refreshKey()
+    );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(event -> view.supporterAdminPane.setExpanded(false));
-    view.supporterAdminPane.setOnMouseClicked(event -> view.keyGeneratorPane.setExpanded(false));
+    view.keyGeneratorPane.setOnMouseClicked(
+        event -> view.predefinedAddressesPane.setExpanded(false)
+    );
+    view.predefinedAddressesPane.setOnMouseClicked(
+        event -> view.keyGeneratorPane.setExpanded(false)
+    );
   }
 
   /**
@@ -66,12 +65,21 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.topBox.prefWidthProperty().bind(scene.widthProperty());
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty().subtract(80));
-    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
-    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty().subtract(50));
+    // initialize header
     headerPresenter.initSize(scene);
-    view.keyGeneratingBox.prefWidthProperty().bind(scene.widthProperty());
+
+    // initialize view
+    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
+    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_KEYFIELD));
+    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_GENERAL));
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+
+    // FIXME: need the height of the titlePane itself...
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
   }
 
   /**
@@ -79,6 +87,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
-    headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
+    headerPresenter.setBackBtnAction(event -> {
+      model.killConnection();
+      viewParent.setView(RsccApp.HOME_VIEW);
+    });
   }
 }

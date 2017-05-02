@@ -1,7 +1,20 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rscc.ProcessExecutor;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,93 +23,198 @@ import javafx.beans.property.StringProperty;
  * Handles communication with the keyserver.
  */
 public class Rscc {
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
   /**
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
-  private final String pathToResourceDocker;
-  private final String scriptShell;
-  private final ProcessExecutor processExecutor;
-  private StringProperty key = new SimpleStringProperty();
-  private String keyServerIp;
-  private String keyServerHttpPort;
+  /**
+   * sh files can not be executed in the JAR file and therefore must be extracted.
+   * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
+   */
+  private static final String RSCC_FOLDER_NAME = ".rscc";
+  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
+  private final SystemCommander systemCommander;
+  private String pathToResourceDocker;
+  private final StringProperty key = new SimpleStringProperty();
+  private final StringProperty keyServerIp = new SimpleStringProperty();
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty();
+  //TODO: Replace when the StunFileGeneration is ready
+  private final String pathToStunDumpFile = this.getClass()
+          .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+          .toExternalForm().replace("file:","");
 
   /**
    * Initializes the Rscc model class.
+   *
+   * @param systemCommander a SystemComander-object that executes shell commands.
    */
-  public Rscc(ProcessExecutor processExecutor) {
-    this.processExecutor = processExecutor;
-    pathToResourceDocker =
-        getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-            .getFile().toString().replaceFirst("file:", "");
-    scriptShell = "bash" + " " + pathToResourceDocker + "/";
+  public Rscc(SystemCommander systemCommander) {
+    if (systemCommander == null) {
+      throw new IllegalArgumentException("Parameter SystemCommander is NULL");
+    }
+    this.systemCommander = systemCommander;
+    defineResourcePath();
+    readServerConfig();
   }
 
   /**
-   * Sets the IP and HTTP localPort of the keyserver in the model.
+   * Sets resource path, according to the application running either as a JAR or in the IDE.
    */
-  public void keyServerSetup(String keyServerIp, String keyServerHttpPort) {
-    this.keyServerIp = keyServerIp;
-    this.keyServerHttpPort = keyServerHttpPort;
+  private void defineResourcePath() {
+    String userHome = System.getProperty("user.home");
+    URL theLocationOftheRunningClass = this.getClass().getProtectionDomain()
+        .getCodeSource().getLocation();
+    File actualClass = new File(theLocationOftheRunningClass.getFile());
+    if (actualClass.isDirectory()) {
+      pathToResourceDocker =
+          getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
+              .getFile().replaceFirst("file:", "");
+
+    } else {
+      pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
+      extractJarContents(theLocationOftheRunningClass,
+          userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
+    }
   }
 
+  /**
+   * Extracts files from running JAR to folder.
+   *
+   * @param filter filters the files that will be extracted by this string.
+   */
+  private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
+    JarFile jarFile = null;
+    try {
+      jarFile = new JarFile(new File(sourceLocation.getFile()));
+    } catch (IOException e) {
+      LOGGER.severe("Exception thrown when trying to get file from: "
+          + sourceLocation
+          + "\n Exception Message: " + e.getMessage());
+    }
+    Enumeration<JarEntry> contentList = jarFile.entries();
+    while (contentList.hasMoreElements()) {
+      JarEntry item = contentList.nextElement();
+      if (item.getName().contains(filter)) {
+        System.out.println(item.getName());
+        File targetFile = new File(destinationDirectory, item.getName());
+        if (!targetFile.exists()) {
+          targetFile.getParentFile().mkdirs();
+          targetFile = new File(destinationDirectory, item.getName());
+        }
+        if (item.isDirectory()) {
+          continue;
+        }
+        try (
+            InputStream fromStream = jarFile.getInputStream(item);
+            FileOutputStream toStream = new FileOutputStream(targetFile)
+        ) {
+          while (fromStream.available() > 0) {
+            toStream.write(fromStream.read());
+          }
+
+        } catch (FileNotFoundException e) {
+          LOGGER.severe("Exception thrown when reading from file: "
+              + targetFile.getName()
+              + "\n Exception Message: " + e.getMessage());
+        } catch (IOException e) {
+          LOGGER.severe("Exception thrown when trying to copy jar file contents to local"
+              + "\n Exception Message: " + e.getMessage());
+        }
+        targetFile.setExecutable(true);
+      }
+    }
+  }
+
+  /**
+   * Sets up the server with use.sh.
+   */
   private void keyServerSetup() {
-    // Setup the server with use.sh
-    executeP2pScript("use.sh", keyServerIp, keyServerHttpPort);
+    String command = commandStringGenerator(
+        pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
    * Kills the connection to the keyserver.
    */
-  public void killConnection(String key) {
+  public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    executeP2pScript("port_stop.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
+    systemCommander.executeTerminalCommand(command);
+    setKey("");
   }
 
   /**
-   * Requests a token from the key server.
+   * Requests a key from the key server.
    */
-  public String requestTokenFromServer() {
+  public void requestKeyFromServer() {
     keyServerSetup();
 
-    // Execute port_share.sh and get a key as output
-    String key = executeP2pScript("start_x11vnc.sh", keyServerIp, keyServerHttpPort);
-    this.key.set(key); // update key in model
-    return key;
+    String command = commandStringGenerator(
+        pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
+    String key = systemCommander.executeTerminalCommand(command);
+    setKey(key); // update key in model
   }
 
   /**
    * Starts connection to the user.
    */
-  public void connectToUser(String key) {
+  public void connectToUser() {
     keyServerSetup();
 
-    // Executes start_vncviewer.sh and connects to the user.
-    executeP2pScript("start_vncviewer.sh", key);
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
+    systemCommander.executeTerminalCommand(command);
   }
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
    * again.
    */
-  public String refreshKey() {
-    killConnection(key.toString());
-    return requestTokenFromServer();
+  public void refreshKey() {
+    killConnection();
+    requestKeyFromServer();
   }
 
-  private String executeP2pScript(String fileName, String... parameters) {
-    String output = "";
-    try {
-      processExecutor.executeScript(true, true, scriptShell + fileName, parameters);
-    } catch (IOException writingError) {
-      System.out.println("script could not be written to a temp file!");
-      writingError.printStackTrace();
-    }
-    output = processExecutor.getOutput();
-    output = output.replace("OUTPUT>", "").trim(); // get rid of OUTPUT> in the beginning
-    return output;
+  /**
+   * Generates String to run command.
+   */
+  private String commandStringGenerator(
+      String pathToScript, String scriptName, String... attributes) {
+    StringBuilder commandString = new StringBuilder();
+
+    commandString.append(pathToScript).append("/").append(scriptName);
+    Arrays.stream(attributes)
+        .forEach((s) -> commandString.append(" ").append(s));
+
+    return commandString.toString();
   }
+
+  /**
+   * Reads the docker server configuration from file ssh.rc under "/pathToResourceDocker".
+   */
+  private void readServerConfig() {
+    String configFilePath = pathToResourceDocker + "/ssh.rc";
+    try {
+      List<String> lines = Files.readAllLines(Paths.get(configFilePath), Charset.forName("UTF-8"));
+      for (String line : lines) {
+        if (line.contains("p2p_server=") && !line.endsWith("=")) {
+          setKeyServerIp(line.split("=")[1]);
+        } else if (line.contains("http_port=") && !line.endsWith("=")) {
+          setKeyServerHttpPort(line.split("=")[1]);
+        }
+      }
+      LOGGER.fine("Set serverIP to: " + getKeyServerIp()
+          + "\n Set serverHTTP-port to: " + getKeyServerHttpPort());
+    } catch (IOException e) {
+      LOGGER.severe("Exception thrown when reading from file: "
+          + configFilePath
+          + "\n Exception Message: " + e.getMessage());
+    }
+  }
+
 
   public StringProperty keyProperty() {
     return key;
@@ -106,11 +224,31 @@ public class Rscc {
     return key.get();
   }
 
+  public void setKey(String key) {
+    this.key.set(key);
+  }
+
   public String getKeyServerIp() {
+    return keyServerIp.get();
+  }
+
+  public StringProperty keyServerIpProperty() {
     return keyServerIp;
   }
 
+  public void setKeyServerIp(String keyServerIp) {
+    this.keyServerIp.set(keyServerIp);
+  }
+
   public String getKeyServerHttpPort() {
+    return keyServerHttpPort.get();
+  }
+
+  public StringProperty keyServerHttpPortProperty() {
     return keyServerHttpPort;
+  }
+
+  public void setKeyServerHttpPort(String keyServerHttpPort) {
+    this.keyServerHttpPort.set(keyServerHttpPort);
   }
 }

@@ -3,6 +3,10 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -12,34 +16,35 @@ import javafx.scene.image.Image;
  * The supporter can enter the key given from the help requester to establish a connection.
  */
 public class RsccSupportPresenter implements ControlledPresenter {
-  // For the moment, hardcoded the server parameters
-  private static final int FORWARDING_PORT = 5900;
-  private static final int KEY_SERVER_SSH_PORT = 2201;
-  private static final String KEY_SERVER_IP = "86.119.39.89";
-  private static final int KEY_SERVER_HTTP_PORT = 800;
-  private static final boolean IS_COMPRESSION_ENABLED = true;
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccSupportPresenter.class.getName());
+
+  private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
+  private final Image validImage =
+      new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
+  private final Image invalidImage =
+      new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
+
+  private final BooleanProperty keyValidityProperty = new SimpleBooleanProperty(false);
+
   private final Rscc model;
   private final RsccSupportView view;
-  HeaderPresenter headerPresenter;
-  String key = "";
+  private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
+   *
+   * @param model model with all data.
+   * @param view the view belonging to the presenter.
    */
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
+    headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
-  }
-
-  /**
-   * Validates a token.
-   */
-  private static boolean validateToken(String token) {
-    return (int) (Math.random() * 2) == 1;
-    //TODO: Validate token
+    initBindings();
   }
 
   /**
@@ -57,54 +62,58 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.topBox.prefWidthProperty().bind(scene.widthProperty());
-    view.enterTokenLbl.prefWidthProperty().bind(scene.widthProperty().subtract(80));
+    // initialize header
     headerPresenter.initSize(scene);
+
+    // initialize view
+    view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
   /**
-   * Validates the token and displays a symbolic image.
-   *
-   * @param token the token to be validated.
-   * @return path to the image to display.
+   * Determines if a key is valid or not.
+   * The key must not be null and must be a number with exactly 9 digits.
    */
-  public String validationImage(String token) {
-
-    if (validateToken(token)) {
-      return getClass().getClassLoader().getResource("emblem-default.png").toExternalForm();
-    }
-    return getClass().getClassLoader().getResource("dialog-error.png").toExternalForm();
+  private boolean validateKey(String key) {
+    return key != null && key.matches("\\d{9}");
   }
 
   /**
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
+    // update keyValidityProperty property every time the textfield with the key changes
+    view.keyFld.textProperty().addListener(
+        (observable, oldKey, newKey) -> keyValidityProperty.set(validateKey(newKey))
+    );
 
-    view.tokenTxt.setOnKeyPressed(event -> {
-      view.isValidImg.setImage(new Image(validationImage(view.tokenTxt.getText())));
+    view.connectBtn.setOnAction(event -> {
+      model.setKey(view.keyFld.getText());
+      model.connectToUser();
     });
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyInputPane.setOnMouseClicked(event -> view.predefinedAdressesPane.setExpanded(false));
-    view.predefinedAdressesPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
+    view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
+    view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
   }
-  // FIXME: Thank you.
-  /*view.connectBtn.setOnAction(
-        event -> {
-          model.keyProperty().set(view.tokenTxt.getText());
-          model.connectToUser(model.getKey(), FORWARDING_PORT, KEY_SERVER_IP,
-              KEY_SERVER_HTTP_PORT);
-        }
-    );*/
 
+  private void initBindings() {
+    // disable connect button if key is NOT valid
+    view.connectBtn.disableProperty().bind(keyValidityProperty.not());
+
+    // bind validation image to keyValidityProperty
+    view.validationImgView.imageProperty().bind(
+        Bindings.when(keyValidityProperty)
+            .then(validImage)
+            .otherwise(invalidImage)
+    );
+  }
 
   /**
    * Initializes the functionality of the header, e.g. back and settings button.
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
-    headerPresenter = new HeaderPresenter(model, view.headerView);
     headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
     // TODO: Set actions on buttons (Help, Settings)
   }

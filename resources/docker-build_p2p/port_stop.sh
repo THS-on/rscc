@@ -44,12 +44,12 @@ fi
 
 ### get the remote port from the private key
 keyfile=$(tempfile)
-echo -e "$key\n" | ssh -p $p2p_port -i keys/get.key vnc@$p2p_server > $keyfile 2>>$logfile
+echo -e "$key\n" | ssh -o StrictHostKeyChecking=no -p $p2p_port -i keys/get.key vnc@$p2p_server > $keyfile 2>>$logfile
 remote_port=$(head -1 $keyfile)
 rm $keyfile
 
 ### delete the key on the server
-echo -e "$key\n" | ssh -p $p2p_port -i keys/delete.key vnc@$p2p_server 2>$logfile
+echo -e "$key\n" | ssh -o StrictHostKeyChecking=no -p $p2p_port -i keys/delete.key vnc@$p2p_server 2>$logfile
 
 ### kill ssh tunnels
 pid1=$(ps ax | grep "$remote_port:[lL]ocalhost:" | sed -e 's/^ \+//' | cut -d' ' -f1)

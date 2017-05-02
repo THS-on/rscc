@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.fhnw</groupId>
@@ -152,8 +152,65 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Set permission on shell-scripts when starting app from IDE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>process-classes</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <target>
+                                <chmod file="target/classes/docker-build_p2p/*" perm="744"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generates CodeCoverage Report -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View classes, since views are not tested -->
+                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
         </plugins>
     </build>
+
 
     <reporting>
         <plugins>
@@ -163,6 +220,8 @@
                 <version>2.17</version>
                 <configuration>
                     <configLocation>${custom.checkstyle}</configLocation>
+                    <suppressionsLocation>${custom.checkstyle.suppressions}</suppressionsLocation>
+                    <encoding>UTF-8</encoding>
                     <violationSeverity>warning</violationSeverity>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
@@ -176,6 +235,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <charset>UTF-8</charset>
+                    <sourcepath>${basedir}/src/ch/imedias/rsccfx</sourcepath>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -186,10 +246,38 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View classes, since views are not tested -->
+                        <exclude>/**/*View.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <!-- Include the JaCoCo-standard-report in the Maven-report -->
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+
+            </plugin>
         </plugins>
     </reporting>
 
+
     <dependencies>
+
         <!-- dbus.jar -->
         <dependency>
             <groupId>com.github.bdeneuter</groupId>
@@ -240,6 +328,13 @@
             <groupId>com.github.Kennox</groupId>
             <artifactId>lernstickTools</artifactId>
             <version>2</version>
+        </dependency>
+
+        <!--javafxsvg.jar-->
+        <dependency>
+            <groupId>de.codecentric.centerdevice</groupId>
+            <artifactId>javafxsvg</artifactId>
+            <version>1.2.1</version>
         </dependency>
 
         <!-- Overwriting dependency in ice4j dependency -->
