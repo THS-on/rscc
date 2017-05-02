@@ -8,6 +8,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
@@ -20,7 +22,7 @@ import org.junit.Test;
 
 
 /**
- * Created by jp on 20/04/17.
+ * Tests the ViewController class.
  */
 public class ViewControllerTest {
   ViewController viewController;
@@ -41,6 +43,9 @@ public class ViewControllerTest {
     mockRequestPresenter = mock(RsccRequestPresenter.class);
   }
 
+  /**
+   * Test for {@link ViewController#getPresenter(String)}.
+   */
   @Test
   public void testGetPresenter() {
     viewController.loadView("test", mockHomeView, mockHomePresenter);
@@ -48,12 +53,18 @@ public class ViewControllerTest {
     assertEquals(mockHomePresenter, returnedPresenter);
   }
 
+  /**
+   * Test for {@link ViewController#loadView(String, Node, ControlledPresenter)}.
+   */
   @Test
   public void testLoadView() {
     viewController.loadView("test", mockHomeView, mockHomePresenter);
     verify(mockHomePresenter, times(1)).setViewParent(any(ViewController.class));
   }
 
+  /**
+   * Test for {@link ViewController#setView(String)}.
+   */
   @Test
   public void testSetView() {
     final String requestViewName = "testRequestView";
@@ -63,6 +74,9 @@ public class ViewControllerTest {
     assertTrue(viewController.setView(homeViewName));
   }
 
+  /**
+   * Test for {@link ViewController#setView(String)}.
+   */
   @Test
   public void testSetViewNotLoadedView() {
     String viewName = "testView";
@@ -71,6 +85,9 @@ public class ViewControllerTest {
     assertFalse(viewController.setView(wrongViewName));
   }
 
+  /**
+   * Test for {@link ViewController#unloadView(String)}.
+   */
   @Test
   public void testUnloadView() {
     String viewName = "testView";
@@ -78,6 +95,9 @@ public class ViewControllerTest {
     assertTrue(viewController.unloadView(viewName));
   }
 
+  /**
+   * Test for {@link ViewController#unloadView(String)}.
+   */
   @Test
   public void testUnloadViewIllegalArgument() {
     String viewName = "testView";
