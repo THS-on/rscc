@@ -71,6 +71,7 @@ public class IceProcessActive {
 
 
        SdpUtils.deleteFile("sdp" + ownName + ".txt");
+       agent.free();
         return rtpComponent;
     }
 

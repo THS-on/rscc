@@ -61,7 +61,7 @@ public class SdpUtils
     private static final String FTPSERVER="94.126.16.19";
     private static final String USERNAME="rbp";
     //FTP only for testing reasons! Ask @pwigger for password
-    private static final String PASSWORD="";
+    private static final String PASSWORD="dBjz17?9";
     /**
      * Creates a session description containing the streams from the specified
      * <tt>agent</tt> using dummy codecs. This method is unlikely to be of use

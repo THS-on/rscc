@@ -25,13 +25,14 @@ public class SimpleProxyViewer {
 
     //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
 
-    public static final String OWNNAME = "PwgVirtualUbuntuViewer";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
+    public static final String OWNNAME = "PwgVirtualUbuntuServer";
+    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuClient";
     public static final int VNCPort=5900;
+    public static final int ICEPORT=5060;
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent= IceProcessActive.startIce(5050, OWNNAME,REMOTECOMPUTERNAME);
+            Component rtpComponent= IceProcessActive.startIce(ICEPORT, OWNNAME,REMOTECOMPUTERNAME);
             System.out.println("Ice done, starting UDT");
 
 
@@ -82,7 +83,8 @@ public class SimpleProxyViewer {
 
                     //now create a UDT Client and establish UDT connection
                      tcpServerSocket= new ServerSocket(2601);
-                    udtServerSocket= new UDTServerSocket(2020);
+                    udtServerSocket= new UDTServerSocket(ICEPORT);
+                   // udtServerSocket= new UDTServerSocket(new UDPEndPoint(udpSocket));
                      udtSocket= udtServerSocket.accept();
                      /*TODO: does not work yet: maybe needs multithreading??
         SystemCommander startxTightVncViewer=new SystemCommander();
