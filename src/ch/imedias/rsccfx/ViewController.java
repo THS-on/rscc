@@ -72,7 +72,7 @@ public class ViewController extends StackPane {
       }
       return true;
     } else {
-      System.out.println("View " + name + " hasn't been loaded!\n");
+      LOGGER.info("View " + name + " hasn't been loaded!");
       return false;
     }
   }
@@ -87,7 +87,7 @@ public class ViewController extends StackPane {
    */
   public boolean unloadView(String name) {
     if (views.remove(name) == null | presenters.remove(name) == null) {
-      System.out.println("View " + name + " doesn't exist");
+      LOGGER.info("View " + name + " doesn't exist!");
       return false;
     } else {
       return true;
