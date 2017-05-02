@@ -52,7 +52,7 @@ public class ViewControllerTest {
 
   @Test
   public void testLoadView() {
-    assertTrue(viewController.loadView("test", mockHomeView, mockHomePresenter));
+    viewController.loadView("test", mockHomeView, mockHomePresenter);
     verify(mockHomePresenter, times(1)).setViewParent(any(ViewController.class));
   }
 
