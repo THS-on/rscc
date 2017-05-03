@@ -30,8 +30,8 @@ public class RsccSupportView extends BorderPane {
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
 
-  final VBox centerBox = new VBox();
-  final VBox groupingBox = new VBox();
+  final VBox descriptionBox = new VBox();
+  final HBox centerBox = new HBox();
   final HBox keyValidationBox = new HBox();
 
   final TextField keyFld = new TextField();
@@ -90,12 +90,9 @@ public class RsccSupportView extends BorderPane {
     HBox.setHgrow(keyFld, Priority.ALWAYS);
     keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingBox.getChildren().addAll(keyValidationBox);
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
 
-    centerBox.getChildren().addAll(titleLbl,
-        descriptionLbl,
-        groupingBox,
-        connectBtn);
+    centerBox.getChildren().addAll(keyValidationBox, descriptionBox);
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
