@@ -132,6 +132,7 @@
 }
 
 #centerBoxSupport {
+    /* FIXME: SVG image makes trouble... */
     -fx-background-image: url("../images/supporter_background.svg");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center top;
