@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
+
 import javafx.scene.Scene;
 
 /**
@@ -47,14 +48,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.reloadKeyBtn.setOnAction(
         event -> model.refreshKey()
     );
-
-    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(
-        event -> view.predefinedAddressesPane.setExpanded(false)
-    );
-    view.predefinedAddressesPane.setOnMouseClicked(
-        event -> view.keyGeneratorPane.setExpanded(false)
-    );
   }
 
   /**
@@ -76,11 +69,16 @@ public class RsccRequestPresenter implements ControlledPresenter {
         .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
-    // FIXME: need the height of the titlePane itself... or magic number. François
+    // FIXME: now it seems to work if you resize the window?? maybe you have an idea Lukas...
     view.keyGeneratorPane.prefHeightProperty().bind(scene.heightProperty()
         .subtract(headerPresenter.view.heightProperty())
         .subtract(view.predefinedAddressesPane.heightProperty())
     );
+
+    view.predefinedAddressesPane.setExpanded(false);
+
+
+
   }
 
   /**
