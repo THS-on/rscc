@@ -13,7 +13,7 @@ public class HeaderPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(HeaderPresenter.class.getName());
   private final Rscc model;
-  private final HeaderView view;
+  final HeaderView view;
 
   /**
    * Initializes a new HeaderPresenter with the matching view.
