@@ -5,6 +5,8 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -79,7 +81,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
     view.requestViewBtn.setOnAction(event -> {
-      model.requestKeyFromServer();
+      Platform.runLater(model::requestKeyFromServer);
       viewParent.setView(RsccApp.REQUEST_VIEW);
     });
   }
