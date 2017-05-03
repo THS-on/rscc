@@ -1,16 +1,14 @@
-package ch.imedias.ice4j;
+package ch.imedias.ice4j.RUDP;
 
 /**
  * Created by pwg on 20.04.17.
  */
 
-import ch.imedias.ice4j.RUDP.ReliableServerSocket;
-import ch.imedias.ice4j.RUDP.ReliableSocket;
+import ch.imedias.ice4j.IceProcess;
+import ch.imedias.ice4j.RUDP.src.ReliableServerSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
-import udt.UDTServerSocket;
-import udt.UDTSocket;
 
 import java.io.IOException;
 import java.io.InputStream;

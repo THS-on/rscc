@@ -28,37 +28,36 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP.impl;
-
-
+package ch.imedias.ice4j.RUDP.src.impl;
 
 /*
- *  ACK Segment
+ *  FIN Segment
  *
  *   0 1 2 3 4 5 6 7 8            15
  *  +-+-+-+-+-+-+-+-+---------------+
- *  |0|1|0|0|0|0|0|0|       6       |
+ *  | |A| | | | | | |               |
+ *  |0|C|0|0|0|0|1|0|        6      |
+ *  | |K| | | | | | |               |
  *  +-+-+-+-+-+-+-+-+---------------+
  *  | Sequence #    |   Ack Number  |
  *  +---------------+---------------+
- *  |           Checksum            |
+ *  |         Header Checksum       |
  *  +---------------+---------------+
  *
  */
-public class ACKSegment extends Segment
+public class FINSegment extends Segment
 {
-    protected ACKSegment()
+    protected FINSegment()
     {
     }
 
-    public ACKSegment(int seqn, int ackn)
+    public FINSegment(int seqn)
     {
-        init(ACK_FLAG, seqn, RUDP_HEADER_LEN);
-        setAck(ackn);
+        init(FIN_FLAG, seqn, RUDP_HEADER_LEN);
     }
 
     public String type()
     {
-        return "ACK";
+        return "FIN";
     }
 }

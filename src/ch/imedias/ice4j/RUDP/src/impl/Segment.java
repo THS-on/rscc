@@ -28,7 +28,7 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP.impl;
+package ch.imedias.ice4j.RUDP.src.impl;
 
 public abstract class Segment
 {

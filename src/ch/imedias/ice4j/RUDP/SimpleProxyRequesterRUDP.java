@@ -1,12 +1,13 @@
-package ch.imedias.ice4j;
+package ch.imedias.ice4j.RUDP;
 /**
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.ice4j.IceProcess;
+import ch.imedias.ice4j.RUDP.src.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
-import udt.UDTClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ import java.net.Socket;
 
 //Working Solution 22. Apr
 //This is based on http://www.java2s.com/Code/Java/Network-Protocol/Asimpleproxyserver.htm
-public class SimpleProxyRequesterUDT {
+public class SimpleProxyRequesterRUDP {
 
     //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
 
@@ -46,7 +47,7 @@ public class SimpleProxyRequesterUDT {
             throws IOException {
 
         Socket tcpClientSocket = null;
-        UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(), ICEPORT);
+        Socket rudpClient2Socket  = null;
 
         final byte[] request = new byte[1024];
         byte[] reply = new byte[16384];
@@ -69,10 +70,10 @@ public class SimpleProxyRequesterUDT {
                 // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
                 System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
 
-                udtClient.connect(remoteAddressAsString, remotePort);
+                rudpClient2Socket=new ReliableSocket(remoteAddressAsString, remotePort);
 
-                final InputStream inFromUDTVNCVideoStream = udtClient.getInputStream();
-                final OutputStream outViaUDTVNCCommands = udtClient.getOutputStream();
+                final InputStream inFromUDTVNCVideoStream = rudpClient2Socket.getInputStream();
+                final OutputStream outViaUDTVNCCommands = rudpClient2Socket.getOutputStream();
 
                 try {
                     tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPort);
@@ -136,8 +137,8 @@ public class SimpleProxyRequesterUDT {
                         if (tcpClientSocket != null) {
                             tcpClientSocket.close();
                         }
-                        if (udtClient != null) {
-                            udtClient.shutdown();
+                        if (rudpClient2Socket != null) {
+                            rudpClient2Socket.close();
                         }
                     } catch (IOException e) {
                     }

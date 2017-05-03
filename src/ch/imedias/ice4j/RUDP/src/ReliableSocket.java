@@ -28,7 +28,9 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP;
+package ch.imedias.ice4j.RUDP.src;
+
+import ch.imedias.ice4j.RUDP.src.impl.*;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -47,9 +49,6 @@ import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
-import ch.imedias.ice4j.RUDP.*;
-import ch.imedias.ice4j.RUDP.impl.*;
 
 /**
  * This class implements client sockets that use

@@ -28,7 +28,10 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP;
+package ch.imedias.ice4j.RUDP.src;
+
+import ch.imedias.ice4j.RUDP.src.impl.SYNSegment;
+import ch.imedias.ice4j.RUDP.src.impl.Segment;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -42,8 +45,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ch.imedias.ice4j.RUDP.impl.*;
 
 /**
  * This class implements server sockets that use

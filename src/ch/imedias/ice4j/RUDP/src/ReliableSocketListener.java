@@ -28,36 +28,35 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP.impl;
+package ch.imedias.ice4j.RUDP.src;
 
-/*
- *  FIN Segment
+/**
+ * The listener interface for receiving packet events.
+ * The class that is interested in processing a packet
+ * event implements this interface.
  *
- *   0 1 2 3 4 5 6 7 8            15
- *  +-+-+-+-+-+-+-+-+---------------+
- *  | |A| | | | | | |               |
- *  |0|C|0|0|0|0|1|0|        6      |
- *  | |K| | | | | | |               |
- *  +-+-+-+-+-+-+-+-+---------------+
- *  | Sequence #    |   Ack Number  |
- *  +---------------+---------------+
- *  |         Header Checksum       |
- *  +---------------+---------------+
+ * @author Adrian Granados
  *
  */
-public class FINSegment extends Segment
+public interface ReliableSocketListener
 {
-    protected FINSegment()
-    {
-    }
+    /**
+     * Invoked when a data packet is sent.
+     */
+    public void packetSent();
 
-    public FINSegment(int seqn)
-    {
-        init(FIN_FLAG, seqn, RUDP_HEADER_LEN);
-    }
+    /**
+     * Invoked when a data packet is retransmitted.
+     */
+    public void packetRetransmitted();
 
-    public String type()
-    {
-        return "FIN";
-    }
+    /**
+     * Invoked when a data packet is received in-order.
+     */
+    public void packetReceivedInOrder();
+
+    /**
+     * Invoked when a out of sequence data packet is received.
+     */
+    public void packetReceivedOutOfOrder();
 }

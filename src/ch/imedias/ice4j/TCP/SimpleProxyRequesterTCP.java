@@ -1,8 +1,9 @@
-package ch.imedias.ice4j;
+package ch.imedias.ice4j.TCP;
 /**
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.ice4j.IceProcess;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -30,6 +31,7 @@ public class SimpleProxyRequesterTCP {
 
         // start ICE and get all things needed in the rtpComponent
         Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
+        System.out.println("Ice done, starting Proxy with TCP");
 
         try {
             runServer(rtpComponent, VNCPORT); // never returns

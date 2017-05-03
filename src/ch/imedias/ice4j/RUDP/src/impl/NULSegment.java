@@ -28,36 +28,36 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP.impl;
+package ch.imedias.ice4j.RUDP.src.impl;
+
+
 
 /*
- *  RST Segment
+ *  NUL Segment
  *
  *   0 1 2 3 4 5 6 7 8            15
  *  +-+-+-+-+-+-+-+-+---------------+
- *  | |A| | | | | | |               |
- *  |0|C|0|1|0|0|0|0|        6      |
- *  | |K| | | | | | |               |
+ *  |0|1|0|0|1|0|0|0|       6       |
  *  +-+-+-+-+-+-+-+-+---------------+
- *  | Sequence #    |   Ack Number  |
+ *  | Sequence #    |  Ack Number   |
  *  +---------------+---------------+
- *  |         Header Checksum       |
+ *  |            Checksum           |
  *  +---------------+---------------+
  *
  */
-public class RSTSegment extends Segment
+public class NULSegment extends Segment
 {
-    protected RSTSegment()
+    protected NULSegment()
     {
     }
 
-    public RSTSegment(int seqn)
+    public NULSegment(int seqn)
     {
-        init(RST_FLAG, seqn, RUDP_HEADER_LEN);
+        init(NUL_FLAG, seqn, RUDP_HEADER_LEN);
     }
 
     public String type()
     {
-        return "RST";
+        return "NUL";
     }
 }

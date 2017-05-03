@@ -28,7 +28,7 @@
  *
  */
 
-package ch.imedias.ice4j.RUDP;
+package ch.imedias.ice4j.RUDP.src;
 
 import java.io.IOException;
 import java.io.OutputStream;

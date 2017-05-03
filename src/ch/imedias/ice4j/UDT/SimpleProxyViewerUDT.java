@@ -1,9 +1,10 @@
-package ch.imedias.ice4j;
+package ch.imedias.ice4j.UDT;
 
 /**
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.ice4j.IceProcess;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -18,7 +19,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SimpleProxyViewerTCP {
+public class SimpleProxyViewerUDT {
 
     //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
 
@@ -30,7 +31,7 @@ public class SimpleProxyViewerTCP {
     public static void main(String[] args) throws Throwable {
         try {
             Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
-            System.out.println("Ice done, starting UDT");
+            System.out.println("Ice done, starting RUDP");
 
 
             runServer(rtpComponent); // never returns
@@ -50,8 +51,8 @@ public class SimpleProxyViewerTCP {
         ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
         Socket tcpSocket;
 
-        ServerSocket tcpServerSocket2 = new ServerSocket(ICEPORT);
-        Socket tcpSocket2;
+        UDTServerSocket udtServerSocket = new UDTServerSocket(ICEPORT);
+        UDTSocket udtSocket;
 
 
         //Extract rtp Component
@@ -75,21 +76,20 @@ public class SimpleProxyViewerTCP {
 
 
             try {
-                tcpSocket = tcpServerSocket.accept();
-                tcpSocket.setTcpNoDelay(true);
 
-                tcpSocket2 = tcpServerSocket2.accept();
+                udtSocket = udtServerSocket.accept();
 
 
-                final InputStream streamFromServer = tcpSocket2.getInputStream();
-                final OutputStream streamToServer = tcpSocket2.getOutputStream();
+                final InputStream streamFromServer = udtSocket.getInputStream();
+                final OutputStream streamToServer = udtSocket.getOutputStream();
 
                 /*TODO: does not work yet: maybe needs multithreading??
                      SystemCommander startxTightVncViewer=new SystemCommander();
                      startxTightVncViewer.executeTerminalCommand("xtightvncviewer 127.0.0.1::2601");
                    Problem: accept lässt warten? anschliessend kann Kommando evt nicht mehr ausgeführt werden?
                     */
-
+                tcpSocket = tcpServerSocket.accept();
+                tcpSocket.setTcpNoDelay(true);
 
 
 
