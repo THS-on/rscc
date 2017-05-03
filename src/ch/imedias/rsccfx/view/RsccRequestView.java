@@ -117,7 +117,7 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
-    centerBox.setId("centerBox");
+    centerBox.setId("centerBoxRequest");
     bottomBox.setId("bottomBox");
 
     supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
