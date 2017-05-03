@@ -81,7 +81,8 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
     view.requestViewBtn.setOnAction(event -> {
-      Platform.runLater(model::requestKeyFromServer);
+      Thread thread = new Thread(model::requestKeyFromServer);
+      thread.start();
       viewParent.setView(RsccApp.REQUEST_VIEW);
     });
   }
