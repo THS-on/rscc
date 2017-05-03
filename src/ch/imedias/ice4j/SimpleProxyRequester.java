@@ -21,20 +21,20 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 //Working Solution 22. Apr
-//This
+//This is based on http://www.java2s.com/Code/Java/Network-Protocol/Asimpleproxyserver.htm
 public class SimpleProxyRequester {
 
     //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
 
-    public static final String OWNNAME = "PwgVirtualUbuntuClient";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuServer";
-    public static final int VNCPORT =5900;
-    public static final int ICEPORT=5050;
+    public static final String OWNNAME = "RSCCRequester";
+    public static final String REMOTECOMPUTERNAME = "RSCCViewer";
+    public static final int VNCPORT = 5900;
+    public static final int ICEPORT = 5050;
 
     public static void main(String[] args) throws Throwable {
 
-        Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME,REMOTECOMPUTERNAME);
-
+        // start ICE and get all things needed in the rtpComponent
+        Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
 
         try {
             runServer(rtpComponent, VNCPORT); // never returns
@@ -47,67 +47,50 @@ public class SimpleProxyRequester {
      * runs a single-threaded proxy server on
      * the specified local VNCPORT. It never returns.
      */
-    public static void runServer(Component rtpComponent,int VNCPort)
+    public static void runServer(Component rtpComponent, int VNCPort)
             throws IOException {
 
-        final byte[] request = new byte[2048];
-        byte[] reply = new byte[2048];
+        Socket tcpClientSocket = null;
+        UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(), ICEPORT);
+
+        final byte[] request = new byte[1024];
+        byte[] reply = new byte[16384];
 
         //Extract rtp Component
-       // DatagramSocket udpSocket = rtpComponent.getSocket();
-        CandidatePair candidatePair=rtpComponent.getSelectedPair();
+        CandidatePair candidatePair = rtpComponent.getSelectedPair();
         TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
         InetAddress remoteAddress = transportAddress.getAddress();
         String remoteAddressAsString = remoteAddress.getHostAddress();
         int remotePort = transportAddress.getPort();
 
-/*TODO: does not work yet
+        /*TODO: does not work yet
         SystemCommander startx11vnc=new SystemCommander();
         startx11vnc.executeTerminalCommand("x11vnc -forever:");
-*/
+        */
         while (true) {
-            Socket tcpClientSocket=null;
-            UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(),ICEPORT);
-            //  UDTClient udtClient = new UDTClient(new UDPEndPoint(udpSocket));
-          //  System.out.println("von Ice erhaltenes socket "+" "+udpSocket.getLocalPort());
-
-
-           try {
-             // udtClient.connect("10.0.2.6",2020);
-              // System.out.println("getRemoteSocketAddress "+udpSocket.getRemoteSocketAddress().toString());
-               // System.out.println("getHostAddress "+transportAddress.getHostAddress());
-               // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
-
-               System.out.println("connect to "+remoteAddressAsString+":"+remotePort);
-               udtClient.connect(remoteAddressAsString,remotePort);
-            //  udtClient.connect("remoteAddressAsString",2020);
-              tcpClientSocket=new Socket(InetAddress.getLocalHost(),VNCPort);
-
-           }
-           catch(Exception e){}
-
-
-
-            final InputStream inFromUDTVNCVideoStream = udtClient.getInputStream();
-            final OutputStream outViaUDTVNCCommands = udtClient.getOutputStream();
-            final InputStream inFromTCPLocalhostVNCCommands = tcpClientSocket.getInputStream();
-            final OutputStream outViaTCPLocalhostVNCVideoStream = tcpClientSocket.getOutputStream();
-
 
             try {
+                // udtClient.connect("10.0.2.6",2020);
+                // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
+                System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
 
+                udtClient.connect(remoteAddressAsString, remotePort);
 
+                final InputStream inFromUDTVNCVideoStream = udtClient.getInputStream();
+                final OutputStream outViaUDTVNCCommands = udtClient.getOutputStream();
+
+                try {
+                    tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPort);
                 } catch (Exception e) {
-                    PrintWriter out = new PrintWriter(outViaTCPLocalhostVNCVideoStream);
+                    PrintWriter out = new PrintWriter(outViaUDTVNCCommands);
                     System.out.print("Proxy server cannot connect to " + ":");
                     out.flush();
                     tcpClientSocket.close();
                     continue;
                 }
 
-
-                // Get server streams.
-
+                final InputStream inFromTCPLocalhostVNCCommands = tcpClientSocket.getInputStream();
+                final OutputStream outViaTCPLocalhostVNCVideoStream = tcpClientSocket.getOutputStream();
 
                 // a thread to read the udtClient's requests and pass them
                 // to the server. A separate thread for asynchronous.
@@ -128,6 +111,7 @@ public class SimpleProxyRequester {
                             outViaUDTVNCCommands.close();
                         } catch (IOException e) {
                         }
+
                     }
                 };
 
@@ -145,14 +129,30 @@ public class SimpleProxyRequester {
                 } catch (IOException e) {
                 }
 
+
                 // The server closed its connection to us, so we close our
                 // connection to our udtClient.
                 outViaTCPLocalhostVNCVideoStream.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                {
+                    try {
+                        if (tcpClientSocket != null) {
+                            tcpClientSocket.close();
+                        }
+                        if (udtClient != null) {
+                            udtClient.shutdown();
+                        }
+                    } catch (IOException e) {
+                    }
+
+                }
             }
         }
     }
 
-
+}
 
 
 
