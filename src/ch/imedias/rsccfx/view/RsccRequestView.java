@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -41,7 +40,7 @@ public class RsccRequestView extends BorderPane {
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
 
-  final BorderPane keyGeneratorPane = new BorderPane();
+  final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
 
   final TextField generatedKeyFld = new TextField();
@@ -83,6 +82,9 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setGraphic(reloadImgView);
 
     readyBtn.textProperty().set("Ready");
+
+    keyGeneratorPane.setText("Key generator");
+    keyGeneratorPane.setExpanded(true);
 
     predefinedAddressesLbl.textProperty().set("Predefined Addresses");
     predefinedAddressesPane.setText("Predefined Addresses");
@@ -132,7 +134,7 @@ public class RsccRequestView extends BorderPane {
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
 
-    keyGeneratorPane.setCenter(centerBox);
+    keyGeneratorPane.setContent(centerBox);
     predefinedAddressesPane.setContent(bottomBox);
 
     setTop(headerView);
