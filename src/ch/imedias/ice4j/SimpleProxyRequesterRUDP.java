@@ -3,6 +3,7 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.ice4j.RUDP.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -46,7 +47,7 @@ public class SimpleProxyRequesterRUDP {
             throws IOException {
 
         Socket tcpClientSocket = null;
-        UDTClient udtClient = new UDTClient(InetAddress.getLocalHost(), ICEPORT);
+        Socket rudpClient2Socket  = null;
 
         final byte[] request = new byte[1024];
         byte[] reply = new byte[16384];
@@ -69,10 +70,10 @@ public class SimpleProxyRequesterRUDP {
                 // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
                 System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
 
-                udtClient.connect(remoteAddressAsString, remotePort);
+                rudpClient2Socket=new ReliableSocket(remoteAddressAsString, remotePort);
 
-                final InputStream inFromUDTVNCVideoStream = udtClient.getInputStream();
-                final OutputStream outViaUDTVNCCommands = udtClient.getOutputStream();
+                final InputStream inFromUDTVNCVideoStream = rudpClient2Socket.getInputStream();
+                final OutputStream outViaUDTVNCCommands = rudpClient2Socket.getOutputStream();
 
                 try {
                     tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPort);
@@ -136,8 +137,8 @@ public class SimpleProxyRequesterRUDP {
                         if (tcpClientSocket != null) {
                             tcpClientSocket.close();
                         }
-                        if (udtClient != null) {
-                            udtClient.shutdown();
+                        if (rudpClient2Socket != null) {
+                            rudpClient2Socket.close();
                         }
                     } catch (IOException e) {
                     }

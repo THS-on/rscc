@@ -4,6 +4,8 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.ice4j.RUDP.ReliableServerSocket;
+import ch.imedias.ice4j.RUDP.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -50,8 +52,8 @@ public class SimpleProxyViewerRUDP {
         ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
         Socket tcpSocket;
 
-        UDTServerSocket udtServerSocket = new UDTServerSocket(ICEPORT);
-        UDTSocket udtSocket;
+        ReliableServerSocket rudpServerSocket = new ReliableServerSocket(ICEPORT);
+        Socket rudpSocket;
 
 
         //Extract rtp Component
@@ -76,11 +78,11 @@ public class SimpleProxyViewerRUDP {
 
             try {
 
-                udtSocket = udtServerSocket.accept();
+                rudpSocket = rudpServerSocket.accept();
 
 
-                final InputStream streamFromServer = udtSocket.getInputStream();
-                final OutputStream streamToServer = udtSocket.getOutputStream();
+                final InputStream streamFromServer = rudpSocket.getInputStream();
+                final OutputStream streamToServer = rudpSocket.getOutputStream();
 
                 /*TODO: does not work yet: maybe needs multithreading??
                      SystemCommander startxTightVncViewer=new SystemCommander();

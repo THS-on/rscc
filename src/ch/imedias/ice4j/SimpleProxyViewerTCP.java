@@ -75,6 +75,8 @@ public class SimpleProxyViewerTCP {
 
 
             try {
+                tcpSocket = tcpServerSocket.accept();
+                tcpSocket.setTcpNoDelay(true);
 
                 tcpSocket2 = tcpServerSocket2.accept();
 
@@ -87,8 +89,7 @@ public class SimpleProxyViewerTCP {
                      startxTightVncViewer.executeTerminalCommand("xtightvncviewer 127.0.0.1::2601");
                    Problem: accept lässt warten? anschliessend kann Kommando evt nicht mehr ausgeführt werden?
                     */
-                tcpSocket = tcpServerSocket.accept();
-                tcpSocket.setTcpNoDelay(true);
+
 
 
 
