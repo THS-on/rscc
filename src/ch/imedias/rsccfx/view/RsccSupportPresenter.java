@@ -68,6 +68,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // initialize view
     view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
+
+    // FIXME: Magic numbeeer.
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
   }
 
   /**
