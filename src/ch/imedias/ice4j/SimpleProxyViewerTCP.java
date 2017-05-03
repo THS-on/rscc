@@ -4,25 +4,21 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
-import ch.imedias.rsccfx.model.SystemCommander;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
-import udt.UDPEndPoint;
-import udt.UDTClient;
 import udt.UDTServerSocket;
 import udt.UDTSocket;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SimpleProxyViewer {
+public class SimpleProxyViewerTCP {
 
     //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
 
@@ -33,7 +29,7 @@ public class SimpleProxyViewer {
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+            Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
             System.out.println("Ice done, starting UDT");
 
 
@@ -54,8 +50,8 @@ public class SimpleProxyViewer {
         ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
         Socket tcpSocket;
 
-        UDTServerSocket udtServerSocket = new UDTServerSocket(ICEPORT);
-        UDTSocket udtSocket;
+        ServerSocket tcpServerSocket2 = new ServerSocket(ICEPORT);
+        Socket tcpSocket2;
 
 
         //Extract rtp Component
@@ -80,11 +76,11 @@ public class SimpleProxyViewer {
 
             try {
 
-                udtSocket = udtServerSocket.accept();
+                tcpSocket2 = tcpServerSocket2.accept();
 
 
-                final InputStream streamFromServer = udtSocket.getInputStream();
-                final OutputStream streamToServer = udtSocket.getOutputStream();
+                final InputStream streamFromServer = tcpSocket2.getInputStream();
+                final OutputStream streamToServer = tcpSocket2.getOutputStream();
 
                 /*TODO: does not work yet: maybe needs multithreading??
                      SystemCommander startxTightVncViewer=new SystemCommander();

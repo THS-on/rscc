@@ -16,14 +16,14 @@ import java.net.InetAddress;
 /**
  * Created by pwigger on 01.05.17.
  */
-public class IceProcessActive {
+public class IceProcess {
 
     private static final String STUNSERVER1="numb.viagenie.ca";
     private static final String STUNSERVER2="stun.ekiga.net";
     private static final int STUNPORT=3478;
 
 
-    public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
+    public static Component startIce(int port, String ownName, String remoteComputername, boolean active) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
     //    agent.setControlling(true);
 /*** Setup the STUN servers: ***/

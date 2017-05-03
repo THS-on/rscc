@@ -3,26 +3,21 @@ package ch.imedias.ice4j;
  * Created by pwg on 20.04.17.
  */
 
-import ch.fhnw.util.ProcessExecutor;
-import ch.imedias.rsccfx.model.SystemCommander;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
-import udt.UDPEndPoint;
 import udt.UDTClient;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
 //Working Solution 22. Apr
 //This is based on http://www.java2s.com/Code/Java/Network-Protocol/Asimpleproxyserver.htm
-public class SimpleProxyRequester {
+public class SimpleProxyRequesterRUDP {
 
     //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
 
@@ -34,7 +29,7 @@ public class SimpleProxyRequester {
     public static void main(String[] args) throws Throwable {
 
         // start ICE and get all things needed in the rtpComponent
-        Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+        Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
 
         try {
             runServer(rtpComponent, VNCPORT); // never returns
