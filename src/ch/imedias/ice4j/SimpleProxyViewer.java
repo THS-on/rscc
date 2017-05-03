@@ -16,6 +16,7 @@ import udt.UDTSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -25,19 +26,18 @@ public class SimpleProxyViewer {
 
     //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
 
-    public static final String OWNNAME = "PwgVirtualUbuntuServer";
-    public static final String REMOTECOMPUTERNAME = "PwgVirtualUbuntuClient";
-    public static final int VNCPort=5900;
-    public static final int ICEPORT=5060;
+    public static final String OWNNAME = "RSCCViewer";
+    public static final String REMOTECOMPUTERNAME = "RSCCRequester";
+    public static final int LOCALFORWARDINGPORT = 2601;
+    public static final int ICEPORT = 5060;
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent= IceProcessActive.startIce(ICEPORT, OWNNAME,REMOTECOMPUTERNAME);
+            Component rtpComponent = IceProcessActive.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
             System.out.println("Ice done, starting UDT");
 
 
-
-            runServer(rtpComponent, VNCPort); // never returns
+            runServer(rtpComponent); // never returns
 
         } catch (Exception e) {
             System.err.println(e);
@@ -45,14 +45,29 @@ public class SimpleProxyViewer {
     }
 
     /**
-     * runs a single-threaded proxy server on
+     * runs a single-threaded proxy server o16384n
      * the specified local VNCPORT. It never returns.
      */
-    public static void runServer(Component rtpComponent, int VNCPort)
+    public static void runServer(Component rtpComponent)
             throws IOException {
 
-        final byte[] request = new byte[2048];
-        byte[] reply = new byte[2048];
+        ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
+        Socket tcpSocket;
+
+        UDTServerSocket udtServerSocket = new UDTServerSocket(ICEPORT);
+        UDTSocket udtSocket;
+
+
+        //Extract rtp Component
+        DatagramSocket udpSocket = rtpComponent.getSocket();
+        CandidatePair candidatePair = rtpComponent.getSelectedPair();
+        TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
+        InetAddress remoteAddress = transportAddress.getAddress();
+        String remoteAddressAsString = remoteAddress.getHostAddress();
+        int remotePort = transportAddress.getPort();
+
+        final byte[] request = new byte[1024];
+        byte[] reply = new byte[16384];
 /*
         SystemCommander startVNCServer = new SystemCommander();
         startVNCServer.executeTerminalCommand("x11vnc -forever");
@@ -61,55 +76,38 @@ public class SimpleProxyViewer {
         // ServerSocket ss = new ServerSocket(VNCPORT);
 
         while (true) {
-            ServerSocket tcpServerSocket= null;
-            UDTServerSocket udtServerSocket =null;
-            UDTSocket udtSocket=null;
-            final InputStream streamFromClient;
-            final OutputStream streamToClient;
-            final InputStream streamFromServer;
-            final OutputStream streamToServer;
+
 
             try {
 
+                udtSocket = udtServerSocket.accept();
 
-                try {
-                    //Extract rtp Component
-                    DatagramSocket udpSocket= rtpComponent.getSocket();
-                    CandidatePair candidatePair=rtpComponent.getSelectedPair();
-                    TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
-                    InetAddress remoteAddress=transportAddress.getAddress();
-                    String remoteAddressAsString=remoteAddress.getHostAddress();
-                    int remotePort= transportAddress.getPort();
 
-                    //now create a UDT Client and establish UDT connection
-                     tcpServerSocket= new ServerSocket(2601);
-                    udtServerSocket= new UDTServerSocket(ICEPORT);
-                   // udtServerSocket= new UDTServerSocket(new UDPEndPoint(udpSocket));
-                     udtSocket= udtServerSocket.accept();
-                     /*TODO: does not work yet: maybe needs multithreading??
-        SystemCommander startxTightVncViewer=new SystemCommander();
-       startxTightVncViewer.executeTerminalCommand("xtightvncviewer 127.0.0.1::2601");
-*/
+                final InputStream streamFromServer = udtSocket.getInputStream();
+                final OutputStream streamToServer = udtSocket.getOutputStream();
 
-                   Socket tcpSocket = tcpServerSocket.accept();
+                /*TODO: does not work yet: maybe needs multithreading??
+                     SystemCommander startxTightVncViewer=new SystemCommander();
+                     startxTightVncViewer.executeTerminalCommand("xtightvncviewer 127.0.0.1::2601");
+                   Problem: accept lässt warten? anschliessend kann Kommando evt nicht mehr ausgeführt werden?
+                    */
+                tcpSocket = tcpServerSocket.accept();
+                tcpSocket.setTcpNoDelay(true);
+
+
+
 
 
                     //create VNC receiving Data
-                    streamFromClient = tcpSocket.getInputStream();
-                    streamToClient = tcpSocket.getOutputStream();
-
-                    streamFromServer = udtSocket.getInputStream();
-                    streamToServer = udtSocket.getOutputStream();
 
 
-                } catch (Exception e) {
 
-                    continue;
-                }
 
 
                 // Get server streams.
 
+                final InputStream streamFromClient = tcpSocket.getInputStream();
+                final OutputStream streamToClient = tcpSocket.getOutputStream();
 
                 // a thread to read the client's requests and pass them
                 // to the server. A separate thread for asynchronous.
@@ -150,10 +148,21 @@ public class SimpleProxyViewer {
                 // The server closed its connection to us, so we close our
                 // connection to our client.
                 streamToClient.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                
+                try {
+
+                    if (udpSocket != null) {
+                        udpSocket.close();
+
+                        /*if (tcpSocket != null) {
+                            tcpSocket.close();
+                        }*/
+                    }
+
+                }catch(Exception e){}
+
             }
         }
     }
