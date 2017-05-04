@@ -45,10 +45,7 @@ public class IceProcess {
 // The three last arguments are: preferredPort, minPort, maxPort
         String toSend = SdpUtils.createSDPDescription(agent);//Each computer sends this information
 
-
-        File file = new File("resources/IceSDP/sdp" + key + ".txt");
-        SdpUtils.saveToFile(toSend, file);
-         SdpUtils.uploadFile(file);
+        
         String remoteReceived = null;
         while (remoteReceived == null) {
             try {

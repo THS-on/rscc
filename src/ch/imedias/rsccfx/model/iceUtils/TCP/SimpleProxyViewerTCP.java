@@ -28,7 +28,7 @@ public class SimpleProxyViewerTCP {
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+            Component rtpComponent = IceProcess.startIce(ICEPORT, "123");
             System.out.println("Ice done, starting TCP Proxy");
 
 
