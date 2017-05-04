@@ -17,9 +17,6 @@ public class SystemCommander {
    * @return String trimmed output of the terminal without whitespaces at beginning / end.
    */
   public String executeTerminalCommand(String command) {
-    if (command == null) {
-      throw new IllegalArgumentException();
-    }
     Process process;
 
     try {
@@ -40,8 +37,8 @@ public class SystemCommander {
       LOGGER.severe("Exception thrown when running the command: "
           + command
           + "\n Exception Message: " + exception.getMessage());
+      throw new IllegalArgumentException();
     }
-    return "";
   }
 
 }
