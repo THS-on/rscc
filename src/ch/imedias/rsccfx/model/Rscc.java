@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import com.google.common.base.Splitter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,6 +37,7 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
+  private static final String KEY_FORMAT_DELIMITER = " ";
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty key = new SimpleStringProperty();
@@ -215,6 +217,16 @@ public class Rscc {
     }
   }
 
+  public void formatKey() {
+    Iterable<String> pieces = Splitter.fixedLength(3).split(getKey());
+    StringBuilder formattedKey = new StringBuilder();
+    for(String piece : pieces) {
+      formattedKey.append(piece);
+      formattedKey.append(" ");
+    }
+    return formattedKey.toString().trim();
+
+  }
 
   /**
    * Determines if a key is valid or not.
