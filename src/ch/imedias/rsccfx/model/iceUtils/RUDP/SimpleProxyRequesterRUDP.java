@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.model.iceUtils.RUDP;
  * Created by pwg on 20.04.17.
  */
 import ch.imedias.rsccfx.model.iceUtils.IceProcess;
+import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableServerSocket;
 import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
@@ -46,18 +47,19 @@ public class SimpleProxyRequesterRUDP {
             throws IOException {
 
         Socket tcpClientSocket = null;
-        Socket rudpClient2Socket  = null;
-
+    //    Socket rudpClient2Socket  = null;
+        ReliableServerSocket rudpServerSocket=new ReliableServerSocket(ICEPORT);
+        Socket rudpSocket=null;
         final byte[] request = new byte[1024];
         byte[] reply = new byte[16384];
 
         //Extract rtp Component
-        CandidatePair candidatePair = rtpComponent.getSelectedPair();
+        /* CandidatePair candidatePair = rtpComponent.getSelectedPair();
         TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
         InetAddress remoteAddress = transportAddress.getAddress();
         String remoteAddressAsString = remoteAddress.getHostAddress();
         int remotePort = transportAddress.getPort();
-
+*/
         /*TODO: does not work yet
         SystemCommander startx11vnc=new SystemCommander();
         startx11vnc.executeTerminalCommand("x11vnc -forever:");
@@ -67,12 +69,12 @@ public class SimpleProxyRequesterRUDP {
             try {
                 // udtClient.connect("10.0.2.6",2020);
                 // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
-                System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
-
-                rudpClient2Socket=new ReliableSocket(remoteAddressAsString, remotePort);
-
-                final InputStream inFromUDTVNCVideoStream = rudpClient2Socket.getInputStream();
-                final OutputStream outViaUDTVNCCommands = rudpClient2Socket.getOutputStream();
+             //   System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
+//should be Server not client!! Does not have any RemoteAddress as String!!
+             //   rudpClient2Socket=new ReliableSocket(remoteAddressAsString, remotePort);
+                rudpSocket=rudpServerSocket.accept();
+                final InputStream inFromUDTVNCVideoStream = rudpSocket.getInputStream();
+                final OutputStream outViaUDTVNCCommands = rudpSocket.getOutputStream();
 
                 try {
                     tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPort);
@@ -87,7 +89,7 @@ public class SimpleProxyRequesterRUDP {
                 final InputStream inFromTCPLocalhostVNCCommands = tcpClientSocket.getInputStream();
                 final OutputStream outViaTCPLocalhostVNCVideoStream = tcpClientSocket.getOutputStream();
 
-                // a thread to read the udtClient's requests and pass them
+                // a thread to read the, udtClient's requests and pass them
                 // to the server. A separate thread for asynchronous.
                 Thread t = new Thread() {
                     public void run() {
@@ -136,8 +138,8 @@ public class SimpleProxyRequesterRUDP {
                         if (tcpClientSocket != null) {
                             tcpClientSocket.close();
                         }
-                        if (rudpClient2Socket != null) {
-                            rudpClient2Socket.close();
+                        if (rudpSocket != null) {
+                            rudpSocket.close();
                         }
                     } catch (IOException e) {
                     }
