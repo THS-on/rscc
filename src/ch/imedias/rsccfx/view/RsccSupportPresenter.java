@@ -72,6 +72,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // FIXME: Magic numbeeer.
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
         .subtract(159d));
+
+    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
   }
 
   /**
