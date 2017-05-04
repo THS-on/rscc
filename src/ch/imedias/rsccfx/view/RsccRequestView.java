@@ -86,6 +86,8 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
+    generatedKeyFld.setPromptText("Generating key...");
+
     predefinedAddressesLbl.textProperty().set("Predefined Addresses");
     predefinedAddressesPane.setText("Predefined Addresses");
     predefinedAddressesPane.setExpanded(false);
