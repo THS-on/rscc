@@ -29,9 +29,7 @@ public class SimpleProxyRequesterRUDP {
 
     public static void main(String[] args) throws Throwable {
         IceProcess process= new IceProcess(ICEPORT, KEY);
-        process.startStun();
-        process.createSDP();
-        process.waitForOtherSideToBeFinished();
+       process.StartIceProcessAsRequester();
         System.out.println("Ice done, starting RUDP");
 
 
