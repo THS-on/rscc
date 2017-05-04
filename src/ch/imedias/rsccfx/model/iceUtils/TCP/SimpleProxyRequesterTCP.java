@@ -29,7 +29,7 @@ public class SimpleProxyRequesterTCP {
     public static void main(String[] args) throws Throwable {
 
         // start ICE and get all things needed in the rtpComponent
-        Component rtpComponent = IceProcess.startIce(ICEPORT, "123");
+        Component rtpComponent = IceProcess.startStun(ICEPORT, "123");
         System.out.println("Ice done, starting Proxy with TCP");
 
         try {

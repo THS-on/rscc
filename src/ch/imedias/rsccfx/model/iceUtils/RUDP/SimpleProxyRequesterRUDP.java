@@ -21,13 +21,19 @@ import java.net.Socket;
 public class SimpleProxyRequesterRUDP {
 
     //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
+    //Starts the iceprocess passive!
 
     public static final String KEY = "0102034";
     public static final int VNCPORT = 5900;
     public static final int ICEPORT = 5050;
 
     public static void main(String[] args) throws Throwable {
-        IceProcess.startIcePassive(ICEPORT, KEY);
+        IceProcess process= new IceProcess(ICEPORT, KEY);
+        process.startStun();
+        process.createSDP();
+        process.waitForOtherSideToBeFinished();
+        System.out.println("Ice done, starting RUDP");
+
 
         try {
             runServer(); // never returns

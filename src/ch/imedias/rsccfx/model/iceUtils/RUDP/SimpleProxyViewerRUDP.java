@@ -5,7 +5,6 @@ package ch.imedias.rsccfx.model.iceUtils.RUDP;
  */
 
 import ch.imedias.rsccfx.model.iceUtils.IceProcess;
-import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableServerSocket;
 import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
@@ -29,8 +28,11 @@ public class SimpleProxyViewerRUDP {
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent = IceProcess.startIce(ICEPORT, KEY);
-            System.out.println("Ice done, starting UDT");
+            IceProcess process= new IceProcess(ICEPORT,KEY);
+            process.startStun();
+            process.recieveSdp();
+            Component rtpComponent = process.startIceConnectivityEstablishment();
+            System.out.println("Ice done, starting RUDP");
 
 
             runServer(rtpComponent); // never returns
