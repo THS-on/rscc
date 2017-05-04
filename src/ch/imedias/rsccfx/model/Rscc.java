@@ -227,8 +227,8 @@ public class Rscc {
     return formattedKey.toString().trim();
   }
 
-  public String deformatKey(String key){
-    key.replace(" ","");
+  public String deformatKey(String key) {
+    key = key.replace(" ","");
     return key;
   }
 
