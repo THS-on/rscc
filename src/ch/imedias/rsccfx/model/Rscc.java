@@ -17,9 +17,7 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -57,7 +55,7 @@ public class Rscc {
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
   //hard to implement in UI
 
-  private final StringProperty vncServerPort = new SimpleStringProperty("5900");
+  private final StringProperty vncPort = new SimpleStringProperty("5900");
 
   /**
    * Initializes the Rscc model class.
@@ -167,10 +165,8 @@ public class Rscc {
     keyServerSetup();
 
     String command = commandStringGenerator(
-        pathToResourceDocker, "port_share.sh", vncServerPort.getValue(), pathToStunDumpFile);
-    System.out.println(command);
+        pathToResourceDocker, "port_share.sh", vncPort.getValue(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-    System.out.println(key);
     setKey(key); // update key in model
     startVncServer();
   }
@@ -180,16 +176,16 @@ public class Rscc {
    */
   public void connectToUser() {
     keyServerSetup();
-
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
+    String command = commandStringGenerator(pathToResourceDocker,
+        "port_connect.sh", vncPort.getValue(), getKey());
     systemCommander.executeTerminalCommand(command);
+    startVncViewer();
   }
 
   /**
    * Starts the VNC Server.
    */
   public void startVncServer() {
-
     StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
 
     if (vncOptionViewonly.getValue()) {
@@ -198,10 +194,9 @@ public class Rscc {
     if (vncOptionWindow.getValue()) {
       vncServerAttributes.append(" -sid pick");
     }
-    //vncServerAttributes.append(" -rfbport " + vncServerPort);
-
-    String command = commandStringGenerator(null, "x11vnc", vncServerAttributes.toString());
-    System.out.println(command);
+    vncServerAttributes.append(" -rfbport " + vncPort.getValue());
+    String command = commandStringGenerator(null,
+        "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -209,10 +204,12 @@ public class Rscc {
    * Starts the VNC Viewer.
    */
   public void startVncViewer() {
-    String command = commandStringGenerator(
-        pathToResourceDocker, "/start_x11vnc.sh", pathToStunDumpFile);
-    String key = systemCommander.executeTerminalCommand(command);
-    setKey(key); // update key in model
+    StringBuilder vncViewerAttributes = new StringBuilder("-encodings copyrect localhost:0");
+    //Encodings are missing: "tight zrle hextile""
+
+    String command = commandStringGenerator(null,
+        "vncviewer", vncViewerAttributes.toString());
+    systemCommander.executeTerminalCommand(command);
   }
 
 

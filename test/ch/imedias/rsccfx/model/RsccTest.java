@@ -33,7 +33,7 @@ public class RsccTest {
     model.setKeyServerIp(KEY_SERVER_IP);
     model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
     when(mockSystemCommander.executeTerminalCommand(
-        argThat(string -> string.contains("start_x11vnc.sh")))).thenReturn(KEY);
+        argThat(string -> string.contains("port_share.sh")))).thenReturn(KEY);
   }
 
   /**
@@ -96,7 +96,7 @@ public class RsccTest {
     testKeyServerSetup();
     // make sure the script was executed
     verify(mockSystemCommander).executeTerminalCommand(
-        argThat(script -> script.contains("start_x11vnc.sh")));
+        argThat(script -> script.contains("port_share.sh")));
     // make sure the key which is being returned is right
     assertEquals(KEY, model.getKey());
   }
@@ -112,7 +112,7 @@ public class RsccTest {
     // make sure the scripts were executed
     this.testKeyServerSetup();
     verify(mockSystemCommander).executeTerminalCommand(
-        argThat(script -> script.contains("start_vncviewer.sh")
+        argThat(script -> script.contains("port_connect.sh")
             && script.endsWith(KEY)));
   }
 
@@ -126,7 +126,7 @@ public class RsccTest {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")));
     verify(mockSystemCommander).executeTerminalCommand(
-        argThat(script -> script.contains("start_x11vnc.sh")));
+        argThat(script -> script.contains("port_share.sh")));
     // make sure the key which is being returned is right
     assertEquals(KEY, model.getKey());
   }
