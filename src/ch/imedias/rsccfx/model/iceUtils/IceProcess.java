@@ -23,7 +23,7 @@ public class IceProcess {
     private static final int STUNPORT = 3478;
 
 
-    public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
+    public static Component startIce(int port, String key) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
          agent.setControlling(true);
 
@@ -46,13 +46,13 @@ public class IceProcess {
         String toSend = SdpUtils.createSDPDescription(agent);//Each computer sends this information
 
 
-        File file = new File("resources/IceSDP/sdp" + ownName + ".txt");
+        File file = new File("resources/IceSDP/sdp" + key + ".txt");
         SdpUtils.saveToFile(toSend, file);
          SdpUtils.uploadFile(file);
         String remoteReceived = null;
         while (remoteReceived == null) {
             try {
-                remoteReceived = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + remoteComputername + ".txt"); // This information was grabbed from the server, and shouldn't be empty.
+                remoteReceived = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + key + ".txt"); // This information was grabbed from the server, and shouldn't be empty.
             } catch (Exception e) {
                 Thread.sleep(1000);
                 System.out.println("no File yet!");
@@ -76,12 +76,12 @@ public class IceProcess {
         Component rtpComponent = stateListener.rtpComponent;
 
 
-        SdpUtils.deleteFile("sdp" + ownName + ".txt");
+        SdpUtils.deleteFile("sdp" + key + ".txt");
         agent.free();
         return rtpComponent;
     }
 
-    public static void startIcePassive(int port, String ownName, String remoteComputername) throws Throwable {
+    public static void startIcePassive(int port, String key) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
             agent.setControlling(false);
 
@@ -103,16 +103,15 @@ public class IceProcess {
 // The three last arguments are: preferredPort, minPort, maxPort
         String toSend = SdpUtils.createSDPDescription(agent);//Each computer sends this information
 
-        File file = new File("resources/IceSDP/sdp" + ownName + ".txt");
+        File file = new File("resources/IceSDP/sdp" + key + ".txt");
         SdpUtils.saveToFile(toSend, file);
         SdpUtils.uploadFile(file);
 
         String remoteReceived = "hello";
         while (remoteReceived != null) {
-            System.out.println("hello im here");
 
             try {
-                remoteReceived = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + ownName + ".txt"); // This information was grabbed from the server, and shouldn't be empty.
+                remoteReceived = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + key + ".txt"); // This information was grabbed from the server, and shouldn't be empty.
                 System.out.println("File still present!");
                 Thread.sleep(1000);
 

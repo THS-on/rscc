@@ -23,14 +23,13 @@ public class SimpleProxyViewerRUDP {
 
     //Used by this person who gives support and runs xtightvncclient 127.0.0.1::2601
 
-    public static final String OWNNAME = "RSCCViewer";
-    public static final String REMOTECOMPUTERNAME = "RSCCRequester";
+    public static final String KEY= "0102034";
     public static final int LOCALFORWARDINGPORT = 2601;
     public static final int ICEPORT = 5060;
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+            Component rtpComponent = IceProcess.startIce(ICEPORT, KEY);
             System.out.println("Ice done, starting UDT");
 
 

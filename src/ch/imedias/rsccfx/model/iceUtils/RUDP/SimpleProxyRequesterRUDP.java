@@ -22,15 +22,12 @@ public class SimpleProxyRequesterRUDP {
 
     //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
 
-    public static final String OWNNAME = "RSCCRequester";
-    public static final String REMOTECOMPUTERNAME = "RSCCViewer";
+    public static final String KEY = "0102034";
     public static final int VNCPORT = 5900;
     public static final int ICEPORT = 5050;
 
     public static void main(String[] args) throws Throwable {
-
-        // start ICE and get all things needed in the rtpComponent
-        IceProcess.startIcePassive(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+        IceProcess.startIcePassive(ICEPORT, KEY);
 
         try {
             runServer(); // never returns
@@ -47,19 +44,12 @@ public class SimpleProxyRequesterRUDP {
             throws IOException {
 
         Socket tcpClientSocket = null;
-    //    Socket rudpClient2Socket  = null;
         ReliableServerSocket rudpServerSocket=new ReliableServerSocket(ICEPORT);
         Socket rudpSocket=null;
         final byte[] request = new byte[1024];
         byte[] reply = new byte[16384];
 
-        //Extract rtp Component
-        /* CandidatePair candidatePair = rtpComponent.getSelectedPair();
-        TransportAddress transportAddress = candidatePair.getRemoteCandidate().getTransportAddress();
-        InetAddress remoteAddress = transportAddress.getAddress();
-        String remoteAddressAsString = remoteAddress.getHostAddress();
-        int remotePort = transportAddress.getPort();
-*/
+
         /*TODO: does not work yet
         SystemCommander startx11vnc=new SystemCommander();
         startx11vnc.executeTerminalCommand("x11vnc -forever:");
@@ -67,11 +57,6 @@ public class SimpleProxyRequesterRUDP {
         while (true) {
 
             try {
-                // udtClient.connect("10.0.2.6",2020);
-                // udtClient.connect("fe80::c7db:a5f3:2b79:d301",2020);
-             //   System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
-//should be Server not client!! Does not have any RemoteAddress as String!!
-             //   rudpClient2Socket=new ReliableSocket(remoteAddressAsString, remotePort);
                 rudpSocket=rudpServerSocket.accept();
                 final InputStream inFromUDTVNCVideoStream = rudpSocket.getInputStream();
                 final OutputStream outViaUDTVNCCommands = rudpSocket.getOutputStream();
