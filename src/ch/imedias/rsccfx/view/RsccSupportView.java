@@ -90,6 +90,10 @@ public class RsccSupportView extends BorderPane {
     HBox.setHgrow(keyFld, Priority.ALWAYS);
     keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
+    descriptionBox.setId("descriptionBox");
+
+    titleLbl.getStyleClass().add("titleLbl");
+
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
 
     centerBox.getChildren().addAll(keyValidationBox, descriptionBox);
