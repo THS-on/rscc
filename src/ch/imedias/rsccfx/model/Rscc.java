@@ -57,7 +57,7 @@ public class Rscc {
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
   //hard to implement in UI
 
-  private final IntegerProperty vncServerPort = new SimpleIntegerProperty(5900);
+  private final StringProperty vncServerPort = new SimpleStringProperty("5900");
 
   /**
    * Initializes the Rscc model class.
@@ -167,9 +167,12 @@ public class Rscc {
     keyServerSetup();
 
     String command = commandStringGenerator(
-        pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
+        pathToResourceDocker, "port_share.sh", vncServerPort.getValue(), pathToStunDumpFile);
+    System.out.println(command);
     String key = systemCommander.executeTerminalCommand(command);
+    System.out.println(key);
     setKey(key); // update key in model
+    startVncServer();
   }
 
   /**
@@ -195,9 +198,10 @@ public class Rscc {
     if (vncOptionWindow.getValue()) {
       vncServerAttributes.append(" -sid pick");
     }
-    vncServerAttributes.append(" -rfbport " + vncServerPort);
+    //vncServerAttributes.append(" -rfbport " + vncServerPort);
 
     String command = commandStringGenerator(null, "x11vnc", vncServerAttributes.toString());
+    System.out.println(command);
     systemCommander.executeTerminalCommand(command);
   }
 
