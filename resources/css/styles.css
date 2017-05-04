@@ -64,16 +64,6 @@
  *                             RequestView                                 *
  *                                                                         *
  **************************************************************************/
-
-
-
-#keyGenerationLbl{
-    /*-fx-alignment: left;*/
-    -fx-font-family: Cantarell;
-    -fx-font-size: 32pt;
-    -fx-font-weight: bold;
-}
-
 #generatedKeyFld{
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
@@ -113,7 +103,6 @@
 .titled-pane > .title {
     -fx-pref-height: 36.0;
     -fx-font-size: 14pt;
-
 }
 
 .supporterBtn {
