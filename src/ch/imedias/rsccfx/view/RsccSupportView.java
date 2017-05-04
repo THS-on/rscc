@@ -24,6 +24,7 @@ public class RsccSupportView extends BorderPane {
 
   private final Rscc model;
   private final Strings strings = new Strings();
+  private static final double KEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
 
@@ -77,6 +78,8 @@ public class RsccSupportView extends BorderPane {
   private void layoutForm() {
     addressbookPane.setExpanded(false);
 
+    keyFld.setPrefHeight(KEYFLD_HEIGHT);
+
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
@@ -88,7 +91,8 @@ public class RsccSupportView extends BorderPane {
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
     //keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    HBox.setHgrow(keyFld, Priority.ALWAYS);
+    HBox.setHgrow(descriptionBox, Priority.ALWAYS);
+
     keyValidationBox.setId("keyValidationBox");
 
     descriptionBox.getStyleClass().add("descriptionBox");

@@ -87,7 +87,7 @@
 }
 
 .descriptionBox {       /* also used for SupportView */
-    -fx-alignment: center;
+    -fx-alignment: center-left;
     -fx-spacing: 50;
     -fx-padding: 25;
 }
