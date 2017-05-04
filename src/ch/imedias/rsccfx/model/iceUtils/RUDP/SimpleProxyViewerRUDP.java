@@ -6,6 +6,7 @@ package ch.imedias.rsccfx.model.iceUtils.RUDP;
 
 import ch.imedias.rsccfx.model.iceUtils.IceProcess;
 import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableServerSocket;
+import ch.imedias.rsccfx.model.iceUtils.RUDP.src.ReliableSocket;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -49,10 +50,10 @@ public class SimpleProxyViewerRUDP {
 
         ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
         Socket tcpSocket;
-
-        ReliableServerSocket rudpServerSocket = new ReliableServerSocket(ICEPORT);
-        Socket rudpSocket;
-
+//Should not be server but client HAS ALL NECESSARY DATA FROM ICE!!
+       // ReliableServerSocket rudpServerSocket = new ReliableServerSocket(ICEPORT);
+       // Socket rudpSocket;
+        ReliableSocket rudpClientSocket;
 
         //Extract rtp Component
         DatagramSocket udpSocket = rtpComponent.getSocket();
@@ -75,12 +76,15 @@ public class SimpleProxyViewerRUDP {
 
 
             try {
+                System.out.println("connect to "+ remoteAddressAsString+":"+remotePort);
+            //    rudpSocket = rudpServerSocket.accept();
+                rudpClientSocket = new ReliableSocket(remoteAddressAsString,remotePort);
 
-                rudpSocket = rudpServerSocket.accept();
 
 
-                final InputStream streamFromServer = rudpSocket.getInputStream();
-                final OutputStream streamToServer = rudpSocket.getOutputStream();
+
+                final InputStream streamFromServer = rudpClientSocket.getInputStream();
+                final OutputStream streamToServer = rudpClientSocket.getOutputStream();
 
                 /*TODO: does not work yet: maybe needs multithreading??
                      SystemCommander startxTightVncViewer=new SystemCommander();
