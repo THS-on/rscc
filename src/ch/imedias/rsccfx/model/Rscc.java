@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
+import javafx.beans.property.*;
 
 /**
  * Stores the key and keyserver connection details.
@@ -45,6 +45,13 @@ public class Rscc {
   private final String pathToStunDumpFile = this.getClass()
           .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
           .toExternalForm().replace("file:","");
+
+
+  private final BooleanProperty vncOptionViewonly = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false); //hard to implement in UI
+  private final BooleanProperty vncOptionShared = new SimpleBooleanProperty(false);
+
+  private final IntegerProperty vncServerPort = new SimpleIntegerProperty(5900);
 
   /**
    * Initializes the Rscc model class.
@@ -170,6 +177,42 @@ public class Rscc {
   }
 
   /**
+   * Starts the VNC Server
+   */
+  public void startVncServer() {
+
+    StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
+
+    if(vncOptionViewonly.getValue()) {
+      vncServerAttributes.append(" -viewonly");
+    }
+    if(vncOptionWindow.getValue()) {
+      vncServerAttributes.append(" -sid pick");
+    }
+    vncServerAttributes.append(" -rfbport " + vncServerPort);
+
+    //    if [ $forever = 'yes' ]; then x11vnc="$x11vnc -forever"; fi
+    //    $x11vnc -rfbport $vnc_port -localhost >>$logfile 2>&1
+    //
+
+
+    String command = commandStringGenerator(null,"x11vnc", vncServerAttributes.toString());
+    systemCommander.executeTerminalCommand(command);
+  }
+
+  /**
+   * Starts the VNC Viewer
+   */
+  public void startVncViewer() {
+    String command = commandStringGenerator(
+        pathToResourceDocker, "/start_x11vnc.sh", pathToStunDumpFile);
+    String key = systemCommander.executeTerminalCommand(command);
+    setKey(key); // update key in model
+  }
+
+
+
+  /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
    * again.
    */
@@ -185,7 +228,10 @@ public class Rscc {
       String pathToScript, String scriptName, String... attributes) {
     StringBuilder commandString = new StringBuilder();
 
-    commandString.append(pathToScript).append("/").append(scriptName);
+    if(pathToScript != null){
+      commandString.append(pathToScript).append("/");
+    }
+    commandString.append(scriptName);
     Arrays.stream(attributes)
         .forEach((s) -> commandString.append(" ").append(s));
 
