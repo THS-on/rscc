@@ -136,8 +136,8 @@ public class RsccTest {
    */
   @Test
   public void testValidateKey() {
-    final String[] invalidKeys = {"123123","0","12345678","1234567890","abcdefghi"};
-    final String[] validKeys = {"123456789","000000000","999999999"};
+    final String[] invalidKeys = {"123123", "0", "12345678", "1234567890", "abcdefghi"};
+    final String[] validKeys = {"123456789", "000000000", "999999999"};
 
     assertFalse(model.validateKey(null));
 
@@ -147,6 +147,43 @@ public class RsccTest {
 
     for (String validKey : validKeys) {
       assertTrue(model.validateKey(validKey));
+    }
+  }
+
+  /**
+   * Test for {@link Rscc#startVncServer()}.
+   */
+  @Test
+  public void testStartVncServer() {
+    model.startVncServer();
+    // make sure the scripts were executed
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("x11vnc")));
+  }
+
+  /**
+   * Test for {@link Rscc#startVncViewer(String)}.
+   */
+  @Test
+  public void testStartVncViewer() {
+    String hostAddress = "localhost";
+    model.startVncViewer(hostAddress);
+    // make sure the scripts were executed
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("vncviewer")
+            && script.contains(hostAddress)));
+  }
+
+  /**
+   * Test for {@link Rscc#startVncViewer(String)}.
+   */
+  @Test
+  public void testStartVncViewerIllegalArgument() {
+    try {
+      model.startVncViewer(null);
+      fail("IllegalArgumentException was expected when HostAddress is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
     }
   }
 }

@@ -195,6 +195,7 @@ public class Rscc {
       vncServerAttributes.append(" -sid pick");
     }
     vncServerAttributes.append(" -rfbport " + vncPort.getValue());
+
     String command = commandStringGenerator(null,
         "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
@@ -205,10 +206,10 @@ public class Rscc {
    */
   public void startVncViewer(String hostAddress) {
     if (hostAddress == null) {
-      hostAddress = "localhost";
+      throw new IllegalArgumentException();
     }
     StringBuilder vncViewerAttributes = new StringBuilder("-encodings copyrect ")
-        .append(" ").append(hostAddress).append(":0");
+        .append(" ").append(hostAddress);
     //Encodings are missing: "tight zrle hextile""
 
     String command = commandStringGenerator(null,
