@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import com.google.common.collect.Streams;
 
 /**
  * Stores the key and keyserver connection details.
@@ -223,12 +225,8 @@ public class Rscc {
    */
   public String formatKey() {
     Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(getKey());
-    StringBuilder formattedKey = new StringBuilder();
-    for(String piece : pieces) {
-      formattedKey.append(piece);
-      formattedKey.append(" ");
-    }
-    return formattedKey.toString().trim();
+    return Streams.stream(pieces)
+        .collect(Collectors.joining(KEY_FORMAT_DELIMITER));
   }
 
   /**
