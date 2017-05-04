@@ -30,10 +30,10 @@ public class SimpleProxyRequesterRUDP {
     public static void main(String[] args) throws Throwable {
 
         // start ICE and get all things needed in the rtpComponent
-        Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+        IceProcess.startIcePassive(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
 
         try {
-            runServer(rtpComponent, VNCPORT); // never returns
+            runServer(); // never returns
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -43,7 +43,7 @@ public class SimpleProxyRequesterRUDP {
      * runs a single-threaded proxy server on
      * the specified local VNCPORT. It never returns.
      */
-    public static void runServer(Component rtpComponent, int VNCPort)
+    public static void runServer()
             throws IOException {
 
         Socket tcpClientSocket = null;
@@ -77,7 +77,7 @@ public class SimpleProxyRequesterRUDP {
                 final OutputStream outViaUDTVNCCommands = rudpSocket.getOutputStream();
 
                 try {
-                    tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPort);
+                    tcpClientSocket = new Socket(InetAddress.getLocalHost(), VNCPORT);
                 } catch (Exception e) {
                     PrintWriter out = new PrintWriter(outViaUDTVNCCommands);
                     System.out.print("Proxy server cannot connect to " + ":");
