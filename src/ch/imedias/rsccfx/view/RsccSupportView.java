@@ -81,18 +81,19 @@ public class RsccSupportView extends BorderPane {
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
 
-    keyFld.setFont(new Font(30)); // TODO: Move to CSS
+    //keyFld.setFont(new Font(30)); // TODO: Move to CSS
+    keyFld.setId("keyFld");
 
     validationImgView.setSmooth(true);
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
-    keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
+    //keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
     HBox.setHgrow(keyFld, Priority.ALWAYS);
-    keyValidationBox.setAlignment(Pos.CENTER_LEFT);
+    keyValidationBox.setId("keyValidationBox");
 
-    descriptionBox.setId("descriptionBox");
+    descriptionBox.getStyleClass().add("descriptionBox");
 
-    descriptionBox.setAlignment(Pos.CENTER_LEFT);
+    //descriptionBox.setAlignment(Pos.CENTER_LEFT);
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -109,7 +110,7 @@ public class RsccSupportView extends BorderPane {
     // TODO: Set content for addressbookPane
 
     connectBtn.setDisable(true);
-    connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
+    //connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
     setBottom(addressbookPane);

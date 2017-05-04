@@ -130,6 +130,7 @@ public class RsccRequestView extends BorderPane {
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+    descriptionBox.getStyleClass().add("descriptionBox");
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
     bottomBox.getChildren().add(supporterAdminBox);
