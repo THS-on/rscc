@@ -1,1 +1,0 @@
-Add mr-udp.jar as project resource: Rightclick on mr-udp.jar and add as Project Library

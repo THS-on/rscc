@@ -337,7 +337,7 @@
             <version>1.2.1</version>
         </dependency>
 
-        <!-- Overwriting dependency in ice4j dependency -->
+        <!-- Overwriting dependencyiceUtilsce4j dependency -->
         <dependency>
             <groupId>org.jitsi</groupId>
             <artifactId>jain-sip-ri-ossonly</artifactId>
@@ -351,12 +351,6 @@
             <version>master</version>
         </dependency>
 
-        <!-- Udt-java fom github -->
-        <dependency>
-            <groupId>com.github.pwigger</groupId>
-            <artifactId>udt-java</artifactId>
-            <version>master</version>
-        </dependency>
 
     </dependencies>
 </project>
