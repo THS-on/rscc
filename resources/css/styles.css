@@ -52,6 +52,7 @@
  **************************************************************************/
 .descriptionLbl{
     /*-fx-alignment: left;*/ /*FIXME: Throws IllegalArgumentException*/
+    -fx-text-alignment: left; /* doesn't change anything as well */
     -fx-wrap-text: true;
 }
 
@@ -97,7 +98,7 @@
 }
 
 #descriptionBox {       /* also used for SupportView */
-    -fx-alignment: center;
+    /*-fx-alignment: center;*/
     -fx-spacing: 50;
     -fx-padding: 25;
 }
@@ -132,6 +133,14 @@
 
 #centerBoxSupport {
     /*-fx-alignment: center;*/ /*FIXME: is doing nothing*/
+}
+
+#connectBtn {
+    -fx-alignment: bottom-right;
+}
+
+#keyValidationBox {
+
 }
 
 

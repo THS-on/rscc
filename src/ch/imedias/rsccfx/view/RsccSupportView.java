@@ -92,6 +92,8 @@ public class RsccSupportView extends BorderPane {
 
     descriptionBox.setId("descriptionBox");
 
+    descriptionBox.setAlignment(Pos.CENTER_LEFT);
+
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
@@ -99,6 +101,8 @@ public class RsccSupportView extends BorderPane {
     centerBox.getChildren().addAll(keyValidationBox, descriptionBox);
 
     centerBox.setId("centerBoxSupport");
+
+    connectBtn.setId("connectBtn");
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
