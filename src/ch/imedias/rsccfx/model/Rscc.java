@@ -1,6 +1,6 @@
 package ch.imedias.rsccfx.model;
 
-import com.google.common.base.Splitter;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,10 +16,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import com.google.common.collect.Streams;
 
 /**
  * Stores the key and keyserver connection details.
@@ -39,11 +37,9 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
-  private static final String KEY_FORMAT_DELIMITER = " ";
-  private static final int KEY_FORMAT_DELIMITER_EVERY = 3;
+  private final KeyUtil keyUtil;
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
-  private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
@@ -56,11 +52,12 @@ public class Rscc {
    *
    * @param systemCommander a SystemComander-object that executes shell commands.
    */
-  public Rscc(SystemCommander systemCommander) {
+  public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     }
     this.systemCommander = systemCommander;
+    this.keyUtil = keyUtil;
     defineResourcePath();
     readServerConfig();
   }
@@ -147,9 +144,9 @@ public class Rscc {
    */
   public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
-    setKey("");
+    keyUtil.setKey("");
   }
 
   /**
@@ -161,7 +158,7 @@ public class Rscc {
     String command = commandStringGenerator(
         pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-    setKey(key); // update key in model
+    keyUtil.setKey(key); // update key in model
   }
 
   /**
@@ -170,7 +167,7 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
   }
 
@@ -218,46 +215,6 @@ public class Rscc {
           + configFilePath
           + "\n Exception Message: " + e.getMessage());
     }
-  }
-
-  /**
-   * Formats the key, so it has spaces every 3 characters.
-   */
-  public String formatKey() {
-    Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(getKey());
-    return Streams.stream(pieces)
-        .collect(Collectors.joining(KEY_FORMAT_DELIMITER));
-  }
-
-  /**
-   * Removes spaces in a key which has been previously formatted with spaces.
-   */
-  public String deformatKey(String key) {
-    key = key.replace(KEY_FORMAT_DELIMITER,"");
-    return key;
-  }
-
-  /**
-   * Determines if a key is valid or not.
-   * The key must not be null and must be a number with exactly 9 digits.
-   *
-   * @param key the string to validate.
-   * @return true when key has a valid format.
-   */
-  public boolean validateKey(String key) {
-    return key != null && key.matches("\\d{9}");
-  }
-
-  public StringProperty keyProperty() {
-    return key;
-  }
-
-  public String getKey() {
-    return key.get();
-  }
-
-  public void setKey(String key) {
-    this.key.set(key);
   }
 
   public String getKeyServerIp() {
