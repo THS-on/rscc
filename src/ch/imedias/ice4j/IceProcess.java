@@ -23,7 +23,7 @@ public class IceProcess {
     private static final int STUNPORT=3478;
 
 
-    public static Component startIce(int port, String ownName, String remoteComputername, boolean active) throws Throwable {
+    public static Component startIce(int port, String ownName, String remoteComputername) throws Throwable {
         Agent agent = new Agent(); // A simple ICE Agent
     //    agent.setControlling(true);
 /*** Setup the STUN servers: ***/
@@ -74,6 +74,45 @@ public class IceProcess {
        agent.free();
         return rtpComponent;
     }
+
+    public static void startIcePassive(int port, String ownName, String remoteComputername) throws Throwable {
+        Agent agent = new Agent(); // A simple ICE Agent
+        agent.setControlling(false);
+/*** Setup the STUN servers: ***/
+        String[] hostnames = new String[] {STUNSERVER1,STUNSERVER2};
+// Look online for actively working public STUN Servers. You can find free servers.
+// Now add these URLS as Stun Servers with standard 3478 VNCPORT for STUN servrs.
+        for(String hostname: hostnames){
+            try {
+                // InetAddress qualifies a url to an IP Address, if you have an error here, make sure the url is reachable and correct
+                TransportAddress ta = new TransportAddress(InetAddress.getByName(hostname), STUNPORT, Transport.UDP);
+                // Currently Ice4J only supports UDP and will throw an Error otherwise
+                agent.addCandidateHarvester(new StunCandidateHarvester(ta));
+            } catch (Exception e) { e.printStackTrace();}
+        }
+        IceMediaStream stream = agent.createMediaStream("data");
+        agent.createComponent(stream, Transport.UDP, port, port, port+100);
+// The three last arguments are: preferredPort, minPort, maxPort
+        String toSend = SdpUtils.createSDPDescription(agent);//Each computer sends this information
+        File file = new File("resources/IceSDP/sdp" + ownName + ".txt");
+        SdpUtils.saveToFile(toSend, file);
+        SdpUtils.uploadFile(file);
+
+// This information describes all the possible IP addresses and ports
+
+        StateListener stateListener = new StateListener();
+        agent.addStateChangeListener(stateListener);
+
+
+        Thread.sleep(2000);
+        System.out.println("Got a working socket");
+
+
+        SdpUtils.deleteFile("sdp" + ownName + ".txt");
+        System.out.println("hello");
+        agent.free();
+    }
+
 
 
 

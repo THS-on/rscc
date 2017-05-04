@@ -6,15 +6,9 @@ package ch.imedias.ice4j.MRUDP;
 
 import ch.imedias.ice4j.IceProcess;
 import net.rudp.ReliableServerSocket;
-import org.ice4j.TransportAddress;
-import org.ice4j.ice.CandidatePair;
-import org.ice4j.ice.Component;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -29,11 +23,11 @@ public class SimpleProxyViewerMRUDP {
 
     public static void main(String[] args) throws Throwable {
         try {
-            Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
-            System.out.println("Ice done, starting UDT");
+            IceProcess.startIcePassive(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
+            System.out.println("Ice done, starting MRUDP");
 
 
-            runServer(rtpComponent); // never returns
+            runServer(); // never returns
 
         } catch (Exception e) {
             System.err.println(e);
@@ -44,7 +38,7 @@ public class SimpleProxyViewerMRUDP {
      * runs a single-threaded proxy server o16384n
      * the specified local VNCPORT. It never returns.
      */
-    public static void runServer(Component rtpComponent)
+    public static void runServer()
             throws IOException {
 
         ServerSocket tcpServerSocket = new ServerSocket(LOCALFORWARDINGPORT);
@@ -53,7 +47,7 @@ public class SimpleProxyViewerMRUDP {
         ReliableServerSocket mrudpServerSocket = new ReliableServerSocket(ICEPORT);
         Socket rudpSocket;
 
-
+/*Possibly not needed as this is the passive part
         //Extract rtp Component
         DatagramSocket udpSocket = rtpComponent.getSocket();
         CandidatePair candidatePair = rtpComponent.getSelectedPair();
@@ -61,7 +55,7 @@ public class SimpleProxyViewerMRUDP {
         InetAddress remoteAddress = transportAddress.getAddress();
         String remoteAddressAsString = remoteAddress.getHostAddress();
         int remotePort = transportAddress.getPort();
-
+*/
         final byte[] request = new byte[1024];
         byte[] reply = new byte[16384];
 /*
@@ -147,17 +141,17 @@ public class SimpleProxyViewerMRUDP {
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                try {
+               /* try {
 
-                    if (udpSocket != null) {
-                        udpSocket.close();
+                    if (rudpSocket != null) {
+                        rudpSocket.close();
 
-                        /*if (tcpSocket != null) {
+                       if (tcpSocket != null) {
                             tcpSocket.close();
-                        }*/
+                        }
                     }
 
-                }catch(Exception e){}
+                }catch(Exception e){}*/
 
             }
         }

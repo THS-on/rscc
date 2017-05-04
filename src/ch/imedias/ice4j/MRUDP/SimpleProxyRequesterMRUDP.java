@@ -30,7 +30,7 @@ public class SimpleProxyRequesterMRUDP {
     public static void main(String[] args) throws Throwable {
 
         // start ICE and get all things needed in the rtpComponent
-        Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME, true);
+        Component rtpComponent = IceProcess.startIce(ICEPORT, OWNNAME, REMOTECOMPUTERNAME);
 
         try {
             runServer(rtpComponent, VNCPORT); // never returns
