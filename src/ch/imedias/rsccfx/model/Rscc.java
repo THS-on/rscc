@@ -179,7 +179,7 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", vncPort.getValue(), getKey());
     systemCommander.executeTerminalCommand(command);
-    startVncViewer();
+    startVncViewer("localhost");
   }
 
   /**
@@ -203,8 +203,12 @@ public class Rscc {
   /**
    * Starts the VNC Viewer.
    */
-  public void startVncViewer() {
-    StringBuilder vncViewerAttributes = new StringBuilder("-encodings copyrect localhost:0");
+  public void startVncViewer(String hostAddress) {
+    if (hostAddress == null) {
+      hostAddress = "localhost";
+    }
+    StringBuilder vncViewerAttributes = new StringBuilder("-encodings copyrect ")
+        .append(" ").append(hostAddress).append(":0");
     //Encodings are missing: "tight zrle hextile""
 
     String command = commandStringGenerator(null,
