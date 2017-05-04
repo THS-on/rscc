@@ -16,7 +16,13 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 
 /**
  * Stores the key and keyserver connection details.
@@ -43,13 +49,13 @@ public class Rscc {
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
-          .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
-          .toExternalForm().replace("file:","");
+      .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+      .toExternalForm().replace("file:", "");
 
 
   private final BooleanProperty vncOptionViewonly = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false); //hard to implement in UI
-  private final BooleanProperty vncOptionShared = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  //hard to implement in UI
 
   private final IntegerProperty vncServerPort = new SimpleIntegerProperty(5900);
 
@@ -177,31 +183,26 @@ public class Rscc {
   }
 
   /**
-   * Starts the VNC Server
+   * Starts the VNC Server.
    */
   public void startVncServer() {
 
     StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
 
-    if(vncOptionViewonly.getValue()) {
+    if (vncOptionViewonly.getValue()) {
       vncServerAttributes.append(" -viewonly");
     }
-    if(vncOptionWindow.getValue()) {
+    if (vncOptionWindow.getValue()) {
       vncServerAttributes.append(" -sid pick");
     }
     vncServerAttributes.append(" -rfbport " + vncServerPort);
 
-    //    if [ $forever = 'yes' ]; then x11vnc="$x11vnc -forever"; fi
-    //    $x11vnc -rfbport $vnc_port -localhost >>$logfile 2>&1
-    //
-
-
-    String command = commandStringGenerator(null,"x11vnc", vncServerAttributes.toString());
+    String command = commandStringGenerator(null, "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
   }
 
   /**
-   * Starts the VNC Viewer
+   * Starts the VNC Viewer.
    */
   public void startVncViewer() {
     String command = commandStringGenerator(
@@ -209,7 +210,6 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
   }
-
 
 
   /**
@@ -228,7 +228,7 @@ public class Rscc {
       String pathToScript, String scriptName, String... attributes) {
     StringBuilder commandString = new StringBuilder();
 
-    if(pathToScript != null){
+    if (pathToScript != null) {
       commandString.append(pathToScript).append("/");
     }
     commandString.append(scriptName);
