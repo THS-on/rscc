@@ -217,7 +217,7 @@ public class Rscc {
     }
   }
 
-  public void formatKey() {
+  public String formatKey() {
     Iterable<String> pieces = Splitter.fixedLength(3).split(getKey());
     StringBuilder formattedKey = new StringBuilder();
     for(String piece : pieces) {
@@ -225,7 +225,11 @@ public class Rscc {
       formattedKey.append(" ");
     }
     return formattedKey.toString().trim();
+  }
 
+  public String deformatKey(String key){
+    key.replace(" ","");
+    return key;
   }
 
   /**

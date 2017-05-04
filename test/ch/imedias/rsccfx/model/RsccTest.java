@@ -149,4 +149,34 @@ public class RsccTest {
       assertTrue(model.validateKey(validKey));
     }
   }
+
+  /**
+   * Test for {@link Rscc#formatKey()}.
+   */
+  @Test
+  public void testFormatKey() {
+    final String[] keys =
+        {"1", "12", "123", "1234", "12345", "123456", "1234567", "12345678", "123456789"};
+    final String[] formattedKeys =
+        {"1", "12", "123", "123 4", "123 45", "123 456", "123 456 7", "123 456 78", "123 456 789"};
+    for (int i = 0; i < keys.length; i++) {
+      model.setKey(keys[i]);
+      assertEquals(formattedKeys[i],model.formatKey());
+    }
+  }
+
+  /**
+   * Test for {@link Rscc#deformatKey(String)}.
+   */
+  @Test
+  public void testDeFormatKey(){
+    final String[] keys =
+        {"1", "12", "123", "1234", "12345", "123456", "1234567", "12345678", "123456789"};
+    final String[] formattedKeys =
+        {"1", "12", "123", "123 4", "123 45", "123 456", "123 456 7", "123 456 78", "123 456 789"};
+    for (int i = 0; i < formattedKeys.length; i++) {
+      assertEquals(keys[i],model.deformatKey(formattedKeys[i]));
+    }
+  }
+
 }
