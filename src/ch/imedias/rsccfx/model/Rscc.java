@@ -38,6 +38,7 @@ public class Rscc {
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String KEY_FORMAT_DELIMITER = " ";
+  private static final int KEY_FORMAT_DELIMITER_EVERY = 3;
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty key = new SimpleStringProperty();
@@ -217,8 +218,11 @@ public class Rscc {
     }
   }
 
+  /**
+   * Formats the key, so it has spaces every 3 characters.
+   */
   public String formatKey() {
-    Iterable<String> pieces = Splitter.fixedLength(3).split(getKey());
+    Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(getKey());
     StringBuilder formattedKey = new StringBuilder();
     for(String piece : pieces) {
       formattedKey.append(piece);
@@ -227,8 +231,11 @@ public class Rscc {
     return formattedKey.toString().trim();
   }
 
+  /**
+   * Removes spaces in a key which has been previously formatted with spaces.
+   */
   public String deformatKey(String key) {
-    key = key.replace(" ","");
+    key = key.replace(KEY_FORMAT_DELIMITER,"");
     return key;
   }
 
