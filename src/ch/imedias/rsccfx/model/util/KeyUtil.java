@@ -29,7 +29,7 @@ public class KeyUtil {
   private void attachEvents(){
     key.addListener(
         (observable, oldKey, newKey) -> {
-          if (!oldKey.equals(newKey)) {
+          if (oldKey != null && newKey != null && !oldKey.equals(newKey)) {
             setKey(deformatKey(newKey));
           }
         }
@@ -56,6 +56,10 @@ public class KeyUtil {
   public String formatKey(String key) {
     if (key != null) {
       key = deformatKey(key); // make sure the key doesn't have spaces in it already
+      // shorten key to 9 characters if it's too long
+      if(key.length() > 9){
+        key = key.substring(0,9);
+      }
       Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(key);
       key = Streams.stream(pieces)
           .collect(Collectors.joining(KEY_FORMAT_DELIMITER));

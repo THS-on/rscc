@@ -2,11 +2,11 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -34,7 +34,7 @@ public class RsccSupportView extends BorderPane {
   final VBox groupingBox = new VBox();
   final HBox keyValidationBox = new HBox();
 
-  final TextField keyFld = new TextField();
+  final KeyTextField keyFld = new KeyTextField();
 
   final TitledPane keyInputPane = new TitledPane();
   final TitledPane addressbookPane = new TitledPane();
