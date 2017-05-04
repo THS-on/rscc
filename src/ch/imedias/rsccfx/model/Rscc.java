@@ -37,7 +37,6 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
-  private final KeyUtil keyUtil;
   private final SystemCommander systemCommander;
   private String pathToResourceDocker;
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
@@ -46,6 +45,7 @@ public class Rscc {
   private final String pathToStunDumpFile = this.getClass()
           .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
           .toExternalForm().replace("file:","");
+  private final KeyUtil keyUtil;
 
   /**
    * Initializes the Rscc model class.
@@ -239,5 +239,9 @@ public class Rscc {
 
   public void setKeyServerHttpPort(String keyServerHttpPort) {
     this.keyServerHttpPort.set(keyServerHttpPort);
+  }
+
+  public KeyUtil getKeyUtil() {
+    return keyUtil;
   }
 }

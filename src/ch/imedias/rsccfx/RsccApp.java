@@ -2,6 +2,7 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
@@ -34,6 +35,7 @@ public class RsccApp extends Application {
   public static final String SUPPORT_VIEW = "supporter";
 
   private Rscc model;
+  private KeyUtil keyUtil;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -41,7 +43,7 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
-    model = new Rscc(new SystemCommander());
+    model = new Rscc(new SystemCommander(), new KeyUtil());
     ViewController mainView = new ViewController();
 
     Group root = new Group();
@@ -97,7 +99,7 @@ public class RsccApp extends Application {
 
   @Override
   public void stop() throws Exception {
-    String key = model.getKey();
+    String key = model.getKeyUtil().getKey();
     if (key != null) {
       model.killConnection();
     }

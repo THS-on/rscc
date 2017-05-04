@@ -2,6 +2,7 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ public class RsccRequestView extends BorderPane {
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
+  private final KeyUtil keyUtil;
 
   final Label titleLbl = new Label();
   final Label predefinedAddressesLbl = new Label();
@@ -61,6 +63,7 @@ public class RsccRequestView extends BorderPane {
   public RsccRequestView(Rscc model) {
     this.model = model;
     headerView = new HeaderView(model);
+    this.keyUtil = model.getKeyUtil();
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
@@ -144,7 +147,7 @@ public class RsccRequestView extends BorderPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    generatedKeyFld.textProperty().bind(model.keyProperty());
+    generatedKeyFld.textProperty().bind(keyUtil.formattedKeyProperty());
   }
 }
 
