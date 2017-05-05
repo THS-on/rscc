@@ -178,14 +178,16 @@ public class Rscc {
     //startVncServer();
   }
 
-
-
-
-
-
+  /**
+   * tcp.
+   */
   public void tcpserver() {
+    System.out.println(getKey());
+    System.out.println("stat server");
+
     String clientSentence;
     String capitalizedSentence;
+    DataOutputStream outToClient;
     ServerSocket welcomeSocket = null;
     try {
       welcomeSocket = new ServerSocket(5900);
@@ -193,7 +195,8 @@ public class Rscc {
         Socket connectionSocket = welcomeSocket.accept();
         BufferedReader inFromClient =
             new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-        DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+
+        outToClient = new DataOutputStream(connectionSocket.getOutputStream());
         clientSentence = inFromClient.readLine();
         System.out.println("Received: " + clientSentence);
         capitalizedSentence = clientSentence.toUpperCase() + '\n';
@@ -206,14 +209,16 @@ public class Rscc {
 
   }
 
-
-  public void talktcp(String content){
+  /**
+   * tcp.
+   */
+  public void talktcp(String content) {
     String modifiedSentence;
-    try
-    {
+    try {
       Socket clientSocket = new Socket("127.0.0.1", 5900);
       DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-      BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+      BufferedReader inFromServer = new BufferedReader(
+          new InputStreamReader(clientSocket.getInputStream()));
       outToServer.writeBytes(content + '\n');
 
       modifiedSentence = inFromServer.readLine();
@@ -221,16 +226,10 @@ public class Rscc {
       outToServer.close();
       inFromServer.close();
 
-    }
-    catch (Exception exc)
-    {
+    } catch (Exception exc) {
       modifiedSentence = "";
     }
   }
-
-
-
-
 
 
   /**
