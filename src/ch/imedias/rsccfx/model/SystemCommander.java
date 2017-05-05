@@ -18,7 +18,7 @@ public class SystemCommander {
    */
   public String executeTerminalCommand(String command) {
     Process process;
-
+    String outputString = ""; // standard return value
     try {
       StringBuilder output = new StringBuilder();
       // Execute Command
@@ -32,13 +32,16 @@ public class SystemCommander {
         output.append(line).append("\n");
       }
       outputReader.close();
-      return output.toString().trim();
+      outputString = output.toString().trim();
     } catch (Exception exception) {
       LOGGER.severe("Exception thrown when running the command: "
           + command
           + "\n Exception Message: " + exception.getMessage());
-      throw new IllegalArgumentException();
+      if(command == null){
+        throw new IllegalArgumentException();
+      }
     }
+    return outputString;
   }
 
 }
