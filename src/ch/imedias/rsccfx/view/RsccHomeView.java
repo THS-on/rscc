@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 /**
  * Defines all elements shown on the start page.
@@ -38,11 +38,15 @@ public class RsccHomeView extends BorderPane {
   ImageView requestImgView;
   ImageView supportImgView;
 
-  //String big1 = "I need help\n";
-  //String small1 = "Get somebody to help you remotely";
-  //Font big11 = new Font("I need help\n",40);
-  Text tbig = new Text ( "I need help\n");
-  Text tsmall = new Text ("Get somebody to help you remotely");
+  final HBox requestBox = new HBox();
+  final VBox requestBoxLabels = new VBox();
+  final HBox supportBox = new HBox();
+  final VBox supportBoxLabels = new VBox();
+
+  Label requestTextBig;
+  Label requestTextSmall;
+  Label supportTextBig;
+  Label supportTextSmall;
 
 
   /**
@@ -61,48 +65,46 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-    //new Approach
+    requestTextBig = new Label("I need help");
+    requestTextSmall = new Label("Get somebody to help you remotely");
+    supportTextBig = new Label("I want to assist someone");
+    supportTextSmall = new Label("Somebody needs my help");
+  }
 
-    HBox hBox = new HBox();
-    VBox vBox = new VBox();
-    Label label1 = new Label("I need help\n");
-    label1.setFont(new Font(35));
-    Label label2 = new Label("Get somebody to help you remotely");
-    label2.setFont(new Font(20));
+  private void layoutForm() {
+
+    //Request Button
+    requestTextBig.setFont(new Font(35));
+    requestTextSmall.setFont(new Font(20));
+
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/needHelp.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
-    requestImgView.setId("requestImgView");
-    vBox.getChildren().addAll(label1, label2);
-    vBox.setAlignment(Pos.CENTER_LEFT);
-    hBox.getChildren().addAll(requestImgView, vBox);
-    requestViewBtn.setGraphic(hBox);
-
-    supportViewBtn.textProperty().setValue("I want to assist someone\nSomebody needs my help");
-  }
-
-  private void layoutForm() {
-
-
-    //InputStream requestHelpImagePath = getClass().getClassLoader()
-      //  .getResourceAsStream("images/needHelp.svg");
-    //requestImg = new Image(requestHelpImagePath);
-    //requestImgView = new ImageView(requestImg);
-    //requestImgView.setPreserveRatio(true);
-
-
-    //requestViewBtn.setGraphic(requestImgView);
+    requestBoxLabels.getChildren().addAll(requestTextBig, requestTextSmall);
+    requestBoxLabels.setAlignment(Pos.CENTER_LEFT);
+    requestBox.getChildren().addAll(requestImgView, requestBoxLabels);
+    requestViewBtn.setGraphic(requestBox);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
+
+    //Support Button
+    supportTextBig.setFont(new Font(35));
+    supportTextSmall.setFont(new Font(20));
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/support.svg");
     supportImg = new Image(offerSupportImagePath);
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
-    supportViewBtn.setGraphic(supportImgView);
+    supportBoxLabels.getChildren().addAll(supportTextBig, supportTextSmall);
+    supportBoxLabels.setAlignment(Pos.CENTER_LEFT);
+    supportBox.getChildren().addAll(supportImgView, supportBoxLabels);
+    supportViewBtn.setGraphic(supportBox);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
+
+    supportBoxLabels.setPadding(new Insets(0,20,0,20));
+    requestBoxLabels.setPadding(new Insets(0,20,0,20));
 
     contentBox.setId("contentBox");
 
@@ -116,16 +118,4 @@ public class RsccHomeView extends BorderPane {
     // make bindings to the model
   }
 
-  /* Code from Mr. Standtke
-  * Button button = new Button();
-        HBox hBox = new HBox();
-        Label label1 = new Label("small");
-        label1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        label1.setFont(new Font(10));
-        Label label2 = new Label("large");
-        label2.setFont(new Font(20));
-        hBox.getChildren().addAll(label1, label2);
-        button.setGraphic(hBox);
-  *
-  * */
 }
