@@ -43,10 +43,10 @@ public class RsccHomeView extends BorderPane {
   final HBox supportBox = new HBox();
   final VBox supportBoxLabels = new VBox();
 
-  Label requestTextBig;
-  Label requestTextSmall;
-  Label supportTextBig;
-  Label supportTextSmall;
+  Label requestBigLbl;
+  Label requestSmallLbl;
+  Label supportBigLbl;
+  Label supportSmallLbl;
 
 
   /**
@@ -65,37 +65,37 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-    requestTextBig = new Label("I need help");
-    requestTextSmall = new Label("Get somebody to help you remotely");
-    supportTextBig = new Label("I want to assist someone");
-    supportTextSmall = new Label("Somebody needs my help");
+    requestBigLbl = new Label("I need help");
+    requestSmallLbl = new Label("Get somebody to help you remotely");
+    supportBigLbl = new Label("I want to assist someone");
+    supportSmallLbl = new Label("Somebody needs my help");
   }
 
   private void layoutForm() {
 
-    requestTextBig.setFont(new Font(35));
-    requestTextSmall.setFont(new Font(20));
+    requestBigLbl.getStyleClass().add("BigFont");
+    requestSmallLbl.getStyleClass().add("SmallFont");
 
     InputStream requestHelpImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/needHelp.svg");
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
-    requestBoxLabels.getChildren().addAll(requestTextBig, requestTextSmall);
+    requestBoxLabels.getChildren().addAll(requestBigLbl, requestSmallLbl);
     requestBoxLabels.setAlignment(Pos.CENTER_LEFT);
     requestBox.getChildren().addAll(requestImgView, requestBoxLabels);
     requestViewBtn.setGraphic(requestBox);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    supportTextBig.setFont(new Font(35));
-    supportTextSmall.setFont(new Font(20));
+    supportBigLbl.getStyleClass().add("BigFont");
+    supportSmallLbl.getStyleClass().add("SmallFont");
 
     InputStream offerSupportImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/support.svg");
     supportImg = new Image(offerSupportImagePath);
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
-    supportBoxLabels.getChildren().addAll(supportTextBig, supportTextSmall);
+    supportBoxLabels.getChildren().addAll(supportBigLbl, supportSmallLbl);
     supportBoxLabels.setAlignment(Pos.CENTER_LEFT);
     supportBox.getChildren().addAll(supportImgView, supportBoxLabels);
     supportViewBtn.setGraphic(supportBox);
