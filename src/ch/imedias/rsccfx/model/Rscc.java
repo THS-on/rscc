@@ -1,10 +1,15 @@
 package ch.imedias.rsccfx.model;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -168,8 +173,65 @@ public class Rscc {
         pathToResourceDocker, "port_share.sh", vncPort.getValue(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
-    startVncServer();
+
+    tcpserver();
+    //startVncServer();
   }
+
+
+
+
+
+
+  public void tcpserver() {
+    String clientSentence;
+    String capitalizedSentence;
+    ServerSocket welcomeSocket = null;
+    try {
+      welcomeSocket = new ServerSocket(5900);
+      while (true) {
+        Socket connectionSocket = welcomeSocket.accept();
+        BufferedReader inFromClient =
+            new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+        DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+        clientSentence = inFromClient.readLine();
+        System.out.println("Received: " + clientSentence);
+        capitalizedSentence = clientSentence.toUpperCase() + '\n';
+        outToClient.writeBytes(capitalizedSentence);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
+  }
+
+
+  public void talktcp(String content){
+    String modifiedSentence;
+    try
+    {
+      Socket clientSocket = new Socket("127.0.0.1", 5900);
+      DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+      BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+      outToServer.writeBytes(content + '\n');
+
+      modifiedSentence = inFromServer.readLine();
+      clientSocket.close();
+      outToServer.close();
+      inFromServer.close();
+
+    }
+    catch (Exception exc)
+    {
+      modifiedSentence = "";
+    }
+  }
+
+
+
+
+
 
   /**
    * Starts connection to the user.
@@ -179,7 +241,9 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", vncPort.getValue(), getKey());
     systemCommander.executeTerminalCommand(command);
-    startVncViewer("localhost");
+
+    talktcp("bla");
+    //startVncViewer("localhost");
   }
 
   /**
