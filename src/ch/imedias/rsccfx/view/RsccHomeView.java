@@ -73,7 +73,6 @@ public class RsccHomeView extends BorderPane {
 
   private void layoutForm() {
 
-    //Request Button
     requestTextBig.setFont(new Font(35));
     requestTextSmall.setFont(new Font(20));
 
@@ -88,7 +87,6 @@ public class RsccHomeView extends BorderPane {
     requestViewBtn.setGraphic(requestBox);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    //Support Button
     supportTextBig.setFont(new Font(35));
     supportTextSmall.setFont(new Font(20));
 
