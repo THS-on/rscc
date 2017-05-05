@@ -28,35 +28,63 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceUtils.RUDP.src;
+package ch.imedias.rsccfx.model.iceutils.rudp.src.impl;
 
-/**
- * The listener interface for receiving packet events.
- * The class that is interested in processing a packet
- * event implements this interface.
+
+/*
+ *  EACK Segment
  *
- * @author Adrian Granados
+ *   0 1 2 3 4 5 6 7 8            15
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  |0|1|1|0|0|0|0|0|     N + 6     |
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  | Sequence #    |   Ack Number  |
+ *  +---------------+---------------+
+ *  |1st out of seq |2nd out of seq |
+ *  |  ack number   |   ack number  |
+ *  +---------------+---------------+
+ *  |  . . .        |Nth out of seq |
+ *  |               |   ack number  |
+ *  +---------------+---------------+
+ *  |            Checksum           |
+ *  +---------------+---------------+
  *
  */
-public interface ReliableSocketListener
-{
-    /**
-     * Invoked when a data packet is sent.
-     */
-    public void packetSent();
+public class EAKSegment extends ACKSegment {
+  private int[] _acks;
 
-    /**
-     * Invoked when a data packet is retransmitted.
-     */
-    public void packetRetransmitted();
+  protected EAKSegment() {
+  }
 
-    /**
-     * Invoked when a data packet is received in-order.
-     */
-    public void packetReceivedInOrder();
+  public EAKSegment(int seqn, int ackn, int[] acks) {
+    init(EAK_FLAG, seqn, RUDP_HEADER_LEN + acks.length);
+    setAck(ackn);
+    _acks = acks;
+  }
 
-    /**
-     * Invoked when a out of sequence data packet is received.
-     */
-    public void packetReceivedOutOfOrder();
+  public String type() {
+    return "EAK";
+  }
+
+  public int[] getACKs() {
+    return _acks;
+  }
+
+  public byte[] getBytes() {
+    byte[] buffer = super.getBytes();
+
+    for (int i = 0; i < _acks.length; i++) {
+      buffer[4 + i] = (byte) (_acks[i] & 0xFF);
+    }
+
+    return buffer;
+  }
+
+  protected void parseBytes(byte[] buffer, int off, int len) {
+    super.parseBytes(buffer, off, len);
+    _acks = new int[len - RUDP_HEADER_LEN];
+    for (int i = 0; i < _acks.length; i++) {
+      _acks[i] = (buffer[off + 4 + i] & 0xFF);
+    }
+  }
 }

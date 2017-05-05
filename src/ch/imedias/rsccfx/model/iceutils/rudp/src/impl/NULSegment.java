@@ -28,40 +28,31 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceUtils.RUDP.src;
+package ch.imedias.rsccfx.model.iceutils.rudp.src.impl;
 
-/**
- * The listener interface for receiving socket events.
- * The class that is interested in processing a socket
- * event implements this interface.
+
+/*
+ *  NUL Segment
  *
- * @author Adrian Granados
+ *   0 1 2 3 4 5 6 7 8            15
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  |0|1|0|0|1|0|0|0|       6       |
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  | Sequence #    |  Ack Number   |
+ *  +---------------+---------------+
+ *  |            Checksum           |
+ *  +---------------+---------------+
  *
  */
-public interface ReliableSocketStateListener
-{
-    /**
-     * Invoked when the connection is opened.
-     */
-    public void connectionOpened(ReliableSocket sock);
+public class NULSegment extends Segment {
+  protected NULSegment() {
+  }
 
-    /**
-     * Invoked when the attempt to establish a connection is refused.
-     */
-    public void connectionRefused(ReliableSocket sock);
+  public NULSegment(int seqn) {
+    init(NUL_FLAG, seqn, RUDP_HEADER_LEN);
+  }
 
-    /**
-     * Invoked when the connection is closed.
-     */
-    public void connectionClosed(ReliableSocket sock);
-
-    /**
-     * Invoked when the (established) connection fails.
-     */
-    public void connectionFailure(ReliableSocket sock);
-
-    /**
-     * Invoked when the connection is reset.
-     */
-    public void connectionReset(ReliableSocket sock);
+  public String type() {
+    return "NUL";
+  }
 }

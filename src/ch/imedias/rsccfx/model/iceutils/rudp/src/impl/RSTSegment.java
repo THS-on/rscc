@@ -28,37 +28,32 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceUtils.RUDP.src.impl;
-
-
+package ch.imedias.rsccfx.model.iceutils.rudp.src.impl;
 
 /*
- *  ACK Segment
+ *  RST Segment
  *
  *   0 1 2 3 4 5 6 7 8            15
  *  +-+-+-+-+-+-+-+-+---------------+
- *  |0|1|0|0|0|0|0|0|       6       |
+ *  | |A| | | | | | |               |
+ *  |0|C|0|1|0|0|0|0|        6      |
+ *  | |K| | | | | | |               |
  *  +-+-+-+-+-+-+-+-+---------------+
  *  | Sequence #    |   Ack Number  |
  *  +---------------+---------------+
- *  |           Checksum            |
+ *  |         Header Checksum       |
  *  +---------------+---------------+
  *
  */
-public class ACKSegment extends Segment
-{
-    protected ACKSegment()
-    {
-    }
+public class RSTSegment extends Segment {
+  protected RSTSegment() {
+  }
 
-    public ACKSegment(int seqn, int ackn)
-    {
-        init(ACK_FLAG, seqn, RUDP_HEADER_LEN);
-        setAck(ackn);
-    }
+  public RSTSegment(int seqn) {
+    init(RST_FLAG, seqn, RUDP_HEADER_LEN);
+  }
 
-    public String type()
-    {
-        return "ACK";
-    }
+  public String type() {
+    return "RST";
+  }
 }
