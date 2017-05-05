@@ -77,7 +77,7 @@
 #generatedKeyFld{
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
-    -fx-font-size: 30pt;
+    -fx-font-size: 20pt; /* TODO: change this back to 30 or make textfield larger so the whole prompttext fits */
 }
 
 #centerBox{
