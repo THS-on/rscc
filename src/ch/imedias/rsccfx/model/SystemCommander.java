@@ -37,7 +37,7 @@ public class SystemCommander {
       LOGGER.severe("Exception thrown when running the command: "
           + command
           + "\n Exception Message: " + exception.getMessage());
-      if(command == null){
+      if (command == null) {
         throw new IllegalArgumentException();
       }
     }
