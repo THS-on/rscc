@@ -38,7 +38,7 @@ public class SystemCommander {
           + command
           + "\n Exception Message: " + exception.getMessage());
       throw new IllegalArgumentException();
-      }
+    }
     return outputString;
   }
 
