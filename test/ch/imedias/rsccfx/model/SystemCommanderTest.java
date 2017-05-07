@@ -29,7 +29,7 @@ public class SystemCommanderTest {
     try {
       systemCommander.executeTerminalCommand(null);
       fail("IllegalArgumentException was expected when Command is null");
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       // expected behavior
     }
   }
