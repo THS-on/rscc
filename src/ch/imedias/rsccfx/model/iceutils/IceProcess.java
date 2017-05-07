@@ -43,19 +43,24 @@ public class IceProcess {
    */
   public Component startIceProcessAsSupporter() throws Throwable {
     startStun();
-    recieveSdp();
-    return startIceConnectivityEstablishment();
+    createSdp("Supporter"+key);
+    recieveSdp("Requester"+key);
+    Component iceComponent = startIceConnectivityEstablishment("Supporter"+key);
+    waitForOtherSideToBeFinished("Requester"+key);
+    return iceComponent;
   }
 
   /**
    * Only starts the STUN Process, generates and uploads the SDP.
    */
 
-  public void startIceProcessAsRequester() throws Throwable {
+  public Component startIceProcessAsRequester() throws Throwable {
     startStun();
-    createSdp();
-    waitForOtherSideToBeFinished();
-  }
+    createSdp("Requester"+key);
+    recieveSdp("Supporter"+key);
+    Component iceComponent = startIceConnectivityEstablishment("Supporter"+key);
+    waitForOtherSideToBeFinished("Supporter"+key);
+    return iceComponent;  }
 
 
   /**
@@ -78,19 +83,34 @@ public class IceProcess {
     agent.createComponent(stream, Transport.UDP, port, port, port + 100);
   }
 
+
+
+  /**
+   * creates SDP and uploads it to the public server.
+   * (only passive part)
+   */
+
+  private void createSdp(String sdpName) throws Throwable {
+    String toSend = SdpUtils.createSdp(agent);
+    File file = new File("resources/IceSDP/sdp" + sdpName + ".txt");
+    SdpUtils.saveToFile(toSend, file);
+    SdpUtils.uploadFile(file);
+  }
+
+
   /**
    * downloads the Requester sdp (Session description Protocol) from a public Server
    * or waits until a file is available. (only for active part)
    * TODO: how to get out of it??
    */
-  private void recieveSdp() throws Throwable {
+  private void recieveSdp(String sdpName) throws Throwable {
 
     String toSend = SdpUtils.createSdp(agent);
     String remoteReceived = null;
     while (remoteReceived == null) {
       try {
         String url = "http://www.pwigger.ch/rbp/sdp";
-        remoteReceived = SdpUtils.downloadFile(url + key + ".txt");
+        remoteReceived = SdpUtils.downloadFile(url + sdpName + ".txt");
       } catch (Exception e) {
         Thread.sleep(1000);
         System.out.println("no File yet!");
@@ -101,17 +121,7 @@ public class IceProcess {
     }
   }
 
-  /**
-   * creates SDP and uploads it to the public server.
-   * (only passive part)
-   */
 
-  private void createSdp() throws Throwable {
-    String toSend = SdpUtils.createSdp(agent);
-    File file = new File("resources/IceSDP/sdp" + key + ".txt");
-    SdpUtils.saveToFile(toSend, file);
-    SdpUtils.uploadFile(file);
-  }
 
 
   /**
@@ -120,18 +130,18 @@ public class IceProcess {
    * (only passive part)
    */
 
-  private void waitForOtherSideToBeFinished() throws Throwable {
-    String remoteReceived = "hello";
-    while (remoteReceived != null) {
+  private void waitForOtherSideToBeFinished(String sdpName) throws Throwable {
+    String otherSdp = "notnullyet";
+    while (otherSdp != null) {
 
       try {
-        remoteReceived = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + key + ".txt");
+        otherSdp = SdpUtils.downloadFile("http://www.pwigger.ch/rbp/sdp" + sdpName + ".txt");
         // This information was grabbed from the server, and shouldn't be empty.
         System.out.println("File still present!");
         Thread.sleep(1000);
 
       } catch (Exception e) {
-        remoteReceived = null;
+        otherSdp = null;
       }
     }
     agent.free();
@@ -143,7 +153,7 @@ public class IceProcess {
    *         null if ICE did not manage to establish a connection.
    */
 
-  private Component startIceConnectivityEstablishment() throws Throwable {
+  private Component startIceConnectivityEstablishment(String sdpName) throws Throwable {
     // You need to listen for state change so that once connected you can then use the socket.
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
 
@@ -156,12 +166,10 @@ public class IceProcess {
         return null;
       }
     }
+
     System.out.println("Got a working socket");
     Component rtpComponent = stateListener.rtpComponent;
-    SdpUtils.deleteFile("sdp" + key + ".txt");
-    agent.free();
+    SdpUtils.deleteFile("sdp" + sdpName + ".txt");
     return rtpComponent;
   }
-
-
 }
