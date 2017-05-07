@@ -208,7 +208,7 @@ public class Rscc {
       throw new IllegalArgumentException();
     }
     String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress;
-    //Encodings are missing: "tight zrle hextile""
+    //TODO: Encodings are missing: "tight zrle hextile""
 
     String command = commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
