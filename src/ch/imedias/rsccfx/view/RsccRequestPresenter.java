@@ -122,7 +122,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
-      saveSupporterList();
+      saveSupporterList(); // TODO add this to the "save button" instead of here
       viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
@@ -146,7 +146,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   * saves the preferences made by the user.
+   * Saves the preferences made by the user.
    */
   private void saveSupporterList() {
     // save preferences
@@ -194,6 +194,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
           + supportAddresses.get(counter).getDescription());
     }
+    createNewSupporterBtn();
   }
 
 }
