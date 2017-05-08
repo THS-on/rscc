@@ -10,18 +10,27 @@ import java.net.Socket;
 /**
  * Created by jp on 08/05/17.
  */
-public class Rscccfp {
+public class Rscccfp extends Thread   {
 
   private final Rscc model;
 
   private Socket connectionSocket;
   private DataOutputStream outputStream;
   private BufferedReader inputStream;
+  public volatile boolean isServer;
 
   public Rscccfp(Rscc model) {
     this.model = model;
-
   }
+
+  public void run() {
+    if (isServer){
+      startRscccfpServer();
+    } else {
+      startRscccfpClient("127.0.0.1", 5900);
+    }
+  }
+
 
   /**
    * Starts the TCP - Server.
