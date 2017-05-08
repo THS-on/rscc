@@ -26,12 +26,14 @@ public class KeyUtil {
   }
 
   private void setupBindings() {
+    // if the key gets changed, this sets the formatted key
     formattedKeyProperty().bind(
         Bindings.createStringBinding(
             () -> formatKey(getKey()), key
         )
     );
 
+    // if the key gets changed, the key will get validated
     keyValidProperty().bind(
         Bindings.createBooleanBinding(
             () -> validateKey(getKey()), key
@@ -49,6 +51,7 @@ public class KeyUtil {
       if (key.length() > 9) {
         key = key.substring(0, 9);
       }
+      // Split the key and join with delimiter
       Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(key);
       key = Streams.stream(pieces)
           .collect(Collectors.joining(KEY_FORMAT_DELIMITER));
@@ -77,16 +80,20 @@ public class KeyUtil {
     return key != null && key.matches("\\d{9}");
   }
 
+  /**
+   * Sets the key deformatted.
+   * @param key can be a formatted or unformatted key.
+   */
+  public void setKey(String key) {
+    this.key.set(deformatKey(key));
+  }
+
   public String getKey() {
     return key.get();
   }
 
   public StringProperty keyProperty() {
     return key;
-  }
-
-  public void setKey(String key) {
-    this.key.set(deformatKey(key));
   }
 
   public String getFormattedKey() {
