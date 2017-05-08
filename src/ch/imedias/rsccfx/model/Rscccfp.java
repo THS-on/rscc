@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rsccfx.model.iceutils.SdpUtils;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,6 +20,7 @@ public class Rscccfp extends Thread {
   public volatile boolean isServer;
 
   public Rscccfp(Rscc model) {
+
     this.model = model;
   }
 
@@ -31,7 +31,7 @@ public class Rscccfp extends Thread {
     if (isServer) {
       startRscccfpServer();
     } else {
-      startRscccfpClient("127.0.0.1", 5903);
+      startRscccfpClient("127.0.0.1");
     }
   }
 
@@ -43,7 +43,7 @@ public class Rscccfp extends Thread {
     System.out.println("RSCCCFP: start server");
     ServerSocket serverSocket;
     try {
-      serverSocket = new ServerSocket(5903);
+      serverSocket = new ServerSocket(model.getVncPort());
       connectionSocket = serverSocket.accept();
 
       System.out.println("RSCCCFP: connection accepted");
@@ -52,18 +52,20 @@ public class Rscccfp extends Thread {
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
 
-      sendSdp(model.getMySdp());
-      receiveSdp();
-      //do STUN Magic
-      //wait for other StunStatus
-      //send STUN ownStun result
+      sendMySdp(model.getMySdp());
+      receiveOtherSdp();
+
+      //Wait until STUN Magic happend
+      while (model.getMyIceProcessingState() == null) {
+        Thread.sleep(1000);
+      }
+
+      receiveOtherIceProcessingState();
+      sendMyIceProcessingState();
+
       closeConnection();
 
-      //      clientSentence = inputStream.readLine();
-      //      capitalizedSentence = clientSentence.toUpperCase() + '\n';
-      //      outputStream.writeBytes(capitalizedSentence);
-
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -71,22 +73,38 @@ public class Rscccfp extends Thread {
   /**
    * Starts the TCP-Client.
    */
-  public void startRscccfpClient(String host, int port) {
+  public void startRscccfpClient(String host) {
     System.out.println("start client");
     try {
-      connectionSocket = new Socket("127.0.0.1", 5903);
+      connectionSocket = new Socket(host, model.getVncPort());
       System.out.println("RSCCCFP: Connected to server");
 
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
-      receiveSdp();
-      sendSdp(model.getMySdp());
-      //do STUN Magic
-      //send STUN ownStun result
-      //wait for other StunStatus
+      receiveOtherSdp();
+      sendMySdp(model.getMySdp());
+
+      //Wait until STUN Magic happend
+      while (model.getMyIceProcessingState() == null) {
+        Thread.sleep(1000);
+      }
+
+      sendMyIceProcessingState();
+      receiveOtherIceProcessingState();
+
 
     } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void receiveOtherIceProcessingState() {
+    try {
+      String OtherIceProcessingStat = inputStream.readLine();
+      model.setOtherIceProcessingState(OtherIceProcessingStat);
+
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
@@ -95,7 +113,7 @@ public class Rscccfp extends Thread {
   /**
    * reads SDP-Dump from opposite.
    */
-  private void receiveSdp() {
+  private void receiveOtherSdp() {
     StringBuilder receivedSdp = new StringBuilder();
     try {
       //wait for starting line
@@ -142,7 +160,7 @@ public class Rscccfp extends Thread {
   /**
    * Sends SDP-Dump to opposite.
    */
-  public void sendSdp(String sdpDump) {
+  public void sendMySdp(String sdpDump) {
     System.out.println("RSCCCFP: Sending this SDP:");
     System.out.println(model.getMySdp());
 
@@ -161,8 +179,12 @@ public class Rscccfp extends Thread {
   /**
    * Sends ICE-Result to opposite.
    */
-  public void sendResult() {
-
-
+  public void sendMyIceProcessingState() {
+    System.out.println("RSCCCFP: Send myIceProcessingState: " + model.getMyIceProcessingState());
+    try {
+      outputStream.writeBytes(model.getMyIceProcessingState());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

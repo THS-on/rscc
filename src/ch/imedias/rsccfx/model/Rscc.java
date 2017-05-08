@@ -1,17 +1,12 @@
 package ch.imedias.rsccfx.model;
 
 import ch.imedias.rsccfx.model.iceutils.IceProcess;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -54,15 +49,19 @@ public class Rscc {
   private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
-  private final StringProperty vncPort = new SimpleStringProperty("5900");
+  private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
   private String mySdp;
+  private String myIceProcessingState;
   private String otherSdp;
-  private InetAddress ForeignIpAddress;
-  private int ForeignPort;
+  private String otherIceProcessingState;
+  private InetAddress foreignIpAddress;
+  private int foreignPort;
+  private final String[] STUNSERVERS = {"numb.viagenie.ca", "stun.wtfismyip.com", "stun.gmx.net", "stun.1und1.de"};
+  private final int STUNSERVERPORT = 3478;
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
@@ -179,12 +178,20 @@ public class Rscc {
     keyServerSetup();
 
     String command = commandStringGenerator(
-        pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
+        pathToResourceDocker, "port_share.sh",
+        Integer.toString(getVncPort()), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
 
-    Thread iceRunner = new IceProcess(this, icePort.getValue());
+    Thread iceRunner = new IceProcess(this);
     iceRunner.start();
+
+    Rscccfp server = new Rscccfp(this);
+    server.isServer = false;
+
+    Thread srv = server;
+
+    srv.start();
 
     startVncServer();
   }
@@ -196,7 +203,7 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
     String command = commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), getKey());
+        "port_connect.sh", Integer.toString(getVncPort()), getKey());
     systemCommander.executeTerminalCommand(command);
     startVncViewer("localhost");
   }
@@ -332,15 +339,15 @@ public class Rscc {
     this.keyServerHttpPort.set(keyServerHttpPort);
   }
 
-  public String getVncPort() {
+  public int getVncPort() {
     return vncPort.get();
   }
 
-  public StringProperty vncPortProperty() {
+  public IntegerProperty vncPortProperty() {
     return vncPort;
   }
 
-  public void setVncPort(String vncPort) {
+  public void setVncPort(int vncPort) {
     this.vncPort.set(vncPort);
   }
 
@@ -385,18 +392,54 @@ public class Rscc {
   }
 
   public InetAddress getForeignIpAddress() {
-    return ForeignIpAddress;
+    return foreignIpAddress;
   }
 
   public void setForeignIpAddress(InetAddress foreignIpAddress) {
-    ForeignIpAddress = foreignIpAddress;
+    this.foreignIpAddress = foreignIpAddress;
   }
 
   public int getForeignPort() {
-    return ForeignPort;
+    return foreignPort;
   }
 
   public void setForeignPort(int foreignPort) {
-    ForeignPort = foreignPort;
+    this.foreignPort = foreignPort;
+  }
+
+  public String getMyIceProcessingState() {
+    return myIceProcessingState;
+  }
+
+  public void setMyIceProcessingState(String myIceProcessingState) {
+    this.myIceProcessingState = myIceProcessingState;
+  }
+
+  public String getOtherIceProcessingState() {
+    return otherIceProcessingState;
+  }
+
+  public void setOtherIceProcessingState(String otherIceProcessingState) {
+    this.otherIceProcessingState = otherIceProcessingState;
+  }
+
+  public int getIcePort() {
+    return icePort.get();
+  }
+
+  public IntegerProperty icePortProperty() {
+    return icePort;
+  }
+
+  public void setIcePort(int icePort) {
+    this.icePort.set(icePort);
+  }
+
+  public String[] getSTUNSERVERS() {
+    return STUNSERVERS;
+  }
+
+  public int getSTUNSERVERPORT() {
+    return STUNSERVERPORT;
   }
 }

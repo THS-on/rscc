@@ -16,39 +16,31 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
  */
 public class IceProcess extends Thread {
 
-  private static final String STUNSERVER1 = "numb.viagenie.ca";
-  private static final String STUNSERVER2 = "stun.wtfismyip.com";
-  private static final String STUNSERVER3 = "stun.gmx.net";
-  private static final String STUNSERVER4 = "stun.1und1.de";
-  private static final int STUNPORT = 3478;
-
   private Rscc model;
   private Agent agent;
-  private int port;
   private StateListener stateListener;
+
 
   /**
    * Initiates a new IceProcess, either active: with connectivity checks, or passive.
    *
-   * @param port defines the port which ice uses for holepunching and connectivity tests
+   * @param model the one and only model.
    */
-
-  public IceProcess(Rscc model, int port) {
+  public IceProcess(Rscc model) {
     this.agent = new Agent(); // A simple ICE Agent
     this.model = model;
     agent.setControlling(true);
-    this.port = port;
   }
 
   /**
-   * @return Component which contains all necessary objects to build a socket.
+   * Runs the STUN / ICE stuff.
    */
   public void run() {
     try {
       startStun();
       model.setMySdp(createSdp());
 
-      while (model.getOtherSdp() == null){
+      while (model.getOtherSdp() == null) {
         Thread.sleep(1000);
         System.out.println("ICE Process: waiting for other SDP");
       }
@@ -59,9 +51,14 @@ public class IceProcess extends Thread {
       agent.addStateChangeListener(stateListener);
 
       Component iceComponent = startIceConnectivityEstablishment();
-      if (iceComponent != null){
-        model.setForeignPort(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
-        model.setForeignIpAddress(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
+      if (iceComponent != null) {
+        model.setForeignPort(iceComponent
+            .getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
+        model.setForeignIpAddress(iceComponent
+            .getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
+        model.setMyIceProcessingState("Succeed");
+      } else {
+        model.setMyIceProcessingState("Failed");
       }
 
     } catch (Throwable e) {
@@ -74,19 +71,20 @@ public class IceProcess extends Thread {
    * both active and passive have to do this.
    */
   private void startStun() throws Throwable {
-    String[] hostnames = new String[] {STUNSERVER1, STUNSERVER2, STUNSERVER3, STUNSERVER4};
-
-    for (String hostname : hostnames) {
+    for (String hostname : model.getSTUNSERVERS()) {
       try {
         InetAddress address = InetAddress.getByName(hostname);
-        TransportAddress ta = new TransportAddress(address, STUNPORT, Transport.UDP);
+        TransportAddress ta = new TransportAddress(
+            address, model.getSTUNSERVERPORT(), Transport.UDP);
         agent.addCandidateHarvester(new StunCandidateHarvester(ta));
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
     IceMediaStream stream = agent.createMediaStream("data");
-    agent.createComponent(stream, Transport.UDP, port, port, port + 100);
+    agent.createComponent(
+        stream, Transport.UDP, model.getIcePort(),
+        model.getIcePort(), model.getIcePort() + 100);
   }
 
   /**
@@ -101,8 +99,9 @@ public class IceProcess extends Thread {
 
   /**
    * Checks if a connection is possible (only active part does it).
-   * @return Component contains all Information to build a UDP socket,
-   *         null if ICE did not manage to establish a connection.
+   *
+   * @return Component contains all Information to build a UDP socket, null if ICE did not manage
+   * to establish a connection.
    */
 
   private Component startIceConnectivityEstablishment() throws Throwable {
