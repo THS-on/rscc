@@ -4,10 +4,13 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Screen;
 
 /**
@@ -24,6 +27,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+
+  private ArrayList<Button> buttons = new ArrayList<>();
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -58,6 +63,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
+
+    view.btn6.setOnAction(event -> createNewSupporterBtn());
+
   }
 
   /**
@@ -104,5 +112,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
       model.killConnection();
       viewParent.setView(RsccApp.HOME_VIEW);
     });
+  }
+
+  private void createNewSupporterBtn() {
+    view.supporterGrid.add(view.btn7, 0, 4);
   }
 }

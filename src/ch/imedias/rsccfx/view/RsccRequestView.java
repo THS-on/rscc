@@ -179,9 +179,7 @@ public class RsccRequestView extends BorderPane {
     supporterGrid.add(btn4, 0, 1);
     supporterGrid.add(btn5, 1, 1);
     supporterGrid.add(btn6, 2, 1);
-    supporterGrid.add(btn7, 0, 2);
-
-    // FIXME: Define height of scrollPane
+    //supporterGrid.add(btn7, 0, 2);
 
     // ***************
 
