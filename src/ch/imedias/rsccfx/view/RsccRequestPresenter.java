@@ -8,8 +8,10 @@ import ch.imedias.rsccfx.model.Rscc;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import ch.imedias.rsccfx.view.util.RequestViewAddSupporter;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 
 /**
  * Defines the behaviour of interactions
@@ -65,6 +67,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     view.btn7.setOnAction(event -> createNewSupporterBtn());
+    view.btn1.setOnAction(event -> new Dialog<RequestViewAddSupporter>().show());
 
   }
 
