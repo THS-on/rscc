@@ -84,7 +84,6 @@ public class HeaderPresenter {
    * Is being used in the HomeView to make the settings button invisible,
    * since there are no settings in it.
    */
-
   public void setSettingsBtnVisibility(Boolean isVisible) {
     view.settingsBtn.setVisible(isVisible);
   }
