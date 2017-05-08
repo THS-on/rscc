@@ -40,7 +40,7 @@ public class IceProcess extends Thread {
       startStun();
       model.setMySdp(createSdp());
 
-      while (model.getOtherSdp() == null) {
+      while (!this.isInterrupted() && model.getOtherSdp() == null) {
         Thread.sleep(1000);
         System.out.println("ICE Process: waiting for other SDP");
       }
@@ -61,6 +61,10 @@ public class IceProcess extends Thread {
         model.setMyIceProcessingState("Failed");
       }
 
+    } catch (InterruptedException ie) {
+      agent.free();
+      System.out.println("ICE Process: Chavely woken");
+      return;
     } catch (Throwable e) {
       e.printStackTrace();
     }
@@ -85,6 +89,7 @@ public class IceProcess extends Thread {
     agent.createComponent(
         stream, Transport.UDP, model.getIcePort(),
         model.getIcePort(), model.getIcePort() + 100);
+
   }
 
   /**
@@ -108,7 +113,7 @@ public class IceProcess extends Thread {
     // You need to listen for state change so that once connected you can then use the socket.
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
 
-    while (agent.getState() == IceProcessingState.RUNNING) {
+    while (!this.isInterrupted() && agent.getState() == IceProcessingState.RUNNING) {
       Thread.sleep(1000);
       System.out.println("ICE Process running");
     }

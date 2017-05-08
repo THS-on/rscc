@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by jp on 08/05/17.
@@ -17,11 +18,11 @@ public class Rscccfp extends Thread {
   private Socket connectionSocket;
   private DataOutputStream outputStream;
   private BufferedReader inputStream;
-  public volatile boolean isServer;
+  private boolean isServer;
 
-  public Rscccfp(Rscc model) {
-
+  public Rscccfp(Rscc model, boolean isServer) {
     this.model = model;
+    this.isServer = isServer;
   }
 
   /**
@@ -40,32 +41,50 @@ public class Rscccfp extends Thread {
    * Starts the TCP - Server.
    */
   public void startRscccfpServer() {
+
     System.out.println("RSCCCFP: start server");
     ServerSocket serverSocket;
     try {
       serverSocket = new ServerSocket(model.getVncPort());
-      connectionSocket = serverSocket.accept();
+      serverSocket.setSoTimeout(1000);
+      while (!this.isInterrupted()) {
+        System.out.println("wait for client");
+        try {
+          connectionSocket = serverSocket.accept();
+        } catch (SocketTimeoutException e) {
 
+        }
+      }
+
+      if (this.isInterrupted()) {
+        serverSocket.close();
+        System.out.println("RSCCCFP: closing and return");
+        return;
+
+      }
       System.out.println("RSCCCFP: connection accepted");
 
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
-
       sendMySdp(model.getMySdp());
       receiveOtherSdp();
 
       //Wait until STUN Magic happend
-      while (model.getMyIceProcessingState() == null) {
+      while (!this.isInterrupted() && model.getMyIceProcessingState() == null) {
+        System.out.println("RSCCCFP: Wait for STUN Magic");
         Thread.sleep(1000);
       }
 
       receiveOtherIceProcessingState();
       sendMyIceProcessingState();
 
-      closeConnection();
 
+    } catch (InterruptedException ie) {
+      closeConnection();
+      System.out.println("ICE Process: Chavely woken");
     } catch (Exception e) {
+
       e.printStackTrace();
     }
   }
@@ -86,15 +105,20 @@ public class Rscccfp extends Thread {
       sendMySdp(model.getMySdp());
 
       //Wait until STUN Magic happend
-      while (model.getMyIceProcessingState() == null) {
+      while (!this.isInterrupted() && model.getMyIceProcessingState() == null) {
         Thread.sleep(1000);
       }
 
       sendMyIceProcessingState();
       receiveOtherIceProcessingState();
 
+      closeConnection();
 
+    } catch (InterruptedException ie) {
+      closeConnection();
+      System.out.println("ICE Process: Chavely woken");
     } catch (Exception e) {
+      closeConnection();
       e.printStackTrace();
     }
   }
@@ -139,7 +163,6 @@ public class Rscccfp extends Thread {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
 

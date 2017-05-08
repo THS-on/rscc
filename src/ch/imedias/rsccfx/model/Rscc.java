@@ -49,7 +49,7 @@ public class Rscc {
   private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
-  private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
+  private final IntegerProperty vncPort = new SimpleIntegerProperty(5908);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
@@ -62,6 +62,9 @@ public class Rscc {
   private int foreignPort;
   private final String[] STUNSERVERS = {"numb.viagenie.ca", "stun.wtfismyip.com", "stun.gmx.net", "stun.1und1.de"};
   private final int STUNSERVERPORT = 3478;
+
+  private IceProcess iceRunner;
+  private Rscccfp rscccfp;
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
@@ -169,6 +172,14 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
     setKey("");
+    if (iceRunner != null) {
+      System.out.println("RSCC: Interrupt icerunner");
+      iceRunner.interrupt();
+    }
+    if (rscccfp != null) {
+      System.out.println("RSCC: Interrupt rscccfp");
+      rscccfp.interrupt();
+    }
   }
 
   /**
@@ -183,17 +194,15 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
 
-    Thread iceRunner = new IceProcess(this);
+    iceRunner = new IceProcess(this);
+    iceRunner.setDaemon(true);
     iceRunner.start();
 
-    Rscccfp server = new Rscccfp(this);
-    server.isServer = false;
+//    rscccfp = new Rscccfp(this, true);
+//    rscccfp.setDaemon(true);
+//    rscccfp.start();
 
-    Thread srv = server;
-
-    srv.start();
-
-    startVncServer();
+    //startVncServer();
   }
 
 
@@ -205,7 +214,16 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), getKey());
     systemCommander.executeTerminalCommand(command);
-    startVncViewer("localhost");
+
+    iceRunner = new IceProcess(this);
+    iceRunner.setDaemon(true);
+    iceRunner.start();
+
+    rscccfp = new Rscccfp(this, true);
+    rscccfp.setDaemon(true);
+    rscccfp.start();
+
+    //startVncViewer("localhost");
   }
 
   /**
