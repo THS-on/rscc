@@ -209,3 +209,4 @@ get.key
 
 ## Strings.java is being generated
 Strings.java
+!/src/ch/imedias/rsccfx/view/RsccRequestView.java
