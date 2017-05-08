@@ -4,27 +4,46 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by François Martin on 08.05.17.
+ * Tests the KeyUtil class.
  */
 public class KeyUtilTest {
+  KeyUtil keyUtil;
+
+  /**
+   * Initializes test fixture before each test.
+   */
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
+    keyUtil = new KeyUtil();
   }
 
+  /**
+   * Test for {@link KeyUtil#formatKey(String)}.
+   */
   @Test
-  public void formatKey() throws Exception {
+  public void formatKey() {
+
   }
 
+  /**
+   * Test for {@link KeyUtil#deformatKey(String)}.
+   */
   @Test
-  public void deformatKey() throws Exception {
+  public void deformatKey() {
   }
 
+  /**
+   * Test for {@link KeyUtil#validateKey(String)}.
+   */
   @Test
-  public void validateKey() throws Exception {
+  public void validateKey() {
   }
 
+  /**
+   * Test for {@link KeyUtil#setKey(String)}.
+   */
   @Test
-  public void setKey() throws Exception {
+  public void setKey() {
   }
 
 }
