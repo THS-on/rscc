@@ -58,7 +58,7 @@ public class IceProcess {
     startStun();
     createSdp("Requester"+key);
     recieveSdp("Supporter"+key);
-    Component iceComponent = startIceConnectivityEstablishment("Supporter"+key);
+    Component iceComponent = startIceConnectivityEstablishment("Requester"+key);
     waitForOtherSideToBeFinished("Supporter"+key);
     return iceComponent;  }
 
@@ -115,10 +115,11 @@ public class IceProcess {
         Thread.sleep(1000);
         System.out.println("no File yet!");
       }
+    }
       SdpUtils.parseSdp(agent, remoteReceived);
       stateListener = new StateListener();
       agent.addStateChangeListener(stateListener);
-    }
+
   }
 
 

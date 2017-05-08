@@ -9,10 +9,8 @@ import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
+
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.CandidatePair;
 import org.ice4j.ice.Component;
@@ -68,7 +66,8 @@ public class SimpleProxySupporterRudp {
 
       try {
         System.out.println("connect to " + remoteAddressAsString + ":" + remotePort);
-        rudpClientSocket = new ReliableSocket(remoteAddressAsString, remotePort);
+        rudpClientSocket = new ReliableSocket();
+        rudpClientSocket.connect(new InetSocketAddress(remoteAddress,remotePort));
 
 
         final InputStream streamFromServer = rudpClientSocket.getInputStream();
@@ -78,7 +77,7 @@ public class SimpleProxySupporterRudp {
         tcpSocket = tcpServerSocket.accept();
         tcpSocket.setTcpNoDelay(true);
 
-
+        System.out.println("connected");
         final InputStream streamFromClient = tcpSocket.getInputStream();
         final OutputStream streamToClient = tcpSocket.getOutputStream();
 
