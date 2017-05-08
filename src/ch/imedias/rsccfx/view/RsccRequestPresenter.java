@@ -7,20 +7,19 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
-import ch.imedias.rsccfx.view.util.RequestViewAddSupporter;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 
 /**
  * Defines the behaviour of interactions
@@ -31,6 +30,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
+  private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -40,56 +40,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
 
-  /**
-   * List of supporter stuff here.
-   */
-  private final static String SUPPORT_ADDRESSES = "supportAddresses";
-  private final static String COMPRESSION_LEVEL = "compressionLevel";
-  private final static String QUALITY = "quality";
   private List<SupportAddress> supportAddresses;
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
-
-  private void supporterListStuff() {
-    // load preferences
-    String supportAddressesXML = preferences.get(SUPPORT_ADDRESSES, null);
-    if (supportAddressesXML == null) {
-      // use some hardcoded defaults
-      supportAddresses = getDefaultList();
-    } else {
-      byte[] array = supportAddressesXML.getBytes();
-      ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
-      XMLDecoder decoder = new XMLDecoder(inputStream);
-      supportAddresses = (List<SupportAddress>) decoder.readObject();
-    }
-    for (int counter = 0; counter < supportAddresses.size(); counter++) {
-      view.predefinedAddressesLbl.textProperty().set(supportAddresses.get(counter).getAddress() + "\n" +
-          supportAddresses.get(counter).getDescription());
-    }
-//    compressionSpinnerModel.setValue(
-//        preferences.getInt(COMPRESSION_LEVEL, 6));
-//    qualitySpinnerModel.setValue(preferences.getInt(QUALITY, 6));
-  }
-
-  private void exit() {
-    // save preferences
-    ByteArrayOutputStream byteArrayOutputStream =
-        new ByteArrayOutputStream();
-    XMLEncoder encoder = new XMLEncoder(byteArrayOutputStream);
-    encoder.setPersistenceDelegate(SupportAddress.class,
-        SupportAddress.getPersistenceDelegate());
-    encoder.writeObject(supportAddresses);
-    encoder.close();
-    String supportAddressesXML = byteArrayOutputStream.toString();
-    preferences.put(SUPPORT_ADDRESSES, supportAddressesXML);
-//    preferences.putInt(COMPRESSION_LEVEL,
-//            compressionSpinnerModel.getNumber().intValue());
-//    preferences.putInt(QUALITY,
-//            qualitySpinnerModel.getNumber().intValue());
-  }
-  /**
-   * End of supporter stuff.
-   */
-
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -103,7 +55,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
-    supporterListStuff();
+    getSupporterList();
     initSupporterListFromFile();
   }
 
@@ -126,10 +78,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
-
-    view.btn7.setOnAction(event -> createNewSupporterBtn());
-    view.btn1.setOnAction(event -> new Dialog<RequestViewAddSupporter>().show());
-
   }
 
   /**
@@ -174,9 +122,43 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
-      exit();
+      saveSupporterList();
       viewParent.setView(RsccApp.HOME_VIEW);
     });
+  }
+
+  /**
+   * Gets the supporter list.
+   * If no preferences are set the defaultList (getDefaultList()) is called.
+   */
+  private void getSupporterList() {
+    // load preferences
+    String supportAddressesXml = preferences.get(SUPPORT_ADDRESSES, null);
+    if (supportAddressesXml == null) {
+      // use some hardcoded defaults
+      supportAddresses = getDefaultList();
+    } else {
+      byte[] array = supportAddressesXml.getBytes();
+      ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
+      XMLDecoder decoder = new XMLDecoder(inputStream);
+      supportAddresses = (List<SupportAddress>) decoder.readObject();
+    }
+  }
+
+  /**
+   * saves the preferences made by the user.
+   */
+  private void saveSupporterList() {
+    // save preferences
+    ByteArrayOutputStream byteArrayOutputStream =
+        new ByteArrayOutputStream();
+    XMLEncoder encoder = new XMLEncoder(byteArrayOutputStream);
+    encoder.setPersistenceDelegate(SupportAddress.class,
+        SupportAddress.getPersistenceDelegate());
+    encoder.writeObject(supportAddresses);
+    encoder.close();
+    String supportAddressesXml = byteArrayOutputStream.toString();
+    preferences.put(SUPPORT_ADDRESSES, supportAddressesXml);
   }
 
   /**
@@ -189,32 +171,29 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     buttons.add(supporter);
 
-    int buttonSize = buttons.size()-1;
+    int buttonSize = buttons.size() - 1;
 
-    if(buttonSize%3 == 0)
+    if (buttonSize % 3 == 0) {
       rowSize++;
-
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%3, rowSize);
+    }
+    view.supporterGrid.add(buttons.get(buttonSize), buttonSize % 3, rowSize);
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
-    if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
-      buttons.get(buttons.size()-2).setOnAction(null);
-    else if (buttonSize > 0)
+    if (buttons.size() > 2) {    // IndexOutOfBoundsException fix.
+      buttons.get(buttons.size() - 2).setOnAction(null);
+    } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
+    }
   }
 
   private void initSupporterListFromFile() {
     // TODO: Jan implements this feature. Thank you Jan!
 
-    buttons.add(view.btn1);
-    buttons.add(view.btn2);
-    buttons.add(view.btn3);
-    rowSize++;
-    buttons.add(view.btn4);
-    buttons.add(view.btn5);
-    buttons.add(view.btn6);
-    rowSize++;
-    buttons.add(view.btn7);
+    for (int counter = 0; counter < supportAddresses.size(); counter++) {
+      createNewSupporterBtn();
+      buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
+          + supportAddresses.get(counter).getDescription());
+    }
   }
 
 }
