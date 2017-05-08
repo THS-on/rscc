@@ -81,6 +81,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     StringProperty key = view.keyFld.textProperty();
     key.addListener(
         (observable, oldKey, newKey) -> {
+          // set the key in KeyUtil and get the formatted version
           keyUtil.setKey(key.get());
           key.setValue(keyUtil.getFormattedKey());
         }

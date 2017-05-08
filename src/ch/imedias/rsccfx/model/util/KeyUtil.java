@@ -33,14 +33,14 @@ public class KeyUtil {
 
   private void setupBindings() {
     // if the key gets changed, this sets the formatted key
-    formattedKeyProperty().bind(
+    formattedKey.bind(
         Bindings.createStringBinding(
             () -> formatKey(getKey()), key
         )
     );
 
     // if the key gets changed, the key will get validated
-    keyValidProperty().bind(
+    keyValid.bind(
         Bindings.createBooleanBinding(
             () -> validateKey(getKey()), key
         )
