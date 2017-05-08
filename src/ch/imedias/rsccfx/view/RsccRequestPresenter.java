@@ -35,6 +35,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
   }
 
   /**
@@ -42,7 +43,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
-    popOverHelper = new PopOverHelper(viewParent, model);
   }
 
   private void attachEvents() {

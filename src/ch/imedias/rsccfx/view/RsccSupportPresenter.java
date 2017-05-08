@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
@@ -46,6 +47,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     attachEvents();
     initHeader();
     initBindings();
+    popOverHelper = new PopOverHelper(model, RsccApp.SUPPORT_VIEW);
   }
 
   /**
@@ -53,7 +55,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
    */
   public void setViewParent(ViewController viewParent) {
     this.viewParent = viewParent;
-    popOverHelper = new PopOverHelper(viewParent, model);
   }
 
   /**

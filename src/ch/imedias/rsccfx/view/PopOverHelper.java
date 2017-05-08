@@ -1,7 +1,6 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.RsccApp;
-import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -24,24 +23,20 @@ public class PopOverHelper {
   // Get Screensize
   Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-  private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_MIN = 0;
+  private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_VALUE = 6;
 
-  private static final int QUALITY_MAX = 9;
   private static final int QUALITY_MIN = 0;
+  private static final int QUALITY_MAX = 9;
   private static final int QUALITY_VALUE = 6;
 
   private final double overlayHeight = primaryScreenBounds.getHeight() / 4;
   private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
 
-  private final double sliderWidth = overlayWidth / 1.2;
-  private final double startXSlider = (overlayWidth / 2) - (sliderWidth / 2);
-
   private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
 
   private final Rscc model;
-  private ViewController viewParent;
 
   ToggleSwitch eightBitTgl = new ToggleSwitch();
   ToggleSwitch viewOnlyTgl = new ToggleSwitch();
@@ -76,7 +71,7 @@ public class PopOverHelper {
    */
   public PopOverHelper(Rscc model, String viewName) {
     this.model = model;
-    layoutForm();
+    layoutPopOver();
     switch (viewName) {
       case RsccApp.HOME_VIEW:
         layoutHome();
@@ -97,37 +92,21 @@ public class PopOverHelper {
   }
 
   private void layoutHome() {
+    // Settings
 
-  }
 
-  private void layoutRequest() {
-
-  }
-
-  private void layoutSupport() {
-
-  }
-
-  private void layoutForm() {
-    //setup layout (aka setup specific pane etc.)
-
-    eightBitTgl.getStyleClass().add("toggles");
-    viewOnlyTgl.getStyleClass().add("toggles");
-
-    // Help PopOver - Home
+    // Help
     homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, "
         + "jemandem zu helfen oder Hilfe zu bekommen");
     homeHelpLbl.setId("homeHelpLbl");
 
     homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
+  }
 
-    // Settings PopOver - request
-    // Settings PopOver TODO: StringsClass
-
+  private void layoutRequest() {
+    // Settings
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.getStyleClass().add("sliderLbls");
-
-    // Quality Settings
 
     requestQualityLbl.textProperty().set("Qualität");
     requestQualityLbl.getStyleClass().add("sliderLbls");
@@ -141,10 +120,27 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
-    qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
+    requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
+    requestSettingsPane.getChildren().add(requestSettingsBox);
+
+    // Help
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
+        + "or help someone in need");
+    requestHelpLbl.setId("requestHelpLbl");
+    // TODO: why no request help box?
+  }
+
+  private void layoutSupport() {
+    // Settings
+    // TODO: SA, please let UM know which settings we need.
+
+    eightBitTgl.getStyleClass().add("toggles");
+    viewOnlyTgl.getStyleClass().add("toggles");
 
     supportSettingsBox.setPadding(new Insets(10));
+
+    compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
+    qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
 
     supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
@@ -152,48 +148,23 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
+    // TODO: why set pref width for only support settings box?
     supportSettingsBox.setPrefWidth(overlayWidth);
     supportSettingsBox.setPrefHeight(overlayHeight);
 
-    requestSettingsPane.getChildren().add(requestSettingsBox);
-
-    // Help popover - request
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
-        + "or help someone in need");
-    requestHelpLbl.setId("requestHelpLbl");
-
-    // TODO: If we have more labels, we can add it to the box.
-    requestHelpBox.getChildren().addAll(requestHelpLbl);
-
-    // Settings PopOver - supporter
-
-    // TODO: Check what we can really use in the settings.
-    // TODO: SA, please let UM know which settings we need.
-
-    requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
-
-    // Help popover - supporter
+    // Help
     supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
     supporterHelpLbl.setId("supporterHelpLbl");
 
-    // TODO: If we have more labels, we can add it to the box.
     supporterHelpBox.getChildren().addAll(supporterHelpLbl);
+  }
 
-    // PopOver related
+  private void layoutPopOver() {
+    //setup layout (aka setup specific pane etc.)
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
     settingsPopOver.setDetachable(false);
     helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
     helpPopOver.setDetachable(false);
-  }
-
-  private void changingView(String newValue) {
-
-      default:
-        helpPopOver.setContentNode(null);
-        settingsPopOver.setContentNode(null);
-        break;
-    }
-
   }
 
 }
