@@ -104,8 +104,8 @@ public class RsccRequestView extends BorderPane {
   }
 
   private void layoutForm() {
-    statusBox.getStyleClass().add("statusBar");
-    statusLbl.getStyleClass().add("statusBarLbl");
+    statusBox.getStyleClass().add("statusBox");
+    statusLbl.getStyleClass().add("statusLbl");
 
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");

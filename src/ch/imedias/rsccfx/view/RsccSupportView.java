@@ -79,7 +79,7 @@ public class RsccSupportView extends BorderPane {
 
     statusLbl.setText("Waiting");
     statusBox.getChildren().add(statusLbl);
-    statusBox.getStyleClass().add("statusBar");
+    statusBox.getStyleClass().add("statusBox");
   }
 
   private void layoutForm() {
@@ -88,7 +88,7 @@ public class RsccSupportView extends BorderPane {
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
-    statusLbl.getStyleClass().add("statusBarLbl");
+    statusLbl.getStyleClass().add("statusLbl");
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
