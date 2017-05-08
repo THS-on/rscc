@@ -63,7 +63,6 @@ public class Rscc {
   private final String[] STUNSERVERS = {"numb.viagenie.ca", "stun.wtfismyip.com", "stun.gmx.net", "stun.1und1.de"};
   private final int STUNSERVERPORT = 3478;
 
-  private IceProcess iceRunner;
   private Rscccfp rscccfp;
 
   //TODO: Replace when the StunFileGeneration is ready
@@ -168,18 +167,17 @@ public class Rscc {
    * Kills the connection to the keyserver.
    */
   public void killConnection() {
-    // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
-    systemCommander.executeTerminalCommand(command);
-    setKey("");
-    if (iceRunner != null) {
-      System.out.println("RSCC: Interrupt icerunner");
-      iceRunner.interrupt();
-    }
     if (rscccfp != null) {
       System.out.println("RSCC: Interrupt rscccfp");
       rscccfp.interrupt();
     }
+
+    // Execute port_stop.sh with the generated key to kill the connection
+    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
+    systemCommander.executeTerminalCommand(command);
+    setKey("");
+
+
   }
 
   /**
@@ -194,12 +192,8 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
 
-    iceRunner = new IceProcess(this);
-    iceRunner.setDaemon(true);
-    iceRunner.start();
-
     rscccfp = new Rscccfp(this, true);
-    rscccfp.setDaemon(true);
+//    rscccfp.setDaemon(true);
     rscccfp.start();
 
     //startVncServer();
@@ -215,13 +209,9 @@ public class Rscc {
         "port_connect.sh", Integer.toString(getVncPort()), getKey());
     systemCommander.executeTerminalCommand(command);
 
-    iceRunner = new IceProcess(this);
-    iceRunner.setDaemon(true);
-    iceRunner.start();
-
     rscccfp = new Rscccfp(this, false);
-    rscccfp.setDaemon(true);
-    rscccfp.start();
+ //   rscccfp.setDaemon(true);
+//    rscccfp.start();
 
     //startVncViewer("localhost");
   }

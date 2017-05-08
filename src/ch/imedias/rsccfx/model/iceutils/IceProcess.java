@@ -89,7 +89,6 @@ public class IceProcess extends Thread {
     agent.createComponent(
         stream, Transport.UDP, model.getIcePort(),
         model.getIcePort(), model.getIcePort() + 100);
-
   }
 
   /**
