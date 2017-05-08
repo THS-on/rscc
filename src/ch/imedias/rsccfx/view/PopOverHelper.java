@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -21,6 +22,9 @@ import org.controlsfx.control.ToggleSwitch;
 public class PopOverHelper {
   // Get Screensize
   Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+  private static final Logger LOGGER =
+      Logger.getLogger(PopOverHelper.class.getName());
 
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
@@ -89,12 +93,23 @@ public class PopOverHelper {
         helpPopOver.setContentNode(supporterHelpBox);
         settingsPopOver.setContentNode(supportSettingsBox);
         break;
+      default:
+        LOGGER.info("PopOver couldn't find view: " + viewName);
     }
+  }
+
+  private void layoutPopOver() {
+    //setup layout (aka setup specific pane etc.)
+    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    settingsPopOver.setDetachable(false);
+
+    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+    helpPopOver.setDetachable(false);
   }
 
   private void layoutHome() {
     // Settings
-
+    // none
 
     // Help
     homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, "
@@ -106,20 +121,10 @@ public class PopOverHelper {
 
   private void layoutRequest() {
     // Settings
-    requestCompressionLbl.textProperty().set("Kompression");
-    requestCompressionLbl.getStyleClass().add("sliderLbls");
-
-    requestQualityLbl.textProperty().set("Qualität");
-    requestQualityLbl.getStyleClass().add("sliderLbls");
-
-    requestBgr233Lbl.textProperty().set("bgr233");
-    requestBgr233Lbl.setId("requestBgr233Lbl");
+    viewOnlyTgl.getStyleClass().add("toggles");
 
     requestViewOnlyLbl.textProperty().set("View only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
-
-    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
     requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
     requestSettingsPane.getChildren().add(requestSettingsBox);
@@ -135,22 +140,34 @@ public class PopOverHelper {
   private void layoutSupport() {
     // Settings
     // TODO: SA, please let UM know which settings we need.
-
-    eightBitTgl.getStyleClass().add("toggles");
-    viewOnlyTgl.getStyleClass().add("toggles");
-
-    supportSettingsBox.setPadding(new Insets(10));
-
     compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
     compressionSldr.setPrefWidth(sliderWidth);
+
+    requestCompressionLbl.textProperty().set("Kompression");
+    requestCompressionLbl.getStyleClass().add("sliderLbls");
+
 
     qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
     qualitySldr.setPrefWidth(sliderWidth);
 
+    requestQualityLbl.textProperty().set("Qualität");
+    requestQualityLbl.getStyleClass().add("sliderLbls");
+
+
+    eightBitTgl.getStyleClass().add("toggles");
+
+    requestBgr233Lbl.textProperty().set("bgr233");
+    requestBgr233Lbl.setId("requestBgr233Lbl");
+
+
+    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
+    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
+
+    supportSettingsBox.setPadding(new Insets(10));
     supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
     supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
-    supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
+    supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl)); // TODO: why just a label here and in request?
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     // TODO: why set pref width for only support settings box?
@@ -162,14 +179,6 @@ public class PopOverHelper {
     supporterHelpLbl.setId("supporterHelpLbl");
 
     supporterHelpBox.getChildren().addAll(supporterHelpLbl);
-  }
-
-  private void layoutPopOver() {
-    //setup layout (aka setup specific pane etc.)
-    settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-    settingsPopOver.setDetachable(false);
-    helpPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-    helpPopOver.setDetachable(false);
   }
 
 }
