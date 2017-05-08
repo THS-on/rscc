@@ -69,34 +69,21 @@ public class Rscccfp extends Thread {
     System.out.println("RSCCCFP: start server");
     ServerSocket serverSocket;
     serverSocket = new ServerSocket(model.getVncPort());
-    serverSocket.setSoTimeout(1000);
 
     //Start ICE Agent
     startStun();
 
     //Wait for connection
-    while (!this.isInterrupted()) {
-      System.out.println("wait for client");
-      try {
-        connectionSocket = serverSocket.accept();
-      } catch (SocketTimeoutException e) {
-
-      }
-    }
-
-    if (this.isInterrupted()) {
-      serverSocket.close();
-      System.out.println("RSCCCFP: closing and return");
-      return;
-    }
-    System.out.println("RSCCCFP: connection accepted");
-
+    System.out.println("RSCCCFP: wait for client");
+    connectionSocket = serverSocket.accept();
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-
+    System.out.println("RSCCCFP: Client connected");
 
     //create SDP dump
     model.setMySdp(createSdp());
+    System.out.println("RSCCCFP: my sdp:");
+    System.out.println(model.getMySdp());
 
     //send my SDP
     sendMySdp(model.getMySdp());
