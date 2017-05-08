@@ -13,6 +13,8 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -33,6 +35,7 @@ public class RsccRequestView extends BorderPane {
   final Label titleLbl = new Label();
   final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label supporterDescriptionLbl = new Label();
 
   final VBox descriptionBox = new VBox();
 
@@ -49,10 +52,18 @@ public class RsccRequestView extends BorderPane {
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
   final Button supporterOneBtn = new Button();
+  final Button btn2 = new Button("Btn");
+  final Button btn3 = new Button("Btn");
+  final Button btn4 = new Button("Btn");
+  final Button btn5 = new Button("Btn");
+  final Button btn6 = new Button("Btn");
+  final Button btn7 = new Button("Btn");
 
   Image reloadImg;
 
   ImageView reloadImgView;
+
+  GridPane supporterGrid = new GridPane();
 
   /**
    * Initializes all the GUI components needed generate the key the supporter needs.
@@ -92,12 +103,20 @@ public class RsccRequestView extends BorderPane {
     predefinedAddressesPane.setExpanded(false);
     predefinedAddressesPane.setId("predefinedAddressesPane");
 
+    supporterDescriptionLbl.setText("Description on the right");
+
     // TODO: Finish all the buttons here according to mockup.
     // Admin Buttons
     // label, six Buttons, six images
     /*supporterOneBtn.setGraphic();*/
     supporterOneBtn.textProperty().setValue("Supporter 1");
     supporterOneBtn.getStyleClass().add("supporterBtn");
+    btn2.getStyleClass().add("supporterBtn");
+    btn3.getStyleClass().add("supporterBtn");
+    btn4.getStyleClass().add("supporterBtn");
+    btn5.getStyleClass().add("supporterBtn");
+    btn6.getStyleClass().add("supporterBtn");
+    btn7.getStyleClass().add("supporterBtn");
     /*supporterTwoBtn.setGraphic();*/
     // two HBox'es
   }
@@ -119,7 +138,6 @@ public class RsccRequestView extends BorderPane {
 
     centerBox.setId("centerBox");
 
-    predefinedAdressessBox.getChildren().addAll(predefinedAddressesLbl, supporterOneBtn);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
@@ -131,14 +149,38 @@ public class RsccRequestView extends BorderPane {
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
     descriptionBox.getStyleClass().add("descriptionBox");
 
-    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-    scrollPane.setContent(predefinedAdressessBox);
-
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
 
     keyGeneratorPane.setContent(centerBox);
-    predefinedAddressesPane.setContent(scrollPane);
+
+    // *** Supporter Pane ***
+    predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+    predefinedAddressesPane.setContent(predefinedAdressessBox);
+
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    scrollPane.setContent(supporterGrid);
+
+    // add column constraints
+    ColumnConstraints col1 = new ColumnConstraints();
+    ColumnConstraints col2 = new ColumnConstraints();
+    ColumnConstraints col3 = new ColumnConstraints();
+    col1.setPercentWidth(33.33333);
+    col2.setPercentWidth(33.33333);
+    col3.setPercentWidth(33.33333);
+    supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+
+    supporterGrid.add(supporterOneBtn, 0, 0);
+    supporterGrid.add(btn2, 1, 0);
+    supporterGrid.add(btn3, 2, 0);
+    supporterGrid.add(btn4, 0, 1);
+    supporterGrid.add(btn5, 1, 1);
+    supporterGrid.add(btn6, 2, 1);
+    supporterGrid.add(btn7, 0, 2);
+
+    // FIXME: Define height of scrollPane
+
+    // ***************
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
