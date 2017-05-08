@@ -163,16 +163,15 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
+    // TODO: why set pref width for only support settings box?
+    supportSettingsBox.setPrefWidth(overlayWidth);
+    supportSettingsBox.setPrefHeight(overlayHeight);
     supportSettingsBox.setPadding(new Insets(10));
     supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
     supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl)); // TODO: why just a label here and in request?
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
-
-    // TODO: why set pref width for only support settings box?
-    supportSettingsBox.setPrefWidth(overlayWidth);
-    supportSettingsBox.setPrefHeight(overlayHeight);
 
     // Help
     supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
