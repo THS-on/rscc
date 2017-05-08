@@ -101,11 +101,10 @@ public class RsccRequestView extends BorderPane {
     // two HBox'es
 
     statusLbl.setText("Waiting");
-    statusBox.getStyleClass().add("statusBar");
-
   }
 
   private void layoutForm() {
+    statusBox.getStyleClass().add("statusBar");
     statusLbl.getStyleClass().add("statusBarLbl");
 
     //setup layout (aka setup specific pane etc.)
