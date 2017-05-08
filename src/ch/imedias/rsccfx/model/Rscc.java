@@ -167,7 +167,8 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", keyUtil.getKey());
+    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh",
+        keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
   }
 
