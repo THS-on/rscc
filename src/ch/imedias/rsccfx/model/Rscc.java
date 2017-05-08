@@ -211,7 +211,7 @@ public class Rscc {
 
     rscccfp = new Rscccfp(this, false);
  //   rscccfp.setDaemon(true);
-//    rscccfp.start();
+    rscccfp.start();
 
     //startVncViewer("localhost");
   }
