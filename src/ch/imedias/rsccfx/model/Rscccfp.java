@@ -65,7 +65,7 @@ public class Rscccfp extends Thread {
    */
   public void startRscccfpServer() throws Throwable {
 
-    //Start Server
+    //Start TCP-Server
     System.out.println("RSCCCFP: start server");
     ServerSocket serverSocket;
     serverSocket = new ServerSocket(model.getVncPort());
@@ -88,6 +88,9 @@ public class Rscccfp extends Thread {
     //send my SDP
     sendMySdp(model.getMySdp());
 
+    //receive results
+    receiveOtherIceProcessingState();
+
     //receive other SDP
     receiveOtherSdp();
 
@@ -106,19 +109,10 @@ public class Rscccfp extends Thread {
       model.setMyIceProcessingState("Failed");
     }
 
-    //receive results
-    receiveOtherIceProcessingState();
-
     //send results
     sendMyIceProcessingState();
-  }
 
-
-  /**
-   * creates SDP.
-   */
-  private String createSdp() throws Throwable {
-    return SdpUtils.createSdp(agent);
+    elaborateResults();
   }
 
 
@@ -143,9 +137,6 @@ public class Rscccfp extends Thread {
     //receive other SDP
     receiveOtherSdp();
 
-    //send my sdp
-    sendMySdp(model.getMySdp());
-
     //Stun Magic
     SdpUtils.parseSdp(agent, model.getOtherSdp());
     stateListener = new StateListener();
@@ -165,12 +156,25 @@ public class Rscccfp extends Thread {
     //send results
     sendMyIceProcessingState();
 
+    //send my sdp
+    sendMySdp(model.getMySdp());
+
     //receive results
     receiveOtherIceProcessingState();
 
     closeConnection();
+
+    elaborateResults();
   }
 
+  private void elaborateResults() {
+    System.out.println("My Process State: " + model.getMyIceProcessingState());
+    System.out.println("Other Process State: " + model.getOtherIceProcessingState());
+  }
+
+  /**
+   * Receive other state.
+   */
   private void receiveOtherIceProcessingState() {
     try {
       String OtherIceProcessingStat = inputStream.readLine();
@@ -179,6 +183,13 @@ public class Rscccfp extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * creates SDP.
+   */
+  private String createSdp() throws Throwable {
+    return SdpUtils.createSdp(agent);
   }
 
 
