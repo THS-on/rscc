@@ -68,6 +68,9 @@ public class Rscccfp extends Thread {
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
       receiveOtherSdp();
+      while (!this.isInterrupted() && model.getMySdp() == null) {
+        Thread.sleep(1000);
+      }
       sendMySdp(model.getMySdp());
 
       //Wait until STUN Magic happend
@@ -101,6 +104,9 @@ public class Rscccfp extends Thread {
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
+      while (!this.isInterrupted() && model.getMySdp() == null) {
+        Thread.sleep(1000);
+      }
       sendMySdp(model.getMySdp());
       receiveOtherSdp();
 
