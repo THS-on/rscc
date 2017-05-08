@@ -98,8 +98,8 @@ public class RsccTest {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")
             && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
-
 
   /**
    * Test for {@link Rscc#requestKeyFromServer()}.
@@ -111,8 +111,8 @@ public class RsccTest {
     // make sure the script was executed
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
-    // make sure the key which is being returned is right
-    verifyKeySet();
+    // make sure the key which is being returned is set right
+    verify(mockKeyUtil).setKey(KEY);
   }
 
 
@@ -127,6 +127,7 @@ public class RsccTest {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_vncviewer.sh")
             && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
 
   /**
@@ -140,11 +141,7 @@ public class RsccTest {
         argThat(script -> script.contains("port_stop.sh")));
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
-    // make sure the key which is being returned is right
-    verifyKeySet();
-  }
-
-  private void verifyKeySet() {
+    // make sure the key which is being returned is set right
     verify(mockKeyUtil).setKey(KEY);
   }
 }
