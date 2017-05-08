@@ -24,14 +24,15 @@ public class RsccSupportView extends BorderPane {
 
   private final Rscc model;
   private final Strings strings = new Strings();
+  private static final double KEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
 
-  final VBox centerBox = new VBox();
-  final VBox groupingBox = new VBox();
+  final VBox descriptionBox = new VBox();
+  final HBox centerBox = new HBox();
   final HBox keyValidationBox = new HBox();
 
   final TextField keyFld = new TextField();
@@ -77,32 +78,43 @@ public class RsccSupportView extends BorderPane {
   private void layoutForm() {
     addressbookPane.setExpanded(false);
 
+    keyFld.setPrefHeight(KEYFLD_HEIGHT);
+
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
 
-    keyFld.setFont(new Font(30)); // TODO: Move to CSS
+    //keyFld.setFont(new Font(30)); // TODO: Move to CSS
+    keyFld.setId("keyFld");
 
     validationImgView.setSmooth(true);
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
-    keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    HBox.setHgrow(keyFld, Priority.ALWAYS);
-    keyValidationBox.setAlignment(Pos.CENTER_LEFT);
+    //keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
+    HBox.setHgrow(descriptionBox, Priority.ALWAYS);
 
-    groupingBox.getChildren().addAll(keyValidationBox);
+    keyValidationBox.setId("keyValidationBox");
 
-    centerBox.getChildren().addAll(titleLbl,
-        descriptionLbl,
-        groupingBox,
-        connectBtn);
+    descriptionBox.getStyleClass().add("descriptionBox");
+
+    //descriptionBox.setAlignment(Pos.CENTER_LEFT);
+
+    titleLbl.getStyleClass().add("titleLbl");
+
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
+
+    centerBox.getChildren().addAll(keyValidationBox, descriptionBox);
+
+    centerBox.setId("centerBoxSupport");
+
+    connectBtn.setId("connectBtn");
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
     // TODO: Set content for addressbookPane
 
     connectBtn.setDisable(true);
-    connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
+    //connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
     setBottom(addressbookPane);

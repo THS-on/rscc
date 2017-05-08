@@ -9,11 +9,14 @@ import java.util.logging.Logger;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -26,6 +29,7 @@ public class RsccRequestView extends BorderPane {
 
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
+  private static final double A_THIRD_OF_ONE_HUNDERED = 100/3;
 
   final HeaderView headerView;
   private final Rscc model;
@@ -34,26 +38,35 @@ public class RsccRequestView extends BorderPane {
   final Label titleLbl = new Label();
   final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label supporterDescriptionLbl = new Label();
 
   final VBox descriptionBox = new VBox();
-  final VBox bottomBox = new VBox();
 
-  final HBox supporterAdminBox = new HBox();
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
+  final HBox predefinedAdressessBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
+  final ScrollPane scrollPane = new ScrollPane();
 
   final TextField generatedKeyFld = new TextField();
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
-  final Button supporterOneBtn = new Button();
+  final Button btn1 = new Button();
+  final Button btn2 = new Button("Btn");
+  final Button btn3 = new Button("Btn");
+  final Button btn4 = new Button("Btn");
+  final Button btn5 = new Button("Btn");
+  final Button btn6 = new Button("Btn");
+  final Button btn7 = new Button("Btn");
 
   Image reloadImg;
 
   ImageView reloadImgView;
+
+  GridPane supporterGrid = new GridPane();
 
   /**
    * Initializes all the GUI components needed generate the key the supporter needs.
@@ -93,15 +106,22 @@ public class RsccRequestView extends BorderPane {
     predefinedAddressesPane.setExpanded(false);
     predefinedAddressesPane.setId("predefinedAddressesPane");
 
+    supporterDescriptionLbl.setText("Description on the right");
+
     // TODO: Finish all the buttons here according to mockup.
     // Admin Buttons
     // label, six Buttons, six images
-    /*supporterOneBtn.setGraphic();*/
-    supporterOneBtn.textProperty().setValue("Supporter 1");
-    supporterOneBtn.getStyleClass().add("supporterBtn");
+    /*btn1.setGraphic();*/
+    btn1.textProperty().setValue("Supporter 1");
+    btn1.getStyleClass().add("supporterBtn");
+    btn2.getStyleClass().add("supporterBtn");
+    btn3.getStyleClass().add("supporterBtn");
+    btn4.getStyleClass().add("supporterBtn");
+    btn5.getStyleClass().add("supporterBtn");
+    btn6.getStyleClass().add("supporterBtn");
+    btn7.getStyleClass().add("supporterBtn");
     /*supporterTwoBtn.setGraphic();*/
     // two HBox'es
-
   }
 
   private void layoutForm() {
@@ -120,9 +140,7 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
     centerBox.setId("centerBox");
-    bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
@@ -132,12 +150,38 @@ public class RsccRequestView extends BorderPane {
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+    descriptionBox.getStyleClass().add("descriptionBox");
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
-    bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
-    predefinedAddressesPane.setContent(bottomBox);
+
+    // *** Supporter Pane ***
+    predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+    predefinedAddressesPane.setContent(predefinedAdressessBox);
+
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    scrollPane.setContent(supporterGrid);
+
+    // add column constraints
+    ColumnConstraints col1 = new ColumnConstraints();
+    ColumnConstraints col2 = new ColumnConstraints();
+    ColumnConstraints col3 = new ColumnConstraints();
+    col1.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col2.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col3.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+
+    supporterGrid.add(btn1, 0, 0);
+    supporterGrid.add(btn2, 1, 0);
+    supporterGrid.add(btn3, 2, 0);
+    supporterGrid.add(btn4, 0, 1);
+    supporterGrid.add(btn5, 1, 1);
+    supporterGrid.add(btn6, 2, 1);
+    supporterGrid.add(btn7, 0, 2);
+
+    // ***************
 
     setTop(headerView);
     setCenter(keyGeneratorPane);

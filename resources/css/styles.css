@@ -51,7 +51,7 @@
  *                                                                         *
  **************************************************************************/
 .descriptionLbl{
-    /*-fx-alignment: left;*/
+    -fx-alignment: center-left; /*FIXME: Throws IllegalArgumentException - sometimes*/
     -fx-wrap-text: true;
 }
 
@@ -64,16 +64,6 @@
  *                             RequestView                                 *
  *                                                                         *
  **************************************************************************/
-
-
-
-#keyGenerationLbl{
-    /*-fx-alignment: left;*/
-    -fx-font-family: Cantarell;
-    -fx-font-size: 32pt;
-    -fx-font-weight: bold;
-}
-
 #generatedKeyFld{
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
@@ -96,8 +86,8 @@
     -fx-padding: 25;
 }
 
-#descriptionBox {
-    -fx-alignment: center;
+.descriptionBox {       /* also used for SupportView */
+    -fx-alignment: center-left;
     -fx-spacing: 50;
     -fx-padding: 25;
 }
@@ -113,7 +103,6 @@
 .titled-pane > .title {
     -fx-pref-height: 36.0;
     -fx-font-size: 14pt;
-
 }
 
 .supporterBtn {
@@ -129,6 +118,39 @@
 #SupporterView {
     -fx-padding: 5, 25, 5, 25;
 }
+
+#centerBoxSupport {
+    /*-fx-alignment: center;*/ /*FIXME: is doing nothing*/
+    -fx-alignment: center;
+    -fx-padding: 10, 20, 10, 20;
+    -fx-spacing: 150;
+}
+
+#connectBtn {
+    -fx-alignment: bottom-right;
+    /*-fx-font-size: 30;*/
+}
+
+#keyValidationBox {
+    -fx-alignment: center;
+    -fx-spacing: 25;
+    -fx-padding: 25;
+}
+
+#keyFld {
+    -fx-background-color: #e2e2e2;
+    -fx-font-family: Monospaced;
+    -fx-font-size: 30pt;
+}
+
+.supporterBtn {
+    -fx-font-size: 18pt;
+    -fx-fit-to-width: true;
+    -fx-content-display: top;
+    -fx-border-width: 3;
+    -fx-padding: 15;
+}
+
 
 /***************************************************************************
  *                                                                         *

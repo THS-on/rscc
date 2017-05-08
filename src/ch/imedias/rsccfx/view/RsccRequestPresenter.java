@@ -12,9 +12,15 @@ import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+
+import ch.imedias.rsccfx.view.util.RequestViewAddSupporter;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 
 /**
  * Defines the behaviour of interactions
@@ -30,6 +36,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+
+  private ArrayList<Button> buttons = new ArrayList<>();
+  private int rowSize = 0;
 
   /**
    * List of supporter stuff here.
@@ -95,6 +104,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     attachEvents();
     initHeader();
     supporterListStuff();
+    initSupporterListFromFile();
   }
 
   /**
@@ -116,6 +126,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
+
+    view.btn7.setOnAction(event -> createNewSupporterBtn());
+    view.btn1.setOnAction(event -> new Dialog<RequestViewAddSupporter>().show());
+
   }
 
   /**
@@ -136,10 +150,20 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+    view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
 
-    // FIXME: need the height of the titlePane itself...
+    view.predefinedAddressesPane.prefWidthProperty().bind(scene.widthProperty());
+    view.predefinedAddressesPane.maxWidthProperty().bind(scene.widthProperty());
+
+    // FIXME: need the height of the titlePane itself... or magic number. François
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
         .subtract(159d));
+
+    view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
+    view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
+    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
 
   }
 
@@ -154,4 +178,43 @@ public class RsccRequestPresenter implements ControlledPresenter {
       viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
+
+  /**
+   * Creates new SupporterButton and adds it to the GridPane.
+   */
+  private void createNewSupporterBtn() {
+
+    Button supporter = new Button("+");
+    supporter.getStyleClass().add("supporterBtn");
+
+    buttons.add(supporter);
+
+    int buttonSize = buttons.size()-1;
+
+    if(buttonSize%3 == 0)
+      rowSize++;
+
+    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%3, rowSize);
+    buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
+    // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
+    if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
+      buttons.get(buttons.size()-2).setOnAction(null);
+    else if (buttonSize > 0)
+      buttons.get(0).setOnAction(null);
+  }
+
+  private void initSupporterListFromFile() {
+    // TODO: Jan implements this feature. Thank you Jan!
+
+    buttons.add(view.btn1);
+    buttons.add(view.btn2);
+    buttons.add(view.btn3);
+    rowSize++;
+    buttons.add(view.btn4);
+    buttons.add(view.btn5);
+    buttons.add(view.btn6);
+    rowSize++;
+    buttons.add(view.btn7);
+  }
+
 }
