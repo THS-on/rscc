@@ -84,6 +84,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter.setHelpBtnAction(event ->
         popOverHelper.helpPopOver.show(view.headerView.helpBtn));
     headerPresenter.setSettingsBtnAction(event ->
-    popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
+        popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
   }
 }

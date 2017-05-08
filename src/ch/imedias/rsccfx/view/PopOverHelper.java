@@ -35,11 +35,11 @@ public class PopOverHelper {
   private static final int QUALITY_MIN = 0;
   private static final int QUALITY_VALUE = 6;
 
-  private final double OVERLAY_HEIGHT = primaryScreenBounds.getHeight() / 4;
-  private final double OVERLAY_WIDTH = primaryScreenBounds.getWidth() / 9;
+  private final double overlayHeight = primaryScreenBounds.getHeight() / 4;
+  private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
 
-  private final double SLIDER_WIDTH = OVERLAY_WIDTH / 1.2;
-  private final double START_X_SLIDER = (OVERLAY_WIDTH / 2) - (SLIDER_WIDTH / 2);
+  private final double sliderWidth = overlayWidth / 1.2;
+  private final double startXSlider = (overlayWidth / 2) - (sliderWidth / 2);
 
   RsccApp rsccApp = new RsccApp();
 
@@ -81,7 +81,9 @@ public class PopOverHelper {
 
   // TODO: 8 bit Toggle is according to SA not needed anymore.
 
-
+  /**
+   * Initializes PopOver according to view.
+   */
   public PopOverHelper(ViewController viewParent, Rscc model) {
     this.viewParent = viewParent;
     this.model = model;
@@ -102,8 +104,8 @@ public class PopOverHelper {
     viewOnlyTgl.getStyleClass().add("toggles");
 
     // Help PopOver - Home
-    homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, " +
-        "jemandem zu helfen oder Hilfe zu bekommen");
+    homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, "
+        + "jemandem zu helfen oder Hilfe zu bekommen");
     homeHelpLbl.setId("homeHelpLbl");
 
     homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
@@ -123,14 +125,14 @@ public class PopOverHelper {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - compressionSliderTxt.getLayoutBounds().getWidth() / 2
-                  + START_X_SLIDER
+                  + startXSlider
           );
         }
       }
     };
 
     compressionSldr.setLayoutY(40);
-    compressionSldr.setPrefWidth(SLIDER_WIDTH);
+    compressionSldr.setPrefWidth(sliderWidth);
     compressionSldr.setShowTickLabels(true);
     compressionSldr.setShowTickMarks(true);
 
@@ -155,14 +157,14 @@ public class PopOverHelper {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - qualitySliderTxt.getLayoutBounds().getWidth() / 2
-                  + START_X_SLIDER
+                  + startXSlider
           );
         }
       }
     };
 
     qualitySldr.setLayoutY(40);
-    qualitySldr.setPrefWidth(SLIDER_WIDTH);
+    qualitySldr.setPrefWidth(sliderWidth);
     qualitySldr.setShowTickLabels(true);
     qualitySldr.setShowTickMarks(true);
 
@@ -193,17 +195,17 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
-    qualitySldr.setLayoutX(START_X_SLIDER);
-    compressionSldr.setLayoutX(START_X_SLIDER);
-    supportSettingsBox.setPrefWidth(OVERLAY_WIDTH);
-    supportSettingsBox.setPrefHeight(OVERLAY_HEIGHT);
+    qualitySldr.setLayoutX(startXSlider);
+    compressionSldr.setLayoutX(startXSlider);
+    supportSettingsBox.setPrefWidth(overlayWidth);
+    supportSettingsBox.setPrefHeight(overlayHeight);
 
 
     requestSettingsPane.getChildren().add(requestSettingsBox);
 
     // Help popover - request
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help " +
-        "or help someone in need");
+    requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
+        + "or help someone in need");
     requestHelpLbl.setId("requestHelpLbl");
 
     // TODO: If we have more labels, we can add it to the box.
