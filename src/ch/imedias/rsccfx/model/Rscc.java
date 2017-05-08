@@ -49,7 +49,7 @@ public class Rscc {
   private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
-  private final IntegerProperty vncPort = new SimpleIntegerProperty(5908);
+  private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
@@ -198,9 +198,9 @@ public class Rscc {
     iceRunner.setDaemon(true);
     iceRunner.start();
 
-//    rscccfp = new Rscccfp(this, true);
-//    rscccfp.setDaemon(true);
-//    rscccfp.start();
+    rscccfp = new Rscccfp(this, true);
+    rscccfp.setDaemon(true);
+    rscccfp.start();
 
     //startVncServer();
   }
@@ -219,7 +219,7 @@ public class Rscc {
     iceRunner.setDaemon(true);
     iceRunner.start();
 
-    rscccfp = new Rscccfp(this, true);
+    rscccfp = new Rscccfp(this, false);
     rscccfp.setDaemon(true);
     rscccfp.start();
 
