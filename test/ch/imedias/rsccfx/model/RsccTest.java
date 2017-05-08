@@ -43,8 +43,22 @@ public class RsccTest {
   @Test
   public void testRsccConstructorIllegalArguments() {
     try {
-      new Rscc(null, mockKeyUtil); // FIXME: ADD another test with KeyUtil
+      new Rscc(null, mockKeyUtil);
       fail("IllegalArgumentException was expected when SystemCommander is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(mockSystemCommander, null);
+      fail("IllegalArgumentException was expected when KeyUtil is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(null, null);
+      fail("IllegalArgumentException was expected when all parameters are null");
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
