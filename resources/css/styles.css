@@ -30,9 +30,6 @@
     -fx-cursor: hand;
 }
 
-
-
-
 /***************************************************************************
  *                                                                         *
  *                             HomeView                                    *
@@ -54,8 +51,6 @@
     -fx-background-color: #f7f7f7;
     -fx-cursor: hand;
 }
-
-
 
 /***************************************************************************
  *                                                                         *
@@ -109,7 +104,7 @@
  *                                                                         *
  **************************************************************************/
 
-#settingsBox{
+#settingsBox {
     -fx-padding: 50;
 }
 
@@ -117,32 +112,26 @@
     -fx-pref-height: 25;
     -fx-pref-width: 25;
 }
+
 .slider .thumb:hover {
  -fx-cursor: hand;
 }
 
-.slider{
+.slider {
     -fx-border-color: white;
     -fx-border-style: dashed;
     -fx-border-width: 2;
 }
 
-.sliderTxts{
+.sliderTxts {
     -fx-font-size: 200%;
 
 }
 
-.sliderLbls{
+.sliderLbls {
  -fx-font-size: 150%;
 }
 
 .toggles:selected .thumb-area {
     -fx-background-color: #A7A7A7;
 }
-
-.toggles {
-    -fx-
-}
-
-
-

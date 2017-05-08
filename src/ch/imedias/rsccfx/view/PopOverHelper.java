@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
@@ -135,6 +136,8 @@ public class PopOverHelper {
 
     compressionSldr.setLayoutY(40);
     compressionSldr.setPrefWidth(SLIDER_WIDTH);
+    compressionSldr.setShowTickLabels(true);
+    compressionSldr.setShowTickMarks(true);
 
     compressionSliderTxt.setTextOrigin(VPos.TOP);
     compressionSliderTxt.textProperty().bind(
@@ -144,7 +147,6 @@ public class PopOverHelper {
 
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.getStyleClass().add("sliderLbls");
-
 
     // Quality Settings
     qualitySldr = new Slider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE) {
@@ -188,6 +190,7 @@ public class PopOverHelper {
     compressionSliderPane.getChildren().addAll(compressionSldr, compressionSliderTxt);
     qualitySliderPane.getChildren().addAll(qualitySldr, qualitySliderTxt);
 
+    requestSettingsBox.setPadding(new Insets(10));
 
     requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
     requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
