@@ -176,9 +176,12 @@ public class Rscccfp extends Thread {
    * Receive other state.
    */
   private void receiveOtherIceProcessingState() {
+    System.out.println("RSCCCFP: wait for other state");
     try {
       String OtherIceProcessingStat = inputStream.readLine();
       model.setOtherIceProcessingState(OtherIceProcessingStat);
+
+      System.out.println("RSCCCFP: received other state");
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -303,7 +306,8 @@ public class Rscccfp extends Thread {
     // You need to listen for state change so that once connected you can then use the socket.
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
 
-    while (!this.isInterrupted() && agent.getState() == IceProcessingState.RUNNING) {
+
+    while (agent.getState() == IceProcessingState.RUNNING) {
       Thread.sleep(1000);
       System.out.println("ICE Process running");
     }
