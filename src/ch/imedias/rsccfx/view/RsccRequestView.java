@@ -32,13 +32,16 @@ public class RsccRequestView extends BorderPane {
   final Label titleLbl = new Label();
   final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label statusLbl = new Label();
 
   final VBox descriptionBox = new VBox();
   final VBox bottomBox = new VBox();
+  final HBox statusBox = new HBox();
 
   final HBox supporterAdminBox = new HBox();
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
+  final VBox collectBox = new VBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
@@ -46,7 +49,6 @@ public class RsccRequestView extends BorderPane {
   final TextField generatedKeyFld = new TextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button readyBtn = new Button();
   final Button supporterOneBtn = new Button();
 
   Image reloadImg;
@@ -81,8 +83,6 @@ public class RsccRequestView extends BorderPane {
     reloadImgView = new ImageView(reloadImg);
     reloadKeyBtn.setGraphic(reloadImgView);
 
-    readyBtn.textProperty().set("Ready");
-
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
@@ -102,9 +102,13 @@ public class RsccRequestView extends BorderPane {
     /*supporterTwoBtn.setGraphic();*/
     // two HBox'es
 
+    statusLbl.setText("Waiting");
   }
 
   private void layoutForm() {
+    statusBox.getStyleClass().add("statusBox");
+    statusLbl.getStyleClass().add("statusLbl");
+
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -126,17 +130,19 @@ public class RsccRequestView extends BorderPane {
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
-    readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
-    bottomBox.getChildren().add(supporterAdminBox);
+    bottomBox.getChildren().addAll(supporterAdminBox);
 
-    keyGeneratorPane.setContent(centerBox);
+    statusBox.getChildren().addAll(statusLbl);
+    collectBox.getChildren().addAll(centerBox,statusBox);
+
+    keyGeneratorPane.setContent(collectBox);
     predefinedAddressesPane.setContent(bottomBox);
 
     setTop(headerView);
@@ -147,6 +153,7 @@ public class RsccRequestView extends BorderPane {
   private void bindFieldsToModel() {
     // make bindings to the model
     generatedKeyFld.textProperty().bind(model.keyProperty());
+
   }
 }
 

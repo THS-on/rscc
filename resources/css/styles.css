@@ -59,6 +59,24 @@
     -fx-font-size: 25;
 }
 
+.statusBox{
+    -fx-background-color: rgb(240, 173, 78);
+    -fx-alignment: center;
+}
+
+.statusBox:valid{
+    -fx-background-color: rgb(92, 184, 92);
+}
+
+.statusBox:invalid{
+    -fx-background-color: rgb(217, 83, 79);
+}
+
+.statusLbl{
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
 /***************************************************************************
  *                                                                         *
  *                             RequestView                                 *

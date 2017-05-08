@@ -98,6 +98,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
         Bindings.when(keyValidityProperty)
             .then(validImage)
             .otherwise(invalidImage)
+
     );
   }
 
