@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -34,14 +35,14 @@ public class RsccRequestView extends BorderPane {
   final Label descriptionLbl = new Label();
 
   final VBox descriptionBox = new VBox();
-  final VBox bottomBox = new VBox();
 
-  final HBox supporterAdminBox = new HBox();
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
+  final HBox predefinedAdressessBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
+  final ScrollPane scrollPane = new ScrollPane();
 
   final TextField generatedKeyFld = new TextField();
 
@@ -99,7 +100,6 @@ public class RsccRequestView extends BorderPane {
     supporterOneBtn.getStyleClass().add("supporterBtn");
     /*supporterTwoBtn.setGraphic();*/
     // two HBox'es
-
   }
 
   private void layoutForm() {
@@ -118,9 +118,8 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
     centerBox.setId("centerBox");
-    bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
+    predefinedAdressessBox.getChildren().addAll(predefinedAddressesLbl, supporterOneBtn);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
@@ -132,11 +131,14 @@ public class RsccRequestView extends BorderPane {
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
     descriptionBox.getStyleClass().add("descriptionBox");
 
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    scrollPane.setContent(predefinedAdressessBox);
+
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
-    bottomBox.getChildren().add(supporterAdminBox);
 
     keyGeneratorPane.setContent(centerBox);
-    predefinedAddressesPane.setContent(bottomBox);
+    predefinedAddressesPane.setContent(scrollPane);
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
