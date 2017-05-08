@@ -5,7 +5,10 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
+
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 
 /**
  * Defines the behaviour of interactions
@@ -75,6 +78,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+    view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
+
+    view.predefinedAddressesPane.prefWidthProperty().bind(scene.widthProperty());
+    view.predefinedAddressesPane.maxWidthProperty().bind(scene.widthProperty());
 
     // FIXME: need the height of the titlePane itself... or magic number. François
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
@@ -83,9 +90,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.scrollPane.prefHeightProperty().bind(scene.heightProperty()
         .subtract(300d));
 
-    view.scrollPane.prefWidthProperty().bind(scene.widthProperty()
-        /*.subtract(view.supporterDescriptionLbl.getWidth()));*/
-        .subtract(300d));
+    view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
+    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+
   }
 
   /**
