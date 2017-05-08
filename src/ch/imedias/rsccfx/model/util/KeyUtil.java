@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -97,7 +99,7 @@ public class KeyUtil {
     return key.get();
   }
 
-  public StringProperty keyProperty() {
+  public ReadOnlyStringProperty keyProperty() {
     return key;
   }
 
@@ -105,7 +107,7 @@ public class KeyUtil {
     return formattedKey.get();
   }
 
-  public StringProperty formattedKeyProperty() {
+  public ReadOnlyStringProperty formattedKeyProperty() {
     return formattedKey;
   }
 
@@ -113,7 +115,7 @@ public class KeyUtil {
     return keyValid.get();
   }
 
-  public BooleanProperty keyValidProperty() {
+  public ReadOnlyBooleanProperty keyValidProperty() {
     return keyValid;
   }
 
