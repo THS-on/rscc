@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Created by François Martin on 04.05.17.
+ * Handles everything related to the key.
  */
 public class KeyUtil {
 
@@ -22,18 +22,7 @@ public class KeyUtil {
   private final BooleanProperty keyValid = new SimpleBooleanProperty(false);
 
   public KeyUtil() {
-    attachEvents();
     setupBindings();
-  }
-
-  private void attachEvents(){
-    key.addListener(
-        (observable, oldKey, newKey) -> {
-          if (oldKey != null && newKey != null && !oldKey.equals(newKey)) {
-            setKey(deformatKey(newKey));
-          }
-        }
-    );
   }
 
   private void setupBindings() {
@@ -57,8 +46,8 @@ public class KeyUtil {
     if (key != null) {
       key = deformatKey(key); // make sure the key doesn't have spaces in it already
       // shorten key to 9 characters if it's too long
-      if(key.length() > 9){
-        key = key.substring(0,9);
+      if (key.length() > 9) {
+        key = key.substring(0, 9);
       }
       Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(key);
       key = Streams.stream(pieces)
@@ -71,8 +60,8 @@ public class KeyUtil {
    * Removes spaces in a key which has been previously formatted with spaces.
    */
   public String deformatKey(String key) {
-    if(key != null){
-      key = key.replace(KEY_FORMAT_DELIMITER,"");
+    if (key != null) {
+      key = key.replace(KEY_FORMAT_DELIMITER, "");
     }
     return key;
   }
@@ -97,7 +86,7 @@ public class KeyUtil {
   }
 
   public void setKey(String key) {
-    this.key.set(key);
+    this.key.set(deformatKey(key));
   }
 
   public String getFormattedKey() {
@@ -106,10 +95,6 @@ public class KeyUtil {
 
   public StringProperty formattedKeyProperty() {
     return formattedKey;
-  }
-
-  public void setFormattedKey(String formattedKey) {
-    this.formattedKey.set(formattedKey);
   }
 
   public boolean isKeyValid() {
