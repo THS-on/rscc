@@ -23,7 +23,9 @@ public class Rscccfp {
 
   }
 
-
+  /**
+   * Starts the TCP - Server.
+   */
   public void startRscccfpServer() {
 
     ServerSocket serverSocket;
@@ -41,16 +43,18 @@ public class Rscccfp {
       //send STUN ownStun result
       closeConnection();
 
-//      clientSentence = inputStream.readLine();
-//      capitalizedSentence = clientSentence.toUpperCase() + '\n';
-//      outputStream.writeBytes(capitalizedSentence);
+      //      clientSentence = inputStream.readLine();
+      //      capitalizedSentence = clientSentence.toUpperCase() + '\n';
+      //      outputStream.writeBytes(capitalizedSentence);
 
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-
+  /**
+   * Starts the TCP-Client.
+   */
   public void startRscccfpClient(String host, int port) {
     try {
       connectionSocket = new Socket("127.0.0.1", 5900);
@@ -69,6 +73,10 @@ public class Rscccfp {
     }
   }
 
+
+  /**
+   * reads SDP-Dump from opposite.
+   */
   private void receiveSdp() {
     StringBuilder receivedSdp = new StringBuilder();
     try {
@@ -85,6 +93,9 @@ public class Rscccfp {
   }
 
 
+  /**
+   * Closes TCP-Connections.
+   */
   public void closeConnection() {
     try {
       connectionSocket.close();
@@ -95,6 +106,10 @@ public class Rscccfp {
     }
   }
 
+
+  /**
+   * Sends SDP-Dump to opposite.
+   */
   public void sendSdp(String sdpDump) {
     try {
       outputStream.writeBytes("sdpStart" + '\n');
@@ -107,9 +122,11 @@ public class Rscccfp {
 
   }
 
+  /**
+   * Sends ICE-Result to opposite.
+   */
   public void sendResult() {
 
 
   }
-
 }
