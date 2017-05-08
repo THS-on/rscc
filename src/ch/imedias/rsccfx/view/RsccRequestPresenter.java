@@ -8,10 +8,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Screen;
 
 /**
  * Defines the behaviour of interactions
@@ -43,6 +41,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    initSupporterListFromFile();
   }
 
   /**
@@ -65,7 +64,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
         event -> view.keyGeneratorPane.setExpanded(false)
     );
 
-    view.btn6.setOnAction(event -> createNewSupporterBtn());
+    view.btn7.setOnAction(event -> createNewSupporterBtn());
 
   }
 
@@ -119,17 +118,38 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Creates new SupporterButton and adds it to the GridPane.
    */
   private void createNewSupporterBtn() {
-    int counter = buttons.size();
+
     Button supporter = new Button("+");
+    supporter.getStyleClass().add("supporterBtn");
 
     buttons.add(supporter);
 
-    if((buttons.size())%3 == 0)
+    int buttonSize = buttons.size()-1;
+
+    if(buttonSize%3 == 0)
       rowSize++;
-    view.supporterGrid.add(buttons.get(buttons.size()-1), buttons.size()%3, rowSize);
-    buttons.get(buttons.size()-1).setOnAction(event -> createNewSupporterBtn());
+
+    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%3, rowSize);
+    buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
     if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
       buttons.get(buttons.size()-2).setOnAction(null);
+    else
+      buttons.get(0).setOnAction(null);
   }
+
+  private void initSupporterListFromFile() {
+    // TODO: Jan implements this feature. Thank you Jan!
+
+    buttons.add(view.btn1);
+    buttons.add(view.btn2);
+    buttons.add(view.btn3);
+    rowSize++;
+    buttons.add(view.btn4);
+    buttons.add(view.btn5);
+    buttons.add(view.btn6);
+    rowSize++;
+    buttons.add(view.btn7);
+  }
+
 }
