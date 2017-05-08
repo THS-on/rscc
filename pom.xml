@@ -351,13 +351,6 @@
             <version>master</version>
         </dependency>
 
-        <!-- ControlsFxSample -->
-        <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx-samples</artifactId>
-            <version>8.40.12</version>
-        </dependency>
-
         <!-- ControlsFX -->
         <dependency>
             <groupId>org.controlsfx</groupId>
