@@ -9,7 +9,7 @@ http_port=800
 
 #### Configuration received from th server
 ### the port of the sshd service in the p2p server
-p2p_port=
+p2p_port=2201
 
 ### compress the ssh connections
 ### can be usefull only for slow connections
