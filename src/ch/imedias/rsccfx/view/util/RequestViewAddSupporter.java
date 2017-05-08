@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 public class RequestViewAddSupporter extends DialogPane {
 
@@ -31,6 +32,8 @@ public class RequestViewAddSupporter extends DialogPane {
   final CheckBox chargeableChk = new CheckBox();
   final CheckBox encryptedChk = new CheckBox();
 
+  GridPane grid = new GridPane();
+
   // TODO: Add "Opened folder"
 
   public RequestViewAddSupporter() {
@@ -38,6 +41,7 @@ public class RequestViewAddSupporter extends DialogPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+    this.setContent(grid);
   }
 
   private void initFieldData() {
@@ -45,7 +49,9 @@ public class RequestViewAddSupporter extends DialogPane {
   }
 
   private void layoutForm() {
-    this.getChildren().addAll(nameLbl, nameTxt);
+    grid.add(nameLbl, 0, 0);
+    grid.add(nameTxt, 0, 1);
+
   }
 
   private void bindFieldsToModel() {
