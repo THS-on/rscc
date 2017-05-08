@@ -5,16 +5,13 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
@@ -55,9 +52,9 @@ public class PopOverHelper {
   ToggleSwitch viewOnlyTgl = new ToggleSwitch();
 
   VBox homeHelpBox = new VBox();
-  VBox requestSettingsBox = new VBox();
+  VBox supportSettingsBox = new VBox();
   VBox requestHelpBox = new VBox();
-  VBox supporterSettingsBox = new VBox();
+  VBox requestSettingsBox = new VBox();
   VBox supporterHelpBox = new VBox();
 
   PopOver settingsPopOver = new PopOver();
@@ -68,7 +65,7 @@ public class PopOverHelper {
 
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
-  Label requestBitSettingsLbl = new Label();
+  Label requestBgr233Lbl = new Label();
   Label requestBitCurrentSettingsLbl = new Label();
   Label requestViewOnlyLbl = new Label();
   Label homeHelpLbl = new Label();
@@ -77,15 +74,13 @@ public class PopOverHelper {
   Slider compressionSldr;
 
   Slider qualitySldr;
-  Slider pictureScalingSldr;
 
   Pane compressionSliderPane = new Pane();
   Pane requestSettingsPane = new Pane();
   Pane qualitySliderPane = new Pane();
 
   // TODO: 8 bit Toggle is according to SA not needed anymore.
-  ToggleButton eightBitToggl = new ToggleButton();
-  ToggleButton showOnlyToggl = new ToggleButton();
+
 
   public PopOverHelper(ViewController viewParent, Rscc model) {
     this.viewParent = viewParent;
@@ -178,8 +173,8 @@ public class PopOverHelper {
     qualitySliderTxt.setTextOrigin(VPos.TOP);
     qualitySliderTxt.textProperty().bind(qualitySldr.valueProperty().asString("%,.0f"));
 
-    requestBitSettingsLbl.textProperty().set("8-Bit-Farben");
-    requestBitSettingsLbl.setId("requestBitSettingsLbl");
+    requestBgr233Lbl.textProperty().set("bgr233");
+    requestBgr233Lbl.setId("requestBgr233Lbl");
 
     requestViewOnlyLbl.textProperty().set("View only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
@@ -190,18 +185,18 @@ public class PopOverHelper {
     compressionSliderPane.getChildren().addAll(compressionSldr, compressionSliderTxt);
     qualitySliderPane.getChildren().addAll(qualitySldr, qualitySliderTxt);
 
-    requestSettingsBox.setPadding(new Insets(10));
+    supportSettingsBox.setPadding(new Insets(10));
 
-    requestSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
-    requestSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
-    requestSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBitSettingsLbl));
-    requestSettingsBox.getChildren().add(new HBox(viewOnlyTgl, requestViewOnlyLbl));
-    requestSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+    supportSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
+    supportSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
+    supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
+    supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
+    supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     qualitySldr.setLayoutX(START_X_SLIDER);
     compressionSldr.setLayoutX(START_X_SLIDER);
-    requestSettingsBox.setPrefWidth(OVERLAY_WIDTH);
-    requestSettingsBox.setPrefHeight(OVERLAY_HEIGHT);
+    supportSettingsBox.setPrefWidth(OVERLAY_WIDTH);
+    supportSettingsBox.setPrefHeight(OVERLAY_HEIGHT);
 
 
     requestSettingsPane.getChildren().add(requestSettingsBox);
@@ -216,14 +211,12 @@ public class PopOverHelper {
 
     // Settings PopOver - supporter
 
-    pictureScalingSldr = new Slider();
-    pictureScalingSldr.setId("pictureScalingSldr");
 
     // TODO: Check what we can really use in the settings.
     // TODO: SA, please let UM know which settings we need.
-    showOnlyToggl.textProperty().set("Show only");
 
-    supporterSettingsBox.getChildren().addAll(pictureScalingSldr, showOnlyToggl);
+
+    requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
 
     // Help popover - supporter
     supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
@@ -260,7 +253,7 @@ public class PopOverHelper {
         break;
       case "supporter":
         helpPopOver.setContentNode(supporterHelpBox);
-        settingsPopOver.setContentNode(supporterSettingsBox);
+        settingsPopOver.setContentNode(supportSettingsBox);
         break;
       default:
         helpPopOver.setContentNode(null);
