@@ -82,6 +82,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     view.scrollPane.prefHeightProperty().bind(scene.heightProperty()
         .subtract(300d));
+
+    view.scrollPane.prefWidthProperty().bind(scene.widthProperty()
+        /*.subtract(view.supporterDescriptionLbl.getWidth()));*/
+        .subtract(300d));
   }
 
   /**
