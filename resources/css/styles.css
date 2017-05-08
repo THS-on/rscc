@@ -34,6 +34,14 @@
     -fx-fit-to-width: true;
     -fx-content-display: left;
 }
+
+.BigFont{
+    -fx-font-size: 25pt;
+}
+
+.SmallFont{
+     -fx-font-size: 18pt;
+}
 /***************************************************************************
  *                                                                         *
  *                             HomePresenter                                    *
