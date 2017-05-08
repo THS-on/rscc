@@ -10,7 +10,7 @@ import java.net.Socket;
 /**
  * Created by jp on 08/05/17.
  */
-public class Rscccfp extends Thread   {
+public class Rscccfp extends Thread {
 
   private final Rscc model;
 
@@ -23,11 +23,16 @@ public class Rscccfp extends Thread   {
     this.model = model;
   }
 
+  /**
+   * sets type for threading.
+   */
   public void run() {
-    if (isServer){
+    if (isServer) {
       startRscccfpServer();
+      System.out.println("running as Server");
     } else {
       startRscccfpClient("127.0.0.1", 5900);
+      System.out.println("running as Client");
     }
   }
 
@@ -42,10 +47,13 @@ public class Rscccfp extends Thread   {
       serverSocket = new ServerSocket(5900);
       connectionSocket = serverSocket.accept();
 
+      System.out.println("connection accepted");
+
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
-      sendSdp("TEST");
+
+      sendSdp("TESTfromServer");
       receiveSdp();
       //do STUN Magic
       //wait for other StunStatus
@@ -67,12 +75,15 @@ public class Rscccfp extends Thread   {
   public void startRscccfpClient(String host, int port) {
     try {
       connectionSocket = new Socket("127.0.0.1", 5900);
+      System.out.println("Connected to server");
 
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
       receiveSdp();
-      sendSdp("TEST");
+      sendSdp("TESTfromClient" +
+          "wlekdnmewkd" +
+          "lwkedkmwedlkm");
       //do STUN Magic
       //send STUN ownStun result
       //wait for other StunStatus
@@ -89,16 +100,26 @@ public class Rscccfp extends Thread   {
   private void receiveSdp() {
     StringBuilder receivedSdp = new StringBuilder();
     try {
-      if (inputStream.readLine().equals("sdpStart")) {
-        String nextline = inputStream.readLine();
-        while (!nextline.equals("sdpEnd")) {
-          receivedSdp.append(nextline);
-        }
+      //wait for starting line
+      String sdpLine = inputStream.readLine();
+
+      while (!sdpLine.equals("sdpStart")){
+        sdpLine = inputStream.readLine();
       }
+      sdpLine = inputStream.readLine();
+
+      while (!sdpLine.equals("sdpEnd")) {
+        receivedSdp.append(sdpLine);
+        sdpLine = inputStream.readLine();
+      }
+
+      System.out.println("received sdp:");
+      System.out.println(receivedSdp.toString());
+
     } catch (Exception e) {
       e.printStackTrace();
     }
-    System.out.println(receivedSdp.toString());
+
   }
 
 
@@ -121,10 +142,11 @@ public class Rscccfp extends Thread   {
    */
   public void sendSdp(String sdpDump) {
     try {
-      outputStream.writeBytes("sdpStart" + '\n');
+      outputStream.writeBytes("sdpStart"+ '\n');
       outputStream.writeBytes(sdpDump + '\n');
       outputStream.writeBytes("sdpEnd" + '\n');
       outputStream.flush();
+      System.out.println("sent sdp");
     } catch (IOException e) {
       e.printStackTrace();
     }
