@@ -9,34 +9,38 @@ import javafx.scene.text.Text;
 /**
  * Created by user on 08.05.17.
  */
-public class TextSlider extends Slider{
+public class TextSlider extends Pane {
 
-  private Pane sliderPane = new Pane();
-
-  Text sliderTxt = new Text();
+  Slider slider;
+  Text valueText = new Text();
 
   public TextSlider(int min, int max, int value) {
-    super(min, max, value);
-  }
+    slider = new Slider(min, max, value) {
+      @Override
+      protected void layoutChildren() {
+        super.layoutChildren();
 
-  @Override
-  protected void layoutChildren() {
-    super.layoutChildren();
+        Region thumb = (Region) lookup(".thumb");
+        if (thumb != null) {
+          valueText.setLayoutX(
+              thumb.getLayoutX()
+                  + thumb.getWidth() / 2
+                  - valueText.getLayoutBounds().getWidth() / 2
+          );
+        }
+      }
+    };
 
-    Region thumb = (Region) lookup(".thumb");
-    if (thumb != null) {
-      sliderTxt.setLayoutX(
-          thumb.getLayoutX()
-              + thumb.getWidth() / 2
-              - sliderTxt.getLayoutBounds().getWidth() / 2
-      );
-    }
+    slider.setLayoutY(40);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
 
-    sliderTxt.setTextOrigin(VPos.TOP);
-    sliderTxt.textProperty().bind(this.valueProperty().asString("%,.0f"));
-    sliderTxt.getStyleClass().add("sliderTxts");
-    this.setLayoutY(40);
+    valueText.setTextOrigin(VPos.TOP);
+    valueText.textProperty().bind(
+        slider.valueProperty().asString("%,.0f"));
+    valueText.getStyleClass().add("sliderTxts");
 
+    getChildren().addAll(valueText, slider);
   }
 
 }

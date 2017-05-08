@@ -1,26 +1,25 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
-import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.ToggleSwitch;
 
+
 /**
- * Shows popover for settings and help buttons.
+ * @author Lukas Marchesi
+ * @date 17.04.2017.
  */
 public class PopOverHelper {
   // Get Screensize
@@ -57,6 +56,9 @@ public class PopOverHelper {
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
 
+  Text compressionSliderTxt = new Text();
+  Text qualitySliderTxt = new Text();
+
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
   Label requestBgr233Lbl = new Label();
@@ -65,10 +67,9 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supporterHelpLbl = new Label();
+  Slider compressionSldr;
 
-  TextSlider compressionSldr;
-
-  TextSlider qualitySldr;
+  Slider qualitySldr;
 
   Pane compressionSliderPane = new Pane();
   Pane requestSettingsPane = new Pane();
@@ -108,27 +109,14 @@ public class PopOverHelper {
     // Settings PopOver - request
     // Settings PopOver TODO: StringsClass
 
-    // Compression Settings
-    compressionSldr = new TextSlider(COMPRESSION_MIN, COMPRESSION_MAX, COMPRESSION_VALUE);
-
-    compressionSldr.setPrefWidth(sliderWidth);
-    compressionSldr.setShowTickLabels(true);
-    compressionSldr.setShowTickMarks(true);
 
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.getStyleClass().add("sliderLbls");
 
     // Quality Settings
-    qualitySldr = new TextSlider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE);
-
-    qualitySldr.setPrefWidth(sliderWidth);
-    qualitySldr.setShowTickLabels(true);
-    qualitySldr.setShowTickMarks(true);
-
 
     requestQualityLbl.textProperty().set("Qualität");
     requestQualityLbl.getStyleClass().add("sliderLbls");
-
 
     requestBgr233Lbl.textProperty().set("bgr233");
     requestBgr233Lbl.setId("requestBgr233Lbl");
@@ -139,20 +127,20 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    qualitySliderPane.getChildren().addAll(qualitySldr);
+    compressionSliderPane = new TextSlider(0,9,6);
+    qualitySliderPane = new TextSlider(0,9,6);
 
     supportSettingsBox.setPadding(new Insets(10));
 
-    supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
+    supportSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
     supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
-    qualitySldr.setLayoutX(startXSlider);
-    compressionSldr.setLayoutX(startXSlider);
     supportSettingsBox.setPrefWidth(overlayWidth);
     supportSettingsBox.setPrefHeight(overlayHeight);
+
 
     requestSettingsPane.getChildren().add(requestSettingsBox);
 
