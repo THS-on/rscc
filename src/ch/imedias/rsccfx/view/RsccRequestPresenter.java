@@ -29,6 +29,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   private ArrayList<Button> buttons = new ArrayList<>();
+  private int rowSize = 0;
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -114,7 +115,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
     });
   }
 
+  /**
+   * Creates new SupporterButton and adds it to the GridPane.
+   */
   private void createNewSupporterBtn() {
-    view.supporterGrid.add(view.btn7, 0, 4);
+    int counter = buttons.size();
+    Button supporter = new Button();
+
+    buttons.add(supporter);
+
+    if((buttons.size()-1)%3 == 0)
+      rowSize++;
+    view.supporterGrid.add(buttons.get(buttons.size()-1), buttons.size()-1, rowSize);
   }
 }

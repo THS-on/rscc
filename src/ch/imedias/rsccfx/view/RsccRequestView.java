@@ -6,7 +6,6 @@ import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -19,7 +18,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 
 /**
  * Defines all elements shown in the request section.
@@ -54,7 +52,7 @@ public class RsccRequestView extends BorderPane {
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
-  final Button supporterOneBtn = new Button();
+  final Button btn1 = new Button();
   final Button btn2 = new Button("Btn");
   final Button btn3 = new Button("Btn");
   final Button btn4 = new Button("Btn");
@@ -111,9 +109,9 @@ public class RsccRequestView extends BorderPane {
     // TODO: Finish all the buttons here according to mockup.
     // Admin Buttons
     // label, six Buttons, six images
-    /*supporterOneBtn.setGraphic();*/
-    supporterOneBtn.textProperty().setValue("Supporter 1");
-    supporterOneBtn.getStyleClass().add("supporterBtn");
+    /*btn1.setGraphic();*/
+    btn1.textProperty().setValue("Supporter 1");
+    btn1.getStyleClass().add("supporterBtn");
     btn2.getStyleClass().add("supporterBtn");
     btn3.getStyleClass().add("supporterBtn");
     btn4.getStyleClass().add("supporterBtn");
@@ -173,13 +171,12 @@ public class RsccRequestView extends BorderPane {
     col3.setPercentWidth(33.33333);
     supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
 
-    supporterGrid.add(supporterOneBtn, 0, 0);
+    supporterGrid.add(btn1, 0, 0);
     supporterGrid.add(btn2, 1, 0);
     supporterGrid.add(btn3, 2, 0);
     supporterGrid.add(btn4, 0, 1);
     supporterGrid.add(btn5, 1, 1);
     supporterGrid.add(btn6, 2, 1);
-    //supporterGrid.add(btn7, 0, 2);
 
     // ***************
 
