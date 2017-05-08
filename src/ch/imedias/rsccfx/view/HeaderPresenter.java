@@ -78,4 +78,13 @@ public class HeaderPresenter {
   public void setBackBtnVisibility(Boolean isVisible) {
     view.backBtn.setVisible(isVisible);
   }
+
+  /**
+   * Makes the settings button in the header invisible or visible.
+   * Is being used in the HomeView to make the settings button invisible,
+   * since there are no settings in it.
+   */
+  public void setSettingsBtnVisibility(Boolean isVisible) {
+    view.settingsBtn.setVisible(isVisible);
+  }
 }

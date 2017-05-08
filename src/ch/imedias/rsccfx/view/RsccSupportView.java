@@ -30,10 +30,12 @@ public class RsccSupportView extends BorderPane {
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label statusLbl = new Label();
 
-  final VBox descriptionBox = new VBox();
-  final HBox centerBox = new HBox();
+  final VBox centerBox = new VBox();
+  final VBox groupingBox = new VBox();
   final HBox keyValidationBox = new HBox();
+  final HBox statusBox = new HBox();
 
   final TextField keyFld = new TextField();
 
@@ -73,6 +75,10 @@ public class RsccSupportView extends BorderPane {
     keyInputPane.setText("Key Input");
 
     addressbookPane.setText("Addressbook");
+
+    statusLbl.setText("Waiting");
+    statusBox.getChildren().add(statusLbl);
+    statusBox.getStyleClass().add("statusBox");
   }
 
   private void layoutForm() {
@@ -83,27 +89,23 @@ public class RsccSupportView extends BorderPane {
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
+    statusLbl.getStyleClass().add("statusLbl");
 
     keyFld.setId("keyFld");
 
     validationImgView.setSmooth(true);
 
     keyValidationBox.getChildren().addAll(keyFld, validationImgView);
-    HBox.setHgrow(descriptionBox, Priority.ALWAYS);
+    keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
+    HBox.setHgrow(keyFld, Priority.ALWAYS);
+    keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    keyValidationBox.setId("keyValidationBox");
+    groupingBox.getChildren().addAll(keyValidationBox);
 
-    descriptionBox.getStyleClass().add("descriptionBox");
-
-    titleLbl.getStyleClass().add("titleLbl");
-
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
-
-    centerBox.getChildren().addAll(keyValidationBox, descriptionBox);
-
-    centerBox.setId("centerBoxSupport");
-
-    connectBtn.setId("connectBtn");
+    centerBox.getChildren().addAll(titleLbl,
+        descriptionLbl,
+        groupingBox,
+        connectBtn, statusBox);
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
