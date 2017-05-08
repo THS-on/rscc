@@ -32,16 +32,7 @@ public class SimpleProxyRequesterRudp {
    */
 
   public static void main(String[] args) throws Throwable {
-    IceProcess process = new IceProcess(ICEPORT, KEY);
-    process.startIceProcessAsRequester();
-    System.out.println("Ice done, starting rudp");
 
-
-    try {
-      runServer(); // never returns
-    } catch (Exception e) {
-      System.err.println(e);
-    }
   }
 
   /**

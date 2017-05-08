@@ -30,10 +30,8 @@ public class Rscccfp extends Thread {
   public void run() {
     if (isServer) {
       startRscccfpServer();
-      System.out.println("running as Server");
     } else {
-      startRscccfpClient("127.0.0.1", 5900);
-      System.out.println("running as Client");
+      startRscccfpClient("127.0.0.1", 5903);
     }
   }
 
@@ -42,13 +40,13 @@ public class Rscccfp extends Thread {
    * Starts the TCP - Server.
    */
   public void startRscccfpServer() {
-
+    System.out.println("RSCCCFP: start server");
     ServerSocket serverSocket;
     try {
-      serverSocket = new ServerSocket(5900);
+      serverSocket = new ServerSocket(5903);
       connectionSocket = serverSocket.accept();
 
-      System.out.println("connection accepted");
+      System.out.println("RSCCCFP: connection accepted");
 
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
@@ -74,9 +72,10 @@ public class Rscccfp extends Thread {
    * Starts the TCP-Client.
    */
   public void startRscccfpClient(String host, int port) {
+    System.out.println("start client");
     try {
-      connectionSocket = new Socket("127.0.0.1", 5900);
-      System.out.println("Connected to server");
+      connectionSocket = new Socket("127.0.0.1", 5903);
+      System.out.println("RSCCCFP: Connected to server");
 
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
@@ -108,12 +107,14 @@ public class Rscccfp extends Thread {
       sdpLine = inputStream.readLine();
 
       while (!sdpLine.equals("sdpEnd")) {
+
         receivedSdp.append(sdpLine);
+        receivedSdp.append('\n');
         sdpLine = inputStream.readLine();
       }
 
-      System.out.println("received sdp:");
-      System.out.println(receivedSdp.toString());
+      System.out.println("RSCCCFP: received sdp:");
+      System.out.println("RSCCCFP:" + receivedSdp.toString());
 
       model.setOtherSdp(receivedSdp.toString());
 
@@ -142,12 +143,15 @@ public class Rscccfp extends Thread {
    * Sends SDP-Dump to opposite.
    */
   public void sendSdp(String sdpDump) {
+    System.out.println("RSCCCFP: Sending this SDP:");
+    System.out.println(model.getMySdp());
+
     try {
       outputStream.writeBytes("sdpStart"+ '\n');
       outputStream.writeBytes(sdpDump + '\n');
       outputStream.writeBytes("sdpEnd" + '\n');
       outputStream.flush();
-      System.out.println("sent sdp");
+      System.out.println("RSCCCFP: sent sdp");
     } catch (IOException e) {
       e.printStackTrace();
     }

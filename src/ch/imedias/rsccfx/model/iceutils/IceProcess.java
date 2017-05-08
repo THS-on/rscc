@@ -50,7 +50,7 @@ public class IceProcess extends Thread {
 
       while (model.getOtherSdp() == null){
         Thread.sleep(1000);
-        System.out.println("waiting for other SDP");
+        System.out.println("ICE Process: waiting for other SDP");
       }
 
       SdpUtils.parseSdp(agent, model.getOtherSdp());
@@ -59,9 +59,10 @@ public class IceProcess extends Thread {
       agent.addStateChangeListener(stateListener);
 
       Component iceComponent = startIceConnectivityEstablishment();
-
-      model.setForeignPort(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
-      model.setForeignIpAddress(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
+      if (iceComponent != null){
+        model.setForeignPort(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
+        model.setForeignIpAddress(iceComponent.getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
+      }
 
     } catch (Throwable e) {
       e.printStackTrace();

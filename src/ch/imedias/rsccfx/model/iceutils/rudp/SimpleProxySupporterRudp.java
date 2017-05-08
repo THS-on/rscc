@@ -4,6 +4,8 @@ package ch.imedias.rsccfx.model.iceutils.rudp;
  * Created by pwg on 20.04.17.
  */
 
+import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.SystemCommander;
 import ch.imedias.rsccfx.model.iceutils.IceProcess;
 import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableSocket;
 import java.io.IOException;
@@ -28,14 +30,6 @@ public class SimpleProxySupporterRudp {
    * @param args probably Key and local VNC port to connect to + Port Ice should start.
    */
   public static void main(String[] args) throws Throwable {
-    try {
-      IceProcess process = new IceProcess(ICEPORT, KEY);
-      Component rtpComponent = process.startIceProcessAsSupporter();
-      System.out.println("Ice done, starting rudp");
-      runServer(rtpComponent); // never returns
-    } catch (Exception e) {
-      System.err.println(e);
-    }
   }
 
   /**
