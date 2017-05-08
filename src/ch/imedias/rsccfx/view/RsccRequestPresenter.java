@@ -134,7 +134,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
     if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
       buttons.get(buttons.size()-2).setOnAction(null);
-    else
+    else if (buttonSize > 0)
       buttons.get(0).setOnAction(null);
   }
 
