@@ -75,10 +75,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
-    view.connectBtn.setOnAction(event -> {
-      keyUtil.setKey(view.keyFld.getText());
-      model.connectToUser();
-    });
+    view.connectBtn.setOnAction(event -> model.connectToUser());
 
     // formats the key while typing
     StringProperty key = view.keyFld.textProperty();
