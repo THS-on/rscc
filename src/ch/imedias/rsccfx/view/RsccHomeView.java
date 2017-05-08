@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
@@ -24,7 +23,6 @@ public class RsccHomeView extends BorderPane {
       Logger.getLogger(RsccHomeView.class.getName());
 
   private final Rscc model;
-  private final Strings strings = new Strings();
   final HeaderView headerView;
 
   final Button requestViewBtn = new Button();

@@ -337,7 +337,7 @@
             <version>1.2.1</version>
         </dependency>
 
-        <!-- Overwriting dependency in ice4j dependency -->
+        <!-- Overwriting dependencyiceUtilsce4j dependency -->
         <dependency>
             <groupId>org.jitsi</groupId>
             <artifactId>jain-sip-ri-ossonly</artifactId>
@@ -350,6 +350,13 @@
             <artifactId>ice4j</artifactId>
             <version>master</version>
         </dependency>
+
+        <!-- Secure Reliable udp fom sourceforge
+        <dependency>
+            <groupId>net.sourceforge.projects</groupId>
+            <artifactId>rudp</artifactId>
+            <version>1.2.3</version>
+        </dependency>-->
 
     </dependencies>
 </project>
