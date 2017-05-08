@@ -56,6 +56,9 @@ public class Rscc {
     if (systemCommander == null) {
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     }
+    if (keyUtil == null) {
+      throw new IllegalArgumentException("Parameter KeyUtil is NULL");
+    }
     this.systemCommander = systemCommander;
     this.keyUtil = keyUtil;
     defineResourcePath();
