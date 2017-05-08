@@ -49,6 +49,9 @@ public class KeyUtil {
 
   /**
    * Formats the key, so it has spaces every 3 characters.
+   *
+   * @param key the unformatted key which should be formatted.
+   * @return the formatted key, with spaces every 3 characters.
    */
   public String formatKey(String key) {
     if (key != null) {
@@ -67,6 +70,9 @@ public class KeyUtil {
 
   /**
    * Removes spaces in a key which has been previously formatted with spaces.
+   *
+   * @param key the key, possibly with spaces in it.
+   * @return the key without any spaces.
    */
   public String deformatKey(String key) {
     if (key != null) {
@@ -88,6 +94,7 @@ public class KeyUtil {
 
   /**
    * Sets the key deformatted.
+   *
    * @param key can be a formatted or unformatted key.
    */
   public void setKey(String key) {

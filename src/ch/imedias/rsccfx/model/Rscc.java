@@ -51,6 +51,7 @@ public class Rscc {
    * Initializes the Rscc model class.
    *
    * @param systemCommander a SystemComander-object that executes shell commands.
+   * @param keyUtil a KeyUtil-object which stores the key, validates and formats it.
    */
   public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
