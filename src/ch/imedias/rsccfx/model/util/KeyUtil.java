@@ -1,7 +1,9 @@
 package ch.imedias.rsccfx.model.util;
 
+import ch.imedias.rsccfx.model.Rscc;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Streams;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -13,6 +15,9 @@ import javafx.beans.property.StringProperty;
  * Handles everything related to the key.
  */
 public class KeyUtil {
+
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
 
   private static final String KEY_FORMAT_DELIMITER = " ";
   private static final int KEY_FORMAT_DELIMITER_EVERY = 3;
@@ -86,6 +91,7 @@ public class KeyUtil {
    */
   public void setKey(String key) {
     this.key.set(deformatKey(key));
+
   }
 
   public String getKey() {

@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -45,7 +46,7 @@ public class RsccRequestView extends BorderPane {
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
 
-  final TextField generatedKeyFld = new TextField();
+  final KeyTextField generatedKeyFld = new KeyTextField();
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
