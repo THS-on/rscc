@@ -1,7 +1,8 @@
 package ch.imedias.rsccfx.view;
 
-// import ch.imedias.rsccfx.localization.Strings;
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,30 +19,34 @@ import javafx.scene.text.Font;
  * Defines all elements shown in the support section.
  */
 public class RsccSupportView extends BorderPane {
-  final HeaderView headerView;
-  //private final Strings strings = new Strings();
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccSupportView.class.getName());
+
   private final Rscc model;
-  Label enterTokenLbl = new Label();
-  Label keyDescriptionLbl = new Label();
-  Label exampleLbl = new Label();
-  Label instructionLbl = new Label();
+  private final Strings strings = new Strings();
 
-  VBox centerBox = new VBox();
-  VBox groupingBox = new VBox();
-  HBox tokenValidationBox = new HBox();
+  final HeaderView headerView;
 
-  TextField tokenFld = new TextField();
+  final Label titleLbl = new Label();
+  final Label descriptionLbl = new Label();
 
-  TitledPane keyInputPane = new TitledPane();
-  TitledPane predefinedAdressesPane = new TitledPane();
+  final VBox centerBox = new VBox();
+  final VBox groupingBox = new VBox();
+  final HBox keyValidationBox = new HBox();
 
-  ImageView isValidImg = new ImageView();
+  final TextField keyFld = new TextField();
 
-  Button connectBtn = new Button();
-  Button expandOptionBtn = new Button();
+  final TitledPane keyInputPane = new TitledPane();
+  final TitledPane addressbookPane = new TitledPane();
+
+  ImageView validationImgView = new ImageView();
+
+  final Button connectBtn = new Button();
 
   /**
-   * Initializes all the GUI components needed to enter the token the supporter received.
+   * Initializes all the GUI components needed to enter the key the supporter received.
+   *
+   * @param model the model to handle the data.
    */
   public RsccSupportView(Rscc model) {
     this.model = model;
@@ -53,62 +58,54 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    enterTokenLbl.textProperty().set("EnterToken");
-    keyDescriptionLbl.textProperty().set("Test");
-    exampleLbl.textProperty().set("Number of characters: 9\nExample: 123456789");
-    instructionLbl.textProperty().set("Instructions");
+    titleLbl.textProperty().set("Enter key");
+    descriptionLbl.textProperty().set("Initiate a new remote support connection by entering the "
+        + "keyphrase your supporter sent you.");
 
-    isValidImg = new ImageView(getClass()
+    validationImgView = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
 
     connectBtn.textProperty().set("Connect");
-    connectBtn.setDisable(true);
-    expandOptionBtn.textProperty().set("More");
 
     keyInputPane.setText("Key Input");
-    keyInputPane.setExpanded(true);
 
-    predefinedAdressesPane.setText("Predefined Adresses");
-    predefinedAdressesPane.setExpanded(false);
+    addressbookPane.setText("Addressbook");
   }
 
   private void layoutForm() {
-    // TODO: import CSS accordingly. Ask SA where it needs to be defined.
-    // this.setPadding(new Insets(5, 25, 5, 25)); // TODO: set paddings for "center"
-    // this.setId("SupporterView");
+    addressbookPane.setExpanded(false);
 
-    //enterTokenLbl.setFont(new Font(25));
-    enterTokenLbl.setId("EnterTokenLbl");
+    titleLbl.getStyleClass().add("titleLbl");
 
-    keyDescriptionLbl.setWrapText(true);
+    descriptionLbl.getStyleClass().add("descriptionLbl");
 
-    tokenFld.setFont(new Font(30)); // TODO: Move to CSS
+    keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
-    isValidImg.setSmooth(true);
+    validationImgView.setSmooth(true);
 
-    tokenValidationBox.getChildren().addAll(tokenFld, isValidImg);
-    tokenValidationBox.setSpacing(5);       // TODO: Move to CSS.
-    tokenValidationBox.setHgrow(tokenFld, Priority.ALWAYS);
-    tokenValidationBox.setAlignment(Pos.CENTER_LEFT);
+    keyValidationBox.getChildren().addAll(keyFld, validationImgView);
+    keyValidationBox.setSpacing(5);       // TODO: Move to CSS.
+    HBox.setHgrow(keyFld, Priority.ALWAYS);
+    keyValidationBox.setAlignment(Pos.CENTER_LEFT);
 
-    groupingBox.getChildren().addAll(tokenValidationBox, instructionLbl);
+    groupingBox.getChildren().addAll(keyValidationBox);
 
-    centerBox.getChildren().addAll(enterTokenLbl,
-        keyDescriptionLbl,
-        exampleLbl,
+    centerBox.getChildren().addAll(titleLbl,
+        descriptionLbl,
         groupingBox,
-        connectBtn,
-        expandOptionBtn);
+        connectBtn);
 
     keyInputPane.setContent(centerBox);
-    // TODO: Set content for predefinedAdressesPane
+    keyInputPane.setExpanded(true);
+    // TODO: Set content for addressbookPane
 
+    connectBtn.setDisable(true);
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
     setCenter(keyInputPane);
     setTop(headerView);
-    setBottom(predefinedAdressesPane);
+    setBottom(addressbookPane);
   }
 
 

@@ -5,6 +5,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,18 +20,22 @@ import javafx.scene.layout.Priority;
  * Defines all elements shown in the header.
  */
 public class HeaderView extends HBox {
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
+
   private static final double HEADER_HEIGHT = 250d;
   private static final double BUTTON_SIZE = 50d;
   private static final Insets BACK_BUTTON_INSETS = new Insets(0);
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(0, 5, 0, 20);
+
   private static final Insets HELP_BUTTON_INSETS = new Insets(0, 10, 0, 20);
 
   final Pane spacer = new Pane();
   //private final Strings strings = new Strings();
   private final Rscc model;
-  Button backBtn = new Button();
-  Button helpBtn = new Button();
-  Button settingsBtn = new Button();
+  final Button backBtn = new Button();
+  final Button helpBtn = new Button();
+  final Button settingsBtn = new Button();
 
   Image backImg;
   Image helpImg;
@@ -42,6 +47,8 @@ public class HeaderView extends HBox {
 
   /**
    * Initializes all the GUI components needed in the Header.
+   *
+   * @param model the model to handle the data.
    */
   public HeaderView(Rscc model) {
     this.model = model;

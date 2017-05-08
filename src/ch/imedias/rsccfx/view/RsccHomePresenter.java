@@ -4,6 +4,9 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +19,9 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccHomePresenter implements ControlledPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccHomePresenter.class.getName());
+
   private static final Double IMG_VIEW_DIVISOR = 3d;
   private static final Double VIEW_BTN_HEIGHT_DIVISOR = 2.5d;
   private static final Double VIEW_BTN_WIDTH_DIVISOR = 1.5d;
@@ -28,6 +34,9 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   /**
    * Initializes a new RsccHomePresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view  the view belonging to the presenter.
    */
   public RsccHomePresenter(Rscc model, RsccHomeView view) {
     this.model = model;
@@ -46,7 +55,11 @@ public class RsccHomePresenter implements ControlledPresenter {
   }
 
   /**
-   * Initializes the size of the RsccHomeView.
+   * Initializes the size of the whole RsccHomeView elements.
+   *
+   * @param scene must be initialized and displayed before calling this method;
+   *              The size of all header elements are based on it.
+   * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
     headerPresenter.initSize(scene);
@@ -65,16 +78,13 @@ public class RsccHomePresenter implements ControlledPresenter {
         .divide(VIEW_BTN_WIDTH_DIVISOR));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_HEIGHT_DIVISOR));
-
-    view.contentBox.setAlignment(Pos.CENTER);
-    view.contentBox.setPadding(new Insets(25));
-    view.contentBox.setSpacing(20);
   }
 
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> viewParent.setView(RsccApp.SUPPORT_VIEW));
     view.requestViewBtn.setOnAction(event -> {
-      model.requestTokenFromServer();
+      Thread thread = new Thread(model::requestKeyFromServer);
+      thread.start();
       viewParent.setView(RsccApp.REQUEST_VIEW);
     });
   }

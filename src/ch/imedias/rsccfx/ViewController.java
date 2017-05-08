@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,16 +14,20 @@ import javafx.scene.layout.StackPane;
  * which gives them access to the methods in this class.
  */
 public class ViewController extends StackPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(ViewController.class.getName());
 
-  private HashMap<String, Node> views = new HashMap<>();
-  private HashMap<String, ControlledPresenter> presenters = new HashMap<>();
+  private final HashMap<String, Node> views = new HashMap<>();
+  private final HashMap<String, ControlledPresenter> presenters = new HashMap<>();
 
   private StringProperty nameActiveView = new SimpleStringProperty();
 
   /**
    * Returns an already loaded presenter.
    *
-   * @param name of the view / presenter.
+   * @param name of the view / presenter
+   *
+   * @return presenter object
    */
   public ControlledPresenter getPresenter(String name) {
     return presenters.get(name);
@@ -34,24 +39,29 @@ public class ViewController extends StackPane {
   private void addView(String name, Node view, ControlledPresenter presenter) {
     views.put(name, view);
     presenters.put(name, presenter);
-
   }
 
   /**
    * Loads a view / presenter pair and sets up a reference in the presenter to this object.
    * Usually only needs to be called once for every pair before the start of the app.
+   * @param name of the view / presenter pair
+   * @param view to be loaded
+   * @param presenter to be loaded
    */
-  public boolean loadView(String name, Node view, ControlledPresenter presenter) {
+  public void loadView(String name, Node view, ControlledPresenter presenter) {
     // properly initialize view and presenter and put into HashMap
     presenter.setViewParent(this);
     addView(name, view, presenter);
-    return true;
   }
 
   /**
    * Sets the current view to the one referenced by 'nameActiveView'.
    * This method can be called in the presenter to switch to a different view.
    * Controls the way views are being transitioned from one to another.
+   *
+   * @param name of the view that will be set
+   *
+   * @return true if successfully loaded, false if view is nonexistent
    */
   public boolean setView(final String name) {
     nameActiveView.set(name);
@@ -68,7 +78,7 @@ public class ViewController extends StackPane {
       }
       return true;
     } else {
-      System.out.println("View " + name + " hasn't been loaded!\n");
+      LOGGER.info("View " + name + " hasn't been loaded!");
       return false;
     }
   }
@@ -76,10 +86,14 @@ public class ViewController extends StackPane {
   /**
    * Unloads a view / presenter pair from the HashMaps.
    * This method can be used in case a view / presenter pair needs to be reloaded.
+   *
+   * @param name of the view / presenter pair to be unloaded.
+   *
+   * @return true if the view and presenter were unloaded and false if view doesn't exist.
    */
   public boolean unloadView(String name) {
     if (views.remove(name) == null | presenters.remove(name) == null) {
-      System.out.println("View " + name + " doesn't exist");
+      LOGGER.info("View " + name + " doesn't exist!");
       return false;
     } else {
       return true;

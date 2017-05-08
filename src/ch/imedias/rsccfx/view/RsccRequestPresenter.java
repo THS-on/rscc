@@ -4,6 +4,7 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 
 /**
@@ -11,8 +12,10 @@ import javafx.scene.Scene;
  * and initializes the size of the GUI components.
  */
 public class RsccRequestPresenter implements ControlledPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 80d;
+  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -22,6 +25,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view the view belonging to the presenter.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
@@ -41,14 +47,16 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> {
-          model.refreshKey();
-        }
+        event -> model.refreshKey()
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(event -> view.supporterAdminPane.setExpanded(false));
-    view.supporterAdminPane.setOnMouseClicked(event -> view.keyGeneratorPane.setExpanded(false));
+    view.keyGeneratorPane.setOnMouseClicked(
+        event -> view.predefinedAddressesPane.setExpanded(false)
+    );
+    view.predefinedAddressesPane.setOnMouseClicked(
+        event -> view.keyGeneratorPane.setExpanded(false)
+    );
   }
 
   /**
@@ -63,13 +71,19 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter.initSize(scene);
 
     // initialize view
+    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.additionalDescriptionTxt.wrappingWidthProperty().bind(scene.widthProperty()
+    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_GENERAL));
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+
+    // FIXME: need the height of the titlePane itself...
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+
   }
 
   /**

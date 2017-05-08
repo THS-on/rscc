@@ -102,23 +102,27 @@
                 </executions>
             </plugin>
 
-            <!-- copy resources folder to build -->
+            <!-- add resources like *.properties files to the build -->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
-                        <!-- here the phase you need -->
+                        <id>add-resource</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>add-resource</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${custom.resources.path}</directory>
+                                    <directory>${custom.source}</directory>
+                                    <targetPath>${custom.path}</targetPath>
+                                    <excludes>
+                                        <exclude>*.java</exclude>
+                                        <exclude>/**/</exclude>
+                                    </excludes>
                                 </resource>
                             </resources>
                         </configuration>
@@ -169,8 +173,44 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Generates CodeCoverage Report -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
         </plugins>
     </build>
+
 
     <reporting>
         <plugins>
@@ -180,6 +220,8 @@
                 <version>2.17</version>
                 <configuration>
                     <configLocation>${custom.checkstyle}</configLocation>
+                    <suppressionsLocation>${custom.checkstyle.suppressions}</suppressionsLocation>
+                    <encoding>UTF-8</encoding>
                     <violationSeverity>warning</violationSeverity>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
@@ -193,6 +235,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <charset>UTF-8</charset>
+                    <sourcepath>${basedir}/src/ch/imedias/rsccfx</sourcepath>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -203,10 +246,38 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <configuration>
+                    <excludes>
+                        <!-- exclude non-JavaFX related files -->
+                        <exclude>ch/imedias/rscc/**/*.class</exclude>
+                        <!-- exclude View and Presenter classes, since views and presenter are not tested -->
+                        <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
+                        <!-- exclude RsccApp and Strings class, since those are not tested either -->
+                        <exclude>/**/*RsccApp*.class</exclude>
+                        <exclude>/**/*Strings*.class</exclude>
+                    </excludes>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <!-- Include the JaCoCo-standard-report in the Maven-report -->
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+
+            </plugin>
         </plugins>
     </reporting>
 
+
     <dependencies>
+
         <!-- dbus.jar -->
         <dependency>
             <groupId>com.github.bdeneuter</groupId>

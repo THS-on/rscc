@@ -9,6 +9,7 @@ import ch.imedias.rsccfx.view.RsccRequestPresenter;
 import ch.imedias.rsccfx.view.RsccRequestView;
 import ch.imedias.rsccfx.view.RsccSupportPresenter;
 import ch.imedias.rsccfx.view.RsccSupportView;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -21,6 +22,9 @@ import javafx.stage.Stage;
  * Starts the Rscc Application.
  */
 public class RsccApp extends Application {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccApp.class.getName());
+
   public static final String APP_NAME = "Remote Support";
 
   /**
@@ -30,7 +34,7 @@ public class RsccApp extends Application {
   public static final String REQUEST_VIEW = "requestHelp";
   public static final String SUPPORT_VIEW = "supporter";
 
-  private static Rscc model;
+  private Rscc model;
 
   public static void main(String[] args) {
     Application.launch(args);
