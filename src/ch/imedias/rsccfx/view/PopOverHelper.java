@@ -16,8 +16,7 @@ import org.controlsfx.control.ToggleSwitch;
 
 
 /**
- * @author Lukas Marchesi
- * @date 17.04.2017.
+ * Shows popover for settings and help buttons.
  */
 public class PopOverHelper {
   // Get Screensize
@@ -33,6 +32,8 @@ public class PopOverHelper {
 
   private final double overlayHeight = primaryScreenBounds.getHeight() / 4;
   private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
+
+  private final double sliderWidth = overlayWidth / 1.2;
 
   private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
 
@@ -127,7 +128,8 @@ public class PopOverHelper {
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
         + "or help someone in need");
     requestHelpLbl.setId("requestHelpLbl");
-    // TODO: why no request help box?
+
+    requestHelpBox.getChildren().addAll(requestHelpLbl);
   }
 
   private void layoutSupport() {
@@ -140,7 +142,10 @@ public class PopOverHelper {
     supportSettingsBox.setPadding(new Insets(10));
 
     compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
+    compressionSldr.setPrefWidth(sliderWidth);
+
     qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
+    qualitySldr.setPrefWidth(sliderWidth);
 
     supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
