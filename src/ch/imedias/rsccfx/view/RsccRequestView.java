@@ -49,7 +49,6 @@ public class RsccRequestView extends BorderPane {
   final TextField generatedKeyFld = new TextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button readyBtn = new Button();
   final Button supporterOneBtn = new Button();
 
   Image reloadImg;
@@ -83,8 +82,6 @@ public class RsccRequestView extends BorderPane {
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
     reloadKeyBtn.setGraphic(reloadImgView);
-
-    readyBtn.textProperty().set("Ready");
 
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
@@ -132,10 +129,9 @@ public class RsccRequestView extends BorderPane {
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
-    readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
@@ -156,6 +152,7 @@ public class RsccRequestView extends BorderPane {
   private void bindFieldsToModel() {
     // make bindings to the model
     generatedKeyFld.textProperty().bind(model.keyProperty());
+
   }
 }
 
