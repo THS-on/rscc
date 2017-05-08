@@ -13,11 +13,11 @@ import org.junit.Test;
  */
 public class KeyUtilTest {
   private KeyUtil keyUtil;
-  private static final String[] UNFORMATTED_KEYS = new String[] {"1", "12", "123", "123 4",
+  private static final String[] FORMATTED_KEYS = new String[] {"1", "12", "123", "123 4",
       "123 45", "123 456", "123 456 7", "123 456 78", "123 456 789"};
-  private static final String[] FORMATTED_KEYS = new String[] {"1", "12", "123", "1234",
+  private static final String[] UNFORMATTED_KEYS = new String[] {"1", "12", "123", "1234",
       "12345", "123456", "1234567", "12345678", "123456789"};
-  private static final String KEY_WITH_SPACES = "  1  2  3   4   5  7    8 9 ";
+  private static final String KEY_WITH_SPACES = "  1  2  3   4   5  6 7    8 9 ";
   private static final String KEY_STANDARD = "123456789";
   private static final String KEY_STANDARD_FORMATTED = "123 456 789";
 
