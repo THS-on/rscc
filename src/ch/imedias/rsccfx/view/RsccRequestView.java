@@ -1,10 +1,21 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rscc.RemoteSupportFrame;
+import ch.imedias.rscc.SupportAddress;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +25,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import static ch.imedias.rscc.RemoteSupportFrame.getDefaultList;
+
 
 /**
  * Defines all elements shown in the request section.

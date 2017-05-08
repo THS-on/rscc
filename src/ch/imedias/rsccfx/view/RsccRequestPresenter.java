@@ -1,10 +1,19 @@
 package ch.imedias.rsccfx.view;
 
+import static ch.imedias.rscc.RemoteSupportFrame.getDefaultList;
+
+import ch.imedias.rscc.SupportAddress;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javafx.scene.Scene;
 
 /**
@@ -23,6 +32,57 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
 
   /**
+   * List of supporter stuff here.
+   */
+  private final static String SUPPORT_ADDRESSES = "supportAddresses";
+  private final static String COMPRESSION_LEVEL = "compressionLevel";
+  private final static String QUALITY = "quality";
+  private List<SupportAddress> supportAddresses;
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
+
+  private void supporterListStuff() {
+    // load preferences
+    String supportAddressesXML = preferences.get(SUPPORT_ADDRESSES, null);
+    if (supportAddressesXML == null) {
+      // use some hardcoded defaults
+      supportAddresses = getDefaultList();
+    } else {
+      byte[] array = supportAddressesXML.getBytes();
+      ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
+      XMLDecoder decoder = new XMLDecoder(inputStream);
+      supportAddresses = (List<SupportAddress>) decoder.readObject();
+    }
+    for (int counter = 0; counter < supportAddresses.size(); counter++) {
+      view.predefinedAddressesLbl.textProperty().set(supportAddresses.get(counter).getAddress() + "\n" +
+          supportAddresses.get(counter).getDescription());
+    }
+//    compressionSpinnerModel.setValue(
+//        preferences.getInt(COMPRESSION_LEVEL, 6));
+//    qualitySpinnerModel.setValue(preferences.getInt(QUALITY, 6));
+  }
+
+  private void exit() {
+    // save preferences
+    ByteArrayOutputStream byteArrayOutputStream =
+        new ByteArrayOutputStream();
+    XMLEncoder encoder = new XMLEncoder(byteArrayOutputStream);
+    encoder.setPersistenceDelegate(SupportAddress.class,
+        SupportAddress.getPersistenceDelegate());
+    encoder.writeObject(supportAddresses);
+    encoder.close();
+    String supportAddressesXML = byteArrayOutputStream.toString();
+    preferences.put(SUPPORT_ADDRESSES, supportAddressesXML);
+//    preferences.putInt(COMPRESSION_LEVEL,
+//            compressionSpinnerModel.getNumber().intValue());
+//    preferences.putInt(QUALITY,
+//            qualitySpinnerModel.getNumber().intValue());
+  }
+  /**
+   * End of supporter stuff.
+   */
+
+
+  /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *
    * @param model model with all data.
@@ -34,6 +94,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    supporterListStuff();
   }
 
   /**
@@ -89,6 +150,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
+      exit();
       viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
