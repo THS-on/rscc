@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import ch.imedias.rsccfx.model.iceutils.SdpUtils;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class Rscccfp extends Thread {
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
 
-      sendSdp("TESTfromServer");
+      sendSdp(model.getMySdp());
       receiveSdp();
       //do STUN Magic
       //wait for other StunStatus
@@ -81,9 +82,7 @@ public class Rscccfp extends Thread {
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
       receiveSdp();
-      sendSdp("TESTfromClient" +
-          "wlekdnmewkd" +
-          "lwkedkmwedlkm");
+      sendSdp(model.getMySdp());
       //do STUN Magic
       //send STUN ownStun result
       //wait for other StunStatus
@@ -115,6 +114,8 @@ public class Rscccfp extends Thread {
 
       System.out.println("received sdp:");
       System.out.println(receivedSdp.toString());
+
+      model.setOtherSdp(receivedSdp.toString());
 
     } catch (Exception e) {
       e.printStackTrace();

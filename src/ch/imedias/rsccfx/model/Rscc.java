@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import ch.imedias.rsccfx.model.iceutils.IceProcess;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
@@ -22,7 +24,9 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -51,8 +55,14 @@ public class Rscc {
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
+  private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+
+  private String mySdp;
+  private String otherSdp;
+  private InetAddress ForeignIpAddress;
+  private int ForeignPort;
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
@@ -173,6 +183,9 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
 
+    Thread iceRunner = new IceProcess(this, icePort.getValue());
+    iceRunner.start();
+
     startVncServer();
   }
 
@@ -189,7 +202,7 @@ public class Rscc {
   }
 
   /**
-   * Starts the VNC Server.
+   * Starts the VNC Server.public
    */
   public void startVncServer() {
     StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
@@ -353,5 +366,37 @@ public class Rscc {
 
   public void setVncOptionWindow(boolean vncOptionWindow) {
     this.vncOptionWindow.set(vncOptionWindow);
+  }
+
+  public String getMySdp() {
+    return mySdp;
+  }
+
+  public void setMySdp(String mySdp) {
+    this.mySdp = mySdp;
+  }
+
+  public String getOtherSdp() {
+    return otherSdp;
+  }
+
+  public void setOtherSdp(String otherSdp) {
+    this.otherSdp = otherSdp;
+  }
+
+  public InetAddress getForeignIpAddress() {
+    return ForeignIpAddress;
+  }
+
+  public void setForeignIpAddress(InetAddress foreignIpAddress) {
+    ForeignIpAddress = foreignIpAddress;
+  }
+
+  public int getForeignPort() {
+    return ForeignPort;
+  }
+
+  public void setForeignPort(int foreignPort) {
+    ForeignPort = foreignPort;
   }
 }

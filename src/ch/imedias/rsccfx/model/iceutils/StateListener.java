@@ -30,13 +30,6 @@ public class StateListener implements PropertyChangeListener {
 
             rtpComponent = stream.getComponent(org.ice4j.ice.Component.RTP);
 
-
-            // Get information about remote address for packet settings
-            TransportAddress ta = rtpComponent.getSelectedPair()
-                .getRemoteCandidate()
-                .getTransportAddress();
-
-            System.out.println(ta.getAddress().getHostAddress());
           }
         }
       }
