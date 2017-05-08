@@ -61,7 +61,7 @@ public class RsccRequestView extends BorderPane {
   GridPane supporterGrid = new GridPane();
 
   /**
-   * Initializes all the GUI components needed generate the key the supporter needs.
+   * Initializes all the GUI components needed to generate the key the supporter needs.
    *
    * @param model the model to handle the data.
    */

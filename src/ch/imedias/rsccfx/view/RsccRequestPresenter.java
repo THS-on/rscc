@@ -55,8 +55,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
-    getSupporterList();
-    initSupporterListFromFile();
+    initSupporterList();
   }
 
   /**
@@ -122,16 +121,31 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
-      saveSupporterList(); // TODO add this to the "save button" instead of here
+      saveSupporterList(); // TODO make this an action on the "save button"
       viewParent.setView(RsccApp.HOME_VIEW);
     });
   }
 
   /**
-   * Gets the supporter list.
-   * If no preferences are set the defaultList (getDefaultList()) is called.
+   * Calls createSupporterList() and creates a button for every supporter found.
    */
-  private void getSupporterList() {
+
+  private void initSupporterList() {
+    createSupporterList();
+    for (int counter = 0; counter < supportAddresses.size(); counter++) {
+      createNewSupporterBtn();
+      // TODO: connect to the right GUI component
+      buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
+          + supportAddresses.get(counter).getDescription());
+    }
+    createNewSupporterBtn();
+  }
+
+  /**
+   * Gets the supporter list.
+   * If no preferences are found the defaultList is generated.
+   */
+  private void createSupporterList() {
     // load preferences
     String supportAddressesXml = preferences.get(SUPPORT_ADDRESSES, null);
     if (supportAddressesXml == null) {
@@ -184,17 +198,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
     }
-  }
-
-  private void initSupporterListFromFile() {
-    // TODO: Jan implements this feature. Thank you Jan!
-
-    for (int counter = 0; counter < supportAddresses.size(); counter++) {
-      createNewSupporterBtn();
-      buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
-          + supportAddresses.get(counter).getDescription());
-    }
-    createNewSupporterBtn();
   }
 
 }
