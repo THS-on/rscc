@@ -29,10 +29,12 @@ public class RsccSupportView extends BorderPane {
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label statusLbl = new Label();
 
   final VBox centerBox = new VBox();
   final VBox groupingBox = new VBox();
   final HBox keyValidationBox = new HBox();
+  final HBox statusBox = new HBox();
 
   final TextField keyFld = new TextField();
 
@@ -42,6 +44,8 @@ public class RsccSupportView extends BorderPane {
   ImageView validationImgView = new ImageView();
 
   final Button connectBtn = new Button();
+
+
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -72,6 +76,10 @@ public class RsccSupportView extends BorderPane {
     keyInputPane.setText("Key Input");
 
     addressbookPane.setText("Addressbook");
+
+    statusLbl.setText("Waiting");
+    statusBox.getChildren().add(statusLbl);
+    statusBox.getStyleClass().add("statusBar");
   }
 
   private void layoutForm() {
@@ -80,6 +88,7 @@ public class RsccSupportView extends BorderPane {
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
+    statusLbl.getStyleClass().add("statusBarLbl");
 
     keyFld.setFont(new Font(30)); // TODO: Move to CSS
 
@@ -92,14 +101,18 @@ public class RsccSupportView extends BorderPane {
 
     groupingBox.getChildren().addAll(keyValidationBox);
 
+
+
     centerBox.getChildren().addAll(titleLbl,
         descriptionLbl,
         groupingBox,
-        connectBtn);
+        connectBtn, statusBox);
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
     // TODO: Set content for addressbookPane
+
+
 
     connectBtn.setDisable(true);
     connectBtn.setFont(new Font(30));       // TODO: Move to CSS.
@@ -113,5 +126,6 @@ public class RsccSupportView extends BorderPane {
     // make bindings to the model
 
   }
+
 
 }

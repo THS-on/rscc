@@ -78,7 +78,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     // FIXME: need the height of the titlePane itself...
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
+        .subtract(200d));
 
   }
 

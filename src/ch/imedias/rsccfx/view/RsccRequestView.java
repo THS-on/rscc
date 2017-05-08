@@ -32,13 +32,16 @@ public class RsccRequestView extends BorderPane {
   final Label titleLbl = new Label();
   final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label statusLbl = new Label();
 
   final VBox descriptionBox = new VBox();
   final VBox bottomBox = new VBox();
+  final HBox statusBox = new HBox();
 
   final HBox supporterAdminBox = new HBox();
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
+  final VBox collectBox = new VBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
@@ -100,9 +103,14 @@ public class RsccRequestView extends BorderPane {
     /*supporterTwoBtn.setGraphic();*/
     // two HBox'es
 
+    statusLbl.setText("Waiting");
+    statusBox.getStyleClass().add("statusBar");
+
   }
 
   private void layoutForm() {
+    statusLbl.getStyleClass().add("statusBarLbl");
+
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -132,9 +140,12 @@ public class RsccRequestView extends BorderPane {
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
-    bottomBox.getChildren().add(supporterAdminBox);
+    bottomBox.getChildren().addAll(supporterAdminBox);
 
-    keyGeneratorPane.setContent(centerBox);
+    statusBox.getChildren().addAll(statusLbl);
+    collectBox.getChildren().addAll(centerBox,statusBox);
+
+    keyGeneratorPane.setContent(collectBox);
     predefinedAddressesPane.setContent(bottomBox);
 
     setTop(headerView);
