@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.model;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -35,6 +34,7 @@ public class RsccTest {
     model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
     when(mockSystemCommander.executeTerminalCommand(
         argThat(string -> string.contains("start_x11vnc.sh")))).thenReturn(KEY);
+    when(mockKeyUtil.getKey()).thenReturn(KEY);
   }
 
   /**
@@ -94,7 +94,6 @@ public class RsccTest {
    */
   @Test
   public void testKillConnection() throws Exception {
-    mockKeyUtil.setKey(KEY);
     model.killConnection();
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")
@@ -113,7 +112,7 @@ public class RsccTest {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
     // make sure the key which is being returned is right
-    assertEquals(KEY, mockKeyUtil.getKey());
+    verifyKeySet();
   }
 
 
@@ -122,7 +121,6 @@ public class RsccTest {
    */
   @Test
   public void testConnectToUser() throws Exception {
-    mockKeyUtil.setKey(KEY);
     model.connectToUser();
     // make sure the scripts were executed
     this.testKeyServerSetup();
@@ -143,6 +141,10 @@ public class RsccTest {
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("start_x11vnc.sh")));
     // make sure the key which is being returned is right
-    assertEquals(KEY, mockKeyUtil.getKey());
+    verifyKeySet();
+  }
+
+  private void verifyKeySet() {
+    verify(mockKeyUtil).setKey(KEY);
   }
 }
