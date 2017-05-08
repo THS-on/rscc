@@ -32,9 +32,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
 
-  // FINAL???
-  private int supporterCounter;
-
   /**
    * Initializes a new RsccSupportPresenter with the according view.
    *
@@ -117,13 +114,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
     // TODO: Set actions on buttons (Help, Settings)
-  }
-
-  /**
-   *
-   */
-  private void createSupporterRow() {
-
   }
 
 }
