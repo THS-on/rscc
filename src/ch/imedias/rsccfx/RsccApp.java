@@ -9,6 +9,9 @@ import ch.imedias.rsccfx.view.RsccRequestPresenter;
 import ch.imedias.rsccfx.view.RsccRequestView;
 import ch.imedias.rsccfx.view.RsccSupportPresenter;
 import ch.imedias.rsccfx.view.RsccSupportView;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
@@ -35,7 +38,6 @@ public class RsccApp extends Application {
   public static final String SUPPORT_VIEW = "supporter";
 
   private Rscc model;
-  private KeyUtil keyUtil;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -43,6 +45,8 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
+    setLogLevel(Level.FINE);
+
     model = new Rscc(new SystemCommander(), new KeyUtil());
     ViewController mainView = new ViewController();
 
@@ -104,5 +108,12 @@ public class RsccApp extends Application {
       model.killConnection();
     }
     super.stop();
+  }
+
+  private void setLogLevel(Level logLevel) {
+    Logger log = LogManager.getLogManager().getLogger("");
+    for (Handler h : log.getHandlers()) {
+      h.setLevel(logLevel);
+    }
   }
 }
