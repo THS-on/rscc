@@ -54,9 +54,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
     this.model = model;
     this.view = view;
     headerPresenter = new HeaderPresenter(model, view.headerView);
-    attachEvents();
     initHeader();
     initSupporterList();
+    attachEvents();
   }
 
   /**
@@ -78,6 +78,14 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
+    attachButtonEvents();
+  }
+
+  private void attachButtonEvents() {
+    for (Button b:buttons) {
+      b.setOnMouseClicked(event ->
+          new SupporterAttributesDialog());
+    }
   }
 
   /**
@@ -199,5 +207,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
     }
+    attachButtonEvents();
   }
 }
