@@ -118,8 +118,4 @@ public class KeyUtil {
   public ReadOnlyBooleanProperty keyValidProperty() {
     return keyValid;
   }
-
-  public void setKeyValid(boolean keyValid) {
-    this.keyValid.set(keyValid);
-  }
 }
