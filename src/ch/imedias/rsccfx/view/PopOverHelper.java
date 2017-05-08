@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
@@ -7,11 +8,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.ToggleSwitch;
@@ -56,9 +55,6 @@ public class PopOverHelper {
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
 
-  Text compressionSliderTxt = new Text();
-  Text qualitySliderTxt = new Text();
-
   Label requestCompressionLbl = new Label();
   Label requestQualityLbl = new Label();
   Label requestBgr233Lbl = new Label();
@@ -67,30 +63,49 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supporterHelpLbl = new Label();
-  Slider compressionSldr;
 
-  Slider qualitySldr;
+  TextSlider compressionSldr;
+  TextSlider qualitySldr;
 
-  Pane compressionSliderPane = new Pane();
   Pane requestSettingsPane = new Pane();
-  Pane qualitySliderPane = new Pane();
 
   // TODO: 8 bit Toggle is according to SA not needed anymore.
 
   /**
    * Initializes PopOver according to view.
    */
-  public PopOverHelper(ViewController viewParent, Rscc model) {
-    this.viewParent = viewParent;
+  public PopOverHelper(Rscc model, String viewName) {
     this.model = model;
-    initFieldData();
     layoutForm();
-    bindFieldsToModel();
-    initChangeListeners();
+    switch (viewName) {
+      case RsccApp.HOME_VIEW:
+        layoutHome();
+        helpPopOver.setContentNode(homeHelpBox);
+        settingsPopOver.setContentNode(null);
+        break;
+      case RsccApp.REQUEST_VIEW:
+        layoutRequest();
+        helpPopOver.setContentNode(requestHelpBox);
+        settingsPopOver.setContentNode(requestSettingsPane);
+        break;
+      case RsccApp.SUPPORT_VIEW:
+        layoutSupport();
+        helpPopOver.setContentNode(supporterHelpBox);
+        settingsPopOver.setContentNode(supportSettingsBox);
+        break;
+    }
   }
 
-  private void initFieldData() {
-    // populate fields which require initial data
+  private void layoutHome() {
+
+  }
+
+  private void layoutRequest() {
+
+  }
+
+  private void layoutSupport() {
+
   }
 
   private void layoutForm() {
@@ -109,7 +124,6 @@ public class PopOverHelper {
     // Settings PopOver - request
     // Settings PopOver TODO: StringsClass
 
-
     requestCompressionLbl.textProperty().set("Kompression");
     requestCompressionLbl.getStyleClass().add("sliderLbls");
 
@@ -127,20 +141,19 @@ public class PopOverHelper {
     requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
     requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
 
-    compressionSliderPane = new TextSlider(0,9,6);
-    qualitySliderPane = new TextSlider(0,9,6);
+    compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
+    qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
 
     supportSettingsBox.setPadding(new Insets(10));
 
-    supportSettingsBox.getChildren().add(new VBox(compressionSliderPane, requestCompressionLbl));
-    supportSettingsBox.getChildren().add(new VBox(qualitySliderPane, requestQualityLbl));
+    supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
+    supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
     supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl));
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
 
     supportSettingsBox.setPrefWidth(overlayWidth);
     supportSettingsBox.setPrefHeight(overlayHeight);
-
 
     requestSettingsPane.getChildren().add(requestSettingsBox);
 
@@ -154,10 +167,8 @@ public class PopOverHelper {
 
     // Settings PopOver - supporter
 
-
     // TODO: Check what we can really use in the settings.
     // TODO: SA, please let UM know which settings we need.
-
 
     requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
 
@@ -175,29 +186,8 @@ public class PopOverHelper {
     helpPopOver.setDetachable(false);
   }
 
-  private void bindFieldsToModel() {
-    // make bindings to the model
-  }
-
-  private void initChangeListeners() {
-    viewParent.nameActiveViewProperty().addListener((observable, oldValue, newValue)
-        -> changingView(newValue));
-  }
-
   private void changingView(String newValue) {
-    switch (newValue) {
-      case "home":
-        helpPopOver.setContentNode(homeHelpBox);
-        settingsPopOver.setContentNode(null);
-        break;
-      case "requestHelp":
-        helpPopOver.setContentNode(requestHelpBox);
-        settingsPopOver.setContentNode(requestSettingsPane);
-        break;
-      case "supporter":
-        helpPopOver.setContentNode(supporterHelpBox);
-        settingsPopOver.setContentNode(supportSettingsBox);
-        break;
+
       default:
         helpPopOver.setContentNode(null);
         settingsPopOver.setContentNode(null);
