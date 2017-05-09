@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -16,8 +15,6 @@ public class TextSlider extends StackPane {
 
   Slider slider;
   Text valueText = new Text();
-  private final double startXSlider;
-  private final double sliderWidth;
 
   /**
    * Initializes a new slider with the value as a text on top of the thumb.
@@ -27,8 +24,8 @@ public class TextSlider extends StackPane {
    */
   public TextSlider(int min, int max, int value) {
     this.setAlignment(Pos.CENTER);
-    sliderWidth = this.getWidth() / 1.2;
-    startXSlider = (this.getWidth() / 2) - (sliderWidth / 2);
+    this.setPadding(new Insets(50,0,0,0));
+
     slider = new Slider(min, max, value) {
       @Override
       protected void layoutChildren() {
@@ -46,7 +43,6 @@ public class TextSlider extends StackPane {
       }
     };
 
-
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
 
@@ -54,8 +50,6 @@ public class TextSlider extends StackPane {
     valueText.textProperty().bind(
         slider.valueProperty().asString("%,.0f"));
     valueText.getStyleClass().add("sliderTxts");
-
-    this.setPadding(new Insets(50,0,0,0));
 
     getChildren().addAll(valueText, slider);
   }
