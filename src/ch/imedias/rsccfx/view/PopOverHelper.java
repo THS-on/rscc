@@ -4,10 +4,14 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
 import java.util.logging.Logger;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -23,6 +27,9 @@ public class PopOverHelper {
 
   private static final Logger LOGGER =
       Logger.getLogger(PopOverHelper.class.getName());
+
+  //SettingsProperties
+  BooleanProperty isViewOnly = new SimpleBooleanProperty(false);
 
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
@@ -97,6 +104,8 @@ public class PopOverHelper {
       default:
         LOGGER.info("PopOver couldn't find view: " + viewName);
     }
+    setValueChangeListener();
+    settingsBinding();
   }
 
   private void layoutPopOver() {
@@ -139,7 +148,7 @@ public class PopOverHelper {
 
   private void layoutSupport() {
     // Settings
-    supportCompressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
+    supportCompressionSldr = new TextSlider(COMPRESSION_MIN, COMPRESSION_MAX, COMPRESSION_VALUE);
     supportCompressionSldr.setPrefWidth(sliderWidth);
     supportCompressionSldr.getStyleClass().add("slider");
 
@@ -148,7 +157,7 @@ public class PopOverHelper {
     supportCompressionLbl.textProperty().set("Kompression");
     supportCompressionLbl.getStyleClass().add("sliderLbls");
 
-    supportQualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
+    supportQualitySldr = new TextSlider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE);
     supportQualitySldr.setPrefWidth(sliderWidth);
 
     supportQualityLbl.textProperty().set("Qualität");
@@ -180,4 +189,21 @@ public class PopOverHelper {
     supportHelpBox.getChildren().addAll(supportHelpLbl);
   }
 
-}
+
+  private void setValueChangeListener() {
+    requestViewOnlyTgl.selectedProperty().addListener(observable -> {
+      if (requestViewOnlyTgl.isSelected()) {
+        requestViewOnlyTgl.setSelected(true);
+      } else {
+        requestViewOnlyTgl.setSelected(false);
+      }
+      ;
+    });
+  }
+
+    private void settingsBinding(){
+    model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
+  }
+  }
+
+
