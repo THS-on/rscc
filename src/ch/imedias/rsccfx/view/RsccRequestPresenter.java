@@ -39,10 +39,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
 
-  private ArrayList<Button> buttons = new ArrayList<>();
+  private static ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
 
-  private List<SupportAddress> supportAddresses;
+  public static List<SupportAddress> supportAddresses;
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
   /**
@@ -80,13 +80,25 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
-    attachButtonEvents();
   }
 
+  /**
+   *  Events for the supporter buttons, has to be called by createNewSupporterBtn too.
+   */
   private void attachButtonEvents() {
-    for (Button b:buttons) {
-      b.setOnMouseClicked(event ->
-          new SupporterAttributesDialog());
+    for (int i = 0; i < buttons.size(); i++) {
+      Button b = buttons.get(i);
+      int finalI = i;
+      if (i < supportAddresses.size()) {
+        b.setOnMouseClicked(event ->
+            new SupporterAttributesDialog(supportAddresses.get(finalI).getDescription(),
+                                          // TODO split address into address and port
+                                          supportAddresses.get(finalI).getAddress(),
+                                          supportAddresses.get(finalI).isEncrypted(),
+                                          finalI));
+      } else {
+        b.setOnMouseClicked(event -> new SupporterAttributesDialog());
+      }
     }
   }
 
@@ -134,7 +146,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
-      saveSupporterList(); // TODO make this an action on the "save button"
       viewParent.setView(RsccApp.HOME_VIEW);
     });
     headerPresenter.setHelpBtnAction(event ->
@@ -151,11 +162,19 @@ public class RsccRequestPresenter implements ControlledPresenter {
     createSupporterList();
     for (int counter = 0; counter < supportAddresses.size(); counter++) {
       createNewSupporterBtn();
-      // TODO: connect to the right GUI component
-      buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
-          + supportAddresses.get(counter).getDescription());
+      setTextOnButtons(counter);
     }
     createNewSupporterBtn();
+  }
+
+  /**
+   * adds text to the created buttons.
+   * @param index = index in supportAddresses of the button.
+   */
+  public static void setTextOnButtons(int index) {
+    // TODO: connect to the right GUI component
+    buttons.get(index).textProperty().set(supportAddresses.get(index).getAddress() + "\n"
+        + supportAddresses.get(index).getDescription());
   }
 
   /**
@@ -167,7 +186,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     String supportAddressesXml = preferences.get(SUPPORT_ADDRESSES, null);
     if (supportAddressesXml == null) {
       // use some hardcoded defaults
-      supportAddresses = getDefaultList();
+      supportAddresses = getDefaultList(); // TODO defaultfile should be xml
     } else {
       byte[] array = supportAddressesXml.getBytes();
       ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
