@@ -41,7 +41,9 @@
             <!-- this adds files like *.properties to the compilation -->
             <resource>
                 <directory>${custom.source}</directory>
-                <excludes><exclude>*.java</exclude></excludes>
+                <excludes>
+                    <exclude>*.java</exclude>
+                </excludes>
             </resource>
         </resources>
         <plugins>
