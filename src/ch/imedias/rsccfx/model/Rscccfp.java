@@ -255,26 +255,28 @@ public class Rscccfp extends Thread {
    */
   public void closeConnection() {
     try {
-      if (!serverSocket.isClosed()) {
-        serverSocket.close();
+      if (serverSocket != null && !serverSocket.isClosed()) {
+        try {
+          serverSocket.close();
+        } catch (SocketException e) {
+          System.out.println("RSCCCFP: Server Socket closed heavly");
+        }
       }
-
-      connectionSocket.close();
-      outputStream.close();
-      inputStream.close();
-    } catch (SocketException e) {
-      System.out.println("RSCCCFP: Server Socket closed heavly");
+      if (connectionSocket != null && !connectionSocket.isClosed()) {
+        connectionSocket.close();
+      }
+      if (outputStream != null) {
+        outputStream.close();
+      }
+      if (inputStream != null) {
+        inputStream.close();
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Closes ServerSocket-Connections.
-   */
-  public void closeServerSocket() {
 
   }
+
 
   /**
    * Ask public Stunservers for its own public IP and Port,

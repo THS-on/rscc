@@ -167,7 +167,7 @@ public class Rscc {
    */
   public void killConnection() {
     if (rscccfp != null) {
-      rscccfp.closeServerSocket();
+      rscccfp.closeConnection();
     }
 
     // Execute port_stop.sh with the generated key to kill the connection
