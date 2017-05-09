@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+
 import java.io.InputStream;
 import java.util.logging.Logger;
 
@@ -28,14 +29,13 @@ public class RsccRequestView extends BorderPane {
 
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
-  private static final double A_THIRD_OF_ONE_HUNDERED = 100/3;
+  private static final double A_THIRD_OF_ONE_HUNDERED = 100 / 3;
 
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
 
   final Label titleLbl = new Label();
-  final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
 
@@ -53,13 +53,6 @@ public class RsccRequestView extends BorderPane {
 
   final Button reloadKeyBtn = new Button();
   final Button readyBtn = new Button();
-  final Button btn1 = new Button();
-  final Button btn2 = new Button("Btn");
-  final Button btn3 = new Button("Btn");
-  final Button btn4 = new Button("Btn");
-  final Button btn5 = new Button("Btn");
-  final Button btn6 = new Button("Btn");
-  final Button btn7 = new Button("Btn");
 
   Image reloadImg;
 
@@ -68,7 +61,7 @@ public class RsccRequestView extends BorderPane {
   GridPane supporterGrid = new GridPane();
 
   /**
-   * Initializes all the GUI components needed generate the key the supporter needs.
+   * Initializes all the GUI components needed to generate the key the supporter needs.
    *
    * @param model the model to handle the data.
    */
@@ -78,6 +71,7 @@ public class RsccRequestView extends BorderPane {
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
+    layoutSupporterPane();
     bindFieldsToModel();
   }
 
@@ -100,27 +94,13 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    predefinedAddressesLbl.textProperty().set("Predefined Addresses");
+
     predefinedAddressesPane.setText("Predefined Addresses");
     predefinedAddressesPane.setExpanded(false);
     predefinedAddressesPane.setId("predefinedAddressesPane");
 
     supporterDescriptionLbl.setText("Description on the right");
 
-    // TODO: Finish all the buttons here according to mockup.
-    // Admin Buttons
-    // label, six Buttons, six images
-    /*btn1.setGraphic();*/
-    btn1.textProperty().setValue("Supporter 1");
-    btn1.getStyleClass().add("supporterBtn");
-    btn2.getStyleClass().add("supporterBtn");
-    btn3.getStyleClass().add("supporterBtn");
-    btn4.getStyleClass().add("supporterBtn");
-    btn5.getStyleClass().add("supporterBtn");
-    btn6.getStyleClass().add("supporterBtn");
-    btn7.getStyleClass().add("supporterBtn");
-    /*supporterTwoBtn.setGraphic();*/
-    // two HBox'es
   }
 
   private void layoutForm() {
@@ -155,7 +135,11 @@ public class RsccRequestView extends BorderPane {
 
     keyGeneratorPane.setContent(centerBox);
 
-    // *** Supporter Pane ***
+    setTop(headerView);
+    setCenter(keyGeneratorPane);
+  }
+
+  private void layoutSupporterPane() {
     predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
     predefinedAddressesPane.setContent(predefinedAdressessBox);
 
@@ -167,18 +151,12 @@ public class RsccRequestView extends BorderPane {
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
-    col1.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
-    col2.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
-    col3.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
     supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
-
-    supporterGrid.add(btn1, 0, 0);
-    supporterGrid.add(btn2, 1, 0);
-    supporterGrid.add(btn3, 2, 0);
-    supporterGrid.add(btn4, 0, 1);
-    supporterGrid.add(btn5, 1, 1);
-    supporterGrid.add(btn6, 2, 1);
-    supporterGrid.add(btn7, 0, 2);
+    int amountOfColumns = supporterGrid.getColumnConstraints().size();
+    int columnPercentWidth = 100 / amountOfColumns;
+    col1.setPercentWidth(columnPercentWidth);
+    col2.setPercentWidth(columnPercentWidth);
+    col3.setPercentWidth(columnPercentWidth);
 
     // ***************
 
