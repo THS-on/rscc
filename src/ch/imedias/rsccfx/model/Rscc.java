@@ -44,7 +44,7 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
-  private static final String[] STUN_SERVERS = {"stun.gmx.net", "stun.1und1.de"};
+  private static final String[] STUN_SERVERS = {"numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
   private static final int BUFFER_SIZE = 1450;
