@@ -128,8 +128,10 @@ public class Rscccfp extends Thread {
     //connect to server
     System.out.println("start client");
     connectionSocket = new Socket(host, model.getVncPort());
+    connectionSocket.setTcpNoDelay(false);
     System.out.println("RSCCCFP: Connected to server");
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
+
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
     //receive other SDP
@@ -159,7 +161,7 @@ public class Rscccfp extends Thread {
     //receive results
     receiveOtherIceProcessingState();
 
-    closeConnection();
+    //closeConnection();
 
     elaborateResults();
   }
@@ -267,8 +269,8 @@ public class Rscccfp extends Thread {
   public void sendMyIceProcessingState() {
     System.out.println("RSCCCFP: Send myIceProcessingState: " + model.getMyIceProcessingState());
     try {
-      outputStream.writeBytes(model.getMyIceProcessingState());
-
+      outputStream.writeBytes(model.getMyIceProcessingState() + '\n');
+      outputStream.flush();
     } catch (Exception e) {
       e.printStackTrace();
     }
