@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import com.google.common.base.CharMatcher;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -54,6 +55,9 @@ public class SystemCommander {
     StringBuilder commandString = new StringBuilder();
 
     if (pathToScript != null) {
+      // remove all slashes at the end
+      pathToScript = CharMatcher.is('/').trimTrailingFrom(pathToScript);
+      // append slash to separate from script name
       commandString.append(pathToScript).append("/");
     }
     commandString.append(scriptName);
