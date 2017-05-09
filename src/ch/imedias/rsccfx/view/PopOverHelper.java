@@ -5,7 +5,6 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
