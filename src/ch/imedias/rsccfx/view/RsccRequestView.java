@@ -84,6 +84,7 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
     generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
     predefinedAddressesPane.textProperty().set(strings.requestPredefinedAdressessPane);
+    supporterDescriptionLbl.textProperty().set(strings.requestSupporterDescriptionLbl);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.requestStatusLblReady);
