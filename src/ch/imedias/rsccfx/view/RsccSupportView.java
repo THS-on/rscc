@@ -25,7 +25,6 @@ public class RsccSupportView extends BorderPane {
   private final Rscc model;
   private final Strings strings = new Strings();
   private static final double KEYFLD_HEIGHT = 60d;
-  private static final double KEYFLD_MIN_WIDTH=600d;
 
   final HeaderView headerView;
 
@@ -86,7 +85,6 @@ public class RsccSupportView extends BorderPane {
     addressbookPane.setExpanded(false);
 
     keyFld.setPrefHeight(KEYFLD_HEIGHT);
-    keyFld.setMinWidth(KEYFLD_MIN_WIDTH);
 
     titleLbl.getStyleClass().add("titleLbl");
 
