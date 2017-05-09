@@ -72,9 +72,15 @@ public class RsccRequestView extends BorderPane {
   private void initFieldData() {
     // populate fields which require initial data
 
-    titleLbl.textProperty().set("Generate key");
+    titleLbl.textProperty().set(strings.requestTitleLbl);
+    descriptionLbl.textProperty().set(strings.requestDescriptionLbl);
+    keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
+    generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
+    predefinedAddressesPane.textProperty().set(strings.requestPredefinedAddressesPane);
 
-    descriptionLbl.textProperty().set(strings.descriptionRequestView);
+    // TODO: Tech Group - switch waiting and ready Label
+    //statusLbl.textProperty().set(strings.requestStatusLblReady);
+    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
@@ -82,26 +88,11 @@ public class RsccRequestView extends BorderPane {
     reloadImgView = new ImageView(reloadImg);
     reloadKeyBtn.setGraphic(reloadImgView);
 
-    keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-    generatedKeyFld.setPromptText("Generating key...");
-
-    predefinedAddressesLbl.textProperty().set("Predefined Addresses");
-    predefinedAddressesPane.setText("Predefined Addresses");
     predefinedAddressesPane.setExpanded(false);
     predefinedAddressesPane.setId("predefinedAddressesPane");
 
-    // TODO: Finish all the buttons here according to mockup.
-    // Admin Buttons
-    // label, six Buttons, six images
-    /*supporterOneBtn.setGraphic();*/
-    supporterOneBtn.textProperty().setValue("Supporter 1");
-    supporterOneBtn.getStyleClass().add("supporterBtn");
-    /*supporterTwoBtn.setGraphic();*/
-    // two HBox'es
-
-    statusLbl.setText("Waiting");
   }
 
   private void layoutForm() {
