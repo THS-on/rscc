@@ -193,7 +193,7 @@ public class Rscc {
     setKey(key); // update key in model
 
     rscccfp = new Rscccfp(this, true);
-//    rscccfp.setDaemon(true);
+    rscccfp.setDaemon(true);
     rscccfp.start();
 
     //startVncServer();
@@ -210,7 +210,7 @@ public class Rscc {
     systemCommander.executeTerminalCommand(command);
 
     rscccfp = new Rscccfp(this, false);
- //   rscccfp.setDaemon(true);
+    rscccfp.setDaemon(true);
     rscccfp.start();
 
     //startVncViewer("localhost");

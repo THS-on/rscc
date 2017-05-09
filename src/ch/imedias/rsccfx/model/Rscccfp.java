@@ -152,7 +152,6 @@ public class Rscccfp extends Thread {
       model.setMyIceProcessingState("Failed");
     }
 
-
     //send results
     sendMyIceProcessingState();
 
@@ -271,6 +270,7 @@ public class Rscccfp extends Thread {
     System.out.println("RSCCCFP: Send myIceProcessingState: " + model.getMyIceProcessingState());
     try {
       outputStream.writeBytes(model.getMyIceProcessingState());
+
     } catch (Exception e) {
       e.printStackTrace();
     }
