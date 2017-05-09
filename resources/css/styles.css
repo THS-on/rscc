@@ -6,7 +6,7 @@
 
 #header {
     -fx-background-color: #eeeeee; /* macarena */
-    -fx-padding: 10;
+    /*-fx-padding: 10;*/
 }
 
 #headerText {
@@ -16,7 +16,7 @@
 }
 
 #helpBtn, #backBtn, #settingsBtn{
-    -fx-padding: 5;
+    /*-fx-padding: 5;*/
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
     -fx-border-color:#A7A7A7;
@@ -38,8 +38,8 @@
 
 .HomeNavigationBtn{
     -fx-font-size: 18pt;
-    -fx-fit-to-width: true;
-    -fx-content-display: left;
+    /*-fx-fit-to-width: true;*/
+    /*-fx-content-display: left;*/
     -fx-border-color:#A7A7A7;
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
@@ -65,9 +65,9 @@
  *                                                                         *
  **************************************************************************/
 #contentBox {
-    -fx-padding: 25;
-    -fx-spacing: 20;
-    -fx-alignment: center;
+    /*-fx-padding: 25;*/
+    /*-fx-spacing: 20;*/
+    /*-fx-alignment: center;*/
 }
 
 /***************************************************************************
@@ -85,7 +85,7 @@
 
 .statusBox{
     -fx-background-color: rgb(240, 173, 78);
-    -fx-alignment: center;
+    /*-fx-alignment: center;*/
 }
 
 .statusBox:valid{
@@ -102,9 +102,9 @@
 }
 
 .descriptionBox {
-    -fx-alignment: center-left;
-    -fx-spacing: 50;
-    -fx-padding: 25;
+    /*-fx-alignment: center-left;*/
+    /*-fx-spacing: 50;*/
+    /*-fx-padding: 25;*/
 }
 
 /***************************************************************************
@@ -134,31 +134,31 @@
 }
 
 #centerBox{
-    -fx-alignment: center;
-    -fx-padding: 10, 20, 10, 20;
-    -fx-spacing: 150;
+    /*-fx-alignment: center;*/
+    /*-fx-padding: 10, 20, 10, 20;*/
+    /*-fx-spacing: 150;*/
 }
 
 #bottomBox{
-    -fx-padding: 10 ,20 ,1 ,20;
+    /*-fx-padding: 10 ,20 ,1 ,20;*/
 }
 
 #keyGeneratingBox{
-    -fx-alignment: center;
-    -fx-spacing: 25;
-    -fx-padding: 25;
+    /*-fx-alignment: center;*/
+    /*-fx-spacing: 25;*/
+    /*-fx-padding: 25;*/
 }
 
 #readyBtn{
-    -fx-alignment: bottom-right;
+    /*-fx-alignment: bottom-right;*/
 }
 
 #reloadKeyBtn {
-    -fx-padding: 13;
+    /*-fx-padding: 13;*/
 }
 
 .titled-pane > .title {
-    -fx-pref-height: 36.0;
+    /*-fx-pref-height: 36.0;*/
     -fx-font-size: 14pt;
 }
 
@@ -173,7 +173,7 @@
  **************************************************************************/
 
 #SupporterView {
-    -fx-padding: 5, 25, 5, 25;
+    /*-fx-padding: 5, 25, 5, 25;*/
 }
 
 #EnterTokenLbl {
@@ -181,20 +181,20 @@
 }
 
 #centerBoxSupport {
-    -fx-alignment: center;
-    -fx-padding: 10, 20, 10, 20;
-    -fx-spacing: 150;
+    /*-fx-alignment: center;*/
+    /*-fx-padding: 10, 20, 10, 20;*/
+    /*-fx-spacing: 150;*/
 }
 
 #connectBtn {
-    -fx-alignment: bottom-right;
+    /*-fx-alignment: bottom-right;*/
     /*-fx-font-size: 30;*/
 }
 
 #keyValidationBox {
-    -fx-alignment: center;
-    -fx-spacing: 25;
-    -fx-padding: 25;
+    /*-fx-alignment: center;*/
+    /*-fx-spacing: 25;*/
+    /*-fx-padding: 25;*/
 }
 
 #keyFld {
@@ -207,9 +207,9 @@
     -fx-border-radius: 5px;
     -fx-background-color: white;
     -fx-border-color: lightgrey;
-    -fx-fit-to-width: true;
-    -fx-pref-width: 240px;
-    -fx-pref-height: 100px;
+    /*-fx-fit-to-width: true;*/
+    /*-fx-pref-width: 240px;*/
+    /*-fx-pref-height: 100px;*/
 
 /*
 

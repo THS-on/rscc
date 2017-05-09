@@ -60,6 +60,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   public void initSize(Scene scene) {
     headerPresenter.initSize(scene);
 
+    /*
     view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
     view.supportImgView.fitHeightProperty().bind(scene.heightProperty()
@@ -74,6 +75,7 @@ public class RsccHomePresenter implements ControlledPresenter {
         .divide(VIEW_BTN_WIDTH_DIVISOR));
     view.requestViewBtn.prefHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(VIEW_BTN_HEIGHT_DIVISOR));
+        */
   }
 
   private void attachEvents() {

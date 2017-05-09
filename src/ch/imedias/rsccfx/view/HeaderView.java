@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 
 /**
  * Defines all elements shown in the header.
@@ -62,11 +61,11 @@ public class HeaderView extends HBox {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-
+/*
     HBox.setHgrow(spacer, Priority.ALWAYS);
     HBox.setMargin(backBtn, BACK_BUTTON_INSETS);
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
-    HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
+    HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);*/
 
     this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
     this.setId("header");

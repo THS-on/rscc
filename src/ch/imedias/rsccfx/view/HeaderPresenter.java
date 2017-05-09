@@ -65,7 +65,7 @@ public class HeaderPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    view.prefWidthProperty().bind(scene.widthProperty());
+//    view.prefWidthProperty().bind(scene.widthProperty());
   }
 
   /**

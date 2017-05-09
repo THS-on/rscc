@@ -115,7 +115,7 @@ public class RsccRequestView extends BorderPane {
     statusBox.getStyleClass().add("statusBox");
     statusLbl.getStyleClass().add("statusLbl");
 
-    generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
+    //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setId("generatedKeyFld");
 
@@ -167,8 +167,6 @@ public class RsccRequestView extends BorderPane {
     col1.setPercentWidth(columnPercentWidth);
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
-
-    // ***************
 
     setTop(headerView);
     setCenter(keyGeneratorPane);

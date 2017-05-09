@@ -3,7 +3,6 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
  * Defines all elements shown in the support section.
@@ -84,7 +82,7 @@ public class RsccSupportView extends BorderPane {
   private void layoutForm() {
     addressbookPane.setExpanded(false);
 
-    keyFld.setPrefHeight(KEYFLD_HEIGHT);
+    //keyFld.setPrefHeight(KEYFLD_HEIGHT);
 
     titleLbl.getStyleClass().add("titleLbl");
 

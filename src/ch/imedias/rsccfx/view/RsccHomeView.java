@@ -5,7 +5,6 @@ import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
  * Defines all elements shown on the start page.
@@ -101,8 +99,8 @@ public class RsccHomeView extends BorderPane {
     supportViewBtn.setGraphic(supportBox);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");
 
-    supportBoxLabels.setPadding(new Insets(0,20,0,20));
-    requestBoxLabels.setPadding(new Insets(0,20,0,20));
+//    supportBoxLabels.setPadding(new Insets(0,20,0,20));
+//    requestBoxLabels.setPadding(new Insets(0,20,0,20));
 
     contentBox.setId("contentBox");
 
