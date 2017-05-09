@@ -187,14 +187,21 @@ public class SdpUtils {
 
     StringTokenizer tokenizer = new StringTokenizer(value);
     //XXX add exception handling.
-    String foundation = tokenizer.nextToken();
-    int componentId = Integer.parseInt(tokenizer.nextToken());
-    Transport transport = Transport.parse(tokenizer.nextToken());
-    long priority = Long.parseLong(tokenizer.nextToken());
-    String address = tokenizer.nextToken();
-    int port = Integer.parseInt(tokenizer.nextToken());
 
-    TransportAddress transAddr
+    String foundation;
+    foundation = tokenizer.nextToken();
+    int componentId;
+    componentId = Integer.parseInt(tokenizer.nextToken());
+    Transport transport;
+    transport = Transport.parse(tokenizer.nextToken());
+    long priority;
+    priority = Long.parseLong(tokenizer.nextToken());
+    String address;
+    address = tokenizer.nextToken();
+    int port;
+    port = Integer.parseInt(tokenizer.nextToken());
+    TransportAddress transAddr;
+    transAddr
         = new TransportAddress(address, port, transport);
 
     tokenizer.nextToken(); //skip the "typ" String

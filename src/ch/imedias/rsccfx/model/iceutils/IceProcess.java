@@ -1,7 +1,6 @@
 package ch.imedias.rsccfx.model.iceutils;
 
 import ch.imedias.rsccfx.model.Rscc;
-import java.io.File;
 import java.net.InetAddress;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
@@ -105,7 +104,7 @@ public class IceProcess extends Thread {
    * Checks if a connection is possible (only active part does it).
    *
    * @return Component contains all Information to build a UDP socket, null if ICE did not manage
-   * to establish a connection.
+   *         to establish a connection.
    */
 
   private Component startIceConnectivityEstablishment() throws Throwable {

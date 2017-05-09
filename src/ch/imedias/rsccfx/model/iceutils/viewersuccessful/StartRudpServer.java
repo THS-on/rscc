@@ -1,4 +1,4 @@
-package ch.imedias.rsccfx.model.iceutils.viewerSuccessful;
+package ch.imedias.rsccfx.model.iceutils.viewersuccessful;
 /**
  * Created by pwg on 20.04.17.
  */
@@ -66,7 +66,7 @@ public class StartRudpServer {
             try {
               while ((bytesRead = inFromTcpLocalhostVncVideo.read(request)) != -1) {
                 outViaRudpVncVideo.write(request, 0, bytesRead);
-                System.out.println("wrote outviarudp:"+bytesRead);
+                System.out.println("wrote outviarudp:" + bytesRead);
                 outViaRudpVncVideo.flush();
               }
             } catch (IOException e) {
