@@ -29,7 +29,6 @@ public class RsccRequestView extends BorderPane {
 
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
-  private static final double A_THIRD_OF_ONE_HUNDERED = 100 / 3;
 
   final HeaderView headerView;
   private final Rscc model;
