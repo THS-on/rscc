@@ -112,6 +112,21 @@ public class IceProcess extends Thread {
     // You need to listen for state change so that once connected you can then use the socket.
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
 
+    while (agent.getState() != IceProcessingState.TERMINATED) {
+      Thread.sleep(1000);
+      System.out.println("ICE Process running");
+
+      if (agent.getState() == IceProcessingState.FAILED) {
+        System.out.println("ICE Failed");
+        agent.free();
+        return null;
+      }
+    }
+
+    System.out.println("Got a working socket");
+    Component rtpComponent = stateListener.rtpComponent;
+    agent.free();
+    return rtpComponent;
 
   }
 }
