@@ -74,8 +74,7 @@ public class RsccRequestView extends BorderPane {
 
     titleLbl.textProperty().set("Generate key");
 
-    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
-        + "Once your supporter enters this code, the remote support will start.");
+    descriptionLbl.textProperty().set(strings.description);
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
