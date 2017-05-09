@@ -1,12 +1,9 @@
-package ch.imedias.rsccfx.model.iceutils.rudp;
+package ch.imedias.rsccfx.model.iceutils.viewerSuccessful;
 /**
  * Created by pwg on 20.04.17.
  */
 
-import ch.imedias.rsccfx.model.iceutils.IceProcess;
 import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableServerSocket;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableSocket;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,38 +11,25 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-//Working Solution 22. Apr
-//This is based on http://www.java2s.com/Code/Java/Network-Protocol/Asimpleproxyserver.htm
-public class SimpleProxyRequesterRudp {
 
-  //Started on the machine which runs x11vnc -forever which is run by the person who wants to Help
-  //Starts the iceprocess passive!
+public class StartRudpServer {
 
-  public static final String KEY = "0102034";
-  public static final int VNCPORT = 5900;
-  public static final int ICEPORT = 5050;
 
   /**
-   * TODO: needs to be implemented into the model
    *
-   * @param args probably Key and local VNC port to connect to + Port Ice should start.
+   * @param vncPort the port vnc runs on. Standard:5900
+   * @param icePort the port ice did run (holepunched by ice)
+   * @param bufferSize maxsize of a UDP pack TODO: what is max size that works?
    */
 
-  public static void main(String[] args) throws Throwable {
-
-  }
-
-  /**
-   * runs a single-threaded proxy server on the port Ice used for connection establishment.
-   */
-  public static void runServer()
+  public static void runServer(int vncPort, int icePort, int bufferSize)
       throws IOException {
 
     Socket tcpLocalhostSocket = null;
-    ReliableServerSocket rudpServerSocket = new ReliableServerSocket(ICEPORT);
+    ReliableServerSocket rudpServerSocket = new ReliableServerSocket(icePort);
     Socket rudpSocket = null;
-    final byte[] request = new byte[1024];
-    byte[] reply = new byte[16384];
+    final byte[] request = new byte[bufferSize];
+    byte[] reply = new byte[bufferSize];
 
     /*
     TODO: does not work yet
@@ -57,11 +41,12 @@ public class SimpleProxyRequesterRudp {
 
       try {
         rudpSocket = rudpServerSocket.accept();
+        System.out.println("working RUDP");
         final InputStream inViaRudpVncCommands = rudpSocket.getInputStream();
         final OutputStream outViaRudpVncVideo = rudpSocket.getOutputStream();
 
         try {
-          tcpLocalhostSocket = new Socket(InetAddress.getLocalHost(), VNCPORT);
+          tcpLocalhostSocket = new Socket(InetAddress.getLocalHost(), vncPort);
         } catch (Exception e) {
           PrintWriter out = new PrintWriter(outViaRudpVncVideo);
           System.out.print("Proxy server cannot connect to " + ":");
@@ -81,6 +66,7 @@ public class SimpleProxyRequesterRudp {
             try {
               while ((bytesRead = inFromTcpLocalhostVncVideo.read(request)) != -1) {
                 outViaRudpVncVideo.write(request, 0, bytesRead);
+                System.out.println("wrote outviarudp:"+bytesRead);
                 outViaRudpVncVideo.flush();
               }
             } catch (IOException e) {
@@ -94,7 +80,6 @@ public class SimpleProxyRequesterRudp {
             } catch (IOException e) {
               System.out.println(e);
             }
-
           }
         };
 
