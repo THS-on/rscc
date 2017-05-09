@@ -4,7 +4,6 @@ import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 
 /**
  * Defines the behaviour of interaction and initializes the size of the GUI components.
@@ -55,17 +54,6 @@ public class HeaderPresenter {
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
     view.settingsBtn.setOnAction(action);
-  }
-
-  /**
-   * Initializes the size of the HeaderView.
-   *
-   * @param scene must be initialized and displayed before calling this method.
-   *              The size of all header elements are based on it.
-   * @throws NullPointerException if called before this object is fully initialized.
-   */
-  public void initSize(Scene scene) {
-//    view.prefWidthProperty().bind(scene.widthProperty());
   }
 
   /**

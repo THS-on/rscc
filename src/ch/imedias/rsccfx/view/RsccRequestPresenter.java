@@ -99,7 +99,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void initSize(Scene scene) {
     // initialize header
-    headerPresenter.initSize(scene);
 /*
     // initialize view
     // TODO: requestHelpView --> generatedKeyFld should not take the whole width!

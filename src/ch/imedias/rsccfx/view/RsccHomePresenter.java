@@ -58,8 +58,12 @@ public class RsccHomePresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    headerPresenter.initSize(scene);
+    int IMAGE_SIZE = 100;
 
+    view.requestImgView.fitHeightProperty().set(IMAGE_SIZE);
+    view.requestImgView.fitWidthProperty().set(IMAGE_SIZE);
+    view.supportImgView.fitHeightProperty().set(IMAGE_SIZE);
+    view.supportImgView.fitWidthProperty().set(IMAGE_SIZE);
     /*
     view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
