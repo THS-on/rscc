@@ -76,7 +76,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     view.btn7.setOnAction(event -> createNewSupporterBtn());
-    view.btn1.setOnAction(event -> new SupporterAttributesDialog()/*createDialogPane()*/);
+    view.btn1.setOnAction(event -> new SupporterAttributesDialog());
 
 
 
