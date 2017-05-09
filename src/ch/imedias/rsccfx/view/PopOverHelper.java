@@ -15,7 +15,6 @@ import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.ToggleSwitch;
 
-
 /**
  * Shows popover for settings and help buttons.
  */
@@ -172,6 +171,7 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
     supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl)); // TODO: why just a label here and in request?
     supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+
 
     // Help
     supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
