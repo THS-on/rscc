@@ -143,11 +143,26 @@
 }
 
 .supporterBtn {
-    -fx-font-size: 18pt;
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-border-color: lightgrey;
+    -fx-fit-to-width: true;
+    -fx-pref-width: 240px;
+    -fx-pref-height: 100px;
+
+/*
+
+    -fx-font-size: 15pt;
     -fx-fit-to-width: true;
     -fx-content-display: top;
-    -fx-border-width: 3;
+    -fx-border-width: ;
     -fx-padding: 15;
+    -fx-background-color: white;*/
+}
+
+.supporterBtn:hover {
+    -fx-background-color: lightgrey; /* Green */
+    -fx-border-color: lightgrey;
 }
 
 /***************************************************************************

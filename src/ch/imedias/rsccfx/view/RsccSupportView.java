@@ -107,7 +107,6 @@ public class RsccSupportView extends BorderPane {
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
-    // TODO: Set content for addressbookPane
 
     connectBtn.setDisable(true);
     setCenter(keyInputPane);
