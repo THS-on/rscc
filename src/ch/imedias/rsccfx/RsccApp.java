@@ -2,7 +2,6 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
-import ch.imedias.rsccfx.view.PopOverHelper;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
@@ -12,7 +11,6 @@ import ch.imedias.rsccfx.view.RsccSupportView;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
@@ -45,9 +43,7 @@ public class RsccApp extends Application {
     model = new Rscc(new SystemCommander());
     ViewController mainView = new ViewController();
 
-    Group root = new Group();
-    root.getChildren().addAll(mainView);
-    final Scene scene = new Scene(root);
+    final Scene scene = new Scene(mainView);
 
     // Initialize the views and load them into ViewController
     // HomeView
