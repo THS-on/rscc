@@ -5,23 +5,22 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.logging.Logger;
 
-import ch.imedias.rsccfx.view.util.RequestViewAddSupporter;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-
 /**
  * Defines the behaviour of interactions
  * and initializes the size of the GUI components.
@@ -77,8 +76,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     view.btn7.setOnAction(event -> createNewSupporterBtn());
-
-    view.btn1.setOnAction(event -> createDialogPane());
+    view.btn1.setOnAction(event -> new SupporterAttributesDialog()/*createDialogPane()*/);
 
 
 
@@ -169,25 +167,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void createDialogPane(){
-    /*
-    TextInputDialog dialog = new TextInputDialog("walter");
-    dialog.setTitle("Text Input Dialog");
-    dialog.setHeaderText("Look, a Text Input Dialog");
-    dialog.setContentText("Please enter your name:");
-
-// Traditional way to get the response value.
-    Optional<String> result = dialog.showAndWait();
-    if (result.isPresent()){
-      System.out.println("Your name: " + result.get());
-    }
-    */
-
-    System.out.println("Buttonclicked");
-
-    //TextInputDialog pane = new TextInputDialog("walter");
     Dialog dialog = new Dialog();
     DialogPane dialogPane = new DialogPane();
-
     GridPane gridPane = new GridPane();
 
     final Label nameLbl = new Label("Name");
@@ -202,6 +183,13 @@ public class RsccRequestPresenter implements ControlledPresenter {
     final TextField portTxt = new TextField("5900");
     final TextField pictureTxt = new TextField("/images/sup.jpg");
 
+    final CheckBox chargeableCBox = new CheckBox();
+    final CheckBox encryptedCBox = new CheckBox();
+
+
+    File file = new File("src/Box13.jpg");
+    Image image = new Image(file.toURI().toString());
+    ImageView imageView = new ImageView(image);
 
     gridPane.add(nameLbl,0,0);
     gridPane.add(nameTxt,1,0);
@@ -211,12 +199,14 @@ public class RsccRequestPresenter implements ControlledPresenter {
     gridPane.add(portTxt,1,2);
     gridPane.add(pictureLbl,0,3);
     gridPane.add(pictureTxt,1,3);
+    gridPane.add(chargeableLbl,0,4);
+    gridPane.add(chargeableCBox,1,4);
+    gridPane.add(encryptedLbl,0,5);
+    gridPane.add(encryptedCBox,1,5);
 
     dialogPane.getButtonTypes().add(ButtonType.APPLY);
-    dialogPane.getButtonTypes().add(ButtonType.CANCEL);
-    dialogPane.getButtonTypes().add(ButtonType.CLOSE);
 
-    gridPane.setHgap(10);
+    gridPane.setHgap(20);
     gridPane.setVgap(10);
     gridPane.setPadding(new Insets(25, 25, 25, 25));
 
@@ -224,7 +214,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     dialog.setDialogPane(dialogPane);
 
 
-    dialog.isResizable();
+    dialog.setResizable(true);
     dialog.setHeight(500);
     dialog.setWidth(500);
 
