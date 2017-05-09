@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import ch.imedias.rsccfx.model.iceutils.viewersuccessful.runRudp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -196,7 +197,27 @@ public class Rscc {
     rscccfp.setDaemon(true);
     rscccfp.start();
 
-    //startVncServer();
+    try {
+      rscccfp.join();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    startVncServer();
+
+    runRudp rudp = null;
+
+    if (isLocalIceSuccessful && isRemoteIceSuccessful) {
+      rudp = new runRudp(this, true, false);
+    } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
+      rudp = new runRudp(this, false, false);
+    } else if(!isLocalIceSuccessful && isRemoteIceSuccessful) {
+      rudp = new runRudp(this, true, false);
+    }
+
+    if (rudp != null) {
+      rudp.start();
+    }
   }
 
 
@@ -213,7 +234,26 @@ public class Rscc {
     rscccfp.setDaemon(true);
     rscccfp.start();
 
-    //startVncViewer("localhost");
+    try {
+      rscccfp.join();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    runRudp rudp = null;
+
+    if (isLocalIceSuccessful) {
+      rudp = new runRudp(this, true, true);
+    } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+      rudp = new runRudp(this, false, true);
+    }
+
+    if (rudp != null) {
+      rudp.start();
+      startVncViewer("localhost", LOCAL_FORWARDING_PORT);
+    } else {
+      startVncViewer("localhost", vncPort.getValue());
+    }
   }
 
   /**
@@ -238,11 +278,11 @@ public class Rscc {
   /**
    * Starts the VNC Viewer.
    */
-  public void startVncViewer(String hostAddress) {
+  public void startVncViewer(String hostAddress, Integer vncViewerPort) {
     if (hostAddress == null) {
       throw new IllegalArgumentException();
     }
-    String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress;
+    String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress + "::" + vncViewerPort;
     //TODO: Encodings are missing: "tight zrle hextile""
 
     String command = commandStringGenerator(null,
