@@ -115,12 +115,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     // FIXME: need the height of the titlePane itself... or magic number. François
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
+        .subtract(200d));
 
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
     view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
+        .subtract(200d));
 
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
     view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
