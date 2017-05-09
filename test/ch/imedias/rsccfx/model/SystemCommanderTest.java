@@ -60,25 +60,25 @@ public class SystemCommanderTest {
 
     // without slash
     String generatedString = systemCommander.commandStringGenerator(
-        pathToScript,scriptName, attribute);
+        pathToScript, scriptName, attribute);
     String expectedString = "path/To/Script/script.sh attribute";
     assertEquals(expectedString, generatedString);
 
     // with slash
     generatedString = systemCommander.commandStringGenerator(
-        pathToScriptWithSlash,scriptName, attribute);
+        pathToScriptWithSlash, scriptName, attribute);
     expectedString = "path/To/Script/script.sh attribute";
     assertEquals(expectedString, generatedString);
 
     // null as pathToScript
     generatedString = systemCommander.commandStringGenerator(
-        null,scriptName, attribute);
+        null, scriptName, attribute);
     expectedString = "script.sh attribute";
     assertEquals(expectedString, generatedString);
 
     // multiple attributes
     generatedString = systemCommander.commandStringGenerator(
-        pathToScript,scriptName, attributes);
+        pathToScript, scriptName, attributes);
     expectedString = "path/To/Script/script.sh -attr1 attr2 --attr3 4";
     assertEquals(expectedString, generatedString);
   }

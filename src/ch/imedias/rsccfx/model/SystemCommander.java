@@ -46,9 +46,10 @@ public class SystemCommander {
 
   /**
    * Generates String to run command.
-   * @param pathToScript
-   * @param scriptName
-   * @param attributes
+   *
+   * @param pathToScript path to the script that should be run. Should be fully qualified but can also be null.
+   * @param scriptName   name of the script to be run.
+   * @param attributes   optional arguments that should be included in the command.
    */
   public String commandStringGenerator(
       String pathToScript, String scriptName, String... attributes) {
