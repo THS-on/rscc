@@ -200,6 +200,8 @@ public class Rscccfp extends Thread {
    * reads SDP-Dump from opposite.
    */
   private void receiveOtherSdp() {
+
+    System.out.println("RSCCCFP: wait for other sdp");
     StringBuilder receivedSdp = new StringBuilder();
     try {
       //wait for starting line
@@ -221,6 +223,7 @@ public class Rscccfp extends Thread {
       System.out.println("RSCCCFP:" + receivedSdp.toString());
 
       model.setOtherSdp(receivedSdp.toString());
+      System.out.println("RSCCCFP: received other sdp");
 
     } catch (Exception e) {
       e.printStackTrace();
