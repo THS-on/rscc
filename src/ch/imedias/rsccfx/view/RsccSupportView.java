@@ -97,8 +97,6 @@ public class RsccSupportView extends BorderPane {
 
     descriptionBox.getStyleClass().add("descriptionBox");
 
-    //descriptionBox.setAlignment(Pos.CENTER_LEFT);
-
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
