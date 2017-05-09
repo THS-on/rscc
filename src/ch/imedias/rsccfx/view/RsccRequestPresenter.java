@@ -6,12 +6,21 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import ch.imedias.rsccfx.view.util.RequestViewAddSupporter;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines the behaviour of interactions
@@ -30,6 +39,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
+
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -67,7 +77,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     view.btn7.setOnAction(event -> createNewSupporterBtn());
-    view.btn1.setOnAction(event -> new Dialog<RequestViewAddSupporter>().show());
+
+    view.btn1.setOnAction(event -> createDialogPane());
+
+
 
   }
 
@@ -155,4 +168,69 @@ public class RsccRequestPresenter implements ControlledPresenter {
     buttons.add(view.btn7);
   }
 
+  private void createDialogPane(){
+    /*
+    TextInputDialog dialog = new TextInputDialog("walter");
+    dialog.setTitle("Text Input Dialog");
+    dialog.setHeaderText("Look, a Text Input Dialog");
+    dialog.setContentText("Please enter your name:");
+
+// Traditional way to get the response value.
+    Optional<String> result = dialog.showAndWait();
+    if (result.isPresent()){
+      System.out.println("Your name: " + result.get());
+    }
+    */
+
+    System.out.println("Buttonclicked");
+
+    //TextInputDialog pane = new TextInputDialog("walter");
+    Dialog dialog = new Dialog();
+    DialogPane dialogPane = new DialogPane();
+
+    GridPane gridPane = new GridPane();
+
+    final Label nameLbl = new Label("Name");
+    final Label adressLbl = new Label("Adress");
+    final Label portLbl = new Label("Port");
+    final Label pictureLbl = new Label("Picture");
+    final Label chargeableLbl = new Label("Chargeable");
+    final Label encryptedLbl = new Label("Encrypted");
+
+    final TextField nameTxt = new TextField("Ronny");
+    final TextField adressTxt = new TextField("127.0.0.1");
+    final TextField portTxt = new TextField("5900");
+    final TextField pictureTxt = new TextField("/images/sup.jpg");
+
+
+    gridPane.add(nameLbl,0,0);
+    gridPane.add(nameTxt,1,0);
+    gridPane.add(adressLbl,0,1);
+    gridPane.add(adressTxt,1,1);
+    gridPane.add(portLbl,0,2);
+    gridPane.add(portTxt,1,2);
+    gridPane.add(pictureLbl,0,3);
+    gridPane.add(pictureTxt,1,3);
+
+    dialogPane.getButtonTypes().add(ButtonType.APPLY);
+    dialogPane.getButtonTypes().add(ButtonType.CANCEL);
+    dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
+    gridPane.setPadding(new Insets(25, 25, 25, 25));
+
+    dialogPane.setContent(gridPane);
+    dialog.setDialogPane(dialogPane);
+
+
+    dialog.isResizable();
+    dialog.setHeight(500);
+    dialog.setWidth(500);
+
+    dialog.show();
+
+
+
+}
 }
