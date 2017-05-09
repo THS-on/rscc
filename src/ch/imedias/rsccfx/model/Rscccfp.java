@@ -22,7 +22,7 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
  * Remote Support Client Connection Control Flow Protocol
  * This is the Protocol to see if a UPD Connection between the Clients is possible.
  * It uses a TCP-connection between the clients to exchange SDP-Dumps and run the ICE-Framework
- *
+ * <p>
  * Created by jp on 08/05/17.
  */
 
@@ -113,6 +113,7 @@ public class Rscccfp extends Thread {
 
   /**
    * Runs SDP exchange and ICE Magic over the established TCP-connection
+   *
    * @throws Throwable
    */
   private void runIceMagic() throws Throwable {
@@ -254,9 +255,15 @@ public class Rscccfp extends Thread {
    */
   public void closeConnection() {
     try {
+      if (!serverSocket.isClosed()) {
+        serverSocket.close();
+      }
+
       connectionSocket.close();
       outputStream.close();
       inputStream.close();
+    } catch (SocketException e) {
+      System.out.println("RSCCCFP: Server Socket closed heavly");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -266,13 +273,7 @@ public class Rscccfp extends Thread {
    * Closes ServerSocket-Connections.
    */
   public void closeServerSocket() {
-    try {
-      serverSocket.close();
-    } catch (SocketException e) {
-      System.out.println("RSCCCFP: Server Socket closed heavly");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+
   }
 
   /**
