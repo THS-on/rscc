@@ -168,8 +168,7 @@ public class Rscc {
    */
   public void killConnection() {
     if (rscccfp != null) {
-      System.out.println("RSCC: Interrupt rscccfp");
-      rscccfp.interrupt();
+      rscccfp.closeServerSocket();
     }
 
     // Execute port_stop.sh with the generated key to kill the connection
@@ -193,7 +192,7 @@ public class Rscc {
     setKey(key); // update key in model
 
     rscccfp = new Rscccfp(this, true);
-    rscccfp.setDaemon(true);
+//    rscccfp.setDaemon(true);
     rscccfp.start();
 
     //startVncServer();

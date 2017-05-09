@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
@@ -26,6 +27,7 @@ public class Rscccfp extends Thread {
   private final Rscc model;
 
   private Socket connectionSocket;
+  private ServerSocket serverSocket;
   private DataOutputStream outputStream;
   private BufferedReader inputStream;
   private boolean isServer;
@@ -67,7 +69,6 @@ public class Rscccfp extends Thread {
 
     //Start TCP-Server
     System.out.println("RSCCCFP: start server");
-    ServerSocket serverSocket;
     serverSocket = new ServerSocket(model.getVncPort());
 
     //Wait for connection
@@ -76,7 +77,6 @@ public class Rscccfp extends Thread {
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     System.out.println("RSCCCFP: Client connected");
-
 
     //Start ICE Agent
     startStun();
@@ -105,11 +105,15 @@ public class Rscccfp extends Thread {
       model.setMyIceProcessingState("Failed");
     }
 
+    agent.free();
+
     //send results
     sendMyIceProcessingState();
 
     //receive results
     receiveOtherIceProcessingState();
+
+    connectionSocket.close();
 
     elaborateResults();
   }
@@ -155,6 +159,8 @@ public class Rscccfp extends Thread {
     } else {
       model.setMyIceProcessingState("Failed");
     }
+
+    agent.free();
 
     //send results
     sendMyIceProcessingState();
@@ -244,6 +250,16 @@ public class Rscccfp extends Thread {
     }
   }
 
+  public void closeServerSocket() {
+    try {
+      serverSocket.close();
+    } catch (SocketException e) {
+      System.out.println("RSCCCFP: Server Socket closed heavly");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 
   /**
    * Sends SDP-Dump to opposite.
@@ -317,14 +333,14 @@ public class Rscccfp extends Thread {
 
       if (agent.getState() == IceProcessingState.FAILED) {
         System.out.println("ICE Failed");
-        agent.free();
+
         return null;
       }
     }
 
     System.out.println("Got a working socket");
     Component rtpComponent = stateListener.rtpComponent;
-    agent.free();
+
     return rtpComponent;
   }
 
