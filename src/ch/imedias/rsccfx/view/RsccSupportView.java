@@ -100,8 +100,6 @@ public class RsccSupportView extends BorderPane {
 
     groupingBox.getChildren().addAll(keyValidationBox);
 
-
-
     centerBox.getChildren().addAll(titleLbl,
         descriptionLbl,
         groupingBox,
