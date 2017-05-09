@@ -36,6 +36,11 @@
             <resource>
                 <directory>${custom.resources.path}</directory>
             </resource>
+            <!-- this adds files like *.properties to the compilation -->
+            <resource>
+                <directory>${custom.source}</directory>
+                <excludes><exclude>*.java</exclude></excludes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
@@ -120,8 +125,16 @@
                                     <directory>${custom.source}</directory>
                                     <targetPath>${custom.path}</targetPath>
                                     <excludes>
-                                        <exclude>*.java</exclude>
+                                        <exclude>**/*.java</exclude>
                                         <exclude>/**/</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/ch/imedias/rscc/</directory>
+                                    <targetPath>ch/imedias/rscc/Bundle</targetPath>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                        <exclude>**/*.class</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
