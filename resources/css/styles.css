@@ -51,6 +51,14 @@
     -fx-background-color: #f7f7f7;
     -fx-cursor: hand;
 }
+
+.BigFont{
+    -fx-font-size: 25pt;
+}
+
+.SmallFont{
+     -fx-font-size: 18pt;
+}
 /***************************************************************************
  *                                                                         *
  *                             HomePresenter                                    *
