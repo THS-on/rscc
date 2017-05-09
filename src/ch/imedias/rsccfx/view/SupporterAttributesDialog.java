@@ -85,7 +85,6 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setResizable(true);
     dialog.setHeight(500);
     dialog.setWidth(500);
-
   }
 
 
