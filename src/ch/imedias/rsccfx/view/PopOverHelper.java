@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
@@ -52,6 +51,11 @@ public class PopOverHelper {
 
   VBox requestHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
+
+  VBox supportCompressionSliderBox = new VBox();
+  VBox supportQualitySliderBox = new VBox();
+
+  HBox supportBgr233ToggleBox = new HBox();
 
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
@@ -156,12 +160,19 @@ public class PopOverHelper {
     supportBgr233Lbl.textProperty().set("bgr233");
     supportBgr233Lbl.setId("supportBgr233Lbl");
 
-    supportSettingsBox.setPadding(new Insets(10));
-    supportSettingsBox.getChildren().add(new VBox(supportCompressionSldr, supportCompressionLbl));
-    supportSettingsBox.getChildren().add(new VBox(supportQualitySldr, supportQualityLbl));
-    supportSettingsBox.getChildren().add(new HBox(supportBgr233Tgl, supportBgr233Lbl));
+    supportCompressionSliderBox.getChildren().addAll(supportCompressionSldr, supportCompressionLbl);
+    supportQualitySliderBox.getChildren().addAll(supportQualitySldr, supportQualityLbl);
+    supportBgr233ToggleBox.getChildren().addAll(supportBgr233Tgl, supportBgr233Lbl);
 
+    supportBgr233ToggleBox.setAlignment(Pos.CENTER);
+    supportCompressionSliderBox.setAlignment(Pos.CENTER);
+    supportQualitySliderBox.setAlignment(Pos.CENTER);
 
+    supportSettingsBox.setSpacing(10);
+
+    supportSettingsBox.getChildren().add(supportCompressionSliderBox);
+    supportSettingsBox.getChildren().add(supportQualitySliderBox);
+    supportSettingsBox.getChildren().add(supportBgr233ToggleBox);
 
     // Help
     supportHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");

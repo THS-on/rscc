@@ -1,15 +1,18 @@
 package ch.imedias.rsccfx.view.util;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 /**
  * Represents a custom slider which has the value on the top of the thumb at all times.
  */
-public class TextSlider extends Pane {
+public class TextSlider extends StackPane {
 
   Slider slider;
   Text valueText = new Text();
@@ -23,6 +26,7 @@ public class TextSlider extends Pane {
    * @param value standard value of the slider.
    */
   public TextSlider(int min, int max, int value) {
+    this.setAlignment(Pos.CENTER);
     sliderWidth = this.getWidth() / 1.2;
     startXSlider = (this.getWidth() / 2) - (sliderWidth / 2);
     slider = new Slider(min, max, value) {
@@ -36,13 +40,13 @@ public class TextSlider extends Pane {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - valueText.getLayoutBounds().getWidth() / 2
-                  + startXSlider
           );
+          valueText.setLayoutY(10);
         }
       }
     };
 
-    slider.setLayoutY(40);
+
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
 
@@ -50,6 +54,8 @@ public class TextSlider extends Pane {
     valueText.textProperty().bind(
         slider.valueProperty().asString("%,.0f"));
     valueText.getStyleClass().add("sliderTxts");
+
+    this.setPadding(new Insets(50,0,0,0));
 
     getChildren().addAll(valueText, slider);
   }
