@@ -54,7 +54,6 @@ public class RsccRequestView extends BorderPane {
   final TextField generatedKeyFld = new TextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button readyBtn = new Button();
 
   Image reloadImg;
 
@@ -79,11 +78,17 @@ public class RsccRequestView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
+    titleLbl.textProperty().set(strings.requestTitleLbl);
+    descriptionLbl.textProperty().set(strings.requestDescriptionLbl);
+    keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
+    generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
+    predefinedAddressesPane.textProperty().set(strings.requestPredefinedAdressessPane);
+    supporterDescriptionLbl.textProperty().set(strings.requestSupporterDescriptionLbl);
 
-    titleLbl.textProperty().set("Generate key");
+    // TODO: Tech Group - switch waiting and ready Label
+    //statusLbl.textProperty().set(strings.requestStatusLblReady);
+    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
 
-    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
-        + "Once your supporter enters this code, the remote support will start.");
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
@@ -91,26 +96,16 @@ public class RsccRequestView extends BorderPane {
     reloadImgView = new ImageView(reloadImg);
     reloadKeyBtn.setGraphic(reloadImgView);
 
-    readyBtn.textProperty().set("Ready");
-
-    keyGeneratorPane.setText("Key generator");
     keyGeneratorPane.setExpanded(true);
 
-
-    predefinedAddressesPane.setText("Predefined Addresses");
     predefinedAddressesPane.setExpanded(false);
-    predefinedAddressesPane.setId("predefinedAddressesPane");
-
-    supporterDescriptionLbl.setText("Description on the right");
-
-    // TODO: Tech Group - switch waiting and ready Label
-    //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
+
+    supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
 
     statusBox.getStyleClass().add("statusBox");
     statusLbl.getStyleClass().add("statusLbl");
@@ -131,10 +126,9 @@ public class RsccRequestView extends BorderPane {
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
-    readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
+    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
     descriptionBox.getStyleClass().add("descriptionBox");
@@ -162,11 +156,9 @@ public class RsccRequestView extends BorderPane {
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
     supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
-    int amountOfColumns = supporterGrid.getColumnConstraints().size();
-    int columnPercentWidth = 100 / amountOfColumns;
-    col1.setPercentWidth(columnPercentWidth);
-    col2.setPercentWidth(columnPercentWidth);
-    col3.setPercentWidth(columnPercentWidth);
+    col1.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col2.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col3.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
 
     // ***************
 
