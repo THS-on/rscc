@@ -6,6 +6,7 @@ import ch.imedias.rsccfx.view.util.TextSlider;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -34,7 +35,6 @@ public class PopOverHelper {
   private static final int QUALITY_MAX = 9;
   private static final int QUALITY_VALUE = 6;
 
-  private final double overlayHeight = primaryScreenBounds.getHeight() / 4;
   private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
 
   private final double sliderWidth = overlayWidth / 1.2;
@@ -43,33 +43,32 @@ public class PopOverHelper {
 
   private final Rscc model;
 
-  ToggleSwitch eightBitTgl = new ToggleSwitch();
-  ToggleSwitch viewOnlyTgl = new ToggleSwitch();
+  ToggleSwitch supportBgr233Tgl = new ToggleSwitch();
+  ToggleSwitch requestViewOnlyTgl = new ToggleSwitch();
 
   VBox homeHelpBox = new VBox();
+
   VBox supportSettingsBox = new VBox();
+  VBox supportHelpBox = new VBox();
+
   VBox requestHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
-  VBox supporterHelpBox = new VBox();
 
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
 
-  Label requestCompressionLbl = new Label();
-  Label requestQualityLbl = new Label();
-  Label requestBgr233Lbl = new Label();
-  Label requestBitCurrentSettingsLbl = new Label();
+  Label supportCompressionLbl = new Label();
+  Label supportQualityLbl = new Label();
+  Label supportBgr233Lbl = new Label();
   Label requestViewOnlyLbl = new Label();
+
   Label homeHelpLbl = new Label();
+
   Label requestHelpLbl = new Label();
-  Label supporterHelpLbl = new Label();
+  Label supportHelpLbl = new Label();
 
-  TextSlider compressionSldr;
-  TextSlider qualitySldr;
-
-  Pane requestSettingsPane = new Pane();
-
-  // TODO: 8 bit Toggle is according to SA not needed anymore.
+  TextSlider supportCompressionSldr;
+  TextSlider supportQualitySldr;
 
   /**
    * Initializes PopOver according to view.
@@ -86,11 +85,11 @@ public class PopOverHelper {
       case RsccApp.REQUEST_VIEW:
         layoutRequest();
         helpPopOver.setContentNode(requestHelpBox);
-        settingsPopOver.setContentNode(requestSettingsPane);
+        settingsPopOver.setContentNode(requestSettingsBox);
         break;
       case RsccApp.SUPPORT_VIEW:
         layoutSupport();
-        helpPopOver.setContentNode(supporterHelpBox);
+        helpPopOver.setContentNode(supportHelpBox);
         settingsPopOver.setContentNode(supportSettingsBox);
         break;
       default:
@@ -121,13 +120,12 @@ public class PopOverHelper {
 
   private void layoutRequest() {
     // Settings
-    viewOnlyTgl.getStyleClass().add("toggles");
+    requestViewOnlyTgl.getStyleClass().add("toggles");
 
-    requestViewOnlyLbl.textProperty().set("View only");
+    requestViewOnlyLbl.textProperty().set("View Only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
 
-    requestSettingsBox.getChildren().addAll(viewOnlyTgl,requestViewOnlyLbl);
-    requestSettingsPane.getChildren().add(requestSettingsBox);
+    requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl);
 
     // Help
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
@@ -139,45 +137,37 @@ public class PopOverHelper {
 
   private void layoutSupport() {
     // Settings
-    // TODO: SA, please let UM know which settings we need.
-    compressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
-    compressionSldr.setPrefWidth(sliderWidth);
+    supportCompressionSldr = new TextSlider(COMPRESSION_MIN,COMPRESSION_MAX,COMPRESSION_VALUE);
+    supportCompressionSldr.setPrefWidth(sliderWidth);
+    supportCompressionSldr.getStyleClass().add("slider");
 
-    requestCompressionLbl.textProperty().set("Kompression");
-    requestCompressionLbl.getStyleClass().add("sliderLbls");
+    supportSettingsBox.setAlignment(Pos.CENTER);
 
+    supportCompressionLbl.textProperty().set("Kompression");
+    supportCompressionLbl.getStyleClass().add("sliderLbls");
 
-    qualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
-    qualitySldr.setPrefWidth(sliderWidth);
+    supportQualitySldr = new TextSlider(QUALITY_MIN,QUALITY_MAX,QUALITY_VALUE);
+    supportQualitySldr.setPrefWidth(sliderWidth);
 
-    requestQualityLbl.textProperty().set("Qualität");
-    requestQualityLbl.getStyleClass().add("sliderLbls");
+    supportQualityLbl.textProperty().set("Qualität");
+    supportQualityLbl.getStyleClass().add("sliderLbls");
 
+    supportBgr233Tgl.getStyleClass().add("toggles");
 
-    eightBitTgl.getStyleClass().add("toggles");
+    supportBgr233Lbl.textProperty().set("bgr233");
+    supportBgr233Lbl.setId("supportBgr233Lbl");
 
-    requestBgr233Lbl.textProperty().set("bgr233");
-    requestBgr233Lbl.setId("requestBgr233Lbl");
-
-
-    requestBitCurrentSettingsLbl.textProperty().set("Ihre momentane Einstellung ist");
-    requestBitCurrentSettingsLbl.setId("requestBitCurrentSettingsLbl");
-
-    // TODO: why set pref width for only support settings box?
-    supportSettingsBox.setPrefWidth(overlayWidth);
-    supportSettingsBox.setPrefHeight(overlayHeight);
     supportSettingsBox.setPadding(new Insets(10));
-    supportSettingsBox.getChildren().add(new VBox(compressionSldr, requestCompressionLbl));
-    supportSettingsBox.getChildren().add(new VBox(qualitySldr, requestQualityLbl));
-    supportSettingsBox.getChildren().add(new HBox(eightBitTgl, requestBgr233Lbl));
-    supportSettingsBox.getChildren().add(new HBox(requestViewOnlyLbl)); // TODO: why just a label here and in request?
-    supportSettingsBox.getChildren().add(requestBitCurrentSettingsLbl);
+    supportSettingsBox.getChildren().add(new VBox(supportCompressionSldr, supportCompressionLbl));
+    supportSettingsBox.getChildren().add(new VBox(supportQualitySldr, supportQualityLbl));
+    supportSettingsBox.getChildren().add(new HBox(supportBgr233Tgl, supportBgr233Lbl));
+
 
     // Help
-    supporterHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
-    supporterHelpLbl.setId("supporterHelpLbl");
+    supportHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
+    supportHelpLbl.setId("supportHelpLbl");
 
-    supporterHelpBox.getChildren().addAll(supporterHelpLbl);
+    supportHelpBox.getChildren().addAll(supportHelpLbl);
   }
 
 }
