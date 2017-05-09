@@ -47,7 +47,7 @@ public class Rscc {
   private static final String[] STUN_SERVERS = {"stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
-  private static final int BUFFER_SIZE = 16384;
+  private static final int BUFFER_SIZE = 1450;
 
   private final SystemCommander systemCommander;
 
@@ -203,6 +203,7 @@ public class Rscc {
       e.printStackTrace();
     }
 
+    System.out.println("RSCC: Staring VNCServer");
     startVncServer();
 
     runRudp rudp = null;
@@ -216,6 +217,7 @@ public class Rscc {
     }
 
     if (rudp != null) {
+      System.out.println("RSCC: Starting rudp");
       rudp.start();
     }
   }
@@ -249,9 +251,12 @@ public class Rscc {
     }
 
     if (rudp != null) {
+      System.out.println("RSCC: Starting rudp");
       rudp.start();
+      System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", LOCAL_FORWARDING_PORT);
     } else {
+      System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", vncPort.getValue());
     }
   }
