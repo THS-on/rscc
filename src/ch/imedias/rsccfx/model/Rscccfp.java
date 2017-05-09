@@ -310,15 +310,15 @@ public class Rscccfp extends Thread {
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
 
 
-    while (agent.getState() == IceProcessingState.RUNNING) {
+    while (agent.getState() != IceProcessingState.TERMINATED) {
       Thread.sleep(1000);
       System.out.println("ICE Process running");
-    }
 
-    if (agent.getState() == IceProcessingState.FAILED) {
-      System.out.println("ICE Failed");
-      agent.free();
-      return null;
+      if (agent.getState() == IceProcessingState.FAILED) {
+        System.out.println("ICE Failed");
+        agent.free();
+        return null;
+      }
     }
 
     System.out.println("Got a working socket");
