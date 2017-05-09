@@ -45,6 +45,7 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUNSERVERS = {"stun.gmx.net", "stun.1und1.de"};
   private static final int STUNSERVERPORT = 3478;
+  private static final int LOCALFORWARDINGPORT = 2601;
 
   private final SystemCommander systemCommander;
 
@@ -431,5 +432,9 @@ public class Rscc {
 
   public void setRemoteIceSuccessful(boolean remoteIceSuccessful) {
     isRemoteIceSuccessful = remoteIceSuccessful;
+  }
+
+  public static int getLOCALFORWARDINGPORT() {
+    return LOCALFORWARDINGPORT;
   }
 }

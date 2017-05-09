@@ -251,7 +251,7 @@ public class Rscccfp extends Thread {
   }
 
   /**
-   * Closes TCP-Connections.
+   * Closes All Connections.
    */
   public void closeConnection() {
     try {
@@ -271,6 +271,7 @@ public class Rscccfp extends Thread {
       if (inputStream != null) {
         inputStream.close();
       }
+      agent.free();
     } catch (IOException e) {
       e.printStackTrace();
     }
