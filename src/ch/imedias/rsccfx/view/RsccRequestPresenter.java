@@ -30,6 +30,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
+  public static final int GRID_MAXIMUM_COLUMNS = 3;
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -140,10 +141,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     int buttonSize = buttons.size()-1;
 
-    if(buttonSize%3 == 0)
+    if(buttonSize% GRID_MAXIMUM_COLUMNS == 0)
       rowSize++;
 
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%3, rowSize);
+    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%GRID_MAXIMUM_COLUMNS, rowSize);
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
     if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
