@@ -20,7 +20,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportPresenter.class.getName());
 
-  private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
+  private static final double WIDTH_SUBTRACTION_ENTERKEY = 100d;
+
   private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
   private final Image invalidImage =
@@ -77,6 +78,9 @@ public class RsccSupportPresenter implements ControlledPresenter {
         .subtract(159d));
 
     view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
+
+    view.keyFld.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
   /**
