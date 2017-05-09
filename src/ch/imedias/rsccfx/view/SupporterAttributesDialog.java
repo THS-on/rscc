@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 /**
- * Creates the DialogPane by SupporterButton click
+ * Creates the DialogPane by SupporterButton click.
  */
 public class SupporterAttributesDialog extends DialogPane {
 
