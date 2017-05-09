@@ -147,8 +147,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.supporterGrid.add(buttons.get(buttonSize), buttonSize%GRID_MAXIMUM_COLUMNS, rowSize);
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
-    if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
-      buttons.get(buttons.size()-2).setOnAction(null);
+    if(buttonSize > 1)     // IndexOutOfBoundsException fix.
+      buttons.get(buttonSize-1).setOnAction(null);
     else if (buttonSize > 0)
       buttons.get(0).setOnAction(null);
   }
