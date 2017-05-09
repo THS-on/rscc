@@ -17,10 +17,17 @@
 
 #helpBtn, #backBtn, #settingsBtn{
     -fx-padding: 5;
-    -fx-border-color: #d5d5d5;
-    -fx-border-width: 3;
-    -fx-border-radius: 7;
-    -fx-background-radius: 7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-border-color:#A7A7A7;
+    -fx-font-size: 0.9em;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
+    }
+
+#helpBtn:hover, #backBtn:hover, #settingsBtn:hover{
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
 }
 
 /***************************************************************************
@@ -33,6 +40,16 @@
     -fx-font-size: 18pt;
     -fx-fit-to-width: true;
     -fx-content-display: left;
+    -fx-border-color:#A7A7A7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
+}
+
+.HomeNavigationBtn:hover {
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
 }
 /***************************************************************************
  *                                                                         *
@@ -83,19 +100,24 @@
  *                                                                         *
  **************************************************************************/
 
-
+#descriptionTxt{
+    -fx-wrap-text: true;
+}
 
 #keyGenerationLbl{
-    /*-fx-alignment: left;*/
     -fx-font-family: Cantarell;
-    -fx-font-size: 32pt;
+    -fx-font-size: 30pt;
     -fx-font-weight: bold;
 }
 
 #generatedKeyFld{
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
-    -fx-font-size: 20pt; /* TODO: change this back to 30 or make textfield larger so the whole prompttext fits */
+    -fx-font-size: 30pt;
+}
+
+#additionalDescriptionTxt{
+    -fx-wrap-text: true;
 }
 
 #centerBox{
@@ -148,6 +170,10 @@
     -fx-padding: 5, 25, 5, 25;
 }
 
+#EnterTokenLbl {
+    -fx-font-size: 25;
+}
+
 /***************************************************************************
  *                                                                         *
  *                             Settings Popover                            *
@@ -158,3 +184,30 @@
     -fx-padding: 50;
 }
 
+.slider .thumb {
+    -fx-pref-height: 25;
+    -fx-pref-width: 25;
+}
+
+.slider .thumb:hover {
+ -fx-cursor: hand;
+}
+
+.slider {
+    -fx-border-color: white;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+}
+
+.sliderTxts {
+    -fx-font-size: 200%;
+
+}
+
+.sliderLbls {
+ -fx-font-size: 150%;
+}
+
+.toggles:selected .thumb-area {
+    -fx-background-color: #A7A7A7;
+}

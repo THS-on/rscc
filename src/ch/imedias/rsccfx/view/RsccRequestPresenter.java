@@ -21,6 +21,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+  private PopOverHelper popOverHelper;
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -34,6 +35,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
   }
 
   /**
@@ -80,6 +82,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
         .subtract(200d));
 
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+
   }
 
   /**
@@ -91,5 +95,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
       model.killConnection();
       viewParent.setView(RsccApp.HOME_VIEW);
     });
+    headerPresenter.setHelpBtnAction(event ->
+        popOverHelper.helpPopOver.show(view.headerView.helpBtn));
+    headerPresenter.setSettingsBtnAction(event ->
+        popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
   }
 }

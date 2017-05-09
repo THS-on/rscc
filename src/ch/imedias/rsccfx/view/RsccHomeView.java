@@ -61,7 +61,6 @@ public class RsccHomeView extends BorderPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
-
   }
 
   private void initFieldData() {
@@ -115,5 +114,4 @@ public class RsccHomeView extends BorderPane {
   private void bindFieldsToModel() {
     // make bindings to the model
   }
-
 }
