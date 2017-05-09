@@ -10,7 +10,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
@@ -20,8 +19,13 @@ import org.ice4j.ice.IceProcessingState;
 import org.ice4j.ice.harvest.StunCandidateHarvester;
 
 /**
+ * Remote Support Client Connection Control Flow Protocol
+ * This is the Protocol to see if a UPD Connection between the Clients is possible.
+ * It uses a TCP-connection between the clients to exchange SDP-Dumps and run the ICE-Framework
+ *
  * Created by jp on 08/05/17.
  */
+
 public class Rscccfp extends Thread {
 
   private final Rscc model;
@@ -31,10 +35,17 @@ public class Rscccfp extends Thread {
   private DataOutputStream outputStream;
   private BufferedReader inputStream;
   private boolean isServer;
-
+  private String mySdp;
+  private String remoteSdp;
   private Agent agent;
   private StateListener stateListener;
 
+  /**
+   * This is the Protocol to see if a UPD Connection  between the Clients is possible.
+   *
+   * @param model
+   * @param isServer
+   */
   public Rscccfp(Rscc model, boolean isServer) {
     this.model = model;
     this.isServer = isServer;
@@ -42,8 +53,9 @@ public class Rscccfp extends Thread {
     agent.setControlling(true);
   }
 
+
   /**
-   * sets type for threading.
+   * Starts the Protocol as Server or Client depending on isServer
    */
   public void run() {
     if (isServer) {
@@ -78,46 +90,8 @@ public class Rscccfp extends Thread {
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     System.out.println("RSCCCFP: Client connected");
 
-    //Start ICE Agent
-    startStun();
-
-    //create SDP dump
-    model.setMySdp(createSdp());
-
-    //send my SDP
-    sendMySdp(model.getMySdp());
-
-    //receive other SDP
-    receiveOtherSdp();
-
-    //Stun Magic
-    SdpUtils.parseSdp(agent, model.getOtherSdp());
-    stateListener = new StateListener();
-    agent.addStateChangeListener(stateListener);
-    Component iceComponent = startIceConnectivityEstablishment();
-    if (iceComponent != null) {
-      model.setForeignPort(iceComponent
-          .getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
-      model.setForeignIpAddress(iceComponent
-          .getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
-      model.setMyIceProcessingState("Succeed");
-    } else {
-      model.setMyIceProcessingState("Failed");
-    }
-
-    agent.free();
-
-    //send results
-    sendMyIceProcessingState();
-
-    //receive results
-    receiveOtherIceProcessingState();
-
-    connectionSocket.close();
-
-    elaborateResults();
+    runIceMagic();
   }
-
 
   /**
    * Starts the TCP-Client.
@@ -132,32 +106,41 @@ public class Rscccfp extends Thread {
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
+    runIceMagic();
 
+  }
+
+
+  /**
+   * Runs SDP exchange and ICE Magic over the established TCP-connection
+   * @throws Throwable
+   */
+  private void runIceMagic() throws Throwable {
     //Start ICE Agent
     startStun();
 
     //create SDP dump
-    model.setMySdp(createSdp());
+    mySdp = createSdp();
 
-    //send my sdp
-    sendMySdp(model.getMySdp());
+    //send my SDP
+    sendMySdp(mySdp);
 
     //receive other SDP
-    receiveOtherSdp();
+    receiveRemoteSdp();
 
     //Stun Magic
-    SdpUtils.parseSdp(agent, model.getOtherSdp());
+    SdpUtils.parseSdp(agent, remoteSdp);
     stateListener = new StateListener();
     agent.addStateChangeListener(stateListener);
     Component iceComponent = startIceConnectivityEstablishment();
     if (iceComponent != null) {
-      model.setForeignPort(iceComponent
+      model.setRemoteClientPort(iceComponent
           .getSelectedPair().getRemoteCandidate().getTransportAddress().getPort());
-      model.setForeignIpAddress(iceComponent
+      model.setRemoteClientIpAddress(iceComponent
           .getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
-      model.setMyIceProcessingState("Succeed");
+      model.setLocalIceSuccessful(true);
     } else {
-      model.setMyIceProcessingState("Failed");
+      model.setLocalIceSuccessful(false);
     }
 
     agent.free();
@@ -170,13 +153,10 @@ public class Rscccfp extends Thread {
 
     closeConnection();
 
-    elaborateResults();
+    System.out.println("myState: " + model.isLocalIceSuccessful());
+    System.out.println("remoteState: " + model.isRemoteIceSuccessful());
   }
 
-  private void elaborateResults() {
-    System.out.println("My Process State: " + model.getMyIceProcessingState());
-    System.out.println("Other Process State: " + model.getOtherIceProcessingState());
-  }
 
   /**
    * Receive other state.
@@ -184,12 +164,28 @@ public class Rscccfp extends Thread {
   private void receiveOtherIceProcessingState() {
     System.out.println("RSCCCFP: wait for other state");
     try {
-      String OtherIceProcessingStat = inputStream.readLine();
-      model.setOtherIceProcessingState(OtherIceProcessingStat);
-
+      int OtherIceProcessingStat = inputStream.read();
+      if (OtherIceProcessingStat == 1) {
+        model.setRemoteIceSuccessful(true);
+      } else {
+        model.setRemoteIceSuccessful(false);
+      }
       System.out.println("RSCCCFP: received other state");
 
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Sends ICE-Result to opposite.
+   */
+  public void sendMyIceProcessingState() {
+    System.out.println("RSCCCFP: Send myIceProcessingState");
+    try {
+      outputStream.writeBoolean(model.isLocalIceSuccessful());
+      outputStream.flush();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -201,11 +197,28 @@ public class Rscccfp extends Thread {
     return SdpUtils.createSdp(agent);
   }
 
+  /**
+   * Sends SDP-Dump to opposite.
+   */
+  public void sendMySdp(String sdpDump) {
+    System.out.println("RSCCCFP: Sending this SDP:");
+    System.out.println(mySdp);
+
+    try {
+      outputStream.writeBytes("sdpStart" + '\n');
+      outputStream.writeBytes(sdpDump + '\n');
+      outputStream.writeBytes("sdpEnd" + '\n');
+      outputStream.flush();
+      System.out.println("RSCCCFP: sent sdp");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
    * reads SDP-Dump from opposite.
    */
-  private void receiveOtherSdp() {
+  private void receiveRemoteSdp() {
 
     System.out.println("RSCCCFP: wait for other sdp");
     StringBuilder receivedSdp = new StringBuilder();
@@ -228,14 +241,13 @@ public class Rscccfp extends Thread {
       System.out.println("RSCCCFP: received sdp:");
       System.out.println("RSCCCFP:" + receivedSdp.toString());
 
-      model.setOtherSdp(receivedSdp.toString());
+      remoteSdp = receivedSdp.toString();
       System.out.println("RSCCCFP: received other sdp");
 
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-
 
   /**
    * Closes TCP-Connections.
@@ -250,6 +262,9 @@ public class Rscccfp extends Thread {
     }
   }
 
+  /**
+   * Closes ServerSocket-Connections.
+   */
   public void closeServerSocket() {
     try {
       serverSocket.close();
@@ -259,40 +274,6 @@ public class Rscccfp extends Thread {
       e.printStackTrace();
     }
   }
-
-
-  /**
-   * Sends SDP-Dump to opposite.
-   */
-  public void sendMySdp(String sdpDump) {
-    System.out.println("RSCCCFP: Sending this SDP:");
-    System.out.println(model.getMySdp());
-
-    try {
-      outputStream.writeBytes("sdpStart" + '\n');
-      outputStream.writeBytes(sdpDump + '\n');
-      outputStream.writeBytes("sdpEnd" + '\n');
-      outputStream.flush();
-      System.out.println("RSCCCFP: sent sdp");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-  }
-
-  /**
-   * Sends ICE-Result to opposite.
-   */
-  public void sendMyIceProcessingState() {
-    System.out.println("RSCCCFP: Send myIceProcessingState: " + model.getMyIceProcessingState());
-    try {
-      outputStream.writeBytes(model.getMyIceProcessingState() + '\n');
-      outputStream.flush();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
 
   /**
    * Ask public Stunservers for its own public IP and Port,
@@ -325,7 +306,6 @@ public class Rscccfp extends Thread {
   private Component startIceConnectivityEstablishment() throws Throwable {
     // You need to listen for state change so that once connected you can then use the socket.
     agent.startConnectivityEstablishment(); // This will do all the work for you to connect
-
 
     while (agent.getState() != IceProcessingState.TERMINATED) {
       Thread.sleep(1000);

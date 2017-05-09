@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rsccfx.model.iceutils.IceProcess;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,6 +43,9 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
+  private static final String[] STUNSERVERS = {"stun.gmx.net", "stun.1und1.de"};
+  private static final int STUNSERVERPORT = 3478;
+
   private final SystemCommander systemCommander;
 
   private final StringProperty key = new SimpleStringProperty();
@@ -54,14 +56,11 @@ public class Rscc {
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
-  private String mySdp;
-  private String myIceProcessingState;
-  private String otherSdp;
-  private String otherIceProcessingState;
-  private InetAddress foreignIpAddress;
-  private int foreignPort;
-  private final String[] STUNSERVERS = {"numb.viagenie.ca", "stun.wtfismyip.com", "stun.gmx.net", "stun.1und1.de"};
-  private final int STUNSERVERPORT = 3478;
+  private boolean isLocalIceSuccessful = false;
+  private boolean isRemoteIceSuccessful = false;
+  private InetAddress remoteClientIpAddress;
+  private int remoteClientPort;
+
 
   private Rscccfp rscccfp;
 
@@ -382,52 +381,20 @@ public class Rscc {
     this.vncOptionWindow.set(vncOptionWindow);
   }
 
-  public String getMySdp() {
-    return mySdp;
+  public InetAddress getRemoteClientIpAddress() {
+    return remoteClientIpAddress;
   }
 
-  public void setMySdp(String mySdp) {
-    this.mySdp = mySdp;
+  public void setRemoteClientIpAddress(InetAddress remoteClientIpAddress) {
+    this.remoteClientIpAddress = remoteClientIpAddress;
   }
 
-  public String getOtherSdp() {
-    return otherSdp;
+  public int getRemoteClientPort() {
+    return remoteClientPort;
   }
 
-  public void setOtherSdp(String otherSdp) {
-    this.otherSdp = otherSdp;
-  }
-
-  public InetAddress getForeignIpAddress() {
-    return foreignIpAddress;
-  }
-
-  public void setForeignIpAddress(InetAddress foreignIpAddress) {
-    this.foreignIpAddress = foreignIpAddress;
-  }
-
-  public int getForeignPort() {
-    return foreignPort;
-  }
-
-  public void setForeignPort(int foreignPort) {
-    this.foreignPort = foreignPort;
-  }
-
-  public String getMyIceProcessingState() {
-    return myIceProcessingState;
-  }
-
-  public void setMyIceProcessingState(String myIceProcessingState) {
-    this.myIceProcessingState = myIceProcessingState;
-  }
-
-  public String getOtherIceProcessingState() {
-    return otherIceProcessingState;
-  }
-
-  public void setOtherIceProcessingState(String otherIceProcessingState) {
-    this.otherIceProcessingState = otherIceProcessingState;
+  public void setRemoteClientPort(int remoteClientPort) {
+    this.remoteClientPort = remoteClientPort;
   }
 
   public int getIcePort() {
@@ -448,5 +415,21 @@ public class Rscc {
 
   public int getSTUNSERVERPORT() {
     return STUNSERVERPORT;
+  }
+
+  public boolean isLocalIceSuccessful() {
+    return isLocalIceSuccessful;
+  }
+
+  public void setLocalIceSuccessful(boolean localIceSuccessful) {
+    isLocalIceSuccessful = localIceSuccessful;
+  }
+
+  public boolean isRemoteIceSuccessful() {
+    return isRemoteIceSuccessful;
+  }
+
+  public void setRemoteIceSuccessful(boolean remoteIceSuccessful) {
+    isRemoteIceSuccessful = remoteIceSuccessful;
   }
 }
