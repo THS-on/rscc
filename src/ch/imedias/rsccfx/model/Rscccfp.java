@@ -22,7 +22,7 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
  * Remote Support Client Connection Control Flow Protocol
  * This is the Protocol to see if a UPD Connection between the Clients is possible.
  * It uses a TCP-connection between the clients to exchange SDP-Dumps and run the ICE-Framework
- * <p>
+ *
  * Created by jp on 08/05/17.
  */
 
@@ -43,8 +43,8 @@ public class Rscccfp extends Thread {
   /**
    * This is the Protocol to see if a UPD Connection  between the Clients is possible.
    *
-   * @param model
-   * @param isServer
+   * @param model The one and only Model.
+   * @param isServer Specifies if protocol is startet in server or client mode.
    */
   public Rscccfp(Rscc model, boolean isServer) {
     this.model = model;
@@ -55,7 +55,7 @@ public class Rscccfp extends Thread {
 
 
   /**
-   * Starts the Protocol as Server or Client depending on isServer
+   * Starts the Protocol as Server or Client depending on isServer.
    */
   public void run() {
     if (isServer) {
@@ -112,9 +112,9 @@ public class Rscccfp extends Thread {
 
 
   /**
-   * Runs SDP exchange and ICE Magic over the established TCP-connection
+   * Runs SDP exchange and ICE Magic over the established TCP-connection.
    *
-   * @throws Throwable
+   * @throws Throwable to be removed.
    */
   private void runIceMagic() throws Throwable {
     //Start ICE Agent
@@ -165,8 +165,8 @@ public class Rscccfp extends Thread {
   private void receiveOtherIceProcessingState() {
     System.out.println("RSCCCFP: wait for other state");
     try {
-      int OtherIceProcessingStat = inputStream.read();
-      if (OtherIceProcessingStat == 1) {
+      int remoteIceProcessState = inputStream.read();
+      if (remoteIceProcessState == 1) {
         model.setRemoteIceSuccessful(true);
       } else {
         model.setRemoteIceSuccessful(false);
@@ -284,11 +284,11 @@ public class Rscccfp extends Thread {
    * both active and passive have to do this.
    */
   private void startStun() throws Throwable {
-    for (String hostname : model.getSTUNSERVERS()) {
+    for (String hostname : model.getStunServers()) {
       try {
         InetAddress address = InetAddress.getByName(hostname);
         TransportAddress ta = new TransportAddress(
-            address, model.getSTUNSERVERPORT(), Transport.UDP);
+            address, model.getStunServerPort(), Transport.UDP);
         agent.addCandidateHarvester(new StunCandidateHarvester(ta));
       } catch (Exception e) {
         e.printStackTrace();
@@ -303,8 +303,7 @@ public class Rscccfp extends Thread {
   /**
    * Checks if a connection is possible (only active part does it).
    *
-   * @return Component contains all Information to build a UDP socket, null if ICE did not manage
-   * to establish a connection.
+   * @return Component contains all Information to build a UDP socket, null if ICE did not manage to establish a connection.
    */
 
   private Component startIceConnectivityEstablishment() throws Throwable {

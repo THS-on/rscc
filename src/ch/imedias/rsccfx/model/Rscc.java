@@ -43,9 +43,10 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
-  private static final String[] STUNSERVERS = {"stun.gmx.net", "stun.1und1.de"};
-  private static final int STUNSERVERPORT = 3478;
-  private static final int LOCALFORWARDINGPORT = 2601;
+  private static final String[] STUN_SERVERS = {"stun.gmx.net", "stun.1und1.de"};
+  private static final int STUN_SERVER_PORT = 3478;
+  private static final int LOCAL_FORWARDING_PORT = 2601;
+  private static final int BUFFER_SIZE = 16384;
 
   private final SystemCommander systemCommander;
 
@@ -410,12 +411,12 @@ public class Rscc {
     this.icePort.set(icePort);
   }
 
-  public String[] getSTUNSERVERS() {
-    return STUNSERVERS;
+  public String[] getStunServers() {
+    return STUN_SERVERS;
   }
 
-  public int getSTUNSERVERPORT() {
-    return STUNSERVERPORT;
+  public int getStunServerPort() {
+    return STUN_SERVER_PORT;
   }
 
   public boolean isLocalIceSuccessful() {
@@ -434,7 +435,11 @@ public class Rscc {
     isRemoteIceSuccessful = remoteIceSuccessful;
   }
 
-  public static int getLOCALFORWARDINGPORT() {
-    return LOCALFORWARDINGPORT;
+  public static int getLocalForwardingPort() {
+    return LOCAL_FORWARDING_PORT;
+  }
+
+  public static int getBufferSize() {
+    return BUFFER_SIZE;
   }
 }
