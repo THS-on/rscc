@@ -52,11 +52,11 @@ public class SystemCommanderTest {
   @Test
   public void testCommandStringGenerator() throws Exception {
     // given
-    String pathToScript = "path/To/Script";
-    String pathToScriptWithSlash = pathToScript + "/";
-    String scriptName = "script.sh";
-    String attribute = "attribute";
-    String[] attributes = {"-attr1", "attr2", "--attr3 4"};
+    final String pathToScript = "path/To/Script";
+    final String pathToScriptWithSlash = pathToScript + "/";
+    final String scriptName = "script.sh";
+    final String attribute = "attribute";
+    final String[] attributes = {"-attr1", "attr2", "--attr3 4"};
 
     // without slash
     String generatedString = systemCommander.commandStringGenerator(
