@@ -47,7 +47,7 @@ public class Rscc {
   private static final String[] STUN_SERVERS = {"numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
-  private static final int BUFFER_SIZE = 1450;
+  private static final int BUFFER_SIZE = 10000;
 
   private final SystemCommander systemCommander;
 
@@ -291,7 +291,7 @@ public class Rscc {
     if (hostAddress == null) {
       throw new IllegalArgumentException();
     }
-    String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress + "::" + vncViewerPort;
+    String vncViewerAttributes = "-bgr233 " + " " + hostAddress + "::" + vncViewerPort;
     //TODO: Encodings are missing: "tight zrle hextile""
 
     String command = commandStringGenerator(null,

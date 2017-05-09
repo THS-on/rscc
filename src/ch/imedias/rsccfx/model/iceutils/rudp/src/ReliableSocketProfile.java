@@ -41,7 +41,7 @@ public class ReliableSocketProfile {
   public final static int MAX_SEND_QUEUE_SIZE = 32;
   public final static int MAX_RECV_QUEUE_SIZE = 32;
 
-  public final static int MAX_SEGMENT_SIZE = 128;
+  public final static int MAX_SEGMENT_SIZE = 10000;
   public final static int MAX_OUTSTANDING_SEGS = 3;
   public final static int MAX_RETRANS = 3;
   public final static int MAX_CUMULATIVE_ACKS = 3;
