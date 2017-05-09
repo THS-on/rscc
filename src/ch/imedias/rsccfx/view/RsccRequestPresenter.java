@@ -124,7 +124,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   * Initializes the functionality of the header, e.g. back button and settings button.
+   * Initializes the functionality of the  header, e.g. back button and settings button.
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
