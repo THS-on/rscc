@@ -22,7 +22,6 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
  * Remote Support Client Connection Control Flow Protocol
  * This is the Protocol to see if a UPD Connection between the Clients is possible.
  * It uses a TCP-connection between the clients to exchange SDP-Dumps and run the ICE-Framework
- *
  * Created by jp on 08/05/17.
  */
 
@@ -303,7 +302,7 @@ public class Rscccfp extends Thread {
   /**
    * Checks if a connection is possible (only active part does it).
    *
-   * @return Component contains all Information to build a UDP socket, null if ICE did not manage to establish a connection.
+   * @return Component contains all Information to build a UDP socket, null if ICE failed.
    */
 
   private Component startIceConnectivityEstablishment() throws Throwable {
