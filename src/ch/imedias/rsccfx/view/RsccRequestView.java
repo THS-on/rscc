@@ -78,6 +78,7 @@ public class RsccRequestView extends BorderPane {
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
+    layoutSupporterPane();
     bindFieldsToModel();
   }
 
@@ -155,7 +156,11 @@ public class RsccRequestView extends BorderPane {
 
     keyGeneratorPane.setContent(centerBox);
 
-    // *** Supporter Pane ***
+    setTop(headerView);
+    setCenter(keyGeneratorPane);
+  }
+
+  private void layoutSupporterPane() {
     predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
     predefinedAddressesPane.setContent(predefinedAdressessBox);
 
@@ -180,11 +185,8 @@ public class RsccRequestView extends BorderPane {
     supporterGrid.add(btn6, 2, 1);
     supporterGrid.add(btn7, 0, 2);
 
-    // ***************
-
-    setTop(headerView);
-    setCenter(keyGeneratorPane);
     setBottom(predefinedAddressesPane);
+
   }
 
   private void bindFieldsToModel() {
