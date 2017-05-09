@@ -136,7 +136,7 @@ public class runRudp extends Thread {
         try {
           while ((bytesRead = tcpInput.read(request)) != -1) {
             rudpOutput.write(request, 0, bytesRead);
-            System.out.println("wrote1:" + bytesRead);
+            //System.out.println("wrote1:" + bytesRead);
             rudpOutput.flush();
           }
         } catch (IOException e) {
