@@ -4,23 +4,10 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 /**
  * Defines the behaviour of interactions
  * and initializes the size of the GUI components.
@@ -30,6 +17,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
+  private static final int GRID_MAXIMUM_COLUMNS = 3;
 
   private final Rscc model;
   private final RsccRequestView view;
@@ -76,7 +64,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     view.btn7.setOnAction(event -> createNewSupporterBtn());
-    view.btn1.setOnAction(event -> new SupporterAttributesDialog()/*createDialogPane()*/);
+    view.btn1.setOnAction(event -> new SupporterAttributesDialog());
 
 
 
@@ -140,14 +128,14 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     int buttonSize = buttons.size()-1;
 
-    if(buttonSize%3 == 0)
+    if(buttonSize% GRID_MAXIMUM_COLUMNS == 0)
       rowSize++;
 
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%3, rowSize);
+    view.supporterGrid.add(buttons.get(buttonSize), buttonSize%GRID_MAXIMUM_COLUMNS, rowSize);
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
-    if(buttons.size()> 2)     // IndexOutOfBoundsException fix.
-      buttons.get(buttons.size()-2).setOnAction(null);
+    if(buttonSize > 1)     // IndexOutOfBoundsException fix.
+      buttons.get(buttonSize-1).setOnAction(null);
     else if (buttonSize > 0)
       buttons.get(0).setOnAction(null);
   }
@@ -165,62 +153,4 @@ public class RsccRequestPresenter implements ControlledPresenter {
     rowSize++;
     buttons.add(view.btn7);
   }
-
-  private void createDialogPane(){
-    Dialog dialog = new Dialog();
-    DialogPane dialogPane = new DialogPane();
-    GridPane gridPane = new GridPane();
-
-    final Label nameLbl = new Label("Name");
-    final Label adressLbl = new Label("Adress");
-    final Label portLbl = new Label("Port");
-    final Label pictureLbl = new Label("Picture");
-    final Label chargeableLbl = new Label("Chargeable");
-    final Label encryptedLbl = new Label("Encrypted");
-
-    final TextField nameTxt = new TextField("Ronny");
-    final TextField adressTxt = new TextField("127.0.0.1");
-    final TextField portTxt = new TextField("5900");
-    final TextField pictureTxt = new TextField("/images/sup.jpg");
-
-    final CheckBox chargeableCBox = new CheckBox();
-    final CheckBox encryptedCBox = new CheckBox();
-
-
-    File file = new File("src/Box13.jpg");
-    Image image = new Image(file.toURI().toString());
-    ImageView imageView = new ImageView(image);
-
-    gridPane.add(nameLbl,0,0);
-    gridPane.add(nameTxt,1,0);
-    gridPane.add(adressLbl,0,1);
-    gridPane.add(adressTxt,1,1);
-    gridPane.add(portLbl,0,2);
-    gridPane.add(portTxt,1,2);
-    gridPane.add(pictureLbl,0,3);
-    gridPane.add(pictureTxt,1,3);
-    gridPane.add(chargeableLbl,0,4);
-    gridPane.add(chargeableCBox,1,4);
-    gridPane.add(encryptedLbl,0,5);
-    gridPane.add(encryptedCBox,1,5);
-
-    dialogPane.getButtonTypes().add(ButtonType.APPLY);
-
-    gridPane.setHgap(20);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(25, 25, 25, 25));
-
-    dialogPane.setContent(gridPane);
-    dialog.setDialogPane(dialogPane);
-
-
-    dialog.setResizable(true);
-    dialog.setHeight(500);
-    dialog.setWidth(500);
-
-    dialog.show();
-
-
-
-}
 }

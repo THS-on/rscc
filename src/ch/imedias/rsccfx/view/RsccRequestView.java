@@ -28,7 +28,6 @@ public class RsccRequestView extends BorderPane {
 
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
-  private static final double A_THIRD_OF_ONE_HUNDERED = 100/3;
 
   final HeaderView headerView;
   private final Rscc model;
@@ -78,6 +77,7 @@ public class RsccRequestView extends BorderPane {
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
+    layoutSupporterPane();
     bindFieldsToModel();
   }
 
@@ -155,7 +155,11 @@ public class RsccRequestView extends BorderPane {
 
     keyGeneratorPane.setContent(centerBox);
 
-    // *** Supporter Pane ***
+    setTop(headerView);
+    setCenter(keyGeneratorPane);
+  }
+
+  private void layoutSupporterPane() {
     predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
     predefinedAddressesPane.setContent(predefinedAdressessBox);
 
@@ -167,10 +171,12 @@ public class RsccRequestView extends BorderPane {
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
-    col1.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
-    col2.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
-    col3.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
     supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+    int amountOfColumns = supporterGrid.getColumnConstraints().size();
+    int columnPercentWidth = 100 / amountOfColumns;
+    col1.setPercentWidth(columnPercentWidth);
+    col2.setPercentWidth(columnPercentWidth);
+    col3.setPercentWidth(columnPercentWidth);
 
     supporterGrid.add(btn1, 0, 0);
     supporterGrid.add(btn2, 1, 0);
@@ -180,11 +186,8 @@ public class RsccRequestView extends BorderPane {
     supporterGrid.add(btn6, 2, 1);
     supporterGrid.add(btn7, 0, 2);
 
-    // ***************
-
-    setTop(headerView);
-    setCenter(keyGeneratorPane);
     setBottom(predefinedAddressesPane);
+
   }
 
   private void bindFieldsToModel() {

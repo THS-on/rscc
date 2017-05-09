@@ -59,6 +59,12 @@
     -fx-font-size: 25;
 }
 
+.descriptionBox {
+    -fx-alignment: center-left;
+    -fx-spacing: 50;
+    -fx-padding: 25;
+}
+
 /***************************************************************************
  *                                                                         *
  *                             RequestView                                 *
@@ -83,12 +89,6 @@
 #keyGeneratingBox{
     -fx-alignment: center;
     -fx-spacing: 25;
-    -fx-padding: 25;
-}
-
-.descriptionBox {       /* also used for SupportView */
-    -fx-alignment: center-left;
-    -fx-spacing: 50;
     -fx-padding: 25;
 }
 
@@ -120,7 +120,6 @@
 }
 
 #centerBoxSupport {
-    /*-fx-alignment: center;*/ /*FIXME: is doing nothing*/
     -fx-alignment: center;
     -fx-padding: 10, 20, 10, 20;
     -fx-spacing: 150;
