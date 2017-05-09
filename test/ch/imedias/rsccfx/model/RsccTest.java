@@ -167,7 +167,8 @@ public class RsccTest {
   @Test
   public void testStartVncViewer() {
     String hostAddress = "localhost";
-    model.startVncViewer(hostAddress, vncPort.getValue());
+    int vncPort = 5900;
+    model.startVncViewer(hostAddress, vncPort);
     // make sure the scripts were executed
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("vncviewer")
@@ -179,8 +180,10 @@ public class RsccTest {
    */
   @Test
   public void testStartVncViewerIllegalArgument() {
+    int vncPort = 5900;
     try {
-      model.startVncViewer(null, vncPort.getValue());
+
+      model.startVncViewer(null, 5900);
       fail("IllegalArgumentException was expected when HostAddress is null");
     } catch (IllegalArgumentException e) {
       // expected behavior
