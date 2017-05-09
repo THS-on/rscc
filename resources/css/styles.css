@@ -162,6 +162,10 @@
     -fx-font-size: 14pt;
 }
 
+.supporterDescriptionLbl{
+    -fx-wrap-text: true;
+}
+
 .supporterBtn {
 
 }
