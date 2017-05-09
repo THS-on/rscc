@@ -70,15 +70,16 @@ public class Rscccfp extends Thread {
     ServerSocket serverSocket;
     serverSocket = new ServerSocket(model.getVncPort());
 
-    //Start ICE Agent
-    startStun();
-
     //Wait for connection
     System.out.println("RSCCCFP: wait for client");
     connectionSocket = serverSocket.accept();
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     System.out.println("RSCCCFP: Client connected");
+
+
+    //Start ICE Agent
+    startStun();
 
     //create SDP dump
     model.setMySdp(createSdp());
@@ -119,20 +120,20 @@ public class Rscccfp extends Thread {
    */
   public void startRscccfpClient(String host) throws Throwable {
 
-    //Start ICE Agent
-    startStun();
-
-    //create SDP dump
-    model.setMySdp(createSdp());
-
     //connect to server
     System.out.println("start client");
     connectionSocket = new Socket(host, model.getVncPort());
     connectionSocket.setTcpNoDelay(false);
     System.out.println("RSCCCFP: Connected to server");
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+
+
+    //Start ICE Agent
+    startStun();
+
+    //create SDP dump
+    model.setMySdp(createSdp());
 
     //send my sdp
     sendMySdp(model.getMySdp());
@@ -161,7 +162,7 @@ public class Rscccfp extends Thread {
     //receive results
     receiveOtherIceProcessingState();
 
-    //closeConnection();
+    closeConnection();
 
     elaborateResults();
   }
