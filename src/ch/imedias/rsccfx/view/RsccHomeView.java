@@ -43,10 +43,10 @@ public class RsccHomeView extends BorderPane {
   final HBox supportBox = new HBox();
   final VBox supportBoxLabels = new VBox();
 
-  Label requestBigLbl;
-  Label requestSmallLbl;
-  Label supportBigLbl;
-  Label supportSmallLbl;
+  Label requestBigLbl = new Label();
+  Label requestSmallLbl = new Label();
+  Label supportBigLbl = new Label();
+  Label supportSmallLbl = new Label();
 
 
   /**
@@ -65,10 +65,11 @@ public class RsccHomeView extends BorderPane {
   }
 
   private void initFieldData() {
-    requestBigLbl = new Label("I need help");
-    requestSmallLbl = new Label("Get somebody to help you remotely");
-    supportBigLbl = new Label("I want to assist someone");
-    supportSmallLbl = new Label("Somebody needs my help");
+    requestBigLbl.textProperty().set(strings.homeRequestBigLbl);
+    requestSmallLbl.textProperty().set(strings.homeRequestSmallLbl);
+
+    supportBigLbl.textProperty().set(strings.homeSupportBigLbl);
+    supportSmallLbl.textProperty().set(strings.homeSupportSmallLbl);
   }
 
   private void layoutForm() {
