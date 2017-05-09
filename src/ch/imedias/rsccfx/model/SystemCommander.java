@@ -2,6 +2,7 @@ package ch.imedias.rsccfx.model;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class SystemCommander {
@@ -42,4 +43,23 @@ public class SystemCommander {
     return outputString;
   }
 
+  /**
+   * Generates String to run command.
+   * @param pathToScript
+   * @param scriptName
+   * @param attributes
+   */
+  public String commandStringGenerator(
+      String pathToScript, String scriptName, String... attributes) {
+    StringBuilder commandString = new StringBuilder();
+
+    if (pathToScript != null) {
+      commandString.append(pathToScript).append("/");
+    }
+    commandString.append(scriptName);
+    Arrays.stream(attributes)
+        .forEach((s) -> commandString.append(" ").append(s));
+
+    return commandString.toString();
+  }
 }
