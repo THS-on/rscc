@@ -13,6 +13,8 @@ public class TextSlider extends Pane {
 
   Slider slider;
   Text valueText = new Text();
+  private final double startXSlider;
+  private final double sliderWidth;
 
   /**
    * Initializes a new slider with the value as a text on top of the thumb.
@@ -21,6 +23,8 @@ public class TextSlider extends Pane {
    * @param value standard value of the slider.
    */
   public TextSlider(int min, int max, int value) {
+    sliderWidth = this.getWidth() / 1.2;
+    startXSlider = (this.getWidth() / 2) - (sliderWidth / 2);
     slider = new Slider(min, max, value) {
       @Override
       protected void layoutChildren() {
@@ -32,6 +36,7 @@ public class TextSlider extends Pane {
               thumb.getLayoutX()
                   + thumb.getWidth() / 2
                   - valueText.getLayoutBounds().getWidth() / 2
+                  + startXSlider
           );
         }
       }

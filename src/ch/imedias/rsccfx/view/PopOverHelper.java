@@ -16,7 +16,6 @@ import javafx.stage.Screen;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.ToggleSwitch;
 
-
 /**
  * Shows popover for settings and help buttons.
  */
@@ -161,6 +160,7 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(new VBox(supportCompressionSldr, supportCompressionLbl));
     supportSettingsBox.getChildren().add(new VBox(supportQualitySldr, supportQualityLbl));
     supportSettingsBox.getChildren().add(new HBox(supportBgr233Tgl, supportBgr233Lbl));
+
 
 
     // Help
