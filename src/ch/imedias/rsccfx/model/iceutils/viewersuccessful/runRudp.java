@@ -6,7 +6,6 @@ import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,14 +14,16 @@ import java.net.Socket;
  * Created by pwg on 09.05.17.
  */
 public class runRudp extends Thread {
+  private static boolean isOngoing = true;
+
   private Rscc model;
   private boolean viewerIsRudpClient;
   private boolean callAsViewer;
 
-  public runRudp(Rscc model, boolean viewerIsRudpClient, boolean callAsViewer){
-    this.model=model;
-    this.viewerIsRudpClient=viewerIsRudpClient;
-    this.callAsViewer=callAsViewer;
+  public runRudp(Rscc model, boolean viewerIsRudpClient, boolean callAsViewer) {
+    this.model = model;
+    this.viewerIsRudpClient = viewerIsRudpClient;
+    this.callAsViewer = callAsViewer;
   }
 
   public void run() {
@@ -38,65 +39,57 @@ public class runRudp extends Thread {
         String remoteAddressAsString = model.getRemoteClientIpAddress().getHostAddress();
 
 
-        while (true) {
+        System.out.println("connect to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
+            + model.getRemoteClientPort());
+        //possibly it can be run on any port? should at least.
+        // -> TODO try out to remove null and iceport
+        rudpClientSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
+            model.getRemoteClientPort(), null, model.getIcePort());
+        System.out.println("connected Rudp");
 
-          System.out.println("connect to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
-              + model.getRemoteClientPort());
-          //possibly it can be run on any port? should at least.
-          // -> TODO try out to remove null and iceport
-          rudpClientSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
-              model.getRemoteClientPort(), null, model.getIcePort());
-          System.out.println("connected Rudp");
+        final InputStream rudpInputStream = rudpClientSocket.getInputStream();
+        final OutputStream rudpOutputStream = rudpClientSocket.getOutputStream();
 
-          final InputStream rudpInputStream = rudpClientSocket.getInputStream();
-          final OutputStream rudpOutputStream = rudpClientSocket.getOutputStream();
+        tcpSocket = tcpServerSocket.accept();
+        tcpSocket.setTcpNoDelay(true);
 
-          tcpSocket = tcpServerSocket.accept();
-          tcpSocket.setTcpNoDelay(true);
+        System.out.println("connected TCP");
+        final InputStream tcpInputStream = tcpSocket.getInputStream();
+        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
 
-          System.out.println("connected TCP");
-          final InputStream tcpInputStream = tcpSocket.getInputStream();
-          final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
+            model.getBufferSize());
 
-          startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-              model.getBufferSize());
-        }
+        rudpClientSocket.close();
+        tcpSocket.close();
+        tcpServerSocket.close();
       }
+
 
       if (viewerIsRudpClient && !callAsViewer) {
         //TCP Client & RUDP Server
-        while (true) {
-          Socket tcpLocalhostSocket = null;
-          ReliableServerSocket rudpServerSocket = new ReliableServerSocket(model.getIcePort());
-          Socket rudpSocket = null;
 
-          while (true) {
+        Socket tcpSocket = null;
+        ReliableServerSocket rudpServerSocket = new ReliableServerSocket(model.getIcePort());
+        Socket rudpSocket = null;
 
+        rudpSocket = rudpServerSocket.accept();
+        System.out.println("working RUDP");
+        final InputStream rudpInputStream = rudpSocket.getInputStream();
+        final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
 
-            rudpSocket = rudpServerSocket.accept();
-            System.out.println("working RUDP");
-            final InputStream rudpInputStream = rudpSocket.getInputStream();
-            final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
+        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
 
-            try {
-              tcpLocalhostSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
-            } catch (Exception e) {
-              PrintWriter out = new PrintWriter(rudpOutputStream);
-              System.out.print("Proxy server cannot connect to " + ":");
-              out.flush();
-              tcpLocalhostSocket.close();
-              continue;
-            }
-
-            final InputStream tcpInputStream = tcpLocalhostSocket.getInputStream();
-            final OutputStream tcpOutputStream = tcpLocalhostSocket.getOutputStream();
+        final InputStream tcpInputStream = tcpSocket.getInputStream();
+        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
 
 
-            startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-                model.getBufferSize());
-          }
+        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
+            model.getBufferSize());
 
-        }
+        rudpSocket.close();
+        tcpSocket.close();
+        rudpServerSocket.close();
       }
 
       if (!viewerIsRudpClient && callAsViewer) {
@@ -116,7 +109,7 @@ public class runRudp extends Thread {
           System.out.println("not implemented yet");
         }
       }
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println(e);
     }
   }
@@ -134,7 +127,7 @@ public class runRudp extends Thread {
       public void run() {
         int bytesRead;
         try {
-          while ((bytesRead = tcpInput.read(request)) != -1) {
+          while ((bytesRead = tcpInput.read(request)) != -1 && isOngoing) {
             rudpOutput.write(request, 0, bytesRead);
             //System.out.println("wrote1:" + bytesRead);
             rudpOutput.flush();
@@ -149,8 +142,16 @@ public class runRudp extends Thread {
           rudpOutput.close();
         } catch (IOException e) {
           System.out.println(e);
+        } finally {
+          try {
+            tcpInput.close();
+            rudpOutput.close();
+          } catch (Exception e) {
+            System.out.println(e);
+          }
         }
       }
+
     };
 
     // Start the client-to-server request thread running
@@ -159,21 +160,35 @@ public class runRudp extends Thread {
     // Read the server's responses
     // and pass them back to the client.
 
-      int bytesRead;
-    try{
-        while ((bytesRead = rudpInput.read(reply)) != -1) {
-          tcpOutput.write(reply, 0, bytesRead);
-          tcpOutput.flush();
-        }
-      } catch(
-      IOException e){
+    int bytesRead;
+    try {
+      while ((bytesRead = rudpInput.read(reply)) != -1 && isOngoing) {
+        tcpOutput.write(reply, 0, bytesRead);
+        tcpOutput.flush();
+      }
+    } catch (
+        IOException e) {
+      System.out.println(e);
+    } finally {
+      try {
+        tcpOutput.close();
+        rudpInput.close();
+      } catch (Exception e) {
         System.out.println(e);
       }
-
+    }
 
 
     // The server closed its connection to us, so we close our
     // connection to our client.
+  }
+
+  public boolean isIsOngoing() {
+    return isOngoing;
+  }
+
+  public void setIsOngoing(boolean isOngoing) {
+    runRudp.isOngoing = isOngoing;
   }
 }
 

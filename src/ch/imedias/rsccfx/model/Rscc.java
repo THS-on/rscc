@@ -63,6 +63,7 @@ public class Rscc {
   private boolean isRemoteIceSuccessful = false;
   private InetAddress remoteClientIpAddress;
   private int remoteClientPort;
+  private runRudp rudp;
 
 
   private Rscccfp rscccfp;
@@ -172,6 +173,9 @@ public class Rscc {
     if (rscccfp != null) {
       rscccfp.closeConnection();
     }
+    if (rudp != null) {
+      rudp.setIsOngoing(false);
+    }
 
     // Execute port_stop.sh with the generated key to kill the connection
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
@@ -206,7 +210,7 @@ public class Rscc {
     System.out.println("RSCC: Staring VNCServer");
     startVncServer();
 
-    runRudp rudp = null;
+    rudp = null;
 
     if (isLocalIceSuccessful && isRemoteIceSuccessful) {
       rudp = new runRudp(this, true, false);
