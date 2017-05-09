@@ -17,7 +17,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
-  public static final int GRID_MAXIMUM_COLUMNS = 3;
+  private static final int GRID_MAXIMUM_COLUMNS = 3;
 
   private final Rscc model;
   private final RsccRequestView view;
