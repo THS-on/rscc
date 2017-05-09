@@ -13,6 +13,8 @@
         <custom.resources.path>resources</custom.resources.path>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
         <custom.checkstyle.suppressions>config/checkstyle-suppressions.xml</custom.checkstyle.suppressions>
+        <custom.rscc.localization.dir>src/ch/imedias/rscc/</custom.rscc.localization.dir>
+        <custom.rscc.localization.targetPath>ch/imedias/rscc</custom.rscc.localization.targetPath>
 
         <!-- Project independant variables -->
         <custom.test.source>test/${custom.path}</custom.test.source>
@@ -130,8 +132,8 @@
                                     </excludes>
                                 </resource>
                                 <resource>
-                                    <directory>src/ch/imedias/rscc/</directory>
-                                    <targetPath>ch/imedias/rscc/Bundle</targetPath>
+                                    <directory>${custom.rscc.localization.dir}</directory>
+                                    <targetPath>${custom.rscc.localization.targetPath}</targetPath>
                                     <excludes>
                                         <exclude>**/*.java</exclude>
                                         <exclude>**/*.class</exclude>
