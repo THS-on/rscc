@@ -134,11 +134,11 @@ public class Rscccfp extends Thread {
 
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
-    //receive other SDP
-    receiveOtherSdp();
-
     //send my sdp
     sendMySdp(model.getMySdp());
+
+    //receive other SDP
+    receiveOtherSdp();
 
     //Stun Magic
     SdpUtils.parseSdp(agent, model.getOtherSdp());
