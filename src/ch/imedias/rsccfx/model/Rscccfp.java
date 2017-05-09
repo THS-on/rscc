@@ -82,14 +82,9 @@ public class Rscccfp extends Thread {
 
     //create SDP dump
     model.setMySdp(createSdp());
-    System.out.println("RSCCCFP: my sdp:");
-    System.out.println(model.getMySdp());
 
     //send my SDP
     sendMySdp(model.getMySdp());
-
-    //receive results
-    receiveOtherIceProcessingState();
 
     //receive other SDP
     receiveOtherSdp();
@@ -111,6 +106,9 @@ public class Rscccfp extends Thread {
 
     //send results
     sendMyIceProcessingState();
+
+    //receive results
+    receiveOtherIceProcessingState();
 
     elaborateResults();
   }
@@ -137,6 +135,9 @@ public class Rscccfp extends Thread {
     //receive other SDP
     receiveOtherSdp();
 
+    //send my sdp
+    sendMySdp(model.getMySdp());
+
     //Stun Magic
     SdpUtils.parseSdp(agent, model.getOtherSdp());
     stateListener = new StateListener();
@@ -154,9 +155,6 @@ public class Rscccfp extends Thread {
 
     //send results
     sendMyIceProcessingState();
-
-    //send my sdp
-    sendMySdp(model.getMySdp());
 
     //receive results
     receiveOtherIceProcessingState();
