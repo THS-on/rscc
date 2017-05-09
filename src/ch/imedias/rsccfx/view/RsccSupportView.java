@@ -62,22 +62,21 @@ public class RsccSupportView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    titleLbl.textProperty().set("Enter key");
-    descriptionLbl.textProperty().set("Initiate a new remote support connection by entering the "
-        + "keyphrase your supporter sent you.");
+    titleLbl.textProperty().set(strings.supportTitleLbl);
+    descriptionLbl.textProperty().set(strings.supportDescriptionLbl);
+    connectBtn.textProperty().set(strings.supportConnectBtn);
+    keyInputPane.textProperty().set(strings.supportKeyInputPane);
+    addressbookPane.textProperty().set(strings.supportAddressbookPane);
+
+    // TODO: Tech Group - switch waiting and ready Label
+    //statusLbl.textProperty().set(strings.supportStatusLblReady);
+    statusLbl.textProperty().set(strings.supportStatusLblWaiting);
 
     validationImgView = new ImageView(getClass()
         .getClassLoader()
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
 
-    connectBtn.textProperty().set("Connect");
-
-    keyInputPane.setText("Key Input");
-
-    addressbookPane.setText("Addressbook");
-
-    statusLbl.setText("Waiting");
     statusBox.getChildren().add(statusLbl);
     statusBox.getStyleClass().add("statusBox");
   }
