@@ -1,7 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-//import ch.imedias.rsccfx.localization.Strings;
-
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
@@ -15,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-
 
 /**
  * Defines all elements shown in the header.
