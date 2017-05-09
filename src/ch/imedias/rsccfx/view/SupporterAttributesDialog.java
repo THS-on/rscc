@@ -35,7 +35,7 @@ public class SupporterAttributesDialog extends DialogPane {
   /**
    * Initializes all the GUI components needed in the DialogPane.
    */
-  public SupporterAttributesDialog(){
+  public SupporterAttributesDialog() {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
