@@ -109,7 +109,8 @@ public class RsccRequestView extends BorderPane {
     supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
 
     statusBox.getStyleClass().add("statusBox");
-    statusBox.
+  //  statusBox.getStyleClass().re
+    statusBox.setStyle("-fx-background: #FFFFFF;");
     statusLbl.getStyleClass().add("statusLbl");
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?

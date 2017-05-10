@@ -220,7 +220,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   public void setConnectionStatusDisplay(String text, Color color) {
-    view.statusLbl.setText();
+   // view.statusLbl.setText();
   }
 
 }
