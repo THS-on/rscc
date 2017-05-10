@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -90,6 +91,7 @@ public class RsccTest {
   /**
    * Test for {@link Rscc#requestKeyFromServer()}.
    */
+  @Ignore
   @Test
   public void testRequestKeyFromServer() throws Exception {
     model.requestKeyFromServer();
@@ -119,6 +121,7 @@ public class RsccTest {
   /**
    * Test for {@link Rscc#refreshKey()}.
    */
+  @Ignore
   @Test
   public void testRefreshKey() {
     model.refreshKey();

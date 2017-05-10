@@ -11,33 +11,38 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * Establishes a RUDP connection between two clients, can be run as server or client.
  * Created by pwg on 09.05.17.
  */
-public class runRudp extends Thread {
+public class RunRudp extends Thread {
   private static boolean isOngoing = true;
-
   private Rscc model;
   private boolean viewerIsRudpClient;
   private boolean callAsViewer;
 
-  public runRudp(Rscc model, boolean viewerIsRudpClient, boolean callAsViewer) {
+  /**
+   * Constructor.
+   *
+   * @param model              the one and only Model.
+   * @param viewerIsRudpClient defines if the object is RUDP Client or Server.
+   * @param callAsViewer       defines if TCP-Port is server (vnc-viewer) or Client (vnc-Server).
+   */
+  public RunRudp(Rscc model, boolean viewerIsRudpClient, boolean callAsViewer) {
     this.model = model;
     this.viewerIsRudpClient = viewerIsRudpClient;
     this.callAsViewer = callAsViewer;
   }
 
-  public void run() {
 
+  /**
+   * Starts the TCP and RUDP socket and routes the Packages in between over a Proxy.
+   */
+  public void run() {
     try {
       if (viewerIsRudpClient && callAsViewer) {
-        //TCP Server & RUDP Client
-
-        ServerSocket tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
-        Socket tcpSocket;
-
+        // RUDP Client
         ReliableSocket rudpClientSocket;
         String remoteAddressAsString = model.getRemoteClientIpAddress().getHostAddress();
-
 
         System.out.println("connect to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
             + model.getRemoteClientPort());
@@ -49,6 +54,11 @@ public class runRudp extends Thread {
 
         final InputStream rudpInputStream = rudpClientSocket.getInputStream();
         final OutputStream rudpOutputStream = rudpClientSocket.getOutputStream();
+
+
+        //TCP Server
+        ServerSocket tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
+        Socket tcpSocket;
 
         tcpSocket = tcpServerSocket.accept();
         tcpSocket.setTcpNoDelay(true);
@@ -115,6 +125,15 @@ public class runRudp extends Thread {
   }
 
 
+  /**
+   * Starts the Proxy.
+   *
+   * @param tcpInput   InputStream on TCP Socket.
+   * @param tcpOutput  OutputSocket on TCP Socket.
+   * @param rudpInput  InputStream on RUDP Socket.
+   * @param rudpOutput OutputStream on RUDP Socket.
+   * @param bufferSize Size of the Buffer per package.
+   */
   public static void startProxy(InputStream tcpInput, OutputStream tcpOutput, InputStream
       rudpInput, OutputStream rudpOutput, int bufferSize) {
 
@@ -166,8 +185,7 @@ public class runRudp extends Thread {
         tcpOutput.write(reply, 0, bytesRead);
         tcpOutput.flush();
       }
-    } catch (
-        IOException e) {
+    } catch (IOException e) {
       System.out.println(e);
     } finally {
       try {
@@ -188,7 +206,7 @@ public class runRudp extends Thread {
   }
 
   public void setIsOngoing(boolean isOngoing) {
-    runRudp.isOngoing = isOngoing;
+    RunRudp.isOngoing = isOngoing;
   }
 }
 

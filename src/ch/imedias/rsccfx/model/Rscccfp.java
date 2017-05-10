@@ -75,6 +75,7 @@ public class Rscccfp extends Thread {
 
   /**
    * Starts the TCP - Server.
+   * @throws Throwable When connection is not possible.
    */
   public void startRscccfpServer() throws Throwable {
 
@@ -94,6 +95,8 @@ public class Rscccfp extends Thread {
 
   /**
    * Starts the TCP-Client.
+   * @param host  Host address to connect to.
+   * @throws Throwable When connection is not possible.
    */
   public void startRscccfpClient(String host) throws Throwable {
 
@@ -199,6 +202,7 @@ public class Rscccfp extends Thread {
 
   /**
    * Sends SDP-Dump to opposite.
+   * @param sdpDump the generated SDP as String.
    */
   public void sendMySdp(String sdpDump) {
     System.out.println("RSCCCFP: Sending this SDP:");

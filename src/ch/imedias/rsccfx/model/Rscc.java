@@ -1,6 +1,6 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rsccfx.model.iceutils.viewersuccessful.runRudp;
+import ch.imedias.rsccfx.model.iceutils.viewersuccessful.RunRudp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,7 +44,8 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
-  private static final String[] STUN_SERVERS = {"numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
+  private static final String[] STUN_SERVERS = {
+      "numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
   private static final int BUFFER_SIZE = 10000;
@@ -63,7 +64,7 @@ public class Rscc {
   private boolean isRemoteIceSuccessful = false;
   private InetAddress remoteClientIpAddress;
   private int remoteClientPort;
-  private runRudp rudp;
+  private RunRudp rudp;
 
 
   private Rscccfp rscccfp;
@@ -213,11 +214,11 @@ public class Rscc {
     rudp = null;
 
     if (isLocalIceSuccessful && isRemoteIceSuccessful) {
-      rudp = new runRudp(this, true, false);
+      rudp = new RunRudp(this, true, false);
     } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
-      rudp = new runRudp(this, false, false);
-    } else if(!isLocalIceSuccessful && isRemoteIceSuccessful) {
-      rudp = new runRudp(this, true, false);
+      rudp = new RunRudp(this, false, false);
+    } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+      rudp = new RunRudp(this, true, false);
     }
 
     if (rudp != null) {
@@ -246,12 +247,12 @@ public class Rscc {
       e.printStackTrace();
     }
 
-    runRudp rudp = null;
+    RunRudp rudp = null;
 
     if (isLocalIceSuccessful) {
-      rudp = new runRudp(this, true, true);
+      rudp = new RunRudp(this, true, true);
     } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-      rudp = new runRudp(this, false, true);
+      rudp = new RunRudp(this, false, true);
     }
 
     if (rudp != null) {
@@ -285,7 +286,9 @@ public class Rscc {
   }
 
   /**
-   * Starts the VNC Viewer.
+   * Starts VNC Viewer.
+   * @param hostAddress Address to connect to.
+   * @param vncViewerPort Port to connect to.
    */
   public void startVncViewer(String hostAddress, Integer vncViewerPort) {
     if (hostAddress == null) {
