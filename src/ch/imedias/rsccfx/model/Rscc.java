@@ -10,16 +10,13 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -206,7 +203,6 @@ public class Rscc {
     if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusSytles.length || text == null) {
       throw new IllegalArgumentException();
     }
-
     setConnectionStatusText(text);
     setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
   }
