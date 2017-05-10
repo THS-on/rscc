@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,7 +19,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 
 /**
  * Stores the key and keyserver connection details.
@@ -51,6 +51,7 @@ public class Rscc {
   private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
       .toExternalForm().replace("file:", "");
+  private final KeyUtil keyUtil;
 
   private String pathToResourceDocker;
 
@@ -58,12 +59,17 @@ public class Rscc {
    * Initializes the Rscc model class.
    *
    * @param systemCommander a SystemComander-object that executes shell commands.
+   * @param keyUtil a KeyUtil-object which stores the key, validates and formats it.
    */
-  public Rscc(SystemCommander systemCommander) {
+  public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     }
+    if (keyUtil == null) {
+      throw new IllegalArgumentException("Parameter KeyUtil is NULL");
+    }
     this.systemCommander = systemCommander;
+    this.keyUtil = keyUtil;
     defineResourcePath();
     readServerConfig();
   }
@@ -151,9 +157,9 @@ public class Rscc {
   public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
     String command = systemCommander.commandStringGenerator(
-        pathToResourceDocker, "port_stop.sh", getKey());
+        pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
-    setKey("");
+    keyUtil.setKey("");
   }
 
   /**
@@ -165,7 +171,7 @@ public class Rscc {
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-    setKey(key); // update key in model
+    keyUtil.setKey(key); // update key in model
     startVncServer();
   }
 
@@ -175,7 +181,7 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), getKey());
+        "port_connect.sh", getVncPort(), keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
     startVncViewer("localhost");
   }
@@ -247,29 +253,6 @@ public class Rscc {
     }
   }
 
-  /**
-   * Determines if a key is valid or not.
-   * The key must not be null and must be a number with exactly 9 digits.
-   *
-   * @param key the string to validate.
-   * @return true when key has a valid format.
-   */
-  public boolean validateKey(String key) {
-    return key != null && key.matches("\\d{9}");
-  }
-
-  public StringProperty keyProperty() {
-    return key;
-  }
-
-  public String getKey() {
-    return key.get();
-  }
-
-  public void setKey(String key) {
-    this.key.set(key);
-  }
-
   public String getKeyServerIp() {
     return keyServerIp.get();
   }
@@ -328,5 +311,9 @@ public class Rscc {
 
   public void setVncOptionWindow(boolean vncOptionWindow) {
     this.vncOptionWindow.set(vncOptionWindow);
+  }
+
+  public KeyUtil getKeyUtil() {
+    return keyUtil;
   }
 }
