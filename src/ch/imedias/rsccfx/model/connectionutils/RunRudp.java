@@ -52,8 +52,8 @@ public class RunRudp extends Thread {
         //TCP Server & RUDP Client
 
         // RUDP Client
-        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
-            + model.getRemoteClientPort());
+        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress()
+            + ":" + model.getRemoteClientPort());
 
         //possibly it can be run on any port? should at least.
         // -> TODO try out to remove null and iceport
@@ -157,8 +157,8 @@ public class RunRudp extends Thread {
         //TCP Client & RUDP Client
 
         // RUDP Client
-        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
-            + model.getRemoteClientPort());
+        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress()
+            + ":" + model.getRemoteClientPort());
 
         //possibly it can be run on any port? should at least.
         // -> TODO try out to remove null and iceport
