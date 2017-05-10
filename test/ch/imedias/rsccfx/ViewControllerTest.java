@@ -72,6 +72,7 @@ public class ViewControllerTest {
    */
   @Test
   public void testSetView() {
+    // added to avoid NullPointerException being thrown when calling getChildren.add() on the view
     Node testNode = new Node() {
       @Override
       protected NGNode impl_createPeer() {
