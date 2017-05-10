@@ -203,7 +203,7 @@ public class Rscc {
       throw new IllegalArgumentException();
     }
     setConnectionStatusText(text);
-    setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
+    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
   /**
@@ -382,7 +382,7 @@ public class Rscc {
     this.connectionStatusStyle.set(connectionStatusStyle);
   }
 
-  public String getConnectionStatusSytles(int i) {
+  public String getConnectionStatusStyles(int i) {
     return connectionStatusStyles[i];
   }
 }
