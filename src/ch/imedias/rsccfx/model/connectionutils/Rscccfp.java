@@ -118,6 +118,17 @@ public class Rscccfp extends Thread {
    * @throws Throwable to be removed.
    */
   private void runIceMagic() throws Throwable {
+    //Exchange isServermode?
+    outputStream.writeBoolean(model.getIsForcingServerMode());
+
+    if (model.getIsForcingServerMode()) {
+      agent.free();
+      closeConnection();
+      return;
+    }
+
+
+
     //Start ICE Agent
     startStun();
 
@@ -228,6 +239,10 @@ public class Rscccfp extends Thread {
     try {
       //wait for starting line
       String sdpLine = inputStream.readLine();
+      if (sdpLine.equals("ForcingServerMode")) {
+        System.out.println("RSCCCFP: Servermode is forced from opposite");
+        return;
+      }
 
       while (!sdpLine.equals("sdpStart")) {
         sdpLine = inputStream.readLine();

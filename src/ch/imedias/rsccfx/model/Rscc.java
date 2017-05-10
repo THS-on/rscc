@@ -60,6 +60,7 @@ public class Rscc {
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
 
   private boolean isLocalIceSuccessful = false;
   private boolean isRemoteIceSuccessful = false;
@@ -504,5 +505,15 @@ public class Rscc {
     return PACKAGE_SIZE;
   }
 
+  public boolean getIsForcingServerMode() {
+    return isForcingServerMode.get();
+  }
 
+  public BooleanProperty isForcingServerModeProperty() {
+    return isForcingServerMode;
+  }
+
+  public void setIsForcingServerMode(boolean isForcingServerMode) {
+    this.isForcingServerMode.set(isForcingServerMode);
+  }
 }
