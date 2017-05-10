@@ -68,7 +68,7 @@ public class HeaderView extends HBox {
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
-    this.getChildren().addAll(backBtn, spacer, helpBtn, settingsBtn);
+    this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -114,6 +114,7 @@ public class HeaderView extends HBox {
   private void bindFieldsToModel() {
     // make bindings to the model
   }
+
 
 }
 

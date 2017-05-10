@@ -1,7 +1,9 @@
 package ch.imedias.rsccfx.model;
 
+import com.google.common.base.CharMatcher;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class SystemCommander {
@@ -17,11 +19,8 @@ public class SystemCommander {
    * @return String trimmed output of the terminal without whitespaces at beginning / end.
    */
   public String executeTerminalCommand(String command) {
-    if (command == null) {
-      throw new IllegalArgumentException();
-    }
     Process process;
-
+    String outputString = ""; // standard return value
     try {
       StringBuilder output = new StringBuilder();
       // Execute Command
@@ -35,13 +34,38 @@ public class SystemCommander {
         output.append(line).append("\n");
       }
       outputReader.close();
-      return output.toString().trim();
+      outputString = output.toString().trim();
     } catch (Exception exception) {
       LOGGER.severe("Exception thrown when running the command: "
           + command
           + "\n Exception Message: " + exception.getMessage());
+      throw new IllegalArgumentException();
     }
-    return "";
+    return outputString;
   }
 
+  /**
+   * Generates String to run command.
+   *
+   * @param pathToScript path to the script that should be run.
+   *                     Should be fully qualified but can also be null.
+   * @param scriptName   name of the script to be run.
+   * @param attributes   optional arguments that should be included in the command.
+   */
+  public String commandStringGenerator(
+      String pathToScript, String scriptName, String... attributes) {
+    StringBuilder commandString = new StringBuilder();
+
+    if (pathToScript != null) {
+      // remove all slashes at the end
+      pathToScript = CharMatcher.is('/').trimTrailingFrom(pathToScript);
+      // append slash to separate from script name
+      commandString.append(pathToScript).append("/");
+    }
+    commandString.append(scriptName);
+    Arrays.stream(attributes)
+        .forEach((s) -> commandString.append(" ").append(s));
+
+    return commandString.toString();
+  }
 }

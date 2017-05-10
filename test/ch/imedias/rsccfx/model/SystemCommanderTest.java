@@ -29,7 +29,7 @@ public class SystemCommanderTest {
     try {
       systemCommander.executeTerminalCommand(null);
       fail("IllegalArgumentException was expected when Command is null");
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       // expected behavior
     }
   }
@@ -45,4 +45,42 @@ public class SystemCommanderTest {
     String output = systemCommander.executeTerminalCommand(command.toString());
     assertEquals(testTerminalCommand, output);
   }
+
+  /**
+   * Test for {@link SystemCommander#commandStringGenerator(String, String, String...)}.
+   */
+  @Test
+  public void testCommandStringGenerator() throws Exception {
+    // given
+    final String pathToScript = "path/To/Script";
+    final String pathToScriptWithSlash = pathToScript + "/";
+    final String scriptName = "script.sh";
+    final String attribute = "attribute";
+    final String[] attributes = {"-attr1", "attr2", "--attr3 4"};
+
+    // without slash
+    String generatedString = systemCommander.commandStringGenerator(
+        pathToScript, scriptName, attribute);
+    String expectedString = "path/To/Script/script.sh attribute";
+    assertEquals(expectedString, generatedString);
+
+    // with slash
+    generatedString = systemCommander.commandStringGenerator(
+        pathToScriptWithSlash, scriptName, attribute);
+    expectedString = "path/To/Script/script.sh attribute";
+    assertEquals(expectedString, generatedString);
+
+    // null as pathToScript
+    generatedString = systemCommander.commandStringGenerator(
+        null, scriptName, attribute);
+    expectedString = "script.sh attribute";
+    assertEquals(expectedString, generatedString);
+
+    // multiple attributes
+    generatedString = systemCommander.commandStringGenerator(
+        pathToScript, scriptName, attributes);
+    expectedString = "path/To/Script/script.sh -attr1 attr2 --attr3 4";
+    assertEquals(expectedString, generatedString);
+  }
+
 }
