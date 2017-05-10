@@ -158,7 +158,7 @@ public class Rscc {
   }
 
   public void stopVnc(){
-    String command = "killall x11vnc";
+    String command = commandStringGenerator(null, "killall", "x11vnc");
     systemCommander.executeTerminalCommand(command);
 
   }
