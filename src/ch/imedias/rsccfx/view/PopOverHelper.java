@@ -194,11 +194,13 @@ public class PopOverHelper {
   private void setValueChangeListener() {
     requestViewOnlyTgl.selectedProperty().addListener(observable -> {
       System.out.println(requestViewOnlyTgl.selectedProperty().get() + " model: " + model.getVncOptionViewOnly());
+      model.stopVnc();
+      model.startVncServer();
     });
   }
 
   private void settingsBinding() {
-    model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
+   model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
   }
 
 }

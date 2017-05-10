@@ -46,7 +46,7 @@ public class Rscc {
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
-  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty();
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
   //TODO: Replace when the StunFileGeneration is ready
@@ -155,6 +155,12 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
     setKey("");
+  }
+
+  public void stopVnc(){
+    String command = "killall x11vnc";
+    systemCommander.executeTerminalCommand(command);
+
   }
 
   /**
