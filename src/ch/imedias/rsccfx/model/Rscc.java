@@ -77,16 +77,31 @@ public class Rscc {
     connectionPresent.addListener((observable, oldValue, newValue) -> {
       LOGGER.info("connectionPresent: " + newValue);
       if(oldValue != newValue) {
-        while(newValue) {
-          try {
-            Thread.sleep(2000);
-          } catch (InterruptedException e) {
-            LOGGER.info("Sleep was interrupted!");
-          }
+        if (newValue) {
+          connectionCheck();
         }
-        setConnectionPresent(false);
       }
     });
+  }
+
+  private void connectionCheck(){
+    String checkingScript =
+        commandStringGenerator(null, "lsof",
+            "-i", "tcp:" + getVncPort());
+    Thread thread = new Thread(() -> {
+      String output;
+      do {
+        try {
+          wait(2000);
+        } catch (InterruptedException e) {
+          LOGGER.info("Sleep was interrupted!");
+        }
+        output = systemCommander.executeTerminalCommand(checkingScript);
+      } while ((!"".equals(output)));
+      setConnectionPresent(false);
+    });
+    thread.start();
+
   }
 
   /**
