@@ -20,8 +20,11 @@ public class KeyUtil {
   private static final Logger LOGGER =
       Logger.getLogger(KeyUtil.class.getName());
 
-  private static final String KEY_FORMAT_DELIMITER = " ";
-  private static final int KEY_FORMAT_DELIMITER_EVERY = 3;
+  private static final String KEY_DELIMITER = " ";
+  public static final int KEY_DELIMITER_EVERY = 3;
+  public static final int KEY_MAXIMUM_DIGITS = 9;
+  public static final int KEY_AMOUNT_SPACES =
+      (KEY_MAXIMUM_DIGITS - KEY_DELIMITER_EVERY) / KEY_DELIMITER_EVERY;
 
   private final StringProperty key = new SimpleStringProperty();
   private final StringProperty formattedKey = new SimpleStringProperty();
@@ -61,9 +64,9 @@ public class KeyUtil {
         key = key.substring(0, 9);
       }
       // Split the key and join with delimiter
-      Iterable<String> pieces = Splitter.fixedLength(KEY_FORMAT_DELIMITER_EVERY).split(key);
+      Iterable<String> pieces = Splitter.fixedLength(KEY_DELIMITER_EVERY).split(key);
       key = Streams.stream(pieces)
-          .collect(Collectors.joining(KEY_FORMAT_DELIMITER));
+          .collect(Collectors.joining(KEY_DELIMITER));
     }
     return key;
   }
@@ -76,7 +79,7 @@ public class KeyUtil {
    */
   public String deformatKey(String key) {
     if (key != null) {
-      key = key.replace(KEY_FORMAT_DELIMITER, "");
+      key = key.replace(KEY_DELIMITER, "");
     }
     return key;
   }

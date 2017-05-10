@@ -1,5 +1,7 @@
 package ch.imedias.rsccfx.view.util;
 
+import ch.imedias.rsccfx.model.util.KeyUtil;
+import java.util.function.Predicate;
 import javafx.scene.control.TextField;
 
 /**
@@ -7,6 +9,13 @@ import javafx.scene.control.TextField;
  * Validates the key and makes the implementation of the spaces every 3 characters possible.
  */
 public class KeyTextField extends TextField {
+  private static final int TOTAL_CHARACTERS_AMOUNT =
+      KeyUtil.KEY_AMOUNT_SPACES + KeyUtil.KEY_MAXIMUM_DIGITS;
+
+  /**
+   * Returns true if the entered text is "", which means that the backspace key was pressed.
+   */
+  private static final Predicate<String> IS_BACKSPACE = ""::equals;
 
   /**
    * Returns a subset of the text input's content.
@@ -44,10 +53,12 @@ public class KeyTextField extends TextField {
   }
 
   /**
-   * Validates every input to make sure nothing but spaces and digits can be entered.
+   * Validates every input to make sure nothing but spaces, digits and backspaces can be entered.
    */
   private boolean validate(String text) {
-    return text.matches("[0-9 ]*");
+    return text.matches("[0-9 ]*")
+        && (super.getLength() + text.length() <= TOTAL_CHARACTERS_AMOUNT
+        || IS_BACKSPACE.test(text));
   }
 
 }
