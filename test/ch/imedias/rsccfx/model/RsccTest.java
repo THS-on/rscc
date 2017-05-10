@@ -92,7 +92,6 @@ public class RsccTest {
    * Test for {@link Rscc#requestKeyFromServer()}.
    */
   @Ignore
-  @Test
   public void testRequestKeyFromServer() throws Exception {
     model.requestKeyFromServer();
     testKeyServerSetup();
@@ -107,7 +106,7 @@ public class RsccTest {
   /**
    * Test for {@link Rscc#connectToUser()}.
    */
-  @Test
+  @Ignore
   public void testConnectToUser() throws Exception {
     model.setKey(KEY);
     model.connectToUser();
@@ -122,7 +121,6 @@ public class RsccTest {
    * Test for {@link Rscc#refreshKey()}.
    */
   @Ignore
-  @Test
   public void testRefreshKey() {
     model.refreshKey();
     // make sure the scripts were executed
