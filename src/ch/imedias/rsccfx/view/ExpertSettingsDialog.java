@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -16,8 +17,10 @@ import org.controlsfx.control.ToggleSwitch;
  * Created by user on 10.05.17.
  */
 public class ExpertSettingsDialog extends DialogPane {
+
   Dialog dialog = new Dialog();
   GridPane gridPane = new GridPane();
+  Strings strings = new Strings();
 
   final Label keyserverIpLbl = new Label();
   final Label forceConnectOverServerLbl = new Label();
@@ -41,22 +44,6 @@ public class ExpertSettingsDialog extends DialogPane {
   final ListView stunSeversList = new ListView();
 
 
-
-  final Label nameLbl = new Label();
-  final Label adressLbl = new Label();
-  final Label portLbl = new Label();
-  final Label pictureLbl = new Label();
-  final Label chargeableLbl = new Label();
-  final Label encryptedLbl = new Label();
-
-  final TextField nameFld = new TextField();
-  final TextField adressFld = new TextField();
-  final TextField portFld = new TextField();
-  final TextField pictureFld = new TextField();
-
-  final CheckBox chargeableCBox = new CheckBox();
-  final CheckBox encryptedCBox = new CheckBox();
-
   /**
    * Initializes all the GUI components needed in the DialogPane.
    */
@@ -69,19 +56,15 @@ public class ExpertSettingsDialog extends DialogPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-
-    nameLbl.setText("Name");
-    adressLbl.setText("Adress");
-    portLbl.setText("Port");
-    pictureLbl.setText("Picture");
-    chargeableLbl.setText("Chargeable");
-    encryptedLbl.setText("Encrypted");
-
-    nameFld.setText("Ronny");
-    adressFld.setText("127.0.0.1");
-    portFld.setText("5900");
-    pictureFld.setText("/images/sup.jpg");
-
+    forceConnectOverServerLbl.textProperty().set(strings.expertForceConnectOverServerLbl);
+    keyserverIpLbl.textProperty().set(strings.expertKeyserverIpLbl);
+    keyServerHttpPortLbl.textProperty().set(strings.expertKeyserverHttpLbl);
+    vncPortLbl.textProperty().set(strings.expertVncPortLbl);
+    icePortLbl.textProperty().set(strings.expertIcePortLbl);
+    udpPackageSizeLbl.textProperty().set(strings.expertUdpPackageSizeLbl);
+    localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
+    stunServersLbl.textProperty().set(strings.expertStunserverLbl);
+    stunServerLbl.textProperty().set(strings.expertStunServerPortLbl);
   }
 
   private void layoutForm() {
@@ -107,7 +90,7 @@ public class ExpertSettingsDialog extends DialogPane {
     gridPane.add(udpPackageSizeFld,1,5);
     gridPane.add(localForwadingPortLbl, 0, 6);
     gridPane.add(localForwardingPortFld,1,6);
-    gridPane.add(stunServersLbl,0,7);
+    gridPane.add(stunServerLbl,0,7);
     gridPane.add(stunServerPortFld,1,7);
     gridPane.add(stunServersLbl, 0, 8);
     gridPane.add(stunSeversList,1,8);

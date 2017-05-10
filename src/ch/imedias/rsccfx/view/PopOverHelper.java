@@ -10,7 +10,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -78,6 +80,8 @@ public class PopOverHelper {
   TextSlider supportCompressionSldr;
   TextSlider supportQualitySldr;
 
+  Button expertSettingsBtn = new Button();
+
   /**
    * Initializes PopOver according to view.
    */
@@ -97,6 +101,7 @@ public class PopOverHelper {
         requestValueChangeListener();
         handleRequestSettings();
         requestSettingsBindings();
+        invokeExpertSettings();
         break;
       case RsccApp.SUPPORT_VIEW:
         layoutSupport();
@@ -104,11 +109,11 @@ public class PopOverHelper {
         settingsPopOver.setContentNode(supportSettingsBox);
         supportSettingsBindings();
         debugListener();
+        invokeExpertSettings();
         break;
       default:
         LOGGER.info("PopOver couldn't find view: " + viewName);
     }
-
   }
 
   private void layoutPopOver() {
@@ -139,7 +144,7 @@ public class PopOverHelper {
     requestViewOnlyLbl.textProperty().set("View Only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
 
-    requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl);
+    requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl, expertSettingsBtn);
 
     // Help
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
@@ -184,6 +189,7 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(supportCompressionSliderBox);
     supportSettingsBox.getChildren().add(supportQualitySliderBox);
     supportSettingsBox.getChildren().add(supportBgr233ToggleBox);
+    supportSettingsBox.getChildren().add(expertSettingsBtn);
 
     // Help
     supportHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
@@ -223,6 +229,10 @@ public class PopOverHelper {
         model.startVncServer();
       }
     });
+  }
+
+  private void invokeExpertSettings(){
+    expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog());
   }
 
   /**
