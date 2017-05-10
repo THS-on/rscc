@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.model;
 
-import ch.imedias.rsccfx.model.iceutils.viewersuccessful.RunRudp;
+import ch.imedias.rsccfx.model.connectionutils.Rscccfp;
+import ch.imedias.rsccfx.model.connectionutils.RunRudp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -261,7 +262,6 @@ public class Rscc {
       System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", LOCAL_FORWARDING_PORT);
     } else {
-      System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", vncPort.getValue());
     }
   }
@@ -299,7 +299,8 @@ public class Rscc {
 
     String command = commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
-    systemCommander.executeTerminalCommand(command);
+    System.out.println(systemCommander.executeTerminalCommand(command));
+
   }
 
 

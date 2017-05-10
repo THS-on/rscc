@@ -27,11 +27,17 @@ public class SystemCommander {
       // read the output from the command
       BufferedReader outputReader = new BufferedReader(new
           InputStreamReader(process.getInputStream()));
+      BufferedReader errorReader = new BufferedReader(new
+          InputStreamReader(process.getErrorStream()));
       String line;
       while ((line = outputReader.readLine()) != null) {
         output.append(line).append("\n");
       }
+      while ((line = errorReader.readLine()) != null) {
+        output.append(line).append("\n");
+      }
       outputReader.close();
+      errorReader.close();
       outputString = output.toString().trim();
     } catch (Exception exception) {
       LOGGER.severe("Exception thrown when running the command: "
