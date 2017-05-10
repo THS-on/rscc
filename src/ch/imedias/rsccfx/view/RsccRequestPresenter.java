@@ -7,17 +7,14 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -74,21 +71,29 @@ public class RsccRequestPresenter implements ControlledPresenter {
         event -> model.refreshKey()
     );
 
-    view.keyGenerationTitledPane.setOnMouseClicked(
-        event -> {
-          view.predefinedAddressesTitledPane.setExpanded(false);
-          view.contentBox.getChildren().removeAll(view.predefinedAdressesInnerBox);
-          view.contentBox.getChildren().add(1,view.keyGenerationInnerPane);
-        }
-    );
-    view.predefinedAddressesTitledPane.setOnMouseClicked(
-        event -> {
-          view.keyGenerationTitledPane.setExpanded(false);
-          view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
-          view.contentBox.getChildren().add(2,view.predefinedAdressesInnerBox);
+    view.keyGenerationTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.predefinedAddressesTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.predefinedAdressesInnerBox);
+              view.contentBox.getChildren().add(1, view.keyGenerationInnerPane);
+            }
+          }
         }
     );
 
+    view.predefinedAddressesTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.keyGenerationTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
+              view.contentBox.getChildren().add(2, view.predefinedAdressesInnerBox);
+            }
+          }
+        }
+    );
   }
 
   private void attachButtonEvents() {
@@ -153,7 +158,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   /**
    * Calls createSupporterList() and creates a button for every supporter found.
    */
-
   private void initSupporterList() {
     createSupporterList();
     for (int counter = 0; counter < supportAddresses.size(); counter++) {
