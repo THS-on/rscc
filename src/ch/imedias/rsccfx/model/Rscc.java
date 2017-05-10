@@ -49,7 +49,9 @@ public class Rscc {
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty();
-  private final DoubleProperty qualitySliderValue = new SimpleDoubleProperty();
+  private final DoubleProperty vncOptionQualitySliderValue = new SimpleDoubleProperty();
+  private final DoubleProperty vncOptionCompressionSliderValue = new SimpleDoubleProperty();
+  private final BooleanProperty vncOptionBgr233 = new SimpleBooleanProperty();
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
   //TODO: Replace when the StunFileGeneration is ready
@@ -277,8 +279,10 @@ public class Rscc {
 
   private String getSupporterSettings() {
     StringBuilder settings = new StringBuilder();
-    settings.append("-quality");
-    settings.append(qualitySliderValue).toString();
+
+    settings.append(" -quality");
+    settings.append(vncOptionQualitySliderValue).toString();
+
     return  settings.toString();
   }
 
@@ -366,15 +370,43 @@ public class Rscc {
     this.vncOptionWindow.set(vncOptionWindow);
   }
 
-  public double getQualitySliderValue() {
-    return qualitySliderValue.get();
+  public double getVncOptionQualitySliderValue() {
+    return vncOptionQualitySliderValue.get();
   }
 
-  public DoubleProperty qualitySliderValueProperty() {
-    return qualitySliderValue;
+  public DoubleProperty vncOptionQualitySliderValueProperty() {
+    return vncOptionQualitySliderValue;
   }
 
-  public void setQualitySliderValue(double qualitySliderValue) {
-    this.qualitySliderValue.set(qualitySliderValue);
+  public void setVncOptionQualitySliderValue(double vncOptionQualitySliderValue) {
+    this.vncOptionQualitySliderValue.set(vncOptionQualitySliderValue);
+  }
+
+  public boolean isVncOptionViewOnly() {
+    return vncOptionViewOnly.get();
+  }
+
+  public double getVncOptionCompressionSliderValue() {
+    return vncOptionCompressionSliderValue.get();
+  }
+
+  public DoubleProperty vncOptionCompressionSliderValueProperty() {
+    return vncOptionCompressionSliderValue;
+  }
+
+  public void setVncOptionCompressionSliderValue(double vncOptionCompressionSliderValue) {
+    this.vncOptionCompressionSliderValue.set(vncOptionCompressionSliderValue);
+  }
+
+  public boolean isVncOptionBgr233() {
+    return vncOptionBgr233.get();
+  }
+
+  public BooleanProperty vncOptionBgr233Property() {
+    return vncOptionBgr233;
+  }
+
+  public void setVncOptionBgr233(boolean vncOptionBgr233) {
+    this.vncOptionBgr233.set(vncOptionBgr233);
   }
 }

@@ -197,9 +197,7 @@ public class PopOverHelper {
   }
 
   private void supportValueCangeListener() {
-    supportQualitySldr.sliderValueProperty().addListener(observable -> {
-      System.out.println(observable.toString());
-    });
+    supportQualitySldr.sliderValueProperty().addListener(observable -> {});
   }
 
   private void requestSettingsBindings() {
@@ -207,7 +205,7 @@ public class PopOverHelper {
   }
 
   private void supportSettingsBindings(){
-    model.qualitySliderValueProperty().bindBidirectional(supportQualitySldr.sliderValueProperty());
+    model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr.sliderValueProperty());
   }
 
   /**
