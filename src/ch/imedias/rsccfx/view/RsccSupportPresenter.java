@@ -10,6 +10,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 /**
  * Presenter class of RsccSupportView. Defines the behaviour of interactions
@@ -102,6 +103,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
     view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
     view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
+
+    view.keyFld.setOnKeyPressed(ke -> {
+      if (ke.getCode() == KeyCode.ENTER) {
+        model.connectToUser();
+      }
+    });
+
   }
 
   private void initBindings() {
