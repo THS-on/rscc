@@ -119,7 +119,7 @@ public class Rscc {
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
       if (item.getName().contains(filter)) {
-        System.out.println(item.getName());
+        LOGGER.fine(item.getName());
         File targetFile = new File(destinationDirectory, item.getName());
         if (!targetFile.exists()) {
           targetFile.getParentFile().mkdirs();
