@@ -20,7 +20,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 /**
  * Defines all elements shown in the request section.
@@ -41,15 +40,11 @@ public class RsccRequestView extends BorderPane {
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
 
-  final VBox descriptionBox = new VBox();
   final GridPane collectBox = new GridPane();
 
-  final HBox centerBox = new HBox();
-  final HBox keyGeneratingBox = new HBox();
-  final HBox predefinedAdressessBox = new HBox();
   final HBox statusBox = new HBox();
+  final HBox predefinedAdressessBox = new HBox();
 
-  final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
   final ScrollPane scrollPane = new ScrollPane();
 
@@ -74,9 +69,10 @@ public class RsccRequestView extends BorderPane {
     headerView = new HeaderView(model);
     SvgImageLoaderFactory.install();
     initFieldData();
+    layoutCollectBox();
     layoutForm();
     layoutSupporterPane();
-    layoutCollectBox();
+
     bindFieldsToModel();
   }
 
@@ -95,10 +91,6 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setGraphic(reloadImgView);
 
     readyBtn.textProperty().set("Ready");
-
-    keyGeneratorPane.setText("Key generator");
-    keyGeneratorPane.setExpanded(true);
-
 
     predefinedAddressesPane.setText("Predefined Addresses");
     predefinedAddressesPane.setExpanded(false);
@@ -129,26 +121,17 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
-    centerBox.setId("centerBox");
-
-    keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
-    keyGeneratingBox.setId("keyGeneratingBox");
-
     readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, readyBtn);
-
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
-    descriptionBox.getStyleClass().add("descriptionBox");
-
-    centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
 
     statusBox.getChildren().addAll(statusLbl);
-    keyGeneratorPane.setContent(collectBox);
+    //keyGeneratorPane.setContent(collectBox);
 
     setTop(headerView);
-    setCenter(keyGeneratorPane);
+    setCenter(collectBox);
+    setBottom(predefinedAddressesPane);
   }
 
   private void layoutSupporterPane() {
@@ -169,10 +152,6 @@ public class RsccRequestView extends BorderPane {
     col1.setPercentWidth(columnPercentWidth);
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
-
-    setTop(headerView);
-    setCenter(keyGeneratorPane);
-    setBottom(predefinedAddressesPane);
   }
 
   private void layoutCollectBox() {
