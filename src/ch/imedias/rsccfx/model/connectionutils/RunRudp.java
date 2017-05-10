@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.model.connectionutils;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.connectionutils.rudp.src.ReliableServerSocket;
 import ch.imedias.rsccfx.model.connectionutils.rudp.src.ReliableSocket;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.ReliableSocketProfile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,6 +20,7 @@ public class RunRudp extends Thread {
   private Rscc model;
   private boolean viewerIsRudpClient;
   private boolean callAsViewer;
+  private ReliableSocketProfile profile;
 
   /**
    * Constructor.
@@ -32,7 +34,6 @@ public class RunRudp extends Thread {
     this.viewerIsRudpClient = viewerIsRudpClient;
     this.callAsViewer = callAsViewer;
   }
-
 
   /**
    * Starts the TCP and RUDP socket and routes the Packages in between over a Proxy.
@@ -79,7 +80,7 @@ public class RunRudp extends Thread {
             .getHostAddress());
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getBufferSize());
+            model.getPackageSize());
 
         rudpSocket.close();
         tcpSocket.close();
@@ -112,7 +113,7 @@ public class RunRudp extends Thread {
         System.out.println("Sucessful tcp connection");
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getBufferSize());
+            model.getPackageSize());
 
         rudpSocket2.close();
         tcpSocket.close();
@@ -146,7 +147,7 @@ public class RunRudp extends Thread {
             .getHostAddress());
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getBufferSize());
+            model.getPackageSize());
 
         rudpSocket2.close();
         tcpSocket.close();
@@ -184,7 +185,7 @@ public class RunRudp extends Thread {
         System.out.println("Sucessful tcp connection");
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getBufferSize());
+            model.getPackageSize());
 
         rudpSocket.close();
         tcpSocket.close();

@@ -49,7 +49,7 @@ public class Rscc {
       "numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
-  private static final int BUFFER_SIZE = 10000;
+  private static final int PACKAGE_SIZE = 10000;
 
   private final SystemCommander systemCommander;
 
@@ -89,6 +89,7 @@ public class Rscc {
     this.systemCommander = systemCommander;
     defineResourcePath();
     readServerConfig();
+
   }
 
   /**
@@ -499,8 +500,8 @@ public class Rscc {
     return LOCAL_FORWARDING_PORT;
   }
 
-  public static int getBufferSize() {
-    return BUFFER_SIZE;
+  public static int getPackageSize() {
+    return PACKAGE_SIZE;
   }
 
 
