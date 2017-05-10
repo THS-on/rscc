@@ -2,16 +2,23 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+
 import java.io.InputStream;
 import java.util.logging.Logger;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -24,65 +31,69 @@ public class RsccRequestView extends BorderPane {
 
   private static final double BUTTON_SIZE = 50d;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
+  private static final double A_THIRD_OF_ONE_HUNDERED = 100 / 3;
 
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
-  Label keyGenerationLbl = new Label();
-  Label supporterAdminLbl = new Label();
+  private final KeyUtil keyUtil;
 
   final Label titleLbl = new Label();
-  final Label predefinedAddressesLbl = new Label();
   final Label descriptionLbl = new Label();
+  final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
 
   final VBox descriptionBox = new VBox();
-  final VBox bottomBox = new VBox();
-  final HBox statusBox = new HBox();
+  final VBox collectBox = new VBox();
 
-  final HBox supporterAdminBox = new HBox();
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
-  final VBox collectBox = new VBox();
+  final HBox predefinedAdressessBox = new HBox();
+  final HBox statusBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
+  final ScrollPane scrollPane = new ScrollPane();
 
-  final TextField generatedKeyFld = new TextField();
+  final KeyTextField generatedKeyFld = new KeyTextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button supporterOneBtn = new Button();
 
   Image reloadImg;
 
   ImageView reloadImgView;
 
+  GridPane supporterGrid = new GridPane();
+
   /**
-   * Initializes all the GUI components needed generate the key the supporter needs.
+   * Initializes all the GUI components needed to generate the key the supporter needs.
    *
    * @param model the model to handle the data.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
     headerView = new HeaderView(model);
+    this.keyUtil = model.getKeyUtil();
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
+    layoutSupporterPane();
     bindFieldsToModel();
   }
 
   private void initFieldData() {
     // populate fields which require initial data
-
     titleLbl.textProperty().set(strings.requestTitleLbl);
     descriptionLbl.textProperty().set(strings.requestDescriptionLbl);
     keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
     generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
     predefinedAddressesPane.textProperty().set(strings.requestPredefinedAdressessPane);
+    supporterDescriptionLbl.textProperty().set(strings.requestSupporterDescriptionLbl);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.requestStatusLblReady);
     statusLbl.textProperty().set(strings.requestStatusLblWaiting);
+
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
@@ -93,16 +104,16 @@ public class RsccRequestView extends BorderPane {
     keyGeneratorPane.setExpanded(true);
 
     predefinedAddressesPane.setExpanded(false);
-    predefinedAddressesPane.setId("predefinedAddressesPane");
-
   }
 
   private void layoutForm() {
-    statusBox.getStyleClass().add("statusBox");
-    statusLbl.getStyleClass().add("statusLbl");
-
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
+
+    supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
+
+    statusBox.getStyleClass().add("statusBox");
+    statusLbl.getStyleClass().add("statusLbl");
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
@@ -116,9 +127,7 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
 
     centerBox.setId("centerBox");
-    bottomBox.setId("bottomBox");
 
-    supporterAdminBox.getChildren().addAll(predefinedAddressesLbl);
     keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
     keyGeneratingBox.setId("keyGeneratingBox");
 
@@ -127,15 +136,36 @@ public class RsccRequestView extends BorderPane {
     descriptionBox.getChildren().addAll(titleLbl, descriptionLbl);
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+    descriptionBox.getStyleClass().add("descriptionBox");
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
-    bottomBox.getChildren().addAll(supporterAdminBox);
 
     statusBox.getChildren().addAll(statusLbl);
     collectBox.getChildren().addAll(centerBox,statusBox);
-
     keyGeneratorPane.setContent(collectBox);
-    predefinedAddressesPane.setContent(bottomBox);
+
+    setTop(headerView);
+    setCenter(keyGeneratorPane);
+  }
+
+  private void layoutSupporterPane() {
+    predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+    predefinedAddressesPane.setContent(predefinedAdressessBox);
+
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    scrollPane.setContent(supporterGrid);
+
+    // add column constraints
+    ColumnConstraints col1 = new ColumnConstraints();
+    ColumnConstraints col2 = new ColumnConstraints();
+    ColumnConstraints col3 = new ColumnConstraints();
+    supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+    col1.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col2.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+    col3.setPercentWidth(A_THIRD_OF_ONE_HUNDERED);
+
+    // ***************
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
@@ -144,8 +174,6 @@ public class RsccRequestView extends BorderPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    generatedKeyFld.textProperty().bind(model.keyProperty());
-
+    generatedKeyFld.textProperty().bind(keyUtil.formattedKeyProperty());
   }
 }
-

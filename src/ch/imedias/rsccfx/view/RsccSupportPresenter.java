@@ -4,10 +4,10 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -20,17 +20,17 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportPresenter.class.getName());
 
-  private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
+  private static final double WIDTH_SUBTRACTION_ENTERKEY = 100d;
+
   private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
   private final Image invalidImage =
       new Image(getClass().getClassLoader().getResource("dialog-error.png").toExternalForm());
 
-  private final BooleanProperty keyValidityProperty = new SimpleBooleanProperty(false);
-
   private final Rscc model;
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
+  private final KeyUtil keyUtil;
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
 
@@ -43,6 +43,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
     this.view = view;
+    this.keyUtil = model.getKeyUtil();
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
@@ -71,21 +72,32 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // initialize view
     view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
+
+    // FIXME: Magic numbeeer.
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
+    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
+
+    view.keyFld.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
   /**
    * Updates the validation image after every key pressed.
    */
   private void attachEvents() {
-    // update keyValidityProperty property every time the textfield with the key changes
-    view.keyFld.textProperty().addListener(
-        (observable, oldKey, newKey) -> keyValidityProperty.set(model.validateKey(newKey))
-    );
+    view.connectBtn.setOnAction(event -> model.connectToUser());
 
-    view.connectBtn.setOnAction(event -> {
-      model.setKey(view.keyFld.getText());
-      model.connectToUser();
-    });
+    // formats the key while typing
+    StringProperty key = view.keyFld.textProperty();
+    key.addListener(
+        (observable, oldKey, newKey) -> {
+          // set the key in KeyUtil and get the formatted version
+          keyUtil.setKey(key.get());
+          key.setValue(keyUtil.getFormattedKey());
+        }
+    );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
     view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
@@ -94,11 +106,11 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
   private void initBindings() {
     // disable connect button if key is NOT valid
-    view.connectBtn.disableProperty().bind(keyValidityProperty.not());
+    view.connectBtn.disableProperty().bind(keyUtil.keyValidProperty().not());
 
-    // bind validation image to keyValidityProperty
+    // bind validation image to keyValidProperty
     view.validationImgView.imageProperty().bind(
-        Bindings.when(keyValidityProperty)
+        Bindings.when(keyUtil.keyValidProperty())
             .then(validImage)
             .otherwise(invalidImage)
 

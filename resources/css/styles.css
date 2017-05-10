@@ -76,7 +76,6 @@
  *                                                                         *
  **************************************************************************/
 .descriptionLbl{
-    /*-fx-alignment: left;*/
     -fx-wrap-text: true;
 }
 
@@ -100,6 +99,12 @@
 .statusLbl{
     -fx-text-fill: white;
     -fx-font-size: 16px;
+}
+
+.descriptionBox {
+    -fx-alignment: center-left;
+    -fx-spacing: 50;
+    -fx-padding: 25;
 }
 
 /***************************************************************************
@@ -144,12 +149,6 @@
     -fx-padding: 25;
 }
 
-#descriptionBox {
-    -fx-alignment: center;
-    -fx-spacing: 50;
-    -fx-padding: 25;
-}
-
 #readyBtn{
     -fx-alignment: bottom-right;
 }
@@ -161,7 +160,10 @@
 .titled-pane > .title {
     -fx-pref-height: 36.0;
     -fx-font-size: 14pt;
+}
 
+.supporterDescriptionLbl{
+    -fx-wrap-text: true;
 }
 
 .supporterBtn {
@@ -180,6 +182,52 @@
 
 #EnterTokenLbl {
     -fx-font-size: 25;
+}
+
+#centerBoxSupport {
+    -fx-alignment: center;
+    -fx-padding: 10, 20, 10, 20;
+    -fx-spacing: 150;
+}
+
+#connectBtn {
+    -fx-alignment: bottom-right;
+    /*-fx-font-size: 30;*/
+}
+
+#keyValidationBox {
+    -fx-alignment: center;
+    -fx-spacing: 25;
+    -fx-padding: 25;
+}
+
+#keyFld {
+    -fx-background-color: #e2e2e2;
+    -fx-font-family: Monospaced;
+    -fx-font-size: 30pt;
+}
+
+.supporterBtn {
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-border-color: lightgrey;
+    -fx-fit-to-width: true;
+    -fx-pref-width: 240px;
+    -fx-pref-height: 100px;
+
+/*
+
+    -fx-font-size: 15pt;
+    -fx-fit-to-width: true;
+    -fx-content-display: top;
+    -fx-border-width: ;
+    -fx-padding: 15;
+    -fx-background-color: white;*/
+}
+
+.supporterBtn:hover {
+    -fx-background-color: lightgrey; /* Green */
+    -fx-border-color: lightgrey;
 }
 
 /***************************************************************************
