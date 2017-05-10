@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 
@@ -32,6 +33,7 @@ public class RsccRequestView extends BorderPane {
 
   final HeaderView headerView;
   private final Rscc model;
+  private final Strings strings = new Strings();
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
