@@ -111,6 +111,8 @@ public class RsccSupportView extends BorderPane {
 
     connectBtn.setId("connectBtn");
 
+    centerBox.setId("centerBoxSupport");
+
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);
 
