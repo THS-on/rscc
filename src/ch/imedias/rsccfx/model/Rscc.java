@@ -256,9 +256,16 @@ public class Rscc {
       rudp = new RunRudp(this, false, true);
     }
 
+
     if (rudp != null) {
       System.out.println("RSCC: Starting rudp");
+
       rudp.start();
+      try {
+        Thread.sleep(3000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", LOCAL_FORWARDING_PORT);
     } else {
