@@ -14,6 +14,11 @@ import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
 import ch.imedias.rsccfx.view.RsccRequestView;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.jmx.MXNodeAlgorithm;
+import com.sun.javafx.jmx.MXNodeAlgorithmContext;
+import com.sun.javafx.sg.prism.NGNode;
 import javafx.scene.Node;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -67,11 +72,38 @@ public class ViewControllerTest {
    */
   @Test
   public void testSetView() {
-    final String requestViewName = "testRequestView";
-    final String homeViewName = "testHomeView";
-    viewController.loadView(requestViewName, mockRequestView, mockRequestPresenter);
-    viewController.loadView(homeViewName, mockHomeView, mockHomePresenter);
-    assertTrue(viewController.setView(homeViewName));
+    // added to avoid NullPointerException being thrown when calling getChildren.add() on the view
+    Node testNode = new Node() {
+      @Override
+      protected NGNode impl_createPeer() {
+        return null;
+      }
+
+      @Override
+      public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        return null;
+      }
+
+      @Override
+      protected boolean impl_computeContains(double localX, double localY) {
+        return false;
+      }
+
+      @Override
+      public Object impl_processMXNode(MXNodeAlgorithm alg, MXNodeAlgorithmContext ctx) {
+        return null;
+      }
+    };
+
+    Node testNodeA = testNode;
+    Node testNodeB = testNode;
+
+    final String firstViewName = "testRequestView";
+    final String secondViewName = "testHomeView";
+    viewController.loadView(firstViewName, testNodeA, mockHomePresenter);
+    viewController.loadView(secondViewName, testNodeB, mockHomePresenter);
+    assertTrue(viewController.setView(firstViewName));
+    assertTrue(viewController.setView(secondViewName));
   }
 
   /**
