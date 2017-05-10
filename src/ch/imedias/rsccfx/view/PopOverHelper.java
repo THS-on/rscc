@@ -144,7 +144,8 @@ public class PopOverHelper {
     requestViewOnlyLbl.textProperty().set("View Only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
 
-    requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl, expertSettingsBtn);
+    requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl,
+        expertSettingsBtn);
 
     // Help
     requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
@@ -199,7 +200,7 @@ public class PopOverHelper {
   }
 
   private void requestValueChangeListener() {
-    requestViewOnlyTgl.selectedProperty().addListener(observable -> {});
+    requestViewOnlyTgl.selectedProperty().addListener(observable -> { });
   }
 
 
@@ -207,14 +208,16 @@ public class PopOverHelper {
     model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
   }
 
-  private void supportSettingsBindings(){
-    model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr.sliderValueProperty());
+  private void supportSettingsBindings() {
+    model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr
+        .sliderValueProperty());
     System.out.println(supportQualitySldr.sliderValueProperty().get());
 
   }
 
-  private void debugListener(){
-    supportQualitySldr.sliderValueProperty().addListener(observable -> System.out.println(observable));
+  private void debugListener() {
+    supportQualitySldr.sliderValueProperty().addListener(observable ->
+        System.out.println(observable));
   }
 
   /**
@@ -231,15 +234,8 @@ public class PopOverHelper {
     });
   }
 
-  private void invokeExpertSettings(){
+  private void invokeExpertSettings() {
     expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog());
-  }
-
-  /**
-   *
-   */
-  private void handleSupportSettings(){
-
   }
 
 }

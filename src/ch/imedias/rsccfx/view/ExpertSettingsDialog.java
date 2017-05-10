@@ -96,6 +96,9 @@ public class ExpertSettingsDialog extends DialogPane {
     gridPane.add(stunSeversList,1,8);
 
     this.getButtonTypes().add(ButtonType.APPLY);
+    this.getButtonTypes().add(ButtonType.CLOSE);
+    this.getButtonTypes().add(ButtonType.PREVIOUS);
+
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);

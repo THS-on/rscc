@@ -164,7 +164,10 @@ public class Rscc {
     setKey("");
   }
 
-  public void stopVncServer(){
+  /**
+   * Stops the vnc server.
+   */
+  public void stopVncServer() {
     String command = commandStringGenerator(null, "killall", "x11vnc");
     systemCommander.executeTerminalCommand(command);
 

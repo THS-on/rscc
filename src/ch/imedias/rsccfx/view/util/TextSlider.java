@@ -55,7 +55,8 @@ public class TextSlider extends StackPane {
     getChildren().addAll(valueText, slider);
 
   }
-  public DoubleProperty sliderValueProperty(){
+
+  public DoubleProperty sliderValueProperty() {
     return slider.valueProperty();
   }
 
