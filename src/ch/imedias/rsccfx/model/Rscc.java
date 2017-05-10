@@ -160,9 +160,10 @@ public class Rscc {
     setKey("");
   }
 
-  public void stopVnc() {
-    String command = "killall x11vnc";
+  public void stopVnc(){
+    String command = commandStringGenerator(null, "killall", "x11vnc");
     systemCommander.executeTerminalCommand(command);
+
   }
 
   /**
