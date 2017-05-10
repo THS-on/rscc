@@ -38,12 +38,15 @@ public class RsccRequestView extends BorderPane {
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
+  final Label statusLbl = new Label();
 
   final VBox descriptionBox = new VBox();
+  final VBox collectBox = new VBox();
 
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
   final HBox predefinedAdressessBox = new HBox();
+  final HBox statusBox = new HBox();
 
   final TitledPane keyGeneratorPane = new TitledPane();
   final TitledPane predefinedAddressesPane = new TitledPane();
@@ -101,11 +104,17 @@ public class RsccRequestView extends BorderPane {
 
     supporterDescriptionLbl.setText("Description on the right");
 
+    // TODO: Tech Group - switch waiting and ready Label
+    //statusLbl.textProperty().set(strings.requestStatusLblReady);
+    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
+
+    statusBox.getStyleClass().add("statusBox");
+    statusLbl.getStyleClass().add("statusLbl");
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
@@ -133,7 +142,9 @@ public class RsccRequestView extends BorderPane {
 
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
 
-    keyGeneratorPane.setContent(centerBox);
+    statusBox.getChildren().addAll(statusLbl);
+    collectBox.getChildren().addAll(centerBox,statusBox);
+    keyGeneratorPane.setContent(collectBox);
 
     setTop(headerView);
     setCenter(keyGeneratorPane);
@@ -170,4 +181,3 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.textProperty().bind(model.keyProperty());
   }
 }
-

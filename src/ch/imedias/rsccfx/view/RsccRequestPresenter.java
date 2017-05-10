@@ -37,6 +37,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+  private PopOverHelper popOverHelper;
 
   private ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
@@ -54,9 +55,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     this.model = model;
     this.view = view;
     headerPresenter = new HeaderPresenter(model, view.headerView);
+    attachEvents();
     initHeader();
     initSupporterList();
-    attachEvents();
+    popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
   }
 
   /**
@@ -113,10 +115,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     // FIXME: need the height of the titlePane itself... or magic number. François
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
+        .subtract(195d));
+
+    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
     view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
+        .subtract(155d));
 
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
     view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
@@ -124,7 +128,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   * Initializes the functionality of the  header, e.g. back button and settings button.
+   * Initializes the functionality of the header, e.g. back button and settings button.
    */
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
@@ -133,6 +137,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
       saveSupporterList(); // TODO make this an action on the "save button"
       viewParent.setView(RsccApp.HOME_VIEW);
     });
+    headerPresenter.setHelpBtnAction(event ->
+        popOverHelper.helpPopOver.show(view.headerView.helpBtn));
+    headerPresenter.setSettingsBtnAction(event ->
+        popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
   }
 
   /**

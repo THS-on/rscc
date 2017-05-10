@@ -15,8 +15,12 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
 
 /**
  * Stores the key and keyserver connection details.
@@ -37,14 +41,20 @@ public class Rscc {
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
-  private String pathToResourceDocker;
+
   private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
+  private final StringProperty vncPort = new SimpleStringProperty("5900");
+  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
-          .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
-          .toExternalForm().replace("file:","");
+      .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+      .toExternalForm().replace("file:", "");
+
+  private String pathToResourceDocker;
 
   /**
    * Initializes the Rscc model class.
@@ -154,9 +164,10 @@ public class Rscc {
     keyServerSetup();
 
     String command = commandStringGenerator(
-        pathToResourceDocker, "start_x11vnc.sh", pathToStunDumpFile);
+        pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
+    startVncServer();
   }
 
   /**
@@ -164,10 +175,46 @@ public class Rscc {
    */
   public void connectToUser() {
     keyServerSetup();
+    String command = commandStringGenerator(pathToResourceDocker,
+        "port_connect.sh", getVncPort(), getKey());
+    systemCommander.executeTerminalCommand(command);
+    startVncViewer("localhost");
+  }
 
-    String command = commandStringGenerator(pathToResourceDocker, "start_vncviewer.sh", getKey());
+  /**
+   * Starts the VNC Server.
+   */
+  public void startVncServer() {
+    StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
+
+    if (getVncOptionViewOnly()) {
+      vncServerAttributes.append(" -viewonly");
+    }
+    if (isVncOptionWindow()) {
+      vncServerAttributes.append(" -sid pick");
+    }
+    vncServerAttributes.append(" -rfbport ").append(getVncPort());
+
+    String command = commandStringGenerator(null,
+        "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
   }
+
+  /**
+   * Starts the VNC Viewer.
+   */
+  public void startVncViewer(String hostAddress) {
+    if (hostAddress == null) {
+      throw new IllegalArgumentException();
+    }
+    String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress;
+    //TODO: Encodings are missing: "tight zrle hextile""
+
+    String command = commandStringGenerator(null,
+        "vncviewer", vncViewerAttributes);
+    systemCommander.executeTerminalCommand(command);
+  }
+
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
@@ -185,7 +232,10 @@ public class Rscc {
       String pathToScript, String scriptName, String... attributes) {
     StringBuilder commandString = new StringBuilder();
 
-    commandString.append(pathToScript).append("/").append(scriptName);
+    if (pathToScript != null) {
+      commandString.append(pathToScript).append("/");
+    }
+    commandString.append(scriptName);
     Arrays.stream(attributes)
         .forEach((s) -> commandString.append(" ").append(s));
 
@@ -214,7 +264,6 @@ public class Rscc {
           + "\n Exception Message: " + e.getMessage());
     }
   }
-
 
   /**
    * Determines if a key is valid or not.
@@ -261,5 +310,41 @@ public class Rscc {
 
   public void setKeyServerHttpPort(String keyServerHttpPort) {
     this.keyServerHttpPort.set(keyServerHttpPort);
+  }
+
+  public String getVncPort() {
+    return vncPort.get();
+  }
+
+  public StringProperty vncPortProperty() {
+    return vncPort;
+  }
+
+  public void setVncPort(String vncPort) {
+    this.vncPort.set(vncPort);
+  }
+
+  public boolean getVncOptionViewOnly() {
+    return vncOptionViewOnly.get();
+  }
+
+  public BooleanProperty vncOptionViewOnlyProperty() {
+    return vncOptionViewOnly;
+  }
+
+  public void setVncOptionViewOnly(boolean vncOptionViewOnly) {
+    this.vncOptionViewOnly.set(vncOptionViewOnly);
+  }
+
+  public boolean isVncOptionWindow() {
+    return vncOptionWindow.get();
+  }
+
+  public BooleanProperty vncOptionWindowProperty() {
+    return vncOptionWindow;
+  }
+
+  public void setVncOptionWindow(boolean vncOptionWindow) {
+    this.vncOptionWindow.set(vncOptionWindow);
   }
 }
