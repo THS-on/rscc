@@ -39,85 +39,155 @@ public class RunRudp extends Thread {
    */
   public void run() {
     try {
-      if (viewerIsRudpClient && callAsViewer) {
-        // RUDP Client
-        ReliableSocket rudpClientSocket;
-        String remoteAddressAsString = model.getRemoteClientIpAddress().getHostAddress();
 
-        System.out.println("connect to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
+      String remoteAddressAsString = model.getRemoteClientIpAddress().getHostAddress();
+
+      ReliableSocket rudpSocket;
+      Socket rudpSocket2;
+      ReliableServerSocket rudpServerSocket;
+      Socket tcpSocket;
+      ServerSocket tcpServerSocket;
+
+      if (viewerIsRudpClient && callAsViewer) {
+        //TCP Server & RUDP Client
+
+        // RUDP Client
+        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
             + model.getRemoteClientPort());
+
         //possibly it can be run on any port? should at least.
         // -> TODO try out to remove null and iceport
-        rudpClientSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
+        rudpSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
             model.getRemoteClientPort(), null, model.getIcePort());
-        System.out.println("connected Rudp");
 
-        final InputStream rudpInputStream = rudpClientSocket.getInputStream();
-        final OutputStream rudpOutputStream = rudpClientSocket.getOutputStream();
-
-
-        //TCP Server
-        ServerSocket tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
-        Socket tcpSocket;
-
-        tcpSocket = tcpServerSocket.accept();
-        tcpSocket.setTcpNoDelay(true);
-
-        System.out.println("connected TCP");
-        final InputStream tcpInputStream = tcpSocket.getInputStream();
-        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
-
-        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getBufferSize());
-
-        rudpClientSocket.close();
-        tcpSocket.close();
-        tcpServerSocket.close();
-      }
-
-
-      if (viewerIsRudpClient && !callAsViewer) {
-        //TCP Client & RUDP Server
-
-        Socket tcpSocket = null;
-        ReliableServerSocket rudpServerSocket = new ReliableServerSocket(model.getIcePort());
-        Socket rudpSocket = null;
-
-        rudpSocket = rudpServerSocket.accept();
-        System.out.println("working RUDP");
         final InputStream rudpInputStream = rudpSocket.getInputStream();
         final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
 
-        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
+        System.out.println("Sucessfully connected rudp to " + model.getRemoteClientIpAddress()
+            .getHostAddress() + ":" + model.getRemoteClientPort());
+
+        //TCP Server
+        System.out.println("Create new tcp-server on " + model.getLocalForwardingPort());
+        tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
+        tcpSocket = tcpServerSocket.accept();
+        tcpSocket.setTcpNoDelay(true);
 
         final InputStream tcpInputStream = tcpSocket.getInputStream();
         final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
 
+        System.out.println("Accepted incoming tcp connection from" + tcpSocket.getInetAddress()
+            .getHostAddress());
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
             model.getBufferSize());
 
         rudpSocket.close();
         tcpSocket.close();
+        tcpServerSocket.close();
+      }
+
+
+      if (viewerIsRudpClient && !callAsViewer) {
+        //RUDP Server & TCP Client
+
+        //RUDP Server
+        System.out.println("Create new rudp-server on " + model.getIcePort());
+        rudpServerSocket = new ReliableServerSocket(model.getIcePort());
+        rudpSocket2 = rudpServerSocket.accept();
+
+        final InputStream rudpInputStream = rudpSocket2.getInputStream();
+        final OutputStream rudpOutputStream = rudpSocket2.getOutputStream();
+        System.out.println("Accepted incoming rudp connection from" + rudpSocket2.getInetAddress()
+            .getHostAddress());
+
+        //TCP Client
+        System.out.println("Connect tcp to " + InetAddress.getLocalHost().getHostAddress() + ":"
+            + model.getVncPort());
+
+        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
+
+        final InputStream tcpInputStream = tcpSocket.getInputStream();
+        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+
+        System.out.println("Sucessful tcp connection");
+
+        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
+            model.getBufferSize());
+
+        rudpSocket2.close();
+        tcpSocket.close();
         rudpServerSocket.close();
       }
 
       if (!viewerIsRudpClient && callAsViewer) {
         //TCP Server & RUDP Server
-        while (true) {
-          //TODO not implemented yet
-          // startProxy();
-        }
+
+        //RUDP Server
+        System.out.println("Create new rudp-server on " + model.getIcePort());
+        rudpServerSocket = new ReliableServerSocket(model.getIcePort());
+        rudpSocket2 = rudpServerSocket.accept();
+        System.out.println("Accepted incoming rudp connection from" + rudpSocket2.getInetAddress()
+            .getHostAddress());
+
+        final InputStream rudpInputStream = rudpSocket2.getInputStream();
+        final OutputStream rudpOutputStream = rudpSocket2.getOutputStream();
+
+        //TCP Server
+        tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
+        tcpSocket = tcpServerSocket.accept();
+        tcpSocket.setTcpNoDelay(true);
+        System.out.println("TCP connected");
+
+        final InputStream tcpInputStream = tcpSocket.getInputStream();
+        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+
+        System.out.println("Accepted incoming tcp connection from" + tcpSocket.getInetAddress()
+            .getHostAddress());
+
+        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
+            model.getBufferSize());
+
+        rudpSocket2.close();
+        tcpSocket.close();
+        rudpServerSocket.close();
       }
 
 
       if (!viewerIsRudpClient && !callAsViewer) {
         //TCP Client & RUDP Client
-        while (true) {
-          //TODO not implemented yet
-          // startProxy();
-          System.out.println("not implemented yet");
-        }
+
+        // RUDP Client
+        System.out.println("Connect rudp to " + model.getRemoteClientIpAddress().getHostAddress() + ":"
+            + model.getRemoteClientPort());
+
+        //possibly it can be run on any port? should at least.
+        // -> TODO try out to remove null and iceport
+        rudpSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
+            model.getRemoteClientPort(), null, model.getIcePort());
+
+        final InputStream rudpInputStream = rudpSocket.getInputStream();
+        final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
+
+        System.out.println("Sucessfully connected rudp to " + model.getRemoteClientIpAddress()
+            .getHostAddress() + ":" + model.getRemoteClientPort());
+
+        //TCP Client
+        System.out.println("Connect tcp to " + InetAddress.getLocalHost().getHostAddress() + ":"
+            + model.getVncPort());
+
+        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
+
+        final InputStream tcpInputStream = tcpSocket.getInputStream();
+        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+
+        System.out.println("Sucessful tcp connection");
+
+        startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
+            model.getBufferSize());
+
+        rudpSocket.close();
+        tcpSocket.close();
+
       }
     } catch (Exception e) {
       System.out.println(e);
