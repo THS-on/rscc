@@ -26,8 +26,18 @@ public class KeyUtil {
   public static final int KEY_AMOUNT_SPACES =
       (KEY_MAXIMUM_DIGITS - KEY_DELIMITER_EVERY) / KEY_DELIMITER_EVERY;
 
+  /**
+   * Represents the key, which is a number with 9 digits.
+   * Example: 123456789
+   */
   private final StringProperty key = new SimpleStringProperty();
+
+  /**
+   * Represents a formatted version of the key with added spaces every 3 digits.
+   * Example: 123 456 789
+   */
   private final StringProperty formattedKey = new SimpleStringProperty();
+
   private final BooleanProperty keyValid = new SimpleBooleanProperty(false);
 
   public KeyUtil() {
