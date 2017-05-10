@@ -5,10 +5,6 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
-
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
 // TODO: Check mockup for reference here:
@@ -30,6 +26,7 @@ public class RsccHomePresenter implements ControlledPresenter {
   private final RsccHomeView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+  private PopOverHelper popOverHelper;
 
   /**
    * Initializes a new RsccHomePresenter with the matching view.
@@ -43,6 +40,7 @@ public class RsccHomePresenter implements ControlledPresenter {
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
     initHeader();
+    popOverHelper = new PopOverHelper(model, RsccApp.HOME_VIEW);
   }
 
   /**
@@ -90,5 +88,8 @@ public class RsccHomePresenter implements ControlledPresenter {
   private void initHeader() {
     // set all the actions regarding buttons in this method
     headerPresenter.setBackBtnVisibility(false);
+    headerPresenter.setSettingsBtnVisibility(false);
+    headerPresenter.setHelpBtnAction(event ->
+        popOverHelper.helpPopOver.show(view.headerView.helpBtn));
   }
 }

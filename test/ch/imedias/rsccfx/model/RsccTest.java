@@ -1,7 +1,9 @@
 package ch.imedias.rsccfx.model;
 
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,6 +32,9 @@ public class RsccTest {
     mockSystemCommander = mock(SystemCommander.class);
     mockKeyUtil = mock(KeyUtil.class);
     model = new Rscc(mockSystemCommander, mockKeyUtil);
+    // since commandStringGenerator is mainly a utility function and is being tested separately
+    // call the real method
+    doCallRealMethod().when(mockSystemCommander).commandStringGenerator(any(), any(), any());
     model.setKeyServerIp(KEY_SERVER_IP);
     model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
     when(mockSystemCommander.executeTerminalCommand(
@@ -76,7 +81,6 @@ public class RsccTest {
     }
   }
 
-
   /**
    * Test for {@link Rscc#keyServerSetup()}.
    * Not marked with a @Test annotation because it is indirectly called in other tests.
@@ -87,7 +91,6 @@ public class RsccTest {
             && script.contains(KEY_SERVER_IP)
             && script.contains(KEY_SERVER_HTTP_PORT)));
   }
-
 
   /**
    * Test for {@link Rscc#killConnection()}.
@@ -114,7 +117,6 @@ public class RsccTest {
     // make sure the key which is being returned is set right
     verify(mockKeyUtil).setKey(KEY);
   }
-
 
   /**
    * Test for {@link Rscc#connectToUser()}.
@@ -144,7 +146,6 @@ public class RsccTest {
     // make sure the key which is being returned is set right
     verify(mockKeyUtil).setKey(KEY);
   }
-
 
   /**
    * Test for {@link Rscc#startVncServer()}.

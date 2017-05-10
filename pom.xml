@@ -13,6 +13,8 @@
         <custom.resources.path>resources</custom.resources.path>
         <custom.checkstyle>config/checkstyle.xml</custom.checkstyle>
         <custom.checkstyle.suppressions>config/checkstyle-suppressions.xml</custom.checkstyle.suppressions>
+        <custom.rscc.localization.dir>src/ch/imedias/rscc/</custom.rscc.localization.dir>
+        <custom.rscc.localization.targetPath>ch/imedias/rscc</custom.rscc.localization.targetPath>
 
         <!-- Project independant variables -->
         <custom.test.source>test/${custom.path}</custom.test.source>
@@ -35,6 +37,11 @@
         <resources>
             <resource>
                 <directory>${custom.resources.path}</directory>
+            </resource>
+            <!-- this adds files like *.properties to the compilation -->
+            <resource>
+                <directory>${custom.source}</directory>
+                <excludes><exclude>*.java</exclude></excludes>
             </resource>
         </resources>
         <plugins>
@@ -120,8 +127,16 @@
                                     <directory>${custom.source}</directory>
                                     <targetPath>${custom.path}</targetPath>
                                     <excludes>
-                                        <exclude>*.java</exclude>
+                                        <exclude>**/*.java</exclude>
                                         <exclude>/**/</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>${custom.rscc.localization.dir}</directory>
+                                    <targetPath>${custom.rscc.localization.targetPath}</targetPath>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                        <exclude>**/*.class</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
@@ -349,6 +364,13 @@
             <groupId>com.github.jitsi</groupId>
             <artifactId>ice4j</artifactId>
             <version>master</version>
+        </dependency>
+
+        <!-- ControlsFX -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>8.40.12</version>
         </dependency>
 
         <!-- Guava -->

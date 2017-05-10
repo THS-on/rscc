@@ -10,7 +10,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -147,7 +146,7 @@ public class Rscc {
    * Sets up the server with use.sh.
    */
   private void keyServerSetup() {
-    String command = commandStringGenerator(
+    String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
     systemCommander.executeTerminalCommand(command);
   }
@@ -157,7 +156,8 @@ public class Rscc {
    */
   public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
+    String command = systemCommander.commandStringGenerator(
+        pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
     keyUtil.setKey("");
   }
@@ -168,7 +168,7 @@ public class Rscc {
   public void requestKeyFromServer() {
     keyServerSetup();
 
-    String command = commandStringGenerator(
+    String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     keyUtil.setKey(key); // update key in model
@@ -180,7 +180,7 @@ public class Rscc {
    */
   public void connectToUser() {
     keyServerSetup();
-    String command = commandStringGenerator(pathToResourceDocker,
+    String command = systemCommander.commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", getVncPort(), keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
     startVncViewer("localhost");
@@ -200,7 +200,7 @@ public class Rscc {
     }
     vncServerAttributes.append(" -rfbport ").append(getVncPort());
 
-    String command = commandStringGenerator(null,
+    String command = systemCommander.commandStringGenerator(null,
         "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
   }
@@ -215,7 +215,7 @@ public class Rscc {
     String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress;
     //TODO: Encodings are missing: "tight zrle hextile""
 
-    String command = commandStringGenerator(null,
+    String command = systemCommander.commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
     systemCommander.executeTerminalCommand(command);
   }
@@ -228,23 +228,6 @@ public class Rscc {
   public void refreshKey() {
     killConnection();
     requestKeyFromServer();
-  }
-
-  /**
-   * Generates String to run command.
-   */
-  private String commandStringGenerator(
-      String pathToScript, String scriptName, String... attributes) {
-    StringBuilder commandString = new StringBuilder();
-
-    if (pathToScript != null) {
-      commandString.append(pathToScript).append("/");
-    }
-    commandString.append(scriptName);
-    Arrays.stream(attributes)
-        .forEach((s) -> commandString.append(" ").append(s));
-
-    return commandString.toString();
   }
 
   /**
