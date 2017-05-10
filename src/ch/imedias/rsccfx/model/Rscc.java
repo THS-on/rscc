@@ -286,7 +286,6 @@ public class Rscc {
     return  settings.toString();
   }
 
-
   /**
    * Determines if a key is valid or not.
    * The key must not be null and must be a number with exactly 9 digits.
