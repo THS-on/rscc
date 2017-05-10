@@ -38,8 +38,8 @@
 
 .HomeNavigationBtn{
     -fx-font-size: 18pt;
-    /*-fx-fit-to-width: true;*/
-    /*-fx-content-display: left;*/
+    -fx-fit-to-width: true;
+    -fx-content-display: left;
     -fx-border-color:#A7A7A7;
     -fx-background-radius: 4px;
     -fx-border-radius:4px;

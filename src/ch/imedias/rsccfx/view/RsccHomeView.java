@@ -103,7 +103,7 @@ public class RsccHomeView extends BorderPane {
 //    requestBoxLabels.setPadding(new Insets(0,20,0,20));
 
     contentBox.setId("contentBox");
-
+    contentBox.setAlignment(Pos.CENTER);
     contentBox.getChildren().addAll(requestViewBtn, supportViewBtn);
 
     this.setTop(headerView);
