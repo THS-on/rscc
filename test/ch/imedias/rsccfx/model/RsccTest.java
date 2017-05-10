@@ -194,13 +194,13 @@ public class RsccTest {
     String statusText = "test";
     model.setConnectionStatus(statusText,styleIndexToTest);
     String currentStatus = model.getConnectionStatusStyle();
-    assertEquals(model.getConnectionStatusSytles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
 
     styleIndexToTest = 1;
     model.setConnectionStatus(statusText,styleIndexToTest);
     currentStatus = model.getConnectionStatusStyle();
-    assertEquals(model.getConnectionStatusSytles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
 
   }
