@@ -37,8 +37,6 @@ public class SupporterAttributesDialog extends DialogPane {
   final CheckBox encryptedCBox = new CheckBox();
 
 
-
-
   /**
    * Initializes all the GUI components needed in the DialogPane.
    */
@@ -74,6 +72,8 @@ public class SupporterAttributesDialog extends DialogPane {
 
     chargeableCBox.setDisable(true);
     encryptedCBox.setDisable(true);
+
+
   }
 
   private void layoutForm() {
@@ -104,6 +104,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);
+    dialog.setResizable(false);
   }
 
 

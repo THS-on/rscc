@@ -224,51 +224,26 @@ public class RsccRequestPresenter implements ControlledPresenter {
     attachButtonEvents();
   }
 
-  private void attachContextMenu(Button button){
-
+  private void attachContextMenu(Button button) {
 
     // Create ContextMenu
     ContextMenu contextMenu = new ContextMenu();
 
-    MenuItem item1 = new MenuItem("Edit");
-    item1.setOnAction(new EventHandler<ActionEvent>() {
+    MenuItem editMenuItem = new MenuItem("Edit");
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
 
-      @Override
-      public void handle(ActionEvent event) {
-        //label.setText("Select Menu Item 1");
-        new SupporterAttributesDialog();
-      }
-    });
-    MenuItem item2 = new MenuItem("Call");
-    item2.setOnAction(new EventHandler<ActionEvent>() {
 
-      @Override
-      public void handle(ActionEvent event) {
-        //label.setText("Select Menu Item 2");
-      }
-    });
+    MenuItem callMenuItem = new MenuItem("Call");
+    callMenuItem.setOnAction(event -> {
+      /*TODO start connection*/
 
-    MenuItem item3 = new MenuItem("Remove");
-    item2.setOnAction(new EventHandler<ActionEvent>() {
-
-      @Override
-      public void handle(ActionEvent event) {
-        //label.setText("Select Menu Item 2");
-      }
     });
 
     // Add MenuItem to ContextMenu
-    contextMenu.getItems().addAll(item1, item2, item3);
+    contextMenu.getItems().addAll(editMenuItem, callMenuItem);
 
     // When user right-click on Supporterbutton
-    button.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-
-      @Override
-      public void handle(ContextMenuEvent event) {
-
-        contextMenu.show(button, event.getScreenX(), event.getScreenY());
-      }
-    });
+    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(), event.getScreenY()));
 
 
   }
