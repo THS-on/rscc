@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.RsccApp;
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
 
@@ -28,6 +29,8 @@ public class PopOverHelper {
 
   private static final Logger LOGGER =
       Logger.getLogger(PopOverHelper.class.getName());
+
+  private final Strings strings = new Strings();
 
   //SettingsProperties
   BooleanProperty isViewOnly = new SimpleBooleanProperty(false);
@@ -87,6 +90,7 @@ public class PopOverHelper {
    */
   public PopOverHelper(Rscc model, String viewName) {
     this.model = model;
+    initFieldData();
     layoutPopOver();
     switch (viewName) {
       case RsccApp.HOME_VIEW:
@@ -116,6 +120,18 @@ public class PopOverHelper {
     }
   }
 
+  private void initFieldData() {
+    homeHelpLbl.textProperty().set(strings.homeHelpLbl);
+    requestHelpLbl.textProperty().set(strings.requestHelpLbl);
+    supportHelpLbl.textProperty().set(strings.supportHelpLbl);
+
+    requestViewOnlyLbl.textProperty().set(strings.requestViewOnlyLbl);
+
+    supportCompressionLbl.textProperty().set(strings.supportCompressionLbl);
+    supportQualityLbl.textProperty().set(strings.supportQualityLbl);
+    supportBgr233Lbl.textProperty().set(strings.supportBgr233Lbl);
+  }
+
   private void layoutPopOver() {
     //setup layout (aka setup specific pane etc.)
     settingsPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
@@ -130,8 +146,6 @@ public class PopOverHelper {
     // none
 
     // Help
-    homeHelpLbl.textProperty().set("Diese Applikation erlaubt Ihnen, "
-        + "jemandem zu helfen oder Hilfe zu bekommen");
     homeHelpLbl.setId("homeHelpLbl");
 
     homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
@@ -141,15 +155,12 @@ public class PopOverHelper {
     // Settings
     requestViewOnlyTgl.getStyleClass().add("toggles");
 
-    requestViewOnlyLbl.textProperty().set("View Only");
     requestViewOnlyLbl.setId("requestViewOnlyLbl");
 
     requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl,
         expertSettingsBtn);
 
     // Help
-    requestHelpLbl.textProperty().set("The remote support tool allows you to get help "
-        + "or help someone in need");
     requestHelpLbl.setId("requestHelpLbl");
 
     requestHelpBox.getChildren().addAll(requestHelpLbl);
@@ -163,18 +174,15 @@ public class PopOverHelper {
 
     supportSettingsBox.setAlignment(Pos.CENTER);
 
-    supportCompressionLbl.textProperty().set("Kompression");
     supportCompressionLbl.getStyleClass().add("sliderLbls");
 
     supportQualitySldr = new TextSlider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE);
     supportQualitySldr.setPrefWidth(sliderWidth);
 
-    supportQualityLbl.textProperty().set("Qualität");
     supportQualityLbl.getStyleClass().add("sliderLbls");
 
     supportBgr233Tgl.getStyleClass().add("toggles");
 
-    supportBgr233Lbl.textProperty().set("bgr233");
     supportBgr233Lbl.setId("supportBgr233Lbl");
 
     supportCompressionSliderBox.getChildren().addAll(supportCompressionSldr, supportCompressionLbl);
@@ -193,7 +201,6 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(expertSettingsBtn);
 
     // Help
-    supportHelpLbl.textProperty().set("Here you can add the ID you received from your partner.");
     supportHelpLbl.setId("supportHelpLbl");
 
     supportHelpBox.getChildren().addAll(supportHelpLbl);
