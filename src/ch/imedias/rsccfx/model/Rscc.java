@@ -49,7 +49,7 @@ public class Rscc {
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
-  private final String[] connectionStatusSytles = {
+  private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
 
@@ -196,10 +196,10 @@ public class Rscc {
    * Sets the Status of the connection establishment.
    *
    * @param text             Text to show for the connection status.
-   * @param statusStyleIndex Index of the connectionStatusSytles.
+   * @param statusStyleIndex Index of the connectionStatusStyles.
    */
   public void setConnectionStatus(String text, int statusStyleIndex) {
-    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusSytles.length || text == null) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
       throw new IllegalArgumentException();
     }
     setConnectionStatusText(text);
@@ -383,6 +383,6 @@ public class Rscc {
   }
 
   public String getConnectionStatusSytles(int i) {
-    return connectionStatusSytles[i];
+    return connectionStatusStyles[i];
   }
 }
