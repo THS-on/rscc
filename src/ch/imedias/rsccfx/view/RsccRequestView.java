@@ -88,7 +88,7 @@ public class RsccRequestView extends BorderPane {
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
+    statusLbl.textProperty().set("");
 
 
     InputStream reloadImagePath = getClass().getClassLoader()
@@ -109,6 +109,7 @@ public class RsccRequestView extends BorderPane {
     supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
 
     statusBox.getStyleClass().add("statusBox");
+    statusBox.
     statusLbl.getStyleClass().add("statusLbl");
 
     generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?

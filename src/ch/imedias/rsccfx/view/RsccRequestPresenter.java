@@ -20,6 +20,7 @@ import java.util.prefs.Preferences;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 /**
  * Defines the behaviour of interactions
@@ -217,4 +218,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
     attachButtonEvents();
   }
+
+  public void setConnectionStatusDisplay(String text, Color color) {
+    view.statusLbl.setText();
+  }
+
 }
