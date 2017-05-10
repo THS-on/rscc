@@ -95,6 +95,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.connectBtn.setOnAction(event -> {
       model.setKey(view.keyFld.getText());
       model.connectToUser();
+      model.setConnectionPresent(true);
     });
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
