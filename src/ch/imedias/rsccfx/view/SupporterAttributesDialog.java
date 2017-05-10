@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -34,6 +35,8 @@ public class SupporterAttributesDialog extends DialogPane {
 
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
+
+
 
 
   /**
@@ -97,6 +100,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     this.createButtonBar();
 
+    this.getButtonTypes().add(ButtonType.CLOSE);
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);
@@ -108,32 +112,42 @@ public class SupporterAttributesDialog extends DialogPane {
   }
 
   @Override
-  public ButtonBar createButtonBar(){
-    // Create the ButtonBar instance
-    ButtonBar buttonBar = new ButtonBar();
+  public ButtonBar createButtonBar() {
+    final ButtonBar buttonBar = new ButtonBar();
+
+    final Button connectButton = new Button("Call");
+    final Button editButton = new Button("Edit");
+    final Button applyButton = new Button("Close");
 
     // Create the buttons to go into the ButtonBar
-    Button connectButton = new Button("Call");
     ButtonBar.setButtonData(connectButton, ButtonBar.ButtonData.YES);
 
-    Button editButton = new Button("Edit");
     ButtonBar.setButtonData(editButton, ButtonBar.ButtonData.NO);
-    editButton.setOnAction(event->changeEditable(true));
+    editButton.setOnAction(event -> {
+      changeEditable(true);
+      applyButton.setText("Apply");
+      connectButton.setVisible(false);
+    });
 
-    Button applyButton = new Button("Apply");
     ButtonBar.setButtonData(applyButton, ButtonBar.ButtonData.APPLY);
-    applyButton.setOnAction(event->{
+    applyButton.setOnAction(event -> {
       changeEditable(false);
-      dialog.close();
+      if (applyButton.getText().equals("Close")) {
+        dialog.close();
+
+      } else {
+      applyButton.setText("Close");
+      connectButton.setVisible(true);
+      }
     });
 
     // Add buttons to the ButtonBar
-    buttonBar.getButtons().addAll(connectButton, editButton,applyButton);
+    buttonBar.getButtons().addAll( connectButton, editButton,applyButton );
 
     return buttonBar;
   }
 
-  private void changeEditable(boolean bool){
+  private void changeEditable(boolean bool) {
     nameFld.setEditable(bool);
     nameFld.setDisable(!bool);
     adressFld.setEditable(!bool);
@@ -144,6 +158,7 @@ public class SupporterAttributesDialog extends DialogPane {
     pictureFld.setDisable(!bool);
     chargeableCBox.setDisable(!bool);
     encryptedCBox.setDisable(!bool);
+
   }
 
 }
