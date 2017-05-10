@@ -147,7 +147,7 @@
     -fx-background-color: white;
     -fx-border-color: lightgrey;
     -fx-fit-to-width: true;
-    -fx-pref-width: 240px;
+    -fx-pref-width: 230px;
     -fx-pref-height: 100px;
 
 /*
@@ -161,7 +161,7 @@
 }
 
 .supporterBtn:hover {
-    -fx-background-color: lightgrey; /* Green */
+    -fx-background-color: lightgrey;
     -fx-border-color: lightgrey;
 }
 
