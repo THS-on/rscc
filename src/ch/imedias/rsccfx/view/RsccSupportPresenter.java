@@ -31,7 +31,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final KeyUtil keyUtil;
   private ViewController viewParent;
 
-
   /**
    * Initializes a new RsccSupportPresenter with the according view.
    *
