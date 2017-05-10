@@ -161,6 +161,7 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
+
     keyServerSetup();
 
     String command = commandStringGenerator(
