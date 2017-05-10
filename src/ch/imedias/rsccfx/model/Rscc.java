@@ -280,8 +280,8 @@ public class Rscc {
   private String getSupporterSettings() {
     StringBuilder settings = new StringBuilder();
 
-    settings.append(" -quality");
-    settings.append(vncOptionQualitySliderValue).toString();
+    settings.append(" -quality ");
+    settings.append(vncOptionQualitySliderValue.toString());
 
     return  settings.toString();
   }

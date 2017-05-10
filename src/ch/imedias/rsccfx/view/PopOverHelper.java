@@ -215,7 +215,7 @@ public class PopOverHelper {
   private void handleRequestSettings() {
     settingsPopOver.showingProperty().addListener((observableValue, aBoolean, t1) -> {
       if (t1) {
-        model.stopVnc();
+        model.stopVncServer();
       } else {
         model.startVncServer();
       }
