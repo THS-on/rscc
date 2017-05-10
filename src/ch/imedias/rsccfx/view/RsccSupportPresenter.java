@@ -8,11 +8,9 @@ import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 /**
  * Presenter class of RsccSupportView. Defines the behaviour of interactions
@@ -106,11 +104,9 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
     view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
 
-    view.keyFld.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      public void handle(KeyEvent ke) {
-        if (ke.getCode() == KeyCode.ENTER) {
-          model.connectToUser();
-        }
+    view.keyFld.setOnKeyPressed(ke -> {
+      if (ke.getCode() == KeyCode.ENTER) {
+        model.connectToUser();
       }
     });
 
