@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -82,8 +83,16 @@ public class RsccRequestPresenter implements ControlledPresenter {
     );
 
     model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
-      view.statusBox.getStyleClass().clear();
-      view.statusBox.getStyleClass().add(newValue);
+      Platform.runLater(() -> {
+        view.statusBox.getStyleClass().clear();
+        view.statusBox.getStyleClass().add(newValue);
+      });
+    });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
     });
 
     attachButtonEvents();

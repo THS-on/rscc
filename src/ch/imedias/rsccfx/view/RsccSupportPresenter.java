@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -105,6 +106,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
       view.statusBox.getStyleClass().clear();
       view.statusBox.getStyleClass().add(newValue);
     });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
+    });
+
   }
 
   private void initBindings() {

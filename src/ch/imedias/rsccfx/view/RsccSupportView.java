@@ -125,8 +125,6 @@ public class RsccSupportView extends BorderPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    statusLbl.textProperty().bind(model.connectionStatusTextProperty());
-
   }
 
 }

@@ -55,7 +55,7 @@ public class Rscc {
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
   private final String[] connectionStatusSytles = {
-      "statusBox","statusBoxInitialize","statusBoxSuccess","statusBoxFail"};
+      "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
 
   //TODO: Replace when the StunFileGeneration is ready
@@ -64,7 +64,6 @@ public class Rscc {
       .toExternalForm().replace("file:", "");
 
   private String pathToResourceDocker;
-
 
 
   /**
@@ -183,22 +182,21 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
 
-    setConnectionStatus("Staring VNC-Server...",1);
+    setConnectionStatus("Staring VNC-Server...", 1);
     startVncServer();
-    setConnectionStatus("VNC-Server awaits connection",2);
+    setConnectionStatus("VNC-Server awaits connection", 2);
   }
 
 
   /**
    * Sets the Status of the connection establishment.
-   * @param text  Text to show for the connection status.
+   *
+   * @param text             Text to show for the connection status.
    * @param statusStyleIndex Index of the connectionStatusSytles.
    */
   public void setConnectionStatus(String text, int statusStyleIndex) {
-    Platform.runLater(() -> {
-      setConnectionStatusText(text);
-      setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
-    });
+    setConnectionStatusText(text);
+    setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
   }
 
   /**

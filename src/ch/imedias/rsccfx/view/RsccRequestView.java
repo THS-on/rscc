@@ -171,6 +171,5 @@ public class RsccRequestView extends BorderPane {
   private void bindFieldsToModel() {
     // make bindings to the model
     generatedKeyFld.textProperty().bind(model.keyProperty());
-    statusLbl.textProperty().bind(model.connectionStatusTextProperty());
   }
 }
