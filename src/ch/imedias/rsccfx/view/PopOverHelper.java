@@ -27,7 +27,6 @@ public class PopOverHelper {
 
   private final Strings strings = new Strings();
 
-
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_VALUE = 6;
@@ -144,7 +143,6 @@ public class PopOverHelper {
     requestSettingsBox.getChildren().addAll(requestViewOnlyTgl, requestViewOnlyLbl);
 
     // Help
-
     requestHelpLbl.setId("requestHelpLbl");
 
     requestHelpBox.getChildren().addAll(requestHelpLbl);
