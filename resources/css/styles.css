@@ -17,10 +17,17 @@
 
 #helpBtn, #backBtn, #settingsBtn{
     -fx-padding: 5;
-    -fx-border-color: #d5d5d5;
-    -fx-border-width: 3;
-    -fx-border-radius: 7;
-    -fx-background-radius: 7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-border-color:#A7A7A7;
+    -fx-font-size: 0.9em;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
+    }
+
+#helpBtn:hover, #backBtn:hover, #settingsBtn:hover{
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
 }
 
 /***************************************************************************
@@ -33,6 +40,24 @@
     -fx-font-size: 18pt;
     -fx-fit-to-width: true;
     -fx-content-display: left;
+    -fx-border-color:#A7A7A7;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-font-family: "DejaVu Sans";
+    -fx-background-color: #EAEAEA;
+}
+
+.HomeNavigationBtn:hover {
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
+}
+
+.BigFont{
+    -fx-font-size: 25pt;
+}
+
+.SmallFont{
+     -fx-font-size: 18pt;
 }
 /***************************************************************************
  *                                                                         *
@@ -51,12 +76,35 @@
  *                                                                         *
  **************************************************************************/
 .descriptionLbl{
-    /*-fx-alignment: left;*/
     -fx-wrap-text: true;
 }
 
 .titleLbl {
     -fx-font-size: 25;
+}
+
+.statusBox{
+    -fx-background-color: rgb(240, 173, 78);
+    -fx-alignment: center;
+}
+
+.statusBox:valid{
+    -fx-background-color: rgb(92, 184, 92);
+}
+
+.statusBox:invalid{
+    -fx-background-color: rgb(217, 83, 79);
+}
+
+.statusLbl{
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.descriptionBox {
+    -fx-alignment: center-left;
+    -fx-spacing: 50;
+    -fx-padding: 25;
 }
 
 /***************************************************************************
@@ -65,19 +113,24 @@
  *                                                                         *
  **************************************************************************/
 
-
+#descriptionTxt{
+    -fx-wrap-text: true;
+}
 
 #keyGenerationLbl{
-    /*-fx-alignment: left;*/
     -fx-font-family: Cantarell;
-    -fx-font-size: 32pt;
+    -fx-font-size: 30pt;
     -fx-font-weight: bold;
 }
 
 #generatedKeyFld{
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
-    -fx-font-size: 20pt; /* TODO: change this back to 30 or make textfield larger so the whole prompttext fits */
+    -fx-font-size: 30pt;
+}
+
+#additionalDescriptionTxt{
+    -fx-wrap-text: true;
 }
 
 #centerBox{
@@ -96,12 +149,6 @@
     -fx-padding: 25;
 }
 
-#descriptionBox {
-    -fx-alignment: center;
-    -fx-spacing: 50;
-    -fx-padding: 25;
-}
-
 #readyBtn{
     -fx-alignment: bottom-right;
 }
@@ -113,7 +160,10 @@
 .titled-pane > .title {
     -fx-pref-height: 36.0;
     -fx-font-size: 14pt;
+}
 
+.supporterDescriptionLbl{
+    -fx-wrap-text: true;
 }
 
 .supporterBtn {
@@ -130,6 +180,56 @@
     -fx-padding: 5, 25, 5, 25;
 }
 
+#EnterTokenLbl {
+    -fx-font-size: 25;
+}
+
+#centerBoxSupport {
+    -fx-alignment: center;
+    -fx-padding: 10, 20, 10, 20;
+    -fx-spacing: 150;
+}
+
+#connectBtn {
+    -fx-alignment: bottom-right;
+    /*-fx-font-size: 30;*/
+}
+
+#keyValidationBox {
+    -fx-alignment: center;
+    -fx-spacing: 25;
+    -fx-padding: 25;
+}
+
+#keyFld {
+    -fx-background-color: #e2e2e2;
+    -fx-font-family: Monospaced;
+    -fx-font-size: 30pt;
+}
+
+.supporterBtn {
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-border-color: lightgrey;
+    -fx-fit-to-width: true;
+    -fx-pref-width: 240px;
+    -fx-pref-height: 100px;
+
+/*
+
+    -fx-font-size: 15pt;
+    -fx-fit-to-width: true;
+    -fx-content-display: top;
+    -fx-border-width: ;
+    -fx-padding: 15;
+    -fx-background-color: white;*/
+}
+
+.supporterBtn:hover {
+    -fx-background-color: lightgrey; /* Green */
+    -fx-border-color: lightgrey;
+}
+
 /***************************************************************************
  *                                                                         *
  *                             Settings Popover                            *
@@ -140,3 +240,30 @@
     -fx-padding: 50;
 }
 
+.slider .thumb {
+    -fx-pref-height: 25;
+    -fx-pref-width: 25;
+}
+
+.slider .thumb:hover {
+ -fx-cursor: hand;
+}
+
+.slider {
+    -fx-border-color: white;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+}
+
+.sliderTxts {
+    -fx-font-size: 200%;
+
+}
+
+.sliderLbls {
+ -fx-font-size: 150%;
+}
+
+.toggles:selected .thumb-area {
+    -fx-background-color: #A7A7A7;
+}

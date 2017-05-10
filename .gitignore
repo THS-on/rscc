@@ -207,3 +207,5 @@ p2p.log
 
 ## Strings.java is being generated
 Strings.java
+!/src/ch/imedias/rsccfx/view/RsccRequestPresenter.java
+!/test/ch/imedias/rsccfx/model/SystemCommanderTest.java

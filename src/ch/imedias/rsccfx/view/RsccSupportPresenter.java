@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.ControlledPresenter;
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
@@ -19,7 +20,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportPresenter.class.getName());
 
-  private static final double WIDTH_SUBTRACTION_ENTERKEY = 80d;
+  private static final double WIDTH_SUBTRACTION_ENTERKEY = 100d;
+
   private final Image validImage =
       new Image(getClass().getClassLoader().getResource("emblem-default.png").toExternalForm());
   private final Image invalidImage =
@@ -31,6 +33,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
   private ViewController viewParent;
+  private PopOverHelper popOverHelper;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -45,6 +48,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     attachEvents();
     initHeader();
     initBindings();
+    popOverHelper = new PopOverHelper(model, RsccApp.SUPPORT_VIEW);
   }
 
   /**
@@ -67,6 +71,15 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     // initialize view
     view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
+        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
+
+    // FIXME: Magic numbeeer.
+    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+        .subtract(159d));
+
+    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
+
+    view.keyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
   }
 
@@ -98,6 +111,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
         Bindings.when(keyValidityProperty)
             .then(validImage)
             .otherwise(invalidImage)
+
     );
   }
 
@@ -107,6 +121,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private void initHeader() {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> viewParent.setView("home"));
+    headerPresenter.setHelpBtnAction(event ->
+        popOverHelper.helpPopOver.show(view.headerView.helpBtn));
+    headerPresenter.setSettingsBtnAction(event ->
+        popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
     // TODO: Set actions on buttons (Help, Settings)
   }
 
