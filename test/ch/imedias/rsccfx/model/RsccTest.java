@@ -1,14 +1,14 @@
 package ch.imedias.rsccfx.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,7 @@ public class RsccTest {
 
   Rscc model;
   SystemCommander mockSystemCommander;
+  KeyUtil mockKeyUtil;
 
   /**
    * Initializes test fixture before each test.
@@ -29,38 +30,56 @@ public class RsccTest {
   @Before
   public void setUp() throws Exception {
     mockSystemCommander = mock(SystemCommander.class);
-    model = new Rscc(mockSystemCommander);
+    mockKeyUtil = mock(KeyUtil.class);
+    model = new Rscc(mockSystemCommander, mockKeyUtil);
+    // since commandStringGenerator is mainly a utility function and is being tested separately
+    // call the real method
+    doCallRealMethod().when(mockSystemCommander).commandStringGenerator(any(), any(), any());
     model.setKeyServerIp(KEY_SERVER_IP);
     model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
     when(mockSystemCommander.executeTerminalCommand(
         argThat(string -> string.contains("port_share.sh")))).thenReturn(KEY);
+    when(mockKeyUtil.getKey()).thenReturn(KEY);
   }
 
   /**
-   * Test for Constructor {@link Rscc#Rscc(SystemCommander)}.
+   * Test for Constructor {@link Rscc#Rscc(SystemCommander,KeyUtil)}.
    */
   @Test
   public void testRsccConstructorIllegalArguments() {
     try {
-      new Rscc(null);
+      new Rscc(null, mockKeyUtil);
       fail("IllegalArgumentException was expected when SystemCommander is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(mockSystemCommander, null);
+      fail("IllegalArgumentException was expected when KeyUtil is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(null, null);
+      fail("IllegalArgumentException was expected when all parameters are null");
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
   }
 
   /**
-   * Test for Constructor {@link Rscc#Rscc(SystemCommander)}.
+   * Test for Constructor {@link Rscc#Rscc(SystemCommander,KeyUtil)}.
    */
   @Test
   public void testRsccConstructor() {
     try {
-      new Rscc(mockSystemCommander);
+      new Rscc(mockSystemCommander,mockKeyUtil);
     } catch (Exception e) {
       fail(e.getMessage());
     }
   }
-
 
   /**
    * Test for {@link Rscc#keyServerSetup()}.
@@ -73,19 +92,17 @@ public class RsccTest {
             && script.contains(KEY_SERVER_HTTP_PORT)));
   }
 
-
   /**
    * Test for {@link Rscc#killConnection()}.
    */
   @Test
   public void testKillConnection() throws Exception {
-    model.setKey(KEY);
     model.killConnection();
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_stop.sh")
             && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
-
 
   /**
    * Test for {@link Rscc#requestKeyFromServer()}.
@@ -97,23 +114,22 @@ public class RsccTest {
     // make sure the script was executed
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_share.sh")));
-    // make sure the key which is being returned is right
-    assertEquals(KEY, model.getKey());
+    // make sure the key which is being returned is set right
+    verify(mockKeyUtil).setKey(KEY);
   }
-
 
   /**
    * Test for {@link Rscc#connectToUser()}.
    */
   @Test
   public void testConnectToUser() throws Exception {
-    model.setKey(KEY);
     model.connectToUser();
     // make sure the scripts were executed
     this.testKeyServerSetup();
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_connect.sh")
             && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
 
   /**
@@ -127,27 +143,8 @@ public class RsccTest {
         argThat(script -> script.contains("port_stop.sh")));
     verify(mockSystemCommander).executeTerminalCommand(
         argThat(script -> script.contains("port_share.sh")));
-    // make sure the key which is being returned is right
-    assertEquals(KEY, model.getKey());
-  }
-
-  /**
-   * Test for {@link Rscc#validateKey(String)}.
-   */
-  @Test
-  public void testValidateKey() {
-    final String[] invalidKeys = {"123123", "0", "12345678", "1234567890", "abcdefghi"};
-    final String[] validKeys = {"123456789", "000000000", "999999999"};
-
-    assertFalse(model.validateKey(null));
-
-    for (String invalidKey : invalidKeys) {
-      assertFalse(model.validateKey(invalidKey));
-    }
-
-    for (String validKey : validKeys) {
-      assertTrue(model.validateKey(validKey));
-    }
+    // make sure the key which is being returned is set right
+    verify(mockKeyUtil).setKey(KEY);
   }
 
   /**
