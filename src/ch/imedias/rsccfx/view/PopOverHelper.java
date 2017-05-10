@@ -13,7 +13,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -33,7 +32,7 @@ public class PopOverHelper {
   private final Strings strings = new Strings();
 
   //SettingsProperties
-  BooleanProperty isViewOnly = new SimpleBooleanProperty(false);
+  BooleanProperty viewOnly = new SimpleBooleanProperty(false);
 
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
@@ -102,7 +101,6 @@ public class PopOverHelper {
         layoutRequest();
         helpPopOver.setContentNode(requestHelpBox);
         settingsPopOver.setContentNode(requestSettingsBox);
-        requestValueChangeListener();
         handleRequestSettings();
         requestSettingsBindings();
         invokeExpertSettings();
@@ -207,17 +205,12 @@ public class PopOverHelper {
     supportHelpBox.getChildren().addAll(supportHelpLbl);
   }
 
-  private void requestValueChangeListener() {
-    requestViewOnlyTgl.selectedProperty().addListener(observable -> { });
-  }
-
-
   private void requestSettingsBindings() {
-    model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
+    model.vncViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
   }
 
   private void supportSettingsBindings() {
-    model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr
+    model.vncQualitySliderValueProperty().bindBidirectional(supportQualitySldr
         .sliderValueProperty());
   }
 
@@ -226,8 +219,8 @@ public class PopOverHelper {
    * Starts the VncServer after popover is closed.
    */
   private void handleRequestSettings() {
-    settingsPopOver.showingProperty().addListener((observableValue, aBoolean, t1) -> {
-      if (t1) {
+    settingsPopOver.showingProperty().addListener((observableValue, oldValue, newValue) -> {
+      if (newValue) {
         model.stopVncServer();
       } else {
         model.startVncServer();
@@ -239,6 +232,17 @@ public class PopOverHelper {
     expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog());
   }
 
+  public boolean isViewOnly() {
+    return viewOnly.get();
+  }
+
+  public BooleanProperty viewOnlyProperty() {
+    return viewOnly;
+  }
+
+  public void setViewOnly(boolean viewOnly) {
+    this.viewOnly.set(viewOnly);
+  }
 }
 
 

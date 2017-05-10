@@ -3,23 +3,21 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import org.controlsfx.control.ToggleSwitch;
 
 /**
- * Created by user on 10.05.17.
+ * Creates the DialogPane for the expert settings.
  */
 public class ExpertSettingsDialog extends DialogPane {
 
   Dialog dialog = new Dialog();
-  GridPane gridPane = new GridPane();
+  GridPane settingsPane = new GridPane();
   Strings strings = new Strings();
 
   final Label keyserverIpLbl = new Label();
@@ -29,7 +27,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label icePortLbl = new Label();
   final Label udpPackageSizeLbl = new Label();
   final Label localForwadingPortLbl = new Label();
-  final Label stunServerLbl = new Label();
+  final Label stunServerPortLbl = new Label();
   final Label stunServersLbl = new Label();
   final Label settingsTitleLbl = new Label();
 
@@ -42,7 +40,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final TextField udpPackageSizeFld = new TextField();
   final TextField localForwardingPortFld = new TextField();
   final TextField stunServerPortFld = new TextField();
-  final ListView stunSeversList = new ListView();
+  final ListView stunServersList = new ListView();
 
 
   /**
@@ -65,45 +63,45 @@ public class ExpertSettingsDialog extends DialogPane {
     udpPackageSizeLbl.textProperty().set(strings.expertUdpPackageSizeLbl);
     localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
     stunServersLbl.textProperty().set(strings.expertStunserverLbl);
-    stunServerLbl.textProperty().set(strings.expertStunServerPortLbl);
+    stunServerPortLbl.textProperty().set(strings.expertStunServerPortLbl);
     settingsTitleLbl.textProperty().set(strings.settingsTitleLbl);
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    gridPane.setHgap(20);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(25, 25, 25, 25));
+    settingsPane.setHgap(20);
+    settingsPane.setVgap(10);
+    settingsPane.setPadding(new Insets(25));
     dialog.setResizable(true);
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    gridPane.add(settingsTitleLbl,0,0);
-    gridPane.add(forceConnectOverServerLbl,0,1);
-    gridPane.add(forceConnectOverServerTgl,1,1);
-    gridPane.add(keyserverIpLbl,0,2);
-    gridPane.add(keyServerIpFld,1,2);
-    gridPane.add(keyServerHttpPortLbl,0,3);
-    gridPane.add(keyServerHttpPortFld,1,3);
-    gridPane.add(vncPortLbl,0,4);
-    gridPane.add(vncPortFld,1,4);
-    gridPane.add(icePortLbl,0,5);
-    gridPane.add(icePortFld,1,5);
-    gridPane.add(udpPackageSizeLbl,0,6);
-    gridPane.add(udpPackageSizeFld,1,6);
-    gridPane.add(localForwadingPortLbl, 0, 7);
-    gridPane.add(localForwardingPortFld,1,7);
-    gridPane.add(stunServerLbl,0,8);
-    gridPane.add(stunServerPortFld,1,8);
-    gridPane.add(stunServersLbl, 0, 9);
-    gridPane.add(stunSeversList,1,9);
+    settingsPane.add(settingsTitleLbl,0,0);
+    settingsPane.add(forceConnectOverServerLbl,0,1);
+    settingsPane.add(forceConnectOverServerTgl,1,1);
+    settingsPane.add(keyserverIpLbl,0,2);
+    settingsPane.add(keyServerIpFld,1,2);
+    settingsPane.add(keyServerHttpPortLbl,0,3);
+    settingsPane.add(keyServerHttpPortFld,1,3);
+    settingsPane.add(vncPortLbl,0,4);
+    settingsPane.add(vncPortFld,1,4);
+    settingsPane.add(icePortLbl,0,5);
+    settingsPane.add(icePortFld,1,5);
+    settingsPane.add(udpPackageSizeLbl,0,6);
+    settingsPane.add(udpPackageSizeFld,1,6);
+    settingsPane.add(localForwadingPortLbl, 0, 7);
+    settingsPane.add(localForwardingPortFld,1,7);
+    settingsPane.add(stunServerPortLbl,0,8);
+    settingsPane.add(stunServerPortFld,1,8);
+    settingsPane.add(stunServersLbl, 0, 9);
+    settingsPane.add(stunServersList,1,9);
 
     this.getButtonTypes().add(ButtonType.APPLY);
     this.getButtonTypes().add(ButtonType.CLOSE);
     this.getButtonTypes().add(ButtonType.PREVIOUS);
 
 
-    this.setContent(gridPane);
+    this.setContent(settingsPane);
     dialog.setDialogPane(this);
   }
 
