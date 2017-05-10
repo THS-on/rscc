@@ -20,6 +20,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines all elements shown in the request section.
@@ -40,12 +41,16 @@ public class RsccRequestView extends BorderPane {
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
 
-  final GridPane collectBox = new GridPane();
+  final GridPane keyGenerationInnerPane = new GridPane();
 
   final HBox statusBox = new HBox();
-  final HBox predefinedAdressessBox = new HBox();
+  final HBox predefinedAdressesInnerBox = new HBox();
 
-  final TitledPane predefinedAddressesPane = new TitledPane();
+  final VBox contentBox = new VBox();
+
+  final TitledPane predefinedAddressesTitledPane = new TitledPane();
+  final TitledPane keyGenerationTitledPane = new TitledPane();
+
   final ScrollPane scrollPane = new ScrollPane();
 
   final TextField generatedKeyFld = new TextField();
@@ -69,7 +74,8 @@ public class RsccRequestView extends BorderPane {
     headerView = new HeaderView(model);
     SvgImageLoaderFactory.install();
     initFieldData();
-    layoutCollectBox();
+    layoutKeyGenerationPane();
+    layoutPredefinedAddressesPane();
     layoutForm();
     layoutSupporterPane();
 
@@ -92,9 +98,13 @@ public class RsccRequestView extends BorderPane {
 
     readyBtn.textProperty().set("Ready");
 
-    predefinedAddressesPane.setText("Predefined Addresses");
-    predefinedAddressesPane.setExpanded(false);
-    predefinedAddressesPane.setId("predefinedAddressesPane");
+    keyGenerationTitledPane.setText("Key Generation");
+    keyGenerationTitledPane.setExpanded(true);
+    keyGenerationTitledPane.setId("keyGenerationTitledPane");
+
+    predefinedAddressesTitledPane.setText("Predefined Addresses");
+    predefinedAddressesTitledPane.setExpanded(false);
+    predefinedAddressesTitledPane.setId("predefinedAddressesTitledPane");
 
     supporterDescriptionLbl.setText("Description on the right");
 
@@ -127,16 +137,17 @@ public class RsccRequestView extends BorderPane {
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     statusBox.getChildren().addAll(statusLbl);
-    //keyGeneratorPane.setContent(collectBox);
+
+    contentBox.getChildren().addAll(keyGenerationTitledPane,keyGenerationInnerPane,predefinedAddressesTitledPane);
+    VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
+    VBox.setVgrow(predefinedAdressesInnerBox, Priority.ALWAYS);
 
     setTop(headerView);
-    setCenter(collectBox);
-    setBottom(predefinedAddressesPane);
+    setCenter(contentBox);
   }
 
   private void layoutSupporterPane() {
-    predefinedAdressessBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
-    predefinedAddressesPane.setContent(predefinedAdressessBox);
+    predefinedAdressesInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
 
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -154,7 +165,7 @@ public class RsccRequestView extends BorderPane {
     col3.setPercentWidth(columnPercentWidth);
   }
 
-  private void layoutCollectBox() {
+  private void layoutKeyGenerationPane() {
     GridPane.setConstraints(generatedKeyFld, 0, 0);
     GridPane.setConstraints(reloadKeyBtn, 1, 0);
     GridPane.setConstraints(titleLbl, 2, 0);
@@ -165,18 +176,19 @@ public class RsccRequestView extends BorderPane {
     GridPane.setRowSpan(reloadKeyBtn, 2);
     GridPane.setColumnSpan(statusBox, 3);
 
-    //collectBox.set
-
-    collectBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl, descriptionLbl, statusBox);
-    collectBox.setAlignment(Pos.CENTER);
-    collectBox.getChildren().stream()
+    keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl, descriptionLbl, statusBox);
+    keyGenerationInnerPane.setAlignment(Pos.CENTER);
+    keyGenerationInnerPane.getChildren().stream()
         .forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
-          //GridPane.setMargin(node, new Insets(25,25,25,25));
         });
+  }
+
+  private void layoutPredefinedAddressesPane() {
+
   }
 
   private void bindFieldsToModel() {

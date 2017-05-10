@@ -56,6 +56,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     this.view = view;
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
+    attachButtonEvents();
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
@@ -72,8 +73,22 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.reloadKeyBtn.setOnAction(
         event -> model.refreshKey()
     );
-    
-    attachButtonEvents();
+
+    view.keyGenerationTitledPane.setOnMouseClicked(
+        event -> {
+          view.predefinedAddressesTitledPane.setExpanded(false);
+          view.contentBox.getChildren().removeAll(view.predefinedAdressesInnerBox);
+          view.contentBox.getChildren().add(1,view.keyGenerationInnerPane);
+        }
+    );
+    view.predefinedAddressesTitledPane.setOnMouseClicked(
+        event -> {
+          view.keyGenerationTitledPane.setExpanded(false);
+          view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
+          view.contentBox.getChildren().add(2,view.predefinedAdressesInnerBox);
+        }
+    );
+
   }
 
   private void attachButtonEvents() {
@@ -102,8 +117,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
     view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
 
-    view.predefinedAddressesPane.prefWidthProperty().bind(scene.widthProperty());
-    view.predefinedAddressesPane.maxWidthProperty().bind(scene.widthProperty());
+    view.predefinedAddressesTitledPane.prefWidthProperty().bind(scene.widthProperty());
+    view.predefinedAddressesTitledPane.maxWidthProperty().bind(scene.widthProperty());
 
     // FIXME: need the height of the titlePane itself... or magic number. François
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
@@ -111,7 +126,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
-    view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
+    view.predefinedAdressesInnerBox.prefHeightProperty().bind(scene.heightProperty()
         .subtract(155d));
 
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
