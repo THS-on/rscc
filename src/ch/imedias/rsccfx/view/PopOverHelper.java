@@ -102,8 +102,8 @@ public class PopOverHelper {
         layoutSupport();
         helpPopOver.setContentNode(supportHelpBox);
         settingsPopOver.setContentNode(supportSettingsBox);
-        supportValueCangeListener();
         supportSettingsBindings();
+        debugListener();
         break;
       default:
         LOGGER.info("PopOver couldn't find view: " + viewName);
@@ -196,9 +196,6 @@ public class PopOverHelper {
     requestViewOnlyTgl.selectedProperty().addListener(observable -> {});
   }
 
-  private void supportValueCangeListener() {
-    supportQualitySldr.sliderValueProperty().addListener(observable -> {});
-  }
 
   private void requestSettingsBindings() {
     model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
@@ -206,6 +203,12 @@ public class PopOverHelper {
 
   private void supportSettingsBindings(){
     model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr.sliderValueProperty());
+    System.out.println(supportQualitySldr.sliderValueProperty().get());
+
+  }
+
+  private void debugListener(){
+    supportQualitySldr.sliderValueProperty().addListener(observable -> System.out.println(observable));
   }
 
   /**
