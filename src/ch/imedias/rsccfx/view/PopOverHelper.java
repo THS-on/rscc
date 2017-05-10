@@ -112,7 +112,6 @@ public class PopOverHelper {
         helpPopOver.setContentNode(supportHelpBox);
         settingsPopOver.setContentNode(supportSettingsBox);
         supportSettingsBindings();
-        debugListener();
         invokeExpertSettings();
         break;
       default:
@@ -130,6 +129,8 @@ public class PopOverHelper {
     supportCompressionLbl.textProperty().set(strings.supportCompressionLbl);
     supportQualityLbl.textProperty().set(strings.supportQualityLbl);
     supportBgr233Lbl.textProperty().set(strings.supportBgr233Lbl);
+
+    expertSettingsBtn.textProperty().set(strings.expertSettingsBtn);
   }
 
   private void layoutPopOver() {
@@ -218,13 +219,6 @@ public class PopOverHelper {
   private void supportSettingsBindings() {
     model.vncOptionQualitySliderValueProperty().bindBidirectional(supportQualitySldr
         .sliderValueProperty());
-    System.out.println(supportQualitySldr.sliderValueProperty().get());
-
-  }
-
-  private void debugListener() {
-    supportQualitySldr.sliderValueProperty().addListener(observable ->
-        System.out.println(observable));
   }
 
   /**

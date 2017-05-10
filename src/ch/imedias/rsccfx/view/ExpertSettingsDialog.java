@@ -31,6 +31,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label localForwadingPortLbl = new Label();
   final Label stunServerLbl = new Label();
   final Label stunServersLbl = new Label();
+  final Label settingsTitleLbl = new Label();
 
   final ToggleSwitch forceConnectOverServerTgl = new ToggleSwitch();
 
@@ -65,6 +66,7 @@ public class ExpertSettingsDialog extends DialogPane {
     localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
     stunServersLbl.textProperty().set(strings.expertStunserverLbl);
     stunServerLbl.textProperty().set(strings.expertStunServerPortLbl);
+    settingsTitleLbl.textProperty().set(strings.settingsTitleLbl);
   }
 
   private void layoutForm() {
@@ -76,24 +78,25 @@ public class ExpertSettingsDialog extends DialogPane {
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    gridPane.add(forceConnectOverServerLbl,0,0);
-    gridPane.add(forceConnectOverServerTgl,1,0);
-    gridPane.add(keyserverIpLbl,0,1);
-    gridPane.add(keyServerIpFld,1,1);
-    gridPane.add(keyServerHttpPortLbl,0,2);
-    gridPane.add(keyServerHttpPortFld,1,2);
-    gridPane.add(vncPortLbl,0,3);
-    gridPane.add(vncPortFld,1,3);
-    gridPane.add(icePortLbl,0,4);
-    gridPane.add(icePortFld,1,4);
-    gridPane.add(udpPackageSizeLbl,0,5);
-    gridPane.add(udpPackageSizeFld,1,5);
-    gridPane.add(localForwadingPortLbl, 0, 6);
-    gridPane.add(localForwardingPortFld,1,6);
-    gridPane.add(stunServerLbl,0,7);
-    gridPane.add(stunServerPortFld,1,7);
-    gridPane.add(stunServersLbl, 0, 8);
-    gridPane.add(stunSeversList,1,8);
+    gridPane.add(settingsTitleLbl,0,0);
+    gridPane.add(forceConnectOverServerLbl,0,1);
+    gridPane.add(forceConnectOverServerTgl,1,1);
+    gridPane.add(keyserverIpLbl,0,2);
+    gridPane.add(keyServerIpFld,1,2);
+    gridPane.add(keyServerHttpPortLbl,0,3);
+    gridPane.add(keyServerHttpPortFld,1,3);
+    gridPane.add(vncPortLbl,0,4);
+    gridPane.add(vncPortFld,1,4);
+    gridPane.add(icePortLbl,0,5);
+    gridPane.add(icePortFld,1,5);
+    gridPane.add(udpPackageSizeLbl,0,6);
+    gridPane.add(udpPackageSizeFld,1,6);
+    gridPane.add(localForwadingPortLbl, 0, 7);
+    gridPane.add(localForwardingPortFld,1,7);
+    gridPane.add(stunServerLbl,0,8);
+    gridPane.add(stunServerPortFld,1,8);
+    gridPane.add(stunServersLbl, 0, 9);
+    gridPane.add(stunSeversList,1,9);
 
     this.getButtonTypes().add(ButtonType.APPLY);
     this.getButtonTypes().add(ButtonType.CLOSE);
