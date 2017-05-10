@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -49,6 +48,8 @@ public class Rscc {
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
+  private final BooleanProperty connectionPresent = new SimpleBooleanProperty(false);
+
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
@@ -68,6 +69,39 @@ public class Rscc {
     this.systemCommander = systemCommander;
     defineResourcePath();
     readServerConfig();
+    attachEvents();
+  }
+
+  private void attachEvents() {
+    // if connection is present, start checking the connection
+    connectionPresent.addListener((observable, oldValue, newValue) -> {
+      LOGGER.info("connectionPresent: " + newValue);
+      if(oldValue != newValue) {
+        if (newValue) {
+          connectionCheck();
+        }
+      }
+    });
+  }
+
+  private void connectionCheck(){
+    String checkingScript =
+        commandStringGenerator(null, "lsof",
+            "-i", "tcp:" + getVncPort());
+    Thread thread = new Thread(() -> {
+      String output;
+      do {
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e) {
+          LOGGER.info("Sleep was interrupted!");
+        }
+        output = systemCommander.executeTerminalCommand(checkingScript);
+      } while ((!"".equals(output)));
+      setConnectionPresent(false);
+    });
+    thread.start();
+
   }
 
   /**
@@ -346,5 +380,17 @@ public class Rscc {
 
   public void setVncOptionWindow(boolean vncOptionWindow) {
     this.vncOptionWindow.set(vncOptionWindow);
+  }
+
+  public boolean isConnectionPresent() {
+    return connectionPresent.get();
+  }
+
+  public BooleanProperty connectionPresentProperty() {
+    return connectionPresent;
+  }
+
+  public void setConnectionPresent(boolean connectionPresent) {
+    this.connectionPresent.set(connectionPresent);
   }
 }
