@@ -101,10 +101,10 @@ public class RunRudp extends Thread {
             .getHostAddress());
 
         //TCP Client
-        System.out.println("Connect tcp to " + InetAddress.getLocalHost().getHostAddress() + ":"
+        System.out.println("Connect tcp to " + InetAddress.getLocalHost() + ":"
             + model.getVncPort());
 
-        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
+        tcpSocket = new Socket(InetAddress.getByName("127.0.0.1"), model.getVncPort());
 
         final InputStream tcpInputStream = tcpSocket.getInputStream();
         final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
@@ -172,7 +172,7 @@ public class RunRudp extends Thread {
             .getHostAddress() + ":" + model.getRemoteClientPort());
 
         //TCP Client
-        System.out.println("Connect tcp to " + InetAddress.getLocalHost().getHostAddress() + ":"
+        System.out.println("Connect tcp to " + InetAddress.getByName("127.0.0.1").getHostAddress() + ":"
             + model.getVncPort());
 
         tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
