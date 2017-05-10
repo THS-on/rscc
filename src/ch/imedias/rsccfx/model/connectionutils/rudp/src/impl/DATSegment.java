@@ -28,33 +28,58 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src.impl;
 
-/**
- * The listener interface for receiving packet events.
- * The class that is interested in processing a packet
- * event implements this interface.
+
+/*
+ *  Data Segment
  *
- * @author Adrian Granados
+ *   0 1 2 3 4 5 6 7 8            15
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  |0|1|0|0|0|0|0|0|       6       |
+ *  +-+-+-+-+-+-+-+-+---------------+
+ *  | Sequence #    |   Ack Number  |
+ *  +---------------+---------------+
+ *  |           Checksum            |
+ *  +---------------+---------------+
+ *  | ...                           |
+ *  +-------------------------------+
+ *
  */
-public interface ReliableSocketListener {
-  /**
-   * Invoked when a data packet is sent.
-   */
-  public void packetSent();
+public class DATSegment extends Segment {
+  private byte[] _data;
 
-  /**
-   * Invoked when a data packet is retransmitted.
-   */
-  public void packetRetransmitted();
+  protected DATSegment() {
+  }
 
-  /**
-   * Invoked when a data packet is received in-order.
-   */
-  public void packetReceivedInOrder();
+  public DATSegment(int seqn, int ackn, byte[] b, int off, int len) {
+    init(ACK_FLAG, seqn, RUDP_HEADER_LEN);
+    setAck(ackn);
+    _data = new byte[len];
+    System.arraycopy(b, off, _data, 0, len);
+  }
 
-  /**
-   * Invoked when a out of sequence data packet is received.
-   */
-  public void packetReceivedOutOfOrder();
+  public int length() {
+    return _data.length + super.length();
+  }
+
+  public String type() {
+    return "DAT";
+  }
+
+  public byte[] getData() {
+    return _data;
+  }
+
+  public byte[] getBytes() {
+    byte[] buffer = super.getBytes();
+    System.arraycopy(_data, 0, buffer, RUDP_HEADER_LEN, _data.length);
+    return buffer;
+  }
+
+  public void parseBytes(byte[] buffer, int off, int len) {
+    super.parseBytes(buffer, off, len);
+    _data = new byte[len - RUDP_HEADER_LEN];
+    System.arraycopy(buffer, off + RUDP_HEADER_LEN, _data, 0, _data.length);
+  }
 }

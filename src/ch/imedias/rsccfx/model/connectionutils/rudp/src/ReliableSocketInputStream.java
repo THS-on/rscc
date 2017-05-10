@@ -28,55 +28,56 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 
 /**
- * This class extends OutputStream to implement a ReliableSocketOutputStream.
+ * This class extends InputStream to implement a ReliableSocketInputStream.
  * Note that this class should <b>NOT</b> be public.
  *
  * @author Adrian Granados
  */
-class ReliableSocketOutputStream extends OutputStream {
+class ReliableSocketInputStream extends InputStream {
   protected ReliableSocket _sock;
   protected byte[] _buf;
+  protected int _pos;
   protected int _count;
 
   /**
-   * Creates a new ReliableSocketOutputStream.
+   * Creates a new ReliableSocketInputStream.
    * This method can only be called by a ReliableSocket.
    *
-   * @param sock the actual rudp socket to writes bytes on.
+   * @param sock the actual rudp socket to read bytes on.
    * @throws IOException if an I/O error occurs.
    */
-  public ReliableSocketOutputStream(ReliableSocket sock)
+  public ReliableSocketInputStream(ReliableSocket sock)
       throws IOException {
     if (sock == null) {
       throw new NullPointerException("sock");
     }
 
     _sock = sock;
-    _buf = new byte[_sock.getSendBufferSize()];
-    _count = 0;
+    _buf = new byte[_sock.getReceiveBufferSize()];
+    _pos = _count = 0;
   }
 
-  public synchronized void write(int b)
+  public synchronized int read()
       throws IOException {
-    if (_count >= _buf.length) {
-      flush();
+    if (readImpl() < 0) {
+      return -1;
     }
 
-    _buf[_count++] = (byte) (b & 0xFF);
+    return (_buf[_pos++] & 0xFF);
   }
 
-  public synchronized void write(byte[] b)
+  public synchronized int read(byte[] b)
       throws IOException {
-    write(b, 0, b.length);
+    return read(b, 0, b.length);
   }
 
-  public synchronized void write(byte[] b, int off, int len)
+  public synchronized int read(byte[] b, int off, int len)
       throws IOException {
     if (b == null) {
       throw new NullPointerException();
@@ -86,31 +87,37 @@ class ReliableSocketOutputStream extends OutputStream {
       throw new IndexOutOfBoundsException();
     }
 
-    int buflen;
-    int writtenBytes = 0;
-
-    while (writtenBytes < len) {
-      buflen = Math.min(_buf.length, len - writtenBytes);
-      if (buflen > (_buf.length - _count)) {
-        flush();
-      }
-      System.arraycopy(b, off + writtenBytes, _buf, _count, buflen);
-      _count += buflen;
-      writtenBytes += buflen;
+    if (readImpl() < 0) {
+      return -1;
     }
+
+    int readBytes = Math.min(available(), len);
+    System.arraycopy(_buf, _pos, b, off, readBytes);
+    _pos += readBytes;
+
+    return readBytes;
   }
 
-  public synchronized void flush()
-      throws IOException {
-    if (_count > 0) {
-      _sock.write(_buf, 0, _count);
-      _count = 0;
-    }
+  public synchronized int available() {
+    return (_count - _pos);
   }
 
-  public synchronized void close()
+  public boolean markSupported() {
+    return false;
+  }
+
+  public void close()
       throws IOException {
-    flush();
-    _sock.shutdownOutput();
+    _sock.shutdownInput();
+  }
+
+  private int readImpl()
+      throws IOException {
+    if (available() == 0) {
+      _count = _sock.read(_buf, 0, _buf.length);
+      _pos = 0;
+    }
+
+    return _count;
   }
 }

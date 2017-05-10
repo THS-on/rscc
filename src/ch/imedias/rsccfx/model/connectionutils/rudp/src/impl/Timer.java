@@ -28,7 +28,7 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src.impl;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src.impl;
 
 public class Timer extends Thread {
   private Runnable _task;

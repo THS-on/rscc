@@ -1,7 +1,6 @@
-package ch.imedias.rsccfx.model;
+package ch.imedias.rsccfx.model.connectionutils;
 
-import ch.imedias.rsccfx.model.iceutils.SdpUtils;
-import ch.imedias.rsccfx.model.iceutils.StateListener;
+import ch.imedias.rsccfx.model.Rscc;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class Rscccfp extends Thread {
   private String mySdp;
   private String remoteSdp;
   private Agent agent;
-  private StateListener stateListener;
+  private IceStateListener iceStateListener;
 
   /**
    * This is the Protocol to see if a UPD Connection  between the Clients is possible.
@@ -133,8 +132,8 @@ public class Rscccfp extends Thread {
 
     //Stun Magic
     SdpUtils.parseSdp(agent, remoteSdp);
-    stateListener = new StateListener();
-    agent.addStateChangeListener(stateListener);
+    iceStateListener = new IceStateListener();
+    agent.addStateChangeListener(iceStateListener);
     Component iceComponent = startIceConnectivityEstablishment();
     if (iceComponent != null) {
       model.setRemoteClientPort(iceComponent
@@ -325,7 +324,7 @@ public class Rscccfp extends Thread {
     }
 
     System.out.println("Got a working socket");
-    Component rtpComponent = stateListener.rtpComponent;
+    Component rtpComponent = iceStateListener.rtpComponent;
 
     return rtpComponent;
   }

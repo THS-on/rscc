@@ -28,10 +28,10 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src;
 
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.SYNSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.Segment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.SYNSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.Segment;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

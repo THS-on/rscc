@@ -1,15 +1,14 @@
-package ch.imedias.rsccfx.model.iceutils;
+package ch.imedias.rsccfx.model.connectionutils;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
 import org.ice4j.ice.Component;
 import org.ice4j.ice.IceMediaStream;
 import org.ice4j.ice.IceProcessingState;
 
 
-public class StateListener implements PropertyChangeListener {
+public class IceStateListener implements PropertyChangeListener {
 
 
   public Component rtpComponent;

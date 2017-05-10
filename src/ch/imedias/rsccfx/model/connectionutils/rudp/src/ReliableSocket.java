@@ -28,17 +28,17 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src;
 
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.ACKSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.DATSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.EAKSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.FINSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.NULSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.RSTSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.SYNSegment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.Segment;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.impl.Timer;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.ACKSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.DATSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.EAKSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.FINSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.NULSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.RSTSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.SYNSegment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.Segment;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.impl.Timer;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;

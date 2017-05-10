@@ -28,7 +28,7 @@
  *
  */
 
-package ch.imedias.rsccfx.model.iceutils.rudp.src;
+package ch.imedias.rsccfx.model.connectionutils.rudp.src;
 
 
 /**

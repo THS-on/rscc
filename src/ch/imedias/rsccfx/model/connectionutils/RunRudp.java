@@ -1,8 +1,8 @@
-package ch.imedias.rsccfx.model.iceutils.viewersuccessful;
+package ch.imedias.rsccfx.model.connectionutils;
 
 import ch.imedias.rsccfx.model.Rscc;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableServerSocket;
-import ch.imedias.rsccfx.model.iceutils.rudp.src.ReliableSocket;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.ReliableServerSocket;
+import ch.imedias.rsccfx.model.connectionutils.rudp.src.ReliableSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
