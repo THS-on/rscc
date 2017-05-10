@@ -18,8 +18,10 @@ import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -187,7 +189,7 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
     String command = commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), getKey(), getSupporterSettings());
+        "port_connect.sh", getVncPort(), getKey());
 
     systemCommander.executeTerminalCommand(command);
     startVncViewer("localhost");
@@ -280,9 +282,9 @@ public class Rscc {
   private String getSupporterSettings() {
     StringBuilder settings = new StringBuilder();
 
-    settings.append(" -quality ");
-    settings.append(vncOptionQualitySliderValue.get());
-
+    settings.append("-quality ");
+    settings.append(((int) vncOptionQualitySliderValue.get()));
+    System.out.println(settings.toString());
     return  settings.toString();
   }
 
@@ -377,7 +379,7 @@ public class Rscc {
     return vncOptionQualitySliderValue;
   }
 
-  public void setVncOptionQualitySliderValue(double vncOptionQualitySliderValue) {
+  public void setVncOptionQualitySliderValue(int vncOptionQualitySliderValue) {
     this.vncOptionQualitySliderValue.set(vncOptionQualitySliderValue);
   }
 
