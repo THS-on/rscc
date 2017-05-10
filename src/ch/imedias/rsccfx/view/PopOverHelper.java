@@ -8,11 +8,9 @@ import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -194,7 +192,7 @@ public class PopOverHelper {
   private void setValueChangeListener() {
     requestViewOnlyTgl.selectedProperty().addListener(observable -> {
       System.out.println(requestViewOnlyTgl.selectedProperty().get() + " model: " + model.getVncOptionViewOnly());
-      model.stopVnc();
+      model.stopVncServer();
       model.startVncServer();
     });
   }
