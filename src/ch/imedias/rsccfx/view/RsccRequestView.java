@@ -3,10 +3,11 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-
 import java.io.InputStream;
 import java.util.logging.Logger;
-
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -40,7 +42,7 @@ public class RsccRequestView extends BorderPane {
   final Label statusLbl = new Label();
 
   final VBox descriptionBox = new VBox();
-  final VBox collectBox = new VBox();
+  final GridPane collectBox = new GridPane();
 
   final HBox centerBox = new HBox();
   final HBox keyGeneratingBox = new HBox();
@@ -74,6 +76,7 @@ public class RsccRequestView extends BorderPane {
     initFieldData();
     layoutForm();
     layoutSupporterPane();
+    layoutCollectBox();
     bindFieldsToModel();
   }
 
@@ -142,7 +145,6 @@ public class RsccRequestView extends BorderPane {
     centerBox.getChildren().addAll(keyGeneratingBox, descriptionBox);
 
     statusBox.getChildren().addAll(statusLbl);
-    collectBox.getChildren().addAll(centerBox,statusBox);
     keyGeneratorPane.setContent(collectBox);
 
     setTop(headerView);
@@ -171,6 +173,31 @@ public class RsccRequestView extends BorderPane {
     setTop(headerView);
     setCenter(keyGeneratorPane);
     setBottom(predefinedAddressesPane);
+  }
+
+  private void layoutCollectBox() {
+    GridPane.setConstraints(generatedKeyFld, 0, 0);
+    GridPane.setConstraints(reloadKeyBtn, 1, 0);
+    GridPane.setConstraints(titleLbl, 2, 0);
+    GridPane.setConstraints(descriptionLbl, 2, 1);
+    GridPane.setConstraints(statusBox, 0, 2);
+
+    GridPane.setRowSpan(generatedKeyFld, 2);
+    GridPane.setRowSpan(reloadKeyBtn, 2);
+    GridPane.setColumnSpan(statusBox, 3);
+
+    //collectBox.set
+
+    collectBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl, descriptionLbl, statusBox);
+    collectBox.setAlignment(Pos.CENTER);
+    collectBox.getChildren().stream()
+        .forEach(node -> {
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+          //GridPane.setMargin(node, new Insets(25,25,25,25));
+        });
   }
 
   private void bindFieldsToModel() {
