@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
+
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
@@ -106,6 +107,7 @@ public class PopOverHelper {
     }
     setValueChangeListener();
     settingsBinding();
+
   }
 
   private void layoutPopOver() {
@@ -189,21 +191,16 @@ public class PopOverHelper {
     supportHelpBox.getChildren().addAll(supportHelpLbl);
   }
 
-
   private void setValueChangeListener() {
     requestViewOnlyTgl.selectedProperty().addListener(observable -> {
-      if (requestViewOnlyTgl.isSelected()) {
-        requestViewOnlyTgl.setSelected(true);
-      } else {
-        requestViewOnlyTgl.setSelected(false);
-      }
-      ;
+      System.out.println(requestViewOnlyTgl.selectedProperty().get() + " model: " + model.getVncOptionViewOnly());
     });
   }
 
-    private void settingsBinding(){
+  private void settingsBinding() {
     model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
   }
-  }
+
+}
 
 
