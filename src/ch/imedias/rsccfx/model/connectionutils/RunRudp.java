@@ -122,6 +122,7 @@ public class RunRudp extends Thread {
       if (!viewerIsRudpClient && callAsViewer) {
         //TCP Server & RUDP Server
 
+
         //RUDP Server
         System.out.println("Create new rudp-server on " + model.getIcePort());
         rudpServerSocket = new ReliableServerSocket(model.getIcePort());
@@ -175,7 +176,7 @@ public class RunRudp extends Thread {
         System.out.println("Connect tcp to " + InetAddress.getByName("127.0.0.1").getHostAddress() + ":"
             + model.getVncPort());
 
-        tcpSocket = new Socket(InetAddress.getLocalHost(), model.getVncPort());
+        tcpSocket = new Socket(InetAddress.getByName("127.0.0.1"), model.getVncPort());
 
         final InputStream tcpInputStream = tcpSocket.getInputStream();
         final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
