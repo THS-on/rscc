@@ -18,8 +18,13 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 
 /**
  * Defines the behaviour of interactions
@@ -85,7 +90,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachButtonEvents() {
     for (Button b:buttons) {
-      b.setOnMouseClicked(event ->
+      b.setOnAction(event ->
           new SupporterAttributesDialog());
     }
   }
@@ -198,6 +203,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private void createNewSupporterBtn() {
 
     Button supporter = new Button("+");
+    attachContextMenu(supporter);
     supporter.getStyleClass().add("supporterBtn");
 
     buttons.add(supporter);
@@ -216,5 +222,54 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(0).setOnAction(null);
     }
     attachButtonEvents();
+  }
+
+  private void attachContextMenu(Button button){
+
+
+    // Create ContextMenu
+    ContextMenu contextMenu = new ContextMenu();
+
+    MenuItem item1 = new MenuItem("Edit");
+    item1.setOnAction(new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        //label.setText("Select Menu Item 1");
+        new SupporterAttributesDialog();
+      }
+    });
+    MenuItem item2 = new MenuItem("Call");
+    item2.setOnAction(new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        //label.setText("Select Menu Item 2");
+      }
+    });
+
+    MenuItem item3 = new MenuItem("Remove");
+    item2.setOnAction(new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        //label.setText("Select Menu Item 2");
+      }
+    });
+
+    // Add MenuItem to ContextMenu
+    contextMenu.getItems().addAll(item1, item2, item3);
+
+    // When user right-click on Supporterbutton
+    button.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+      @Override
+      public void handle(ContextMenuEvent event) {
+
+        contextMenu.show(button, event.getScreenX(), event.getScreenY());
+      }
+    });
+
+
   }
 }

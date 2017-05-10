@@ -1,9 +1,12 @@
 package ch.imedias.rsccfx.view;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -32,6 +35,7 @@ public class SupporterAttributesDialog extends DialogPane {
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
 
+
   /**
    * Initializes all the GUI components needed in the DialogPane.
    */
@@ -53,10 +57,20 @@ public class SupporterAttributesDialog extends DialogPane {
     encryptedLbl.setText("Encrypted");
 
     nameFld.setText("Ronny");
+    nameFld.setEditable(false);
+    nameFld.setDisable(true);
     adressFld.setText("127.0.0.1");
+    adressFld.setEditable(false);
+    adressFld.setDisable(true);
     portFld.setText("5900");
+    portFld.setEditable(false);
+    portFld.setDisable(true);
     pictureFld.setText("/images/sup.jpg");
+    pictureFld.setEditable(false);
+    pictureFld.setDisable(true);
 
+    chargeableCBox.setDisable(true);
+    encryptedCBox.setDisable(true);
   }
 
   private void layoutForm() {
@@ -81,7 +95,8 @@ public class SupporterAttributesDialog extends DialogPane {
     gridPane.add(encryptedLbl,0,5);
     gridPane.add(encryptedCBox,1,5);
 
-    this.getButtonTypes().add(ButtonType.APPLY);
+    this.createButtonBar();
+
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);
@@ -90,6 +105,45 @@ public class SupporterAttributesDialog extends DialogPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
+  }
+
+  @Override
+  public ButtonBar createButtonBar(){
+    // Create the ButtonBar instance
+    ButtonBar buttonBar = new ButtonBar();
+
+    // Create the buttons to go into the ButtonBar
+    Button connectButton = new Button("Call");
+    ButtonBar.setButtonData(connectButton, ButtonBar.ButtonData.YES);
+
+    Button editButton = new Button("Edit");
+    ButtonBar.setButtonData(editButton, ButtonBar.ButtonData.NO);
+    editButton.setOnAction(event->changeEditable(true));
+
+    Button applyButton = new Button("Apply");
+    ButtonBar.setButtonData(applyButton, ButtonBar.ButtonData.APPLY);
+    applyButton.setOnAction(event->{
+      changeEditable(false);
+      dialog.close();
+    });
+
+    // Add buttons to the ButtonBar
+    buttonBar.getButtons().addAll(connectButton, editButton,applyButton);
+
+    return buttonBar;
+  }
+
+  private void changeEditable(boolean bool){
+    nameFld.setEditable(bool);
+    nameFld.setDisable(!bool);
+    adressFld.setEditable(!bool);
+    adressFld.setDisable(!bool);
+    portFld.setEditable(!bool);
+    portFld.setDisable(!bool);
+    pictureFld.setEditable(!bool);
+    pictureFld.setDisable(!bool);
+    chargeableCBox.setDisable(!bool);
+    encryptedCBox.setDisable(!bool);
   }
 
 }
