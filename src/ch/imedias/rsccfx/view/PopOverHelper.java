@@ -8,11 +8,9 @@ import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -96,17 +94,20 @@ public class PopOverHelper {
         layoutRequest();
         helpPopOver.setContentNode(requestHelpBox);
         settingsPopOver.setContentNode(requestSettingsBox);
+        requestValueChangeListener();
+        handleRequestSettings();
+        requestSettingsBindings();
         break;
       case RsccApp.SUPPORT_VIEW:
         layoutSupport();
         helpPopOver.setContentNode(supportHelpBox);
         settingsPopOver.setContentNode(supportSettingsBox);
+        supportValueCangeListener();
+        supportSettingsBindings();
         break;
       default:
         LOGGER.info("PopOver couldn't find view: " + viewName);
     }
-    setValueChangeListener();
-    settingsBinding();
 
   }
 
@@ -191,16 +192,43 @@ public class PopOverHelper {
     supportHelpBox.getChildren().addAll(supportHelpLbl);
   }
 
-  private void setValueChangeListener() {
-    requestViewOnlyTgl.selectedProperty().addListener(observable -> {
-      System.out.println(requestViewOnlyTgl.selectedProperty().get() + " model: " + model.getVncOptionViewOnly());
-      model.stopVnc();
-      model.startVncServer();
+  private void requestValueChangeListener() {
+    requestViewOnlyTgl.selectedProperty().addListener(observable -> {});
+  }
+
+  private void supportValueCangeListener() {
+    supportQualitySldr.sliderValueProperty().addListener(observable -> {
+      System.out.println(observable.toString());
     });
   }
 
-  private void settingsBinding() {
-   model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
+  private void requestSettingsBindings() {
+    model.vncOptionViewOnlyProperty().bindBidirectional(requestViewOnlyTgl.selectedProperty());
+  }
+
+  private void supportSettingsBindings(){
+    model.qualitySliderValueProperty().bindBidirectional(supportQualitySldr.sliderValueProperty());
+  }
+
+  /**
+   * Kills the VncServer if settings Popover is showing.
+   * Starts the VncServer after popover is closed.
+   */
+  private void handleRequestSettings() {
+    settingsPopOver.showingProperty().addListener((observableValue, aBoolean, t1) -> {
+      if (t1) {
+        model.stopVnc();
+      } else {
+        model.startVncServer();
+      }
+    });
+  }
+
+  /**
+   *
+   */
+  private void handleSupportSettings(){
+
   }
 
 }

@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view.util;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -52,6 +53,11 @@ public class TextSlider extends StackPane {
     valueText.getStyleClass().add("sliderTxts");
 
     getChildren().addAll(valueText, slider);
+
+  }
+  public DoubleProperty sliderValueProperty(){
+    return slider.valueProperty();
   }
 
 }
+

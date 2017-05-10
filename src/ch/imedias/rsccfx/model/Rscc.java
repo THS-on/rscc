@@ -17,7 +17,9 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -47,6 +49,7 @@ public class Rscc {
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty();
+  private final DoubleProperty qualitySliderValue = new SimpleDoubleProperty();
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
 
   //TODO: Replace when the StunFileGeneration is ready
@@ -157,10 +160,9 @@ public class Rscc {
     setKey("");
   }
 
-  public void stopVnc(){
+  public void stopVnc() {
     String command = "killall x11vnc";
     systemCommander.executeTerminalCommand(command);
-
   }
 
   /**
@@ -182,7 +184,8 @@ public class Rscc {
   public void connectToUser() {
     keyServerSetup();
     String command = commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), getKey());
+        "port_connect.sh", getVncPort(), getKey(), getSupporterSettings());
+
     systemCommander.executeTerminalCommand(command);
     startVncViewer("localhost");
   }
@@ -271,6 +274,14 @@ public class Rscc {
     }
   }
 
+  private String getSupporterSettings() {
+    StringBuilder settings = new StringBuilder();
+    settings.append("-quality");
+    settings.append(qualitySliderValue).toString();
+    return  settings.toString();
+  }
+
+
   /**
    * Determines if a key is valid or not.
    * The key must not be null and must be a number with exactly 9 digits.
@@ -352,5 +363,17 @@ public class Rscc {
 
   public void setVncOptionWindow(boolean vncOptionWindow) {
     this.vncOptionWindow.set(vncOptionWindow);
+  }
+
+  public double getQualitySliderValue() {
+    return qualitySliderValue.get();
+  }
+
+  public DoubleProperty qualitySliderValueProperty() {
+    return qualitySliderValue;
+  }
+
+  public void setQualitySliderValue(double qualitySliderValue) {
+    this.qualitySliderValue.set(qualitySliderValue);
   }
 }
