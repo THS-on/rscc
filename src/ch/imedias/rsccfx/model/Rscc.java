@@ -41,7 +41,6 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
 
-  private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
