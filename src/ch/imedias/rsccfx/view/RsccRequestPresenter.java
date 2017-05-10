@@ -20,7 +20,6 @@ import java.util.prefs.Preferences;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 
 /**
  * Defines the behaviour of interactions
@@ -81,6 +80,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
+
+    model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
+      view.statusBox.getStyleClass().clear();
+      view.statusBox.getStyleClass().add(newValue);
+    });
+
     attachButtonEvents();
   }
 
@@ -217,13 +222,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(0).setOnAction(null);
     }
     attachButtonEvents();
-  }
-
-  public void setConnectionStatusDisplay(String text, Color color) {
-   // view.statusLbl.setText();
-    view.statusBox.getStyleClass().clear();
-    view.statusBox.getStyleClass().add("statusBoxValid");
-
   }
 
 }

@@ -16,8 +16,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -48,6 +51,12 @@ public class Rscc {
   private final StringProperty vncPort = new SimpleStringProperty("5900");
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  private final StringProperty connectionStatusText = new SimpleStringProperty();
+  private final StringProperty connectionStatusStyle = new SimpleStringProperty();
+
+  private final String[] connectionStatusSytles = {
+      "statusBox","statusBoxInitialize","statusBoxSuccess","statusBoxFail"};
+
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
@@ -55,6 +64,8 @@ public class Rscc {
       .toExternalForm().replace("file:", "");
 
   private String pathToResourceDocker;
+
+
 
   /**
    * Initializes the Rscc model class.
@@ -161,25 +172,53 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
+    setConnectionStatus("Setting keyserver...", 1);
 
     keyServerSetup();
+
+    setConnectionStatus("Requesting key from server...", 1);
 
     String command = commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
     setKey(key); // update key in model
+
+    setConnectionStatus("Staring VNC-Server...",1);
     startVncServer();
+    setConnectionStatus("VNC-Server awaits connection",2);
+  }
+
+
+  /**
+   * Sets the Status of the connection establishment.
+   * @param text  Text to show for the connection status.
+   * @param statusStyleIndex Index of the connectionStatusSytles.
+   */
+  public void setConnectionStatus(String text, int statusStyleIndex) {
+    Platform.runLater(() -> {
+      setConnectionStatusText(text);
+      setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
+    });
   }
 
   /**
    * Starts connection to the user.
    */
   public void connectToUser() {
+    setConnectionStatus("Setting keyserver...", 1);
+
     keyServerSetup();
+
+    setConnectionStatus("Connect to keyserver...", 1);
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", getVncPort(), getKey());
     systemCommander.executeTerminalCommand(command);
+
+    setConnectionStatus("Starting VNC-Viewer...", 1);
+
     startVncViewer("localhost");
+
+    setConnectionStatus("Connection Established", 2);
   }
 
   /**
@@ -347,5 +386,33 @@ public class Rscc {
 
   public void setVncOptionWindow(boolean vncOptionWindow) {
     this.vncOptionWindow.set(vncOptionWindow);
+  }
+
+  public String getConnectionStatusText() {
+    return connectionStatusText.get();
+  }
+
+  public StringProperty connectionStatusTextProperty() {
+    return connectionStatusText;
+  }
+
+  public void setConnectionStatusText(String connectionStatusText) {
+    this.connectionStatusText.set(connectionStatusText);
+  }
+
+  public String getConnectionStatusStyle() {
+    return connectionStatusStyle.get();
+  }
+
+  public StringProperty connectionStatusStyleProperty() {
+    return connectionStatusStyle;
+  }
+
+  public void setConnectionStatusStyle(String connectionStatusStyle) {
+    this.connectionStatusStyle.set(connectionStatusStyle);
+  }
+
+  public String getConnectionStatusSytles(int i) {
+    return connectionStatusSytles[i];
   }
 }
