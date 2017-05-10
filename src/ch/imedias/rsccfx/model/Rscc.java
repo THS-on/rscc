@@ -195,6 +195,10 @@ public class Rscc {
    * @param statusStyleIndex Index of the connectionStatusSytles.
    */
   public void setConnectionStatus(String text, int statusStyleIndex) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusSytles.length || text == null) {
+      throw new IllegalArgumentException();
+    }
+
     setConnectionStatusText(text);
     setConnectionStatusStyle(getConnectionStatusSytles(statusStyleIndex));
   }

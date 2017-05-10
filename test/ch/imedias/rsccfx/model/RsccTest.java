@@ -186,4 +186,55 @@ public class RsccTest {
       // expected behavior
     }
   }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatus() {
+    int styleIndexToTest = 0;
+    String statusText = "test";
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    String currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusSytles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+
+    styleIndexToTest = 1;
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusSytles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+
+  }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatusFailing() {
+    try {
+      int styleIndexToTest = -1;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 52;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 0;
+      String statusText = null;
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+  }
+
 }
