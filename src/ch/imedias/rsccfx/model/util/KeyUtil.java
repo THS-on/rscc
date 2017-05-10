@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Handles everything related to the key.
+ * Stores the key, handles the formatting and validation of the key.
  */
 public class KeyUtil {
 
