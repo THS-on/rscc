@@ -184,8 +184,6 @@ public class Rscc {
     String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
     systemCommander.executeTerminalCommand(command);
     setKey("");
-
-
   }
 
   /**
@@ -234,6 +232,14 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
+
+    /*TODO: if Supporter wants reverse VNC, VNC viewer should be started here by vncviewer -listen
+    // Starts on port 5500 as standard def
+    String startReverseVnc = "vncviewer -listen";
+    systemCommander.executeTerminalCommand(startReverseVnc);
+    // How to stop? where to stop?
+    */
+
     keyServerSetup();
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), getKey());
