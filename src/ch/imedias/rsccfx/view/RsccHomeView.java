@@ -20,27 +20,20 @@ import javafx.scene.layout.VBox;
 public class RsccHomeView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccHomeView.class.getName());
-
-  private final Rscc model;
-  private final Strings strings = new Strings();
   final HeaderView headerView;
-
   final Button requestViewBtn = new Button();
   final Button supportViewBtn = new Button();
-
   final VBox contentBox = new VBox();
-
-  Image requestImg;
-  Image supportImg;
-
-  ImageView requestImgView;
-  ImageView supportImgView;
-
   final HBox requestBox = new HBox();
   final VBox requestBoxLabels = new VBox();
   final HBox supportBox = new HBox();
   final VBox supportBoxLabels = new VBox();
-
+  private final Rscc model;
+  private final Strings strings = new Strings();
+  Image requestImg;
+  Image supportImg;
+  ImageView requestImgView;
+  ImageView supportImgView;
   Label requestBigLbl = new Label();
   Label requestSmallLbl = new Label();
   Label supportBigLbl = new Label();

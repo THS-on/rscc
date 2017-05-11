@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view.util;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -18,13 +19,14 @@ public class TextSlider extends StackPane {
 
   /**
    * Initializes a new slider with the value as a text on top of the thumb.
-   * @param min minimum value of the slider.
-   * @param max maximum value of the slider.
+   *
+   * @param min   minimum value of the slider.
+   * @param max   maximum value of the slider.
    * @param value standard value of the slider.
    */
   public TextSlider(int min, int max, int value) {
     this.setAlignment(Pos.CENTER);
-    this.setPadding(new Insets(50,0,0,0));
+    this.setPadding(new Insets(50, 0, 0, 0));
 
     slider = new Slider(min, max, value) {
       @Override
@@ -52,6 +54,12 @@ public class TextSlider extends StackPane {
     valueText.getStyleClass().add("sliderTxts");
 
     getChildren().addAll(valueText, slider);
+
+  }
+
+  public DoubleProperty sliderValueProperty() {
+    return slider.valueProperty();
   }
 
 }
+

@@ -84,16 +84,22 @@
 }
 
 .statusBox{
+    -fx-alignment: center;
+}
+
+.statusBoxInitialize{
     -fx-background-color: rgb(240, 173, 78);
     /*-fx-alignment: center;*/
 }
 
-.statusBox:valid{
+.statusBoxSuccess{
     -fx-background-color: rgb(92, 184, 92);
+    -fx-alignment: center;
 }
 
-.statusBox:invalid{
+.statusBoxFail{
     -fx-background-color: rgb(217, 83, 79);
+    -fx-alignment: center;
 }
 
 .statusLbl{
@@ -141,6 +147,10 @@
     /*-fx-alignment: center;*/
     /*-fx-padding: 10, 20, 10, 20;*/
     /*-fx-spacing: 150;*/
+    -fx-background-image: url("../images/help_background.svg");
+    -fx-background-size: 70%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
 }
 
 #bottomBox{
@@ -166,6 +176,10 @@
     -fx-font-size: 14pt;
 }
 
+.supporterDescriptionLbl{
+    -fx-wrap-text: true;
+}
+
 .supporterBtn {
 
 }
@@ -188,6 +202,9 @@
     /*-fx-alignment: center;*/
     /*-fx-padding: 10, 20, 10, 20;*/
     /*-fx-spacing: 150;*/
+    -fx-background-image: url("../images/supporter_background.svg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
 }
 
 #connectBtn {

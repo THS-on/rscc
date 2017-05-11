@@ -18,8 +18,7 @@ public class HeaderPresenter {
    * Initializes a new HeaderPresenter with the matching view.
    *
    * @param model model with all data.
-   * @param view the view belonging to the presenter.
-   *
+   * @param view  the view belonging to the presenter.
    */
   public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;

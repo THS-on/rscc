@@ -30,12 +30,11 @@ public class HeaderView extends HBox {
   private static final Insets HELP_BUTTON_INSETS = new Insets(INSETS_SIZE);
 
   final Pane spacer = new Pane();
-  private final Strings strings = new Strings();
-  private final Rscc model;
   final Button backBtn = new Button();
   final Button helpBtn = new Button();
   final Button settingsBtn = new Button();
-
+  private final Strings strings = new Strings();
+  private final Rscc model;
   Image backImg;
   Image helpImg;
   Image settingImg;

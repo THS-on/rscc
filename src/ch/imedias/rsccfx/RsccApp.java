@@ -2,12 +2,16 @@ package ch.imedias.rsccfx;
 
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.SystemCommander;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import ch.imedias.rsccfx.view.RsccHomePresenter;
 import ch.imedias.rsccfx.view.RsccHomeView;
 import ch.imedias.rsccfx.view.RsccRequestPresenter;
 import ch.imedias.rsccfx.view.RsccRequestView;
 import ch.imedias.rsccfx.view.RsccSupportPresenter;
 import ch.imedias.rsccfx.view.RsccSupportView;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
@@ -40,7 +44,9 @@ public class RsccApp extends Application {
 
   @Override
   public void start(Stage stage) {
-    model = new Rscc(new SystemCommander());
+    setLogLevel(Level.INFO);
+
+    model = new Rscc(new SystemCommander(), new KeyUtil());
     ViewController mainView = new ViewController();
 
     final Scene scene = new Scene(mainView);
@@ -94,10 +100,17 @@ public class RsccApp extends Application {
 
   @Override
   public void stop() throws Exception {
-    String key = model.getKey();
+    String key = model.getKeyUtil().getKey();
     if (key != null) {
       model.killConnection();
     }
     super.stop();
+  }
+
+  private void setLogLevel(Level logLevel) {
+    Logger log = LogManager.getLogManager().getLogger("");
+    for (Handler h : log.getHandlers()) {
+      h.setLevel(logLevel);
+    }
   }
 }
