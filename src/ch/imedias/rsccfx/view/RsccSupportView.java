@@ -9,7 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -30,16 +32,17 @@ public class RsccSupportView extends BorderPane {
   final Label descriptionLbl = new Label();
   final Label statusLbl = new Label();
 
-  final VBox descriptionBox = new VBox();
-  final VBox centerBox = new VBox();
-  final HBox keyAndDescriptionBox = new HBox();
-  final HBox keyValidationBox = new HBox();
   final HBox statusBox = new HBox();
 
   final TextField keyFld = new TextField();
 
-  final TitledPane keyInputPane = new TitledPane();
-  final TitledPane addressbookPane = new TitledPane();
+  final VBox contentBox = new VBox();
+
+  final GridPane keyInputInnerPane = new GridPane();
+  final GridPane addressbookInnerPane = new GridPane();
+
+  final TitledPane keyInputTitledPane = new TitledPane();
+  final TitledPane addressbookTitledPane = new TitledPane();
 
   ImageView validationImgView = new ImageView();
 
@@ -63,8 +66,8 @@ public class RsccSupportView extends BorderPane {
     titleLbl.textProperty().set(strings.supportTitleLbl);
     descriptionLbl.textProperty().set(strings.supportDescriptionLbl);
     connectBtn.textProperty().set(strings.supportConnectBtn);
-    keyInputPane.textProperty().set(strings.supportKeyInputPane);
-    addressbookPane.textProperty().set(strings.supportAdressBookPane);
+    keyInputTitledPane.textProperty().set(strings.supportKeyInputPane);
+    addressbookTitledPane.textProperty().set(strings.supportAdressBookPane);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.supportStatusLblReady);
@@ -80,7 +83,7 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-    addressbookPane.setExpanded(false);
+    addressbookTitledPane.setExpanded(false);
 
     //keyFld.setPrefHeight(KEYFLD_HEIGHT);
 
@@ -111,13 +114,13 @@ public class RsccSupportView extends BorderPane {
 
     connectBtn.setId("connectBtn");
 
-    keyInputPane.setContent(centerBox);
-    keyInputPane.setExpanded(true);
+    keyInputTitledPane.setContent(centerBox);
+    keyInputTitledPane.setExpanded(true);
 
     connectBtn.setDisable(true);
-    setCenter(keyInputPane);
+    setCenter(keyInputTitledPane);
     setTop(headerView);
-    setBottom(addressbookPane);
+    setBottom(addressbookTitledPane);
   }
 
 

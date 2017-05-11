@@ -74,7 +74,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.centerBox.prefHeightProperty().bind(scene.heightProperty()
         .subtract(159d));
 
-    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());*/
+    view.keyInputTitledPane.prefWidthProperty().bind(scene.widthProperty());*/
   }
 
   /**
@@ -92,8 +92,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     });
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
-    view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
+    view.keyInputTitledPane.setOnMouseClicked(event -> view.addressbookTitledPane.setExpanded(false));
+    view.addressbookTitledPane.setOnMouseClicked(event -> view.keyInputTitledPane.setExpanded(false));
   }
 
   private void initBindings() {
