@@ -57,6 +57,7 @@ public class SystemCommander {
   /**
    * Executes a TerminalCommand, that listen for a specified StringOutput and sets the
    * setIsVncSessionRunning accordingly.
+   *
    * @param command                 to be executed
    * @param whatTerminalNeedsToShow String to compare to and when to set connection ongoing in model
    */
@@ -92,14 +93,14 @@ public class SystemCommander {
             }
 
           } catch (Exception e) {
-            LOGGER.info(e +" "+ e.getStackTrace());
+            LOGGER.info(e + " " + e.getStackTrace());
 
           } finally {
             if (reader != null) {
               try {
                 reader.close();
               } catch (IOException e) {
-                LOGGER.info(e +" "+ e.getStackTrace());
+                LOGGER.info(e + " " + e.getStackTrace());
 
               }
             }

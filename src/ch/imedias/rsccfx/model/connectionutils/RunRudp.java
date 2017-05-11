@@ -199,7 +199,7 @@ public class RunRudp extends Thread {
 
       }
     } catch (Exception e) {
-      LOGGER.info(e.toString()+" "+e.getStackTrace());
+      LOGGER.info(e.toString() + " " + e.getStackTrace());
     }
   }
 
@@ -232,7 +232,7 @@ public class RunRudp extends Thread {
             rudpOutput.flush();
           }
         } catch (IOException e) {
-          LOGGER.info(e.toString()+" "+e.getStackTrace());
+          LOGGER.info(e.toString() + " " + e.getStackTrace());
         }
 
         // the client closed the connection to us, so close
@@ -240,13 +240,13 @@ public class RunRudp extends Thread {
         try {
           rudpOutput.close();
         } catch (IOException e) {
-          LOGGER.info(e.toString()+" "+e.getStackTrace());
+          LOGGER.info(e.toString() + " " + e.getStackTrace());
         } finally {
           try {
             tcpInput.close();
             rudpOutput.close();
           } catch (Exception e) {
-            LOGGER.info(e.toString()+" "+e.getStackTrace());
+            LOGGER.info(e.toString() + " " + e.getStackTrace());
           }
         }
       }
@@ -266,13 +266,13 @@ public class RunRudp extends Thread {
         tcpOutput.flush();
       }
     } catch (IOException e) {
-      LOGGER.info(e.toString()+" "+e.getStackTrace());
+      LOGGER.info(e.toString() + " " + e.getStackTrace());
     } finally {
       try {
         tcpOutput.close();
         rudpInput.close();
       } catch (Exception e) {
-        LOGGER.info(e.toString()+" "+e.getStackTrace());
+        LOGGER.info(e.toString() + " " + e.getStackTrace());
       }
     }
 
