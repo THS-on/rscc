@@ -2,17 +2,32 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.geometry.Insets;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+
 
 /**
  * Defines all elements shown in the header.
@@ -43,6 +58,7 @@ public class HeaderView extends HBox {
   ImageView helpImgView;
   ImageView settingImgView;
 
+
   /**
    * Initializes all the GUI components needed in the Header.
    *
@@ -69,6 +85,8 @@ public class HeaderView extends HBox {
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
 
     this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
+
+
     this.setId("header");
 
     InputStream backImagePath = getClass().getClassLoader()
@@ -109,11 +127,16 @@ public class HeaderView extends HBox {
     settingsBtn.setId("settingsBtn");
 
     this.setHeight(HEADER_HEIGHT);
+
+
+
   }
 
   private void bindFieldsToModel() {
     // make bindings to the model
   }
+
+
 
 
 }

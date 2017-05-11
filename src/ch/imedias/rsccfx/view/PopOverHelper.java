@@ -83,6 +83,7 @@ public class PopOverHelper {
   TextSlider supportQualitySldr;
 
   Button expertSettingsBtn = new Button();
+  Button helpBtn = new Button();
 
   /**
    * Initializes PopOver according to view.
@@ -94,23 +95,25 @@ public class PopOverHelper {
     switch (viewName) {
       case RsccApp.HOME_VIEW:
         layoutHome();
-        helpPopOver.setContentNode(homeHelpBox);
-        settingsPopOver.setContentNode(null);
+        helpPopOver.setContentNode(new HeaderWebView());
+        settingsPopOver.setContentNode(supportSettingsBox);
         break;
       case RsccApp.REQUEST_VIEW:
         layoutRequest();
-        helpPopOver.setContentNode(requestHelpBox);
-        settingsPopOver.setContentNode(requestSettingsBox);
+        helpPopOver.setContentNode(new HeaderWebView());
+        settingsPopOver.setContentNode(supportSettingsBox);
         handleRequestSettings();
         requestSettingsBindings();
         invokeExpertSettings();
+        invokeWebView();
         break;
       case RsccApp.SUPPORT_VIEW:
         layoutSupport();
-        helpPopOver.setContentNode(supportHelpBox);
+        helpPopOver.setContentNode(new HeaderWebView());
         settingsPopOver.setContentNode(supportSettingsBox);
         supportSettingsBindings();
         invokeExpertSettings();
+        invokeWebView();
         break;
       default:
         LOGGER.info("PopOver couldn't find view: " + viewName);
@@ -148,6 +151,7 @@ public class PopOverHelper {
     homeHelpLbl.setId("homeHelpLbl");
 
     homeHelpBox.getChildren().add(new HBox(homeHelpLbl));
+
   }
 
   private void layoutRequest() {
@@ -162,7 +166,7 @@ public class PopOverHelper {
     // Help
     requestHelpLbl.setId("requestHelpLbl");
 
-    requestHelpBox.getChildren().addAll(requestHelpLbl);
+    requestHelpBox.getChildren().addAll(requestHelpLbl,helpBtn);
   }
 
   private void layoutSupport() {
@@ -199,10 +203,13 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(supportBgr233ToggleBox);
     supportSettingsBox.getChildren().add(expertSettingsBtn);
 
+
+
     // Help
     supportHelpLbl.setId("supportHelpLbl");
 
-    supportHelpBox.getChildren().addAll(supportHelpLbl);
+    supportHelpBox.getChildren().addAll(supportHelpLbl,helpBtn);
+    helpBtn.setOnAction(actionEvent -> new HeaderWebView());
   }
 
   private void requestSettingsBindings() {
@@ -230,6 +237,10 @@ public class PopOverHelper {
 
   private void invokeExpertSettings() {
     expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog());
+  }
+
+  private void invokeWebView() {
+    helpBtn.setOnAction(actionEvent -> new HeaderWebView());
   }
 
   public boolean isViewOnly() {
