@@ -163,7 +163,8 @@ public class PopOverHelper {
     requestSettingsBox.setAlignment(Pos.CENTER);
     requestSettingsBox.setSpacing(10);
 
-    requestSettingsBox.getChildren().addAll(toggleBtnAndLblBox, expertSettingsSeparator, expertSettingsBtn);
+    requestSettingsBox.getChildren().addAll(toggleBtnAndLblBox, expertSettingsSeparator,
+        expertSettingsBtn);
 
     // Help
     requestHelpLbl.setId("requestHelpLbl");
