@@ -126,10 +126,6 @@ public class RsccRequestView extends BorderPane {
         predefinedAddressesTitledPane);
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
-    statusBox.getChildren().addAll(statusLbl);
-
-    contentBox.getChildren().addAll(keyGenerationTitledPane,keyGenerationInnerPane,
-        predefinedAddressesTitledPane);
     VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
     VBox.setVgrow(predefinedAdressesInnerBox, Priority.ALWAYS);
 
