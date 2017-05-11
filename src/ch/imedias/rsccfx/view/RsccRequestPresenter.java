@@ -62,7 +62,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
-    setButtonSize();
   }
 
   /**
@@ -99,8 +98,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
               view.keyGenerationTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
               view.contentBox.getChildren().add(2, view.predefinedAdressesInnerBox);
-              setButtonSize();
-              view.supporterGrid.layout();
+              Platform.runLater(() -> {
+                view.supporterGrid.getChildren().stream().forEach(node -> {
+                  Button button = (Button) node;
+                  initButtonSize(button);
+                });
+              });
             }
           }
         }
@@ -167,7 +170,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Calls createSupporterList() and creates a button for every supporter found.
    */
   private void initSupporterList() {
-
     createNewSupporterBtn();
     createSupporterList();
     for (int counter = 0; counter < supportAddresses.size(); counter++) {
@@ -221,15 +223,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     Button supporter = new Button("+");
     supporter.getStyleClass().add("supporterBtn");
-    supporter.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-    supporter.prefHeightProperty().bind(supporter.widthProperty());
-
-    GridPane.setVgrow(supporter, Priority.ALWAYS);
-    GridPane.setHgrow(supporter, Priority.ALWAYS);
-    GridPane.setValignment(supporter, VPos.CENTER);
-    GridPane.setHalignment(supporter, HPos.CENTER);
-    GridPane.setMargin(supporter, new Insets(20));
+    initButtonSize(supporter);
 
     attachButtonEvents();
 
@@ -241,6 +236,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       rowSize++;
     }
     view.supporterGrid.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
     if (buttonSize > 1) {    // IndexOutOfBoundsException fix.
@@ -252,17 +248,15 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   }
 
-  public void setButtonSize(){
-    view.supporterGrid.getChildren().stream()
-        .forEach(node -> {
-          ((Button) node).setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-          GridPane.setVgrow(node, Priority.ALWAYS);
-          GridPane.setHgrow(node, Priority.ALWAYS);
-          GridPane.setValignment(node, VPos.CENTER);
-          GridPane.setHalignment(node, HPos.CENTER);
-          GridPane.setMargin(node, new Insets(20));
-
-          ((Button)node).prefHeightProperty().bind(((Button)node).widthProperty());
-        });
+  private void initButtonSize(Button button){
+    GridPane.setVgrow(button, Priority.ALWAYS);
+    GridPane.setHgrow(button, Priority.ALWAYS);
+    GridPane.setValignment(button, VPos.CENTER);
+    GridPane.setHalignment(button, HPos.CENTER);
+    GridPane.setMargin(button, new Insets(20));
+    button.setMaxWidth(Double.MAX_VALUE);
+    button.prefHeightProperty().bind(button.widthProperty());
+    button.minHeightProperty().bind(button.widthProperty());
+    button.maxHeightProperty().bind(button.widthProperty());
   }
 }
