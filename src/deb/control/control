@@ -2,7 +2,7 @@ Package: rscc
 Version: 1.0
 Section: net
 Priority: optional
-Architecture: Linux
+Architecture: i386
 Depends: jdk (>= 1.8)
 Maintainer: Ronny Standtke <ronny.standtke@fhnw.ch>
 Description: Remote support tool for the Lernstick system.
