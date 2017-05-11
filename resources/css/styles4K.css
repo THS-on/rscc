@@ -55,7 +55,7 @@
     -fx-font-size: 18pt;
 }
 
-.contentBox {
+#contentBox {
     -fx-spacing: 20px;
 }
 
