@@ -91,9 +91,29 @@ public class RsccSupportPresenter implements ControlledPresenter {
       model.connectToUser();
     });
 
-    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyInputTitledPane.setOnMouseClicked(event -> view.addressbookTitledPane.setExpanded(false));
-    view.addressbookTitledPane.setOnMouseClicked(event -> view.keyInputTitledPane.setExpanded(false));
+    // handles TitledPane switching between the two TitledPanes
+    view.keyInputTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.addressbookTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.addressbookInnerPane);
+              view.contentBox.getChildren().add(1, view.keyInputInnerPane);
+            }
+          }
+        }
+    );
+    view.addressbookTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.keyInputTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.keyInputInnerPane);
+              view.contentBox.getChildren().add(2, view.addressbookInnerPane);
+            }
+          }
+        }
+    );
   }
 
   private void initBindings() {
