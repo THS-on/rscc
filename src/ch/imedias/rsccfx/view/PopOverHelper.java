@@ -7,10 +7,12 @@ import ch.imedias.rsccfx.view.util.TextSlider;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -64,6 +66,10 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supportHelpLbl = new Label();
+
+  Separator qualitySliderSeparator = new Separator();
+  Separator compressionSliderSeparator = new Separator();
+  Separator expertSettingsSeparator = new Separator();
 
   TextSlider supportCompressionSldr;
   TextSlider supportQualitySldr;
@@ -144,22 +150,22 @@ public class PopOverHelper {
     // Settings
     requestViewOnlyTgl.getStyleClass().add("toggles");
 
+    expertSettingsSeparator.setOrientation(Orientation.HORIZONTAL);
+
     toggleBtnAndLblBox.getChildren().addAll(requestViewOnlyLbl, requestViewOnlyTgl);
 
-
-    requestViewOnlyLbl.setId("requestViewOnlyLbl");
+    requestViewOnlyLbl.getStyleClass().add("settingsLabels");
     expertSettingsBtn.getStyleClass().add("expertSettingsBtn");
 
     requestSettingsBox.setAlignment(Pos.CENTER);
     requestSettingsBox.setSpacing(20);
 
-    requestSettingsBox.getChildren().addAll(toggleBtnAndLblBox, expertSettingsBtn);
+    requestSettingsBox.getChildren().addAll(toggleBtnAndLblBox, expertSettingsSeparator, expertSettingsBtn);
 
     // Help
     requestHelpLbl.setId("requestHelpLbl");
 
     requestHelpBox.getChildren().addAll(requestHelpLbl);
-
 
     requestSettingsBox.getStyleClass().add("settingsBoxes");
 
@@ -171,34 +177,44 @@ public class PopOverHelper {
     supportCompressionSldr.setPrefWidth(sliderWidth);
     supportCompressionSldr.getStyleClass().add("slider");
 
-    supportSettingsBox.setAlignment(Pos.CENTER);
+    compressionSliderSeparator.setOrientation(Orientation.HORIZONTAL);
+    qualitySliderSeparator.setOrientation(Orientation.HORIZONTAL);
+    expertSettingsSeparator.setOrientation(Orientation.HORIZONTAL);
 
-    supportCompressionLbl.getStyleClass().add("sliderLbls");
+    supportBgr233ToggleBox.setSpacing(100);
+
+    supportSettingsBox.setAlignment(Pos.CENTER);
+    supportSettingsBox.setSpacing(20);
+
+    supportCompressionLbl.getStyleClass().add("settingsLabels");
 
     supportQualitySldr = new TextSlider(QUALITY_MIN, QUALITY_MAX, QUALITY_VALUE);
     supportQualitySldr.setPrefWidth(sliderWidth);
 
-    supportQualityLbl.getStyleClass().add("sliderLbls");
+    supportQualityLbl.getStyleClass().add("settingsLabels");
 
     supportBgr233Tgl.getStyleClass().add("toggles");
 
-    supportBgr233Lbl.setId("supportBgr233Lbl");
+    supportBgr233Lbl.getStyleClass().add("settingsLabels");
 
     supportSettingsBox.getStyleClass().add("settingsBoxes");
 
+    expertSettingsBtn.getStyleClass().add("expertSettingsBtn");
+
     supportCompressionSliderBox.getChildren().addAll(supportCompressionSldr, supportCompressionLbl);
     supportQualitySliderBox.getChildren().addAll(supportQualitySldr, supportQualityLbl);
-    supportBgr233ToggleBox.getChildren().addAll(supportBgr233Tgl, supportBgr233Lbl);
+    supportBgr233ToggleBox.getChildren().addAll(supportBgr233Lbl, supportBgr233Tgl);
 
     supportBgr233ToggleBox.setAlignment(Pos.CENTER);
     supportCompressionSliderBox.setAlignment(Pos.CENTER);
     supportQualitySliderBox.setAlignment(Pos.CENTER);
 
-    supportSettingsBox.setSpacing(10);
-
     supportSettingsBox.getChildren().add(supportCompressionSliderBox);
+    supportSettingsBox.getChildren().add(compressionSliderSeparator);
     supportSettingsBox.getChildren().add(supportQualitySliderBox);
+    supportSettingsBox.getChildren().add(qualitySliderSeparator);
     supportSettingsBox.getChildren().add(supportBgr233ToggleBox);
+    supportSettingsBox.getChildren().add(expertSettingsSeparator);
     supportSettingsBox.getChildren().add(expertSettingsBtn);
 
     // Help
