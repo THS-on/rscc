@@ -122,7 +122,8 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane, predefinedAddressesTitledPane);
+    contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane,
+        predefinedAddressesTitledPane);
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     statusBox.getChildren().addAll(statusLbl);
