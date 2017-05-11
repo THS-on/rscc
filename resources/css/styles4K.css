@@ -13,18 +13,11 @@
     /*-fx-padding: 10;*/
 }
 
-#headerText {
-    -fx-font-size: 20pt;
-    -fx-font-weight: bold;
-}
-
 #helpBtn, #backBtn, #settingsBtn, #reloadKeyBtn{
     /*-fx-padding: 5;*/
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
     -fx-border-color:#A7A7A7;
-    -fx-font-size: 0.9em;
-    -fx-font-family: "DejaVu Sans";
     -fx-background-color: #EAEAEA;
 }
 
@@ -40,7 +33,6 @@
  **************************************************************************/
 
 .HomeNavigationBtn{
-    -fx-font-size: 18pt;
     -fx-fit-to-width: true;
     -fx-content-display: left;
     -fx-border-color:#A7A7A7;
@@ -63,22 +55,8 @@
     -fx-font-size: 18pt;
 }
 
-.homeButtonImages {
-}
-
 .homeButtonBoxes {
     -fx-spacing: 20px;
-}
-
-/***************************************************************************
- *                                                                         *
- *                             HomePresenter                                    *
- *                                                                         *
- **************************************************************************/
-#contentBox {
-    /*-fx-padding: 25;*/
-    -fx-spacing: 20;
-    /*-fx-alignment: center;*/
 }
 
 /***************************************************************************
@@ -131,8 +109,17 @@
     /*-fx-padding: 25;*/
 }
 
-.boxLabels {
+.keyFld {
+    -fx-background-color: #e2e2e2;
+    -fx-font-family: Monospaced;
+    -fx-font-size: 30pt;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
 
+.titled-pane > .title {
+    /*-fx-pref-height: 36.0;*/
+    -fx-font-size: 16pt;
 }
 
 /***************************************************************************
@@ -141,65 +128,16 @@
  *                                                                         *
  **************************************************************************/
 
-#descriptionTxt{
-    -fx-wrap-text: true;
-    -fx-alignment: center-left;
-    -fx-font-size: 16pt;
-    -fx-padding: 20;
-}
-
-#keyGenerationLbl{
-    -fx-font-size: 30pt;
-    -fx-font-weight: bold;
-    -fx-wrap-text: true;
-}
-
-#generatedKeyFld{
-    -fx-background-color: #e2e2e2;
-    -fx-font-family: Monospaced;
-    -fx-font-size: 30pt;
-    -fx-alignment: center;
-}
-
-#additionalDescriptionTxt{
-    -fx-wrap-text: true;
-    -fx-alignment: center-left;
-    -fx-font-size: 16pt;
-    -fx-padding: 20;
-}
-
-#centerBox{
-    /*-fx-alignment: center;*/
-    /*-fx-padding: 10, 20, 10, 20;*/
-    /*-fx-spacing: 150;*/
+/* TODO: set tag */
+#centerBoxRequest {
     -fx-background-image: url("../images/help_background.svg");
     -fx-background-size: 70%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center top;
-}
-
-#bottomBox{
-    /*-fx-padding: 10 ,20 ,1 ,20;*/
-}
-
-#keyGeneratingBox{
-    /*-fx-alignment: center;*/
-    /*-fx-spacing: 25;*/
-    /*-fx-padding: 25;*/
-}
-
-#readyBtn{
-    /*-fx-alignment: bottom-right;*/
-}
+]
 
 #reloadKeyBtn {
     /*-fx-padding: 13;*/
-}
-
-.titled-pane > .title {
-    /*-fx-pref-height: 36.0;*/
-    -fx-font-size: 16pt;
-
 }
 
 .supporterDescriptionLbl{
@@ -212,22 +150,17 @@
 .supporterBtn {
     -fx-font-size: 12pt;
     -fx-alignment: center;
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-border-color: lightgrey;
 
 }
 
 .supporterBtn:hover{
     -fx-cursor: hand;
+    -fx-background-color: lightgrey; /* Green */
+    -fx-border-color: lightgrey;
 }
-
-.titleLbl{
-    -fx-wrap-text: true;
-    -fx-alignment: center-left;
-    -fx-font-size: 20pt;
-    -fx-padding: 20;
-    -fx-font-weight: bold;
-}
-
-
 
 /***************************************************************************
  *                                                                         *
@@ -235,14 +168,7 @@
  *                                                                         *
  **************************************************************************/
 
-#SupporterView {
-    /*-fx-padding: 5, 25, 5, 25;*/
-}
-
-#EnterTokenLbl {
-    -fx-font-size: 25;
-}
-
+/* TODO: set tag */
 #centerBoxSupport {
     /*-fx-alignment: center;*/
     /*-fx-padding: 10, 20, 10, 20;*/
@@ -267,47 +193,6 @@
     -fx-cursor: hand;
 }
 
-
-#keyValidationBox {
-    /*-fx-alignment: center;*/
-    /*-fx-spacing: 25;*/
-    /*-fx-padding: 25;*/
-}
-
-#keyFld {
-    -fx-background-color: #e2e2e2;
-    -fx-font-family: Monospaced;
-    -fx-font-size: 30pt;
-    -fx-text-alignment: center;
-    -fx-alignment: center;
-}
-
-.supporterBtn {
-    -fx-border-radius: 5px;
-    -fx-background-color: white;
-    -fx-border-color: lightgrey;
-    /*-fx-fit-to-width: true;*/
-    /*-fx-pref-width: 240px;*/
-    /*-fx-pref-height: 100px;*/
-
-    /*
-
-        -fx-font-size: 15pt;
-        -fx-fit-to-width: true;
-        -fx-content-display: top;
-        -fx-border-width: ;
-        -fx-padding: 15;
-        -fx-background-color: white;*/
-}
-
-.supporterBtn:hover {
-    -fx-background-color: lightgrey; /* Green */
-    -fx-border-color: lightgrey;
-}
-
-
-
-
 /***************************************************************************
  *                                                                         *
  *                             Settings Popover                            *
@@ -316,10 +201,6 @@
 
 .settingsBoxes{
     -fx-padding: 30;
-}
-
-#settingsBox{
-    -fx-padding: 50;
 }
 
 .slider .thumb {
@@ -345,17 +226,12 @@
 
 .sliderTxts {
     -fx-font-size: 200%;
-
 }
-
-.sliderLbls {
-    -fx-font-size: 150%;
-}
-
 
 .toggles {
     -fx-alignment: baseline-center;
 }
+
 .toggles .thumb-area {
     -fx-background-color: #EAEAEA;
     -fx-pref-width: 70;
@@ -374,7 +250,6 @@
 
 .toggles:selected .thumb-area {
     -fx-background-color: #A7A7A7;
-
 }
 
 .toggles .thumb:hover {

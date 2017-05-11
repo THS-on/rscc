@@ -109,7 +109,7 @@ public class RsccSupportView extends BorderPane {
     statusBox.getStyleClass().add("statusBox");
 
     //keyFld.setPrefHeight(KEYFLD_HEIGHT);
-    keyFld.setId("keyFld");
+    keyFld.getStyleClass().add("keyFld");
 
     validationImgView.setSmooth(true);
 

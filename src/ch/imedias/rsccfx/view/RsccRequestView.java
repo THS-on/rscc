@@ -121,7 +121,7 @@ public class RsccRequestView extends BorderPane {
 
     //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
     generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setId("generatedKeyFld");
+    generatedKeyFld.getStyleClass().add("keyFld");
 
     reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
