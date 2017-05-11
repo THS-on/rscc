@@ -13,7 +13,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -100,9 +99,11 @@ public class Rscc {
    */
   public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
+      LOGGER.info("Parameter SystemCommander is NULL");
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     }
     if (keyUtil == null) {
+      LOGGER.info("Parameter KeyUtil is NULL");
       throw new IllegalArgumentException("Parameter KeyUtil is NULL");
     }
     this.systemCommander = systemCommander;
@@ -211,11 +212,11 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
-    setConnectionStatusDisplay("Setting keyserver...", 1);
+    setConnectionStatus("Setting keyserver...", 1);
 
     keyServerSetup();
 
-    setConnectionStatusDisplay("Requesting key from server...", 1);
+    setConnectionStatus("Requesting key from server...", 1);
 
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
@@ -232,7 +233,8 @@ public class Rscc {
       e.printStackTrace();
     }
 
-    System.out.println("RSCC: Staring VNCServer");
+    LOGGER.info("RSCC: Starting VNCServer");
+
     startVncServer();
 
     rudp = null;
@@ -246,11 +248,12 @@ public class Rscc {
     }
 
     if (rudp != null) {
-      System.out.println("RSCC: Starting rudp");
+      LOGGER.info("RSCC: Starting rudp");
+
       rudp.start();
     }
 
-    setConnectionStatusDisplay("VNC-Server awaits connection", 2);
+    setConnectionStatus("VNC-Server waits for incoming connection", 2);
   }
 
   /**
@@ -259,7 +262,7 @@ public class Rscc {
    * @param text             Text to show for the connection status.
    * @param statusStyleIndex Index of the connectionStatusStyles.
    */
-  public void setConnectionStatusDisplay(String text, int statusStyleIndex) {
+  public void setConnectionStatus(String text, int statusStyleIndex) {
     if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
       throw new IllegalArgumentException();
     }
@@ -272,13 +275,13 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
-    setConnectionStatusDisplay("Setting keyserver...", 1);
+    setConnectionStatus("Get key from keyserver...", 1);
 
     keyServerSetup();
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), keyUtil.getKey());
 
-    setConnectionStatusDisplay("Connect to keyserver...", 1);
+    setConnectionStatus("Connected to keyserver.", 1);
 
     systemCommander.executeTerminalCommand(command);
 
@@ -301,11 +304,15 @@ public class Rscc {
     }
 
     if (rudp != null) {
-      System.out.println("RSCC: Starting rudp");
+      LOGGER.info("RSCC: Starting rudp");
+      setConnectionStatus("Starting direct VNC connection.", 1);
+
 
       rudp.start();
 
-      System.out.println("RSCC: Starting VNCViewer");
+      LOGGER.info("RSCC: Starting VNCViewer");
+      setConnectionStatus("Starting VNC Viewer.", 1);
+
       vncViewer = new VncViewerHandler(
           this, "localhost", LOCAL_FORWARDING_PORT, false);
 
@@ -327,6 +334,8 @@ public class Rscc {
     }
     vncServerAttributes.append(" -rfbport ").append(getVncPort());
 
+    setConnectionStatus("Starting vnc Server.", 1);
+
     String command = systemCommander.commandStringGenerator(null,
         "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
@@ -338,6 +347,9 @@ public class Rscc {
   public void stopVncServer() {
     String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
     systemCommander.executeTerminalCommand(command);
+    setConnectionStatus("VNC Server stopped.", 1);
+
+
   }
 
 
@@ -349,7 +361,7 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
-    setConnectionStatusDisplay("Refreshing key...", 1);
+    setConnectionStatus("Refreshing key...", 1);
     killConnection();
     requestKeyFromServer();
   }
@@ -368,26 +380,11 @@ public class Rscc {
       throw new Exception("VNC Port must be between 5900 and 65,535");
     }
     String startReverseVnc = "vncviewer -listen " + port;
+    setConnectionStatus("Trying to establish connection.", 1);
+
     systemCommander.executeTerminalCommand(startReverseVnc);
   }
 
-
-  /**
-   * Generates String to run command.
-   */
-  private String commandStringGenerator(
-      String pathToScript, String scriptName, String... attributes) {
-    StringBuilder commandString = new StringBuilder();
-
-    if (pathToScript != null) {
-      commandString.append(pathToScript).append("/");
-    }
-    commandString.append(scriptName);
-    Arrays.stream(attributes)
-        .forEach((s) -> commandString.append(" ").append(s));
-
-    return commandString.toString();
-  }
 
   /**
    * Reads the docker server configuration from file ssh.rc under "/pathToResourceDocker".

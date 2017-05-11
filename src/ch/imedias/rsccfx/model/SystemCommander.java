@@ -92,15 +92,14 @@ public class SystemCommander {
             }
 
           } catch (Exception e) {
-            System.out.println(e.getCause());
-            System.out.println(e.getStackTrace());
+            LOGGER.info(e +" "+ e.getStackTrace());
 
           } finally {
             if (reader != null) {
               try {
                 reader.close();
               } catch (IOException e) {
-                System.out.println(e);
+                LOGGER.info(e +" "+ e.getStackTrace());
 
               }
             }
