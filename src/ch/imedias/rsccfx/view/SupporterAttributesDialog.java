@@ -20,7 +20,7 @@ import javafx.scene.layout.Priority;
 public class SupporterAttributesDialog extends DialogPane {
 
   final Dialog dialog = new Dialog();
-  final GridPane gridPane = new GridPane();
+  final GridPane attributePane = new GridPane();
 
   final Label nameLbl = new Label();
   final Label adressLbl = new Label();
@@ -81,39 +81,40 @@ public class SupporterAttributesDialog extends DialogPane {
     encryptedCBox.setDisable(true);
 
     // Set Hgrow for TextField
-    gridPane.setHgrow(adressFld, Priority.ALWAYS);
-    gridPane.getStyleClass().add("gridPane");
+    attributePane.setHgrow(adressFld, Priority.ALWAYS);
+    attributePane.getStyleClass().add("gridPane");
 
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    gridPane.setHgap(20);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(25, 25, 25, 25));
-    gridPane.autosize();
+    attributePane.setHgap(20);
+    attributePane.setVgap(10);
+    attributePane.setPadding(new Insets(25, 25, 25, 25));
+    attributePane.autosize();
+    //Resizable is false because form would look bad with big font size
     dialog.setResizable(false);
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    gridPane.add(nameLbl,0,0);
-    gridPane.add(nameFld,1,0);
-    gridPane.add(adressLbl,0,1);
-    gridPane.add(adressFld,1,1);
-    gridPane.add(portLbl,0,2);
-    gridPane.add(portFld,1,2);
-    gridPane.add(pictureLbl,0,3);
-    gridPane.add(pictureFld,1,3);
-    gridPane.add(chargeableLbl,0,4);
-    gridPane.add(chargeableCBox,1,4);
-    gridPane.add(encryptedLbl,0,5);
-    gridPane.add(encryptedCBox,1,5);
+    attributePane.add(nameLbl,0,0);
+    attributePane.add(nameFld,1,0);
+    attributePane.add(adressLbl,0,1);
+    attributePane.add(adressFld,1,1);
+    attributePane.add(portLbl,0,2);
+    attributePane.add(portFld,1,2);
+    attributePane.add(pictureLbl,0,3);
+    attributePane.add(pictureFld,1,3);
+    attributePane.add(chargeableLbl,0,4);
+    attributePane.add(chargeableCBox,1,4);
+    attributePane.add(encryptedLbl,0,5);
+    attributePane.add(encryptedCBox,1,5);
 
     this.createButtonBar();
 
     this.getButtonTypes().add(ButtonType.CLOSE);
 
-    this.setContent(gridPane);
+    this.setContent(attributePane);
     dialog.setDialogPane(this);
 
   }

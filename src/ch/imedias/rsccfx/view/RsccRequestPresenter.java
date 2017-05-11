@@ -233,14 +233,14 @@ public class RsccRequestPresenter implements ControlledPresenter {
     editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
 
 
-    MenuItem callMenuItem = new MenuItem("Call");
-    callMenuItem.setOnAction(event -> {
+    MenuItem connectMenuItem = new MenuItem("Call");
+    connectMenuItem.setOnAction(event -> {
       /*TODO start connection*/
 
     });
 
     // Add MenuItem to ContextMenu
-    contextMenu.getItems().addAll(editMenuItem, callMenuItem);
+    contextMenu.getItems().addAll(editMenuItem, connectMenuItem);
 
     // When user right-click on Supporterbutton
     button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
