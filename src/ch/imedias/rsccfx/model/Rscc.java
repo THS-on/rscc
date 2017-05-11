@@ -68,8 +68,6 @@ public class Rscc {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
-  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
 
   private boolean isLocalIceSuccessful = false;
@@ -278,12 +276,6 @@ public class Rscc {
     setConnectionStatus("Connect to keyserver...", 1);
 
     systemCommander.executeTerminalCommand(command);
-
-    setConnectionStatus("Starting VNC-Viewer...", 1);
-
-    startVncViewer("localhost",getVncPort());
-
-    setConnectionStatus("Connection Established", 2);
 
     rscccfp = new Rscccfp(this, false);
     rscccfp.setDaemon(true);
