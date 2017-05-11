@@ -34,7 +34,7 @@
     <build>
         <sourceDirectory>${custom.src.path}</sourceDirectory>
         <testSourceDirectory>${custom.test.path}</testSourceDirectory>
-        <finalName>rscc</finalName>
+        <finalName>rsccfx</finalName>
         <resources>
             <resource>
                 <directory>${custom.resources.path}</directory>
