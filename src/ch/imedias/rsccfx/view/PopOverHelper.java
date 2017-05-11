@@ -161,7 +161,7 @@ public class PopOverHelper {
     expertSettingsBtn.getStyleClass().add("expertSettingsBtn");
 
     requestSettingsBox.setAlignment(Pos.CENTER);
-    requestSettingsBox.setSpacing(20);
+    requestSettingsBox.setSpacing(10);
 
     requestSettingsBox.getChildren().addAll(toggleBtnAndLblBox, expertSettingsSeparator, expertSettingsBtn);
 
@@ -187,7 +187,7 @@ public class PopOverHelper {
     supportBgr233ToggleBox.setSpacing(100);
 
     supportSettingsBox.setAlignment(Pos.CENTER);
-    supportSettingsBox.setSpacing(20);
+    supportSettingsBox.setSpacing(10);
 
     supportCompressionLbl.getStyleClass().add("settingsLabels");
 
