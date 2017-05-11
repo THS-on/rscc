@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 
 /**
  * Defines the behaviour of interactions
@@ -62,6 +63,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
+    initGridPane();
   }
 
   /**
@@ -237,6 +239,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(buttonSize - 1).setOnAction(null);
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
+    }
+  }
+
+  private void initGridPane(){
+    // add row constraints
+    int amountOfRows = (int)Math.ceil(view.supporterGrid.getChildren().size() % view.supporterGrid.getColumnConstraints().size());
+    int rowsPercentWidth = 100 / amountOfRows;
+    for(int i = 0; i < amountOfRows; ++i) {
+      RowConstraints row = new RowConstraints();
+      row.setPercentHeight(rowsPercentWidth);
+      view.supporterGrid.getRowConstraints().add(row);
     }
   }
 

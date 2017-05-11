@@ -22,7 +22,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 /**
@@ -161,15 +160,6 @@ public class RsccRequestView extends BorderPane {
     col1.setPercentWidth(columnPercentWidth);
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
-
-    // add row constraints
-    int amountOfRows = (int)Math.ceil(supporterGrid.getChildren().size() % amountOfColumns);
-    int rowsPercentWidth = 100 / amountOfRows;
-    for(int i = 0; i < amountOfRows; ++i) {
-      RowConstraints row = new RowConstraints();
-      row.setPercentHeight(rowsPercentWidth);
-      supporterGrid.getRowConstraints().add(row);
-    }
   }
 
   private void layoutKeyGenerationPane() {
