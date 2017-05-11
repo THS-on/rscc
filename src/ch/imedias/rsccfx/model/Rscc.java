@@ -295,12 +295,6 @@ public class Rscc {
       rudp = new RunRudp(this, false, true);
     }
 
-    try {
-      Thread.sleep(3000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
     if (rudp != null) {
       System.out.println("RSCC: Starting rudp");
 
@@ -344,7 +338,7 @@ public class Rscc {
    * @param vncViewerPort Port to connect to.
    */
   public void startVncViewer(String hostAddress, Integer vncViewerPort) {
-    if (hostAddress == null) {
+    if (hostAddress == null || vncViewerPort == null) {
       throw new IllegalArgumentException();
     }
     String vncViewerAttributes = "-bgr233 " + " " + hostAddress + "::" + vncViewerPort;
@@ -352,7 +346,13 @@ public class Rscc {
 
     String command = systemCommander.commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
-    System.out.println(systemCommander.executeTerminalCommand(command));
+
+    String ConnectionStatus = null;
+    do{
+      ConnectionStatus = systemCommander.executeTerminalCommand(command);
+      System.out.println("VNCviewer: " + ConnectionStatus);
+    } while (ConnectionStatus.contains("Unable to connect to VNC server"));
+
   }
 
   public void stopVncViewer() {

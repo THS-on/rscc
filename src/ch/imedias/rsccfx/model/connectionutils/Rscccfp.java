@@ -141,7 +141,6 @@ public class Rscccfp extends Thread {
       return;
     }
 
-
     //Start ICE Agent
     startStun();
 
