@@ -13,17 +13,18 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -203,15 +204,6 @@ public class Rscc {
   }
 
   /**
-   * Stops the vnc server.
-   */
-  public void stopVncServer() {
-    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
-    systemCommander.executeTerminalCommand(command);
-
-  }
-
-  /**
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
@@ -222,7 +214,7 @@ public class Rscc {
     setConnectionStatus("Requesting key from server...", 1);
 
     String command = systemCommander.commandStringGenerator(
-        pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
+        pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
 
     setConnectionStatus("Starting VNC-Server...", 1);
@@ -280,7 +272,7 @@ public class Rscc {
 
     keyServerSetup();
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), keyUtil.getKey());
+        "port_connect.sh", Integer.toString(getVncPort()), keyUtil.getKey());
 
     setConnectionStatus("Connect to keyserver...", 1);
 
@@ -288,7 +280,7 @@ public class Rscc {
 
     setConnectionStatus("Starting VNC-Viewer...", 1);
 
-    startVncViewer("localhost");
+    startVncViewer("localhost",getVncPort());
 
     setConnectionStatus("Connection Established", 2);
 
@@ -344,6 +336,14 @@ public class Rscc {
   }
 
   /**
+   * Stops the vnc server.
+   */
+  public void stopVncServer() {
+    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
+    systemCommander.executeTerminalCommand(command);
+  }
+
+  /**
    * Starts VNC Viewer.
    *
    * @param hostAddress   Address to connect to.
@@ -359,7 +359,11 @@ public class Rscc {
     String command = systemCommander.commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
     System.out.println(systemCommander.executeTerminalCommand(command));
+  }
 
+  public void stopVncViewer() {
+    String command = systemCommander.commandStringGenerator(null, "killall", "vncviewer");
+    systemCommander.executeTerminalCommand(command);
   }
 
 
@@ -372,6 +376,12 @@ public class Rscc {
     killConnection();
     requestKeyFromServer();
   }
+
+
+  /**
+   * Starts the
+   * @param port where vncviewer should be started.
+   */
 
   public void viewerListen(int port) throws Throwable {
     //Correct weird vncviewer behavious: it adds the portnumber to 5500 and starts
