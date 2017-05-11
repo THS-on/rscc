@@ -614,6 +614,11 @@ public class Rscc {
   public void setTerminalOutput(String terminalOutput) {
     this.terminalOutput.set(terminalOutput);
   }
+  public StringProperty getTerminalOutput(){
+    return  this.terminalOutput;
+
+  }
+
   public boolean getIsForcingServerMode() {
     return isForcingServerMode.get();
   }
@@ -624,5 +629,17 @@ public class Rscc {
 
   public void setIsForcingServerMode(boolean isForcingServerMode) {
     this.isForcingServerMode.set(isForcingServerMode);
+  }
+
+  public boolean isIsVncSessionRunning() {
+    return isVncSessionRunning.get();
+  }
+
+  public BooleanProperty isVncSessionRunningProperty() {
+    return isVncSessionRunning;
+  }
+
+  public void setIsVncSessionRunning(boolean isVncSessionRunning) {
+    this.isVncSessionRunning.set(isVncSessionRunning);
   }
 }
