@@ -39,7 +39,6 @@ public class RsccApp extends Application {
   private static final String styleSheetHd = "css/stylesHD.css";
   private static final String styleSheetLow = "css/stylesLow.css";
 
-
   /**
    * Declares views for use with ViewController.
    */
