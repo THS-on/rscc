@@ -24,9 +24,9 @@ public class HeaderView extends HBox {
   private static final double HEADER_HEIGHT = 250d;
   private static final double BUTTON_SIZE = 50d;
   private static final int INSETS_SIZE = 15;
-  private static final Insets BACK_BUTTON_INSETS = new Insets(INSETS_SIZE);
-  private static final Insets SETTINGS_BUTTON_INSETS = new Insets(INSETS_SIZE);
 
+  private static final Insets BACK_BUTTON_INSETS = new Insets(INSETS_SIZE);
+  private static final Insets SETTINGS_BUTTON_INSETS = new Insets(INSETS_SIZE,0,INSETS_SIZE,INSETS_SIZE);
   private static final Insets HELP_BUTTON_INSETS = new Insets(INSETS_SIZE);
 
   final Pane spacer = new Pane();

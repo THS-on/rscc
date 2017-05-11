@@ -59,6 +59,14 @@
 .SmallFont{
      -fx-font-size: 18pt;
 }
+
+.homeButtonImages {
+}
+
+.homeButtonBoxes {
+    -fx-spacing: 20px;
+}
+
 /***************************************************************************
  *                                                                         *
  *                             HomePresenter                                    *
