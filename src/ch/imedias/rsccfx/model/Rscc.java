@@ -216,9 +216,6 @@ public class Rscc {
         pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
 
-    setConnectionStatus("Starting VNC-Server...", 1);
-    startVncServer();
-
     keyUtil.setKey(key); // update key in model
     rscccfp = new Rscccfp(this, true);
     rscccfp.setDaemon(true);
@@ -231,6 +228,7 @@ public class Rscc {
     }
 
     System.out.println("RSCC: Staring VNCServer");
+    startVncServer();
 
     rudp = null;
 
