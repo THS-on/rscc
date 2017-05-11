@@ -202,7 +202,6 @@ public class RsccTest {
     currentStatus = model.getConnectionStatusStyle();
     assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
-
   }
 
   /**
@@ -234,5 +233,4 @@ public class RsccTest {
       // expected behavior
     }
   }
-
 }

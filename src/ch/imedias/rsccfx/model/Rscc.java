@@ -52,7 +52,6 @@ public class Rscc {
   private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
-
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
@@ -60,7 +59,6 @@ public class Rscc {
   private final KeyUtil keyUtil;
 
   private String pathToResourceDocker;
-
 
   /**
    * Initializes the Rscc model class.
@@ -179,18 +177,15 @@ public class Rscc {
 
     setConnectionStatus("Requesting key from server...", 1);
 
-
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-
 
     setConnectionStatus("Staring VNC-Server...", 1);
     keyUtil.setKey(key); // update key in model
     startVncServer();
     setConnectionStatus("VNC-Server awaits connection", 2);
   }
-
 
   /**
    * Sets the Status of the connection establishment.
@@ -260,7 +255,6 @@ public class Rscc {
         "vncviewer", vncViewerAttributes);
     systemCommander.executeTerminalCommand(command);
   }
-
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server

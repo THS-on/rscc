@@ -114,7 +114,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
         view.statusLbl.textProperty().set(newValue);
       });
     });
-
   }
 
   private void initBindings() {
@@ -126,7 +125,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
         Bindings.when(keyUtil.keyValidProperty())
             .then(validImage)
             .otherwise(invalidImage)
-
     );
   }
 
@@ -142,5 +140,4 @@ public class RsccSupportPresenter implements ControlledPresenter {
         popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
     // TODO: Set actions on buttons (Help, Settings)
   }
-
 }
