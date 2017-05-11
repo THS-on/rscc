@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Logger;
 import org.ice4j.Transport;
 import org.ice4j.TransportAddress;
 import org.ice4j.ice.Agent;
@@ -25,6 +26,7 @@ import org.ice4j.ice.harvest.StunCandidateHarvester;
  */
 
 public class Rscccfp extends Thread {
+  private static final Logger LOGGER = Logger.getLogger(Rscccfp.class.getName());
 
   private final Rscc model;
 
@@ -41,7 +43,7 @@ public class Rscccfp extends Thread {
   /**
    * This is the Protocol to see if a UPD Connection  between the Clients is possible.
    *
-   * @param model The one and only Model.
+   * @param model    The one and only Model.
    * @param isServer Specifies if protocol is startet in server or client mode.
    */
   public Rscccfp(Rscc model, boolean isServer) {
@@ -74,36 +76,39 @@ public class Rscccfp extends Thread {
 
   /**
    * Starts the TCP - Server.
+   *
    * @throws Throwable When connection is not possible.
    */
   public void startRscccfpServer() throws Throwable {
 
     //Start TCP-Server
-    System.out.println("RSCCCFP: start server");
+    LOGGER.info("RSCCCFP: start server");
     serverSocket = new ServerSocket(model.getVncPort());
 
     //Wait for connection
-    System.out.println("RSCCCFP: wait for client");
+    LOGGER.info("RSCCCFP: wait for client");
+
     connectionSocket = serverSocket.accept();
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-    System.out.println("RSCCCFP: Client connected");
+    LOGGER.info("RSCCCFP: Client connected");
 
     runIceMagic();
   }
 
   /**
    * Starts the TCP-Client.
-   * @param host  Host address to connect to.
+   *
+   * @param host Host address to connect to.
    * @throws Throwable When connection is not possible.
    */
   public void startRscccfpClient(String host) throws Throwable {
 
     //connect to server
-    System.out.println("start client");
+    LOGGER.info("start client");
     connectionSocket = new Socket(host, model.getVncPort());
     connectionSocket.setTcpNoDelay(false);
-    System.out.println("RSCCCFP: Connected to server");
+    LOGGER.info("RSCCCFP: Connected to server");
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
@@ -119,13 +124,15 @@ public class Rscccfp extends Thread {
    */
   private void runIceMagic() throws Throwable {
     //Exchange isServermode?
-    System.out.println("RSCCCFP: Handling ServerMode");
+    model.setConnectionStatus("Trying to establish a direct connection (ICE).", 1);
+
+    LOGGER.info("RSCCCFP: Handling ServerMode");
     outputStream.writeBoolean(model.getIsForcingServerMode());
 
     try {
       int remoteForcesServerMode = inputStream.read();
       if (remoteForcesServerMode == 1) {
-        System.out.println("RSCCCFP: Remote forces ServerMode");
+        LOGGER.info("RSCCCFP: Remote forces ServerMode");
         model.setIsForcingServerMode(true);
       }
     } catch (IOException e) {
@@ -137,7 +144,7 @@ public class Rscccfp extends Thread {
       model.setLocalIceSuccessful(false);
       agent.free();
       closeConnection();
-      System.out.println("RSCCCFP: Stopping, ServerMode forced");
+      LOGGER.info("RSCCCFP: Stopping, ServerMode forced");
       return;
     }
 
@@ -164,6 +171,8 @@ public class Rscccfp extends Thread {
       model.setRemoteClientIpAddress(iceComponent
           .getSelectedPair().getRemoteCandidate().getTransportAddress().getAddress());
       model.setLocalIceSuccessful(true);
+      model.setConnectionStatus("ICE sucessful", 1);
+
     } else {
       model.setLocalIceSuccessful(false);
     }
@@ -178,8 +187,8 @@ public class Rscccfp extends Thread {
 
     closeConnection();
 
-    System.out.println("myState: " + model.isLocalIceSuccessful());
-    System.out.println("remoteState: " + model.isRemoteIceSuccessful());
+    LOGGER.info("myState: " + model.isLocalIceSuccessful());
+    LOGGER.info("remoteState: " + model.isRemoteIceSuccessful());
   }
 
 
@@ -187,7 +196,7 @@ public class Rscccfp extends Thread {
    * Receive other state.
    */
   private void receiveOtherIceProcessingState() {
-    System.out.println("RSCCCFP: wait for other state");
+    LOGGER.info("RSCCCFP: wait for other state");
     try {
       int remoteIceProcessState = inputStream.read();
       if (remoteIceProcessState == 1) {
@@ -195,7 +204,9 @@ public class Rscccfp extends Thread {
       } else {
         model.setRemoteIceSuccessful(false);
       }
-      System.out.println("RSCCCFP: received other state");
+      LOGGER.info("RSCCCFP: received other state");
+      model.setConnectionStatus("Received remote state", 1);
+
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -206,7 +217,7 @@ public class Rscccfp extends Thread {
    * Sends ICE-Result to opposite.
    */
   public void sendMyIceProcessingState() {
-    System.out.println("RSCCCFP: Send myIceProcessingState");
+    LOGGER.info("RSCCCFP: Send myIceProcessingState");
     try {
       outputStream.writeBoolean(model.isLocalIceSuccessful());
       outputStream.flush();
@@ -224,18 +235,19 @@ public class Rscccfp extends Thread {
 
   /**
    * Sends SDP-Dump to opposite.
+   *
    * @param sdpDump the generated SDP as String.
    */
   public void sendMySdp(String sdpDump) {
-    System.out.println("RSCCCFP: Sending this SDP:");
-    System.out.println(mySdp);
+    LOGGER.info("RSCCCFP: Sending this SDP:");
+    LOGGER.info(mySdp);
 
     try {
       outputStream.writeBytes("sdpStart" + '\n');
       outputStream.writeBytes(sdpDump + '\n');
       outputStream.writeBytes("sdpEnd" + '\n');
       outputStream.flush();
-      System.out.println("RSCCCFP: sent sdp");
+      LOGGER.info("RSCCCFP: sent sdp");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -246,13 +258,15 @@ public class Rscccfp extends Thread {
    */
   private void receiveRemoteSdp() {
 
-    System.out.println("RSCCCFP: wait for other sdp");
+    LOGGER.info("RSCCCFP: wait for other sdp");
+    model.setConnectionStatus("waiting for client to send possible connection-points", 1);
+
     StringBuilder receivedSdp = new StringBuilder();
     try {
       //wait for starting line
       String sdpLine = inputStream.readLine();
       if (sdpLine.equals("ForcingServerMode")) {
-        System.out.println("RSCCCFP: Servermode is forced from opposite");
+        LOGGER.info("RSCCCFP: Servermode is forced from opposite");
         return;
       }
 
@@ -268,11 +282,11 @@ public class Rscccfp extends Thread {
         sdpLine = inputStream.readLine();
       }
 
-      System.out.println("RSCCCFP: received sdp:");
-      System.out.println("RSCCCFP:" + receivedSdp.toString());
+      LOGGER.info("RSCCCFP: received sdp:");
+      LOGGER.info("RSCCCFP:" + receivedSdp.toString());
 
       remoteSdp = receivedSdp.toString();
-      System.out.println("RSCCCFP: received other sdp");
+      LOGGER.info("RSCCCFP: received other sdp");
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -288,7 +302,7 @@ public class Rscccfp extends Thread {
         try {
           serverSocket.close();
         } catch (SocketException e) {
-          System.out.println("RSCCCFP: Server Socket closed heavly");
+          LOGGER.info("RSCCCFP: Server Socket closed");
         }
       }
       if (connectionSocket != null && !connectionSocket.isClosed()) {
@@ -341,16 +355,19 @@ public class Rscccfp extends Thread {
 
     while (agent.getState() != IceProcessingState.TERMINATED) {
       Thread.sleep(1000);
-      System.out.println("ICE Process running");
+      LOGGER.info("ICE Process running");
+
 
       if (agent.getState() == IceProcessingState.FAILED) {
-        System.out.println("ICE Failed");
-
+        LOGGER.info("ICE Failed");
+        model.setConnectionStatus("ICE unsucessful", 3);
         return null;
       }
     }
 
-    System.out.println("Got a working socket");
+    LOGGER.info("Got a working socket");
+    model.setConnectionStatus("ICE sucessful", 2);
+
     Component rtpComponent = iceStateListener.rtpComponent;
 
     return rtpComponent;
