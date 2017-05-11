@@ -202,6 +202,14 @@ public class Rscc {
     if (rudp != null) {
       rudp.setIsOngoing(false);
     }
+    if (vncServer != null) {
+      vncServer.killVncServer();
+    }
+    if (vncViewer != null) {
+      vncViewer.killVncViewer();
+    }
+
+    systemCommander.executeTerminalCommand("pkill ssh");
 
     // Execute port_stop.sh with the generated key to kill the connection
     String command = systemCommander.commandStringGenerator(
