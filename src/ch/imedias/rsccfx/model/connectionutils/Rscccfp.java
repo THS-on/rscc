@@ -121,7 +121,20 @@ public class Rscccfp extends Thread {
     //Exchange isServermode?
     outputStream.writeBoolean(model.getIsForcingServerMode());
 
+    try {
+      int remoteForcesServerMode = inputStream.read();
+      if (remoteForcesServerMode == 1) {
+        System.out.println("RSCCCFP: Remote forces ServerMode");
+        model.setIsForcingServerMode(true);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     if (model.getIsForcingServerMode()) {
+      System.out.println("RSCCCFP: Stopping, ServerMode forced");
+      model.setRemoteIceSuccessful(false);
+      model.setLocalIceSuccessful(false);
       agent.free();
       closeConnection();
       return;
