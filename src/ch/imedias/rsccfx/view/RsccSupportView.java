@@ -34,6 +34,8 @@ public class RsccSupportView extends BorderPane {
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label statusLbl = new Label();
+  final Label startServiceDescriptionLbl = new Label();
+  final Label startServiceTitleLbl = new Label();
 
   final HBox statusBox = new HBox();
 
@@ -50,6 +52,7 @@ public class RsccSupportView extends BorderPane {
   ImageView validationImgView = new ImageView();
 
   final Button connectBtn = new Button();
+  final Button startServiceBtn = new Button();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -63,6 +66,7 @@ public class RsccSupportView extends BorderPane {
     layoutForm();
     bindFieldsToModel();
     layoutKeyInputPane();
+    layoutStartServicePane();
   }
 
   private void initFieldData() {
@@ -70,6 +74,10 @@ public class RsccSupportView extends BorderPane {
     titleLbl.textProperty().set(strings.supportTitleLbl);
     descriptionLbl.textProperty().set(strings.supportDescriptionLbl);
     connectBtn.textProperty().set(strings.supportConnectBtn);
+
+    startServiceBtn.textProperty().set(strings.startServiceBtn);
+    startServiceDescriptionLbl.textProperty().set(strings.startServiceDescpriptionLbl);
+    startServiceTitleLbl.textProperty().set(strings.startServiceTitleLbl);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.supportStatusLblReady);
@@ -128,7 +136,8 @@ public class RsccSupportView extends BorderPane {
 
     GridPane.setColumnSpan(statusBox, 3);
 
-    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl, descriptionLbl,statusBox);
+    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl,
+        descriptionLbl,statusBox);
     keyInputInnerPane.setAlignment(Pos.CENTER);
     keyInputInnerPane.getChildren().stream()
         .forEach(node -> {
@@ -139,20 +148,14 @@ public class RsccSupportView extends BorderPane {
         });
   }
 
-  private void layoutUnderPane() {
-    GridPane.setConstraints(keyFld, 0, 0);
-    GridPane.setConstraints(validationImgView,1,0);
-    GridPane.setConstraints(connectBtn,0,1);
-    GridPane.setConstraints(titleLbl, 2, 0);
-    GridPane.setConstraints(descriptionLbl, 2, 1);
-    GridPane.setConstraints(statusBox, 0, 3);
+  private void layoutStartServicePane() {
+    GridPane.setConstraints(startServiceBtn, 0, 0);
+    GridPane.setConstraints(startServiceTitleLbl, 1,0);
+    GridPane.setConstraints(startServiceDescriptionLbl, 1,1);
 
-    GridPane.setColumnSpan(keyFieldAndImageBox, 3);
-    GridPane.setColumnSpan(statusBox, 3);
-
-    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl, descriptionLbl,statusBox);
-    keyInputInnerPane.setAlignment(Pos.CENTER);
-    keyInputInnerPane.getChildren().stream()
+    addressbookInnerPane.getChildren().addAll(startServiceBtn,
+        startServiceDescriptionLbl, startServiceTitleLbl);
+    addressbookInnerPane.getChildren().stream()
         .forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
