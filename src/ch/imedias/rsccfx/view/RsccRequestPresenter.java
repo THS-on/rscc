@@ -243,8 +243,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     contextMenu.getItems().addAll(editMenuItem, callMenuItem);
 
     // When user right-click on Supporterbutton
-    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(), event.getScreenY()));
-
-
+    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
+        event.getScreenY()));
   }
 }
