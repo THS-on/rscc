@@ -238,6 +238,7 @@
                         <configuration>
                             <dataSet>
                                 <data>
+                                    <!-- FIXME: it puts the jar into a deb file 🙈 -->
                                     <src>${project.build.directory}/${project.build.finalName}.jar</src>
                                     <type>file</type>
                                     <mapper>
