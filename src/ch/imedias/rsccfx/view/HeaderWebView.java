@@ -61,9 +61,9 @@ public class HeaderWebView extends VBox {
     String url1 = getClass().getClassLoader().getResource("helpPage.html").toExternalForm();
 
     //If local Help Page should be shown
-    webEngine.load(url1);
+    //webEngine.load(url1);
 
     //If external Wiki should be shown
-    //webEngine.load(wikiUrl);
+    webEngine.load(wikiUrl);
   }
 }
