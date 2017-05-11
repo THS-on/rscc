@@ -23,7 +23,7 @@
     -fx-font-size: 0.9em;
     -fx-font-family: "DejaVu Sans";
     -fx-background-color: #EAEAEA;
-    }
+}
 
 #helpBtn:hover, #backBtn:hover, #settingsBtn:hover{
     -fx-background-color: #f7f7f7;
@@ -57,7 +57,7 @@
 }
 
 .SmallFont{
-     -fx-font-size: 18pt;
+    -fx-font-size: 18pt;
 }
 
 .homeButtonImages {
@@ -214,7 +214,7 @@
 }
 
 .supporterBtn:hover{
- -fx-cursor: hand;
+    -fx-cursor: hand;
 }
 
 .titleLbl{
@@ -284,14 +284,14 @@
     /*-fx-pref-width: 240px;*/
     /*-fx-pref-height: 100px;*/
 
-/*
+    /*
 
-    -fx-font-size: 15pt;
-    -fx-fit-to-width: true;
-    -fx-content-display: top;
-    -fx-border-width: ;
-    -fx-padding: 15;
-    -fx-background-color: white;*/
+        -fx-font-size: 15pt;
+        -fx-fit-to-width: true;
+        -fx-content-display: top;
+        -fx-border-width: ;
+        -fx-padding: 15;
+        -fx-background-color: white;*/
 }
 
 .supporterBtn:hover {
@@ -318,7 +318,7 @@
 }
 
 .slider .thumb:hover {
- -fx-cursor: hand;
+    -fx-cursor: hand;
 }
 
 .slider {
@@ -333,7 +333,7 @@
 }
 
 .sliderLbls {
- -fx-font-size: 150%;
+    -fx-font-size: 150%;
 }
 
 .toggles:selected .thumb-area {

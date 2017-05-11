@@ -248,7 +248,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   }
 
-  private void initButtonSize(Button button){
+  private void initButtonSize(Button button) {
     GridPane.setVgrow(button, Priority.ALWAYS);
     GridPane.setHgrow(button, Priority.ALWAYS);
     GridPane.setValignment(button, VPos.CENTER);
@@ -258,5 +258,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     button.prefHeightProperty().bind(button.widthProperty());
     button.minHeightProperty().bind(button.widthProperty());
     button.maxHeightProperty().bind(button.widthProperty());
+    view.supporterGrid.requestLayout();
   }
 }
