@@ -71,6 +71,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
         event -> model.refreshKey()
     );
 
+    // handles TitledPane switching between the two TitledPanes
     view.keyGenerationTitledPane.expandedProperty().addListener(
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
@@ -82,7 +83,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
           }
         }
     );
-
     view.predefinedAddressesTitledPane.expandedProperty().addListener(
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
