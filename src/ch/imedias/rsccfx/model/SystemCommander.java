@@ -1,8 +1,10 @@
 package ch.imedias.rsccfx.model;
 
 import com.google.common.base.CharMatcher;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -51,13 +53,15 @@ public class SystemCommander {
     return outputString;
   }
 
+
   /**
+   * Executes a TerminalCommand, that listen for a specified StringOutput and sets the
+   * setIsVncSessionRunning accordingly.
    * @param command                 to be executed
    * @param whatTerminalNeedsToShow String to compare to and when to set connection ongoing in model
    */
-
-
-  public String executeTerminalCommandAndUpdateModel(String command, String whatTerminalNeedsToShow) {
+  public String executeTerminalCommandAndUpdateModel(String command,
+                                                     String whatTerminalNeedsToShow) {
     Process p;
     StringBuilder output = new StringBuilder();
 
@@ -106,6 +110,7 @@ public class SystemCommander {
       t.start();
       t.join();
     } catch (Exception e) {
+      e.printStackTrace();
     } finally {
       model.setIsVncSessionRunning(false);
     }
@@ -142,5 +147,4 @@ public class SystemCommander {
   public void setModel(Rscc model) {
     this.model = model;
   }
-
 }

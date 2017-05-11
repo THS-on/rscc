@@ -211,11 +211,11 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
-    setConnectionStatus("Setting keyserver...", 1);
+    setConnectionStatusDisplay("Setting keyserver...", 1);
 
     keyServerSetup();
 
-    setConnectionStatus("Requesting key from server...", 1);
+    setConnectionStatusDisplay("Requesting key from server...", 1);
 
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
@@ -250,7 +250,7 @@ public class Rscc {
       rudp.start();
     }
 
-    setConnectionStatus("VNC-Server awaits connection", 2);
+    setConnectionStatusDisplay("VNC-Server awaits connection", 2);
   }
 
   /**
@@ -259,7 +259,7 @@ public class Rscc {
    * @param text             Text to show for the connection status.
    * @param statusStyleIndex Index of the connectionStatusStyles.
    */
-  public void setConnectionStatus(String text, int statusStyleIndex) {
+  public void setConnectionStatusDisplay(String text, int statusStyleIndex) {
     if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
       throw new IllegalArgumentException();
     }
@@ -272,13 +272,13 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
-    setConnectionStatus("Setting keyserver...", 1);
+    setConnectionStatusDisplay("Setting keyserver...", 1);
 
     keyServerSetup();
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), keyUtil.getKey());
 
-    setConnectionStatus("Connect to keyserver...", 1);
+    setConnectionStatusDisplay("Connect to keyserver...", 1);
 
     systemCommander.executeTerminalCommand(command);
 
@@ -349,7 +349,7 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
-    setConnectionStatus("Refreshing key...", 1);
+    setConnectionStatusDisplay("Refreshing key...", 1);
     killConnection();
     requestKeyFromServer();
   }

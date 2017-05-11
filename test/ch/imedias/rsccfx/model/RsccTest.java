@@ -190,33 +190,33 @@ public class RsccTest {
   //  }
 
   /**
-   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   * Test for {@link Rscc#setConnectionStatusDisplay(String, int)}.
    */
   @Test
   public void testSetConnectionStatus() {
     int styleIndexToTest = 0;
     String statusText = "test";
-    model.setConnectionStatus(statusText,styleIndexToTest);
+    model.setConnectionStatusDisplay(statusText,styleIndexToTest);
     String currentStatus = model.getConnectionStatusStyle();
     assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
 
     styleIndexToTest = 1;
-    model.setConnectionStatus(statusText,styleIndexToTest);
+    model.setConnectionStatusDisplay(statusText,styleIndexToTest);
     currentStatus = model.getConnectionStatusStyle();
     assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
   }
 
   /**
-   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   * Test for {@link Rscc#setConnectionStatusDisplay(String, int)}.
    */
   @Test
   public void testSetConnectionStatusFailing() {
     try {
       int styleIndexToTest = -1;
       String statusText = "test";
-      model.setConnectionStatus(statusText,styleIndexToTest);
+      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
@@ -224,7 +224,7 @@ public class RsccTest {
     try {
       int styleIndexToTest = 52;
       String statusText = "test";
-      model.setConnectionStatus(statusText,styleIndexToTest);
+      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
@@ -232,7 +232,7 @@ public class RsccTest {
     try {
       int styleIndexToTest = 0;
       String statusText = null;
-      model.setConnectionStatus(statusText,styleIndexToTest);
+      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
