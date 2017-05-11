@@ -148,6 +148,27 @@ public class RsccSupportView extends BorderPane {
         });
   }
 
+  private void layoutUnderPane() {
+    GridPane.setConstraints(keyFld, 0, 0);
+    GridPane.setConstraints(validationImgView,1,0);
+    GridPane.setConstraints(connectBtn,0,1);
+    GridPane.setConstraints(titleLbl, 2, 0);
+    GridPane.setConstraints(descriptionLbl, 2, 1);
+    GridPane.setConstraints(statusBox, 0, 3);
+
+    GridPane.setColumnSpan(keyFieldAndImageBox, 3);
+    GridPane.setColumnSpan(statusBox, 3);
+
+    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl, descriptionLbl,statusBox);
+    keyInputInnerPane.setAlignment(Pos.CENTER);
+    keyInputInnerPane.getChildren().stream()
+        .forEach(node -> {
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+        });
+  }
 
   private void bindFieldsToModel() {
     // make bindings to the model
