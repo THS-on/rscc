@@ -86,8 +86,6 @@ public class RsccApp extends Application {
     double screenHeight = primaryScreenBounds.getHeight();
     double screenWidth = primaryScreenBounds.getWidth();
 
-    double resolution = screenHeight * screenWidth;
-
     //set Stage boundaries to visible bounds of the main screen
     stage.setWidth(screenWidth / 1.8);
     stage.setHeight(screenHeight / 1.5);
@@ -108,6 +106,8 @@ public class RsccApp extends Application {
 
     // Initialize stylesheets
     // Choose CSS depending on the resolution
+    double resolution = screenHeight * screenWidth;
+
     String cssFile;
     if(resolution > borderTo4K){
       cssFile = styleSheet4k;
@@ -116,6 +116,7 @@ public class RsccApp extends Application {
     }else{
       cssFile = styleSheetHd;
     }
+
     String styleSheet = getClass().getClassLoader()
         .getResource(cssFile).toExternalForm();
 
