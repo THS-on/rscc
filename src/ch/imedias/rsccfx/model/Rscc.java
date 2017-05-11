@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -46,7 +45,7 @@ public class Rscc {
   private static final String RSCC_FOLDER_NAME = ".rscc";
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUN_SERVERS = {
-      "numb.viagenie.ca","stun.ekiga.net","stun.gmx.net", "stun.1und1.de"};
+      "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
   private static final int LOCAL_FORWARDING_PORT = 2601;
   private static final int PACKAGE_SIZE = 10000;
@@ -233,13 +232,6 @@ public class Rscc {
    */
   public void connectToUser() {
 
-    /*TODO: if Supporter wants reverse VNC, VNC viewer should be started here by vncviewer -listen
-    // Starts on port 5500 as standard def
-    String startReverseVnc = "vncviewer -listen";
-    systemCommander.executeTerminalCommand(startReverseVnc);
-    // How to stop? where to stop?
-    */
-
     keyServerSetup();
     String command = commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), getKey());
@@ -301,7 +293,8 @@ public class Rscc {
 
   /**
    * Starts VNC Viewer.
-   * @param hostAddress Address to connect to.
+   *
+   * @param hostAddress   Address to connect to.
    * @param vncViewerPort Port to connect to.
    */
   public void startVncViewer(String hostAddress, Integer vncViewerPort) {
@@ -326,6 +319,18 @@ public class Rscc {
     killConnection();
     requestKeyFromServer();
   }
+
+  public void viewerListen(int port) throws Throwable {
+    //Correct weird vncviewer behavious: it adds the portnumber to 5500 and starts
+    // service on this port (0=5500, 1=5501)
+    int recalculatedPort = port - 5500;
+    if (port < 0) {
+      throw new Exception("VNC Port must be between 5900 and 65,535");
+    }
+    String startReverseVnc = "vncviewer -listen " + port;
+    systemCommander.executeTerminalCommand(startReverseVnc);
+  }
+
 
   /**
    * Generates String to run command.
