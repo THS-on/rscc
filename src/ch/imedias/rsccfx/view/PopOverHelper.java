@@ -66,6 +66,7 @@ public class PopOverHelper {
   Label homeHelpLbl = new Label();
   Label requestHelpLbl = new Label();
   Label supportHelpLbl = new Label();
+  Label bgr233DescriptionLbl = new Label();
 
   Separator qualitySliderSeparator = new Separator();
   Separator compressionSliderSeparator = new Separator();
@@ -123,6 +124,8 @@ public class PopOverHelper {
     supportBgr233Lbl.textProperty().set(strings.supportBgr233Lbl);
 
     expertSettingsBtn.textProperty().set(strings.expertSettingsBtn);
+
+    bgr233DescriptionLbl.textProperty().set(strings.bgr233DescriptionLbl);
   }
 
   private void layoutPopOver() {
@@ -214,6 +217,7 @@ public class PopOverHelper {
     supportSettingsBox.getChildren().add(supportQualitySliderBox);
     supportSettingsBox.getChildren().add(qualitySliderSeparator);
     supportSettingsBox.getChildren().add(supportBgr233ToggleBox);
+    supportSettingsBox.getChildren().add(bgr233DescriptionLbl);
     supportSettingsBox.getChildren().add(expertSettingsSeparator);
     supportSettingsBox.getChildren().add(expertSettingsBtn);
 
