@@ -118,8 +118,28 @@ public class Rscccfp extends Thread {
    * @throws Throwable to be removed.
    */
   private void runIceMagic() throws Throwable {
+    //Exchange isServermode?
+    System.out.println("RSCCCFP: Handling ServerMode");
+    outputStream.writeBoolean(model.getIsForcingServerMode());
 
+    try {
+      int remoteForcesServerMode = inputStream.read();
+      if (remoteForcesServerMode == 1) {
+        System.out.println("RSCCCFP: Remote forces ServerMode");
+        model.setIsForcingServerMode(true);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
+    if (model.getIsForcingServerMode()) {
+      model.setRemoteIceSuccessful(false);
+      model.setLocalIceSuccessful(false);
+      agent.free();
+      closeConnection();
+      System.out.println("RSCCCFP: Stopping, ServerMode forced");
+      return;
+    }
 
 
     //Start ICE Agent
