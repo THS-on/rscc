@@ -32,7 +32,8 @@ public class RsccRequestView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestView.class.getName());
 
-  private static final double BUTTON_SIZE = 50d;
+  private static final double BUTTON_SIZE = 35d;
+  private static final double BUTTON_PADDING = 15;
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
@@ -133,6 +134,7 @@ public class RsccRequestView extends BorderPane {
 
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPadding(new Insets(BUTTON_PADDING));
     reloadKeyBtn.setId("reloadKeyBtn");
 
     contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane,
