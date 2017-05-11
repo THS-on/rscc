@@ -72,19 +72,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     view.keyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
-//    view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
-//        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
-//
-//    // FIXME: Magic numbeeer.
-//    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-//        .subtract(159d));
-//
-//    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
-//
-//    view.keyFld.prefWidthProperty().bind(scene.widthProperty()
-//        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
-//    view.keyInputTitledPane.prefWidthProperty().bind(scene.widthProperty());
-//  }
   }
 
   /**

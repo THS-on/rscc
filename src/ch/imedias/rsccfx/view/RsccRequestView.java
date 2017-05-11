@@ -11,7 +11,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -189,9 +188,7 @@ public class RsccRequestView extends BorderPane {
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(10));
           keyGenerationInnerPane.setAlignment(Pos.CENTER);
-
-            }
-        );
+        });
 
     // column division
     ColumnConstraints col1 = new ColumnConstraints();

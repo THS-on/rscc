@@ -112,11 +112,11 @@ public class RsccApp extends Application {
     double resolution = screenHeight * screenWidth;
 
     String cssFile;
-    if(resolution > borderTo4k){
+    if (resolution > borderTo4k) {
       cssFile = styleSheet4k;
-    }else if (resolution < borderToFullHd){
+    } else if (resolution < borderToFullHd) {
       cssFile = styleSheetLow;
-    }else{
+    } else {
       cssFile = styleSheetHd;
     }
 

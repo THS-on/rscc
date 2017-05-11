@@ -3,7 +3,9 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.KeyTextField;
+
 import java.util.logging.Logger;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -140,17 +142,16 @@ public class RsccSupportView extends BorderPane {
 
     GridPane.setColumnSpan(statusBox, 3);
 
-    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl,
-        descriptionLbl,statusBox);
+    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView, connectBtn, titleLbl,
+        descriptionLbl, statusBox);
     keyInputInnerPane.setAlignment(Pos.CENTER);
-    keyInputInnerPane.getChildren().stream()
-        .forEach(node -> {
-          GridPane.setVgrow(node, Priority.ALWAYS);
-          GridPane.setHgrow(node, Priority.ALWAYS);
-          GridPane.setValignment(node, VPos.CENTER);
-          GridPane.setHalignment(node, HPos.CENTER);
-          GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
-        });
+    keyInputInnerPane.getChildren().stream().forEach(node -> {
+      GridPane.setVgrow(node, Priority.ALWAYS);
+      GridPane.setHgrow(node, Priority.ALWAYS);
+      GridPane.setValignment(node, VPos.CENTER);
+      GridPane.setHalignment(node, HPos.CENTER);
+      GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
+    });
 
     // column division
     ColumnConstraints col1 = new ColumnConstraints();
@@ -159,18 +160,18 @@ public class RsccSupportView extends BorderPane {
     col2.setPercentWidth(10);
     ColumnConstraints col3 = new ColumnConstraints();
     col3.setPercentWidth(50);
-    keyInputInnerPane.getColumnConstraints().addAll(col1,col2,col3);
+    keyInputInnerPane.getColumnConstraints().addAll(col1, col2, col3);
 
     // special styling
     GridPane.setVgrow(statusBox, Priority.NEVER);
-    GridPane.setValignment(titleLbl,VPos.BOTTOM);
-    GridPane.setValignment(descriptionLbl,VPos.CENTER);
+    GridPane.setValignment(titleLbl, VPos.BOTTOM);
+    GridPane.setValignment(descriptionLbl, VPos.CENTER);
     GridPane.setValignment(keyFld, VPos.CENTER);
     GridPane.setValignment(validationImgView, VPos.CENTER);
     GridPane.setValignment(connectBtn, VPos.TOP);
     GridPane.setMargin(titleLbl, new Insets(0));
     GridPane.setMargin(descriptionLbl, new Insets(0));
-    GridPane.setMargin(keyFld, new Insets(0,0,10,0));
+    GridPane.setMargin(keyFld, new Insets(0, 0, 10, 0));
     GridPane.setMargin(validationImgView, new Insets(0));
     GridPane.setMargin(connectBtn, new Insets(0));
 
@@ -183,32 +184,30 @@ public class RsccSupportView extends BorderPane {
 
   private void layoutStartServicePane() {
     GridPane.setConstraints(startServiceBtn, 0, 1);
-    GridPane.setConstraints(startServiceTitleLbl, 1,0);
-    GridPane.setConstraints(startServiceDescriptionLbl, 1,1);
+    GridPane.setConstraints(startServiceTitleLbl, 1, 0);
+    GridPane.setConstraints(startServiceDescriptionLbl, 1, 1);
 
 
     addressbookInnerPane.getChildren().addAll(startServiceBtn,
         startServiceDescriptionLbl, startServiceTitleLbl);
 
     // initial styling
-    addressbookInnerPane.getChildren().stream()
-        .forEach(node -> {
-              GridPane.setVgrow(node, Priority.ALWAYS);
-              GridPane.setHgrow(node, Priority.ALWAYS);
-              GridPane.setValignment(node, VPos.CENTER);
-              GridPane.setHalignment(node, HPos.CENTER);
-              GridPane.setMargin(node, new Insets(10));
-              addressbookInnerPane.setAlignment(Pos.CENTER);
-
-            }
-        );
+    addressbookInnerPane.getChildren().stream().forEach(node -> {
+      GridPane.setVgrow(node, Priority.ALWAYS);
+      GridPane.setHgrow(node, Priority.ALWAYS);
+      GridPane.setValignment(node, VPos.CENTER);
+      GridPane.setHalignment(node, HPos.CENTER);
+      GridPane.setMargin(node, new Insets(10));
+      addressbookInnerPane.setAlignment(Pos.CENTER);
+        }
+    );
 
     // column division
     ColumnConstraints col1 = new ColumnConstraints();
     col1.setPercentWidth(50);
     ColumnConstraints col2 = new ColumnConstraints();
     col2.setPercentWidth(50);
-    addressbookInnerPane.getColumnConstraints().addAll(col1,col2);
+    addressbookInnerPane.getColumnConstraints().addAll(col1, col2);
 
     RowConstraints row1 = new RowConstraints();
     row1.setPercentHeight(25);

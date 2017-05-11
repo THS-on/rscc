@@ -135,10 +135,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void initSize(Scene scene) {
     // initialize header
-
-      // initialize view
-      // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
-      view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
+    // initialize view
+    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
+    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
           .subtract(WIDTH_SUBTRACTION_KEYFIELD));
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
     view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
