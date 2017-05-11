@@ -217,6 +217,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     buttons.add(supporter);
 
+    supporter.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
     int buttonSize = buttons.size() - 1;
 
     if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {

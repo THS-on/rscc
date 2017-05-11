@@ -180,6 +180,7 @@ public class RsccRequestView extends BorderPane {
     supporterGrid.setVgap(20);
     supporterGrid.setHgap(20);
     supporterGrid.setPadding(new Insets(20));
+
   }
 
   private void bindFieldsToModel() {
