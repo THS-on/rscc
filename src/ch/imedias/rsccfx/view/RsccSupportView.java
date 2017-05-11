@@ -3,6 +3,10 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import java.util.logging.Logger;
+
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -31,6 +35,8 @@ public class RsccSupportView extends BorderPane {
   final Label descriptionLbl = new Label();
   final Label statusLbl = new Label();
 
+  final HBox keyFieldAndImageBox = new HBox();
+
   final HBox statusBox = new HBox();
 
   final TextField keyFld = new TextField();
@@ -58,6 +64,7 @@ public class RsccSupportView extends BorderPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+    layoutKeyInputPane();
   }
 
   private void initFieldData() {
@@ -87,6 +94,10 @@ public class RsccSupportView extends BorderPane {
     addressbookTitledPane.setExpanded(false);
     addressbookTitledPane.setId("addressbookTitledPane");
 
+    keyFieldAndImageBox.getChildren().addAll(keyFld, validationImgView);
+
+    HBox.setHgrow(keyFieldAndImageBox, Priority.ALWAYS);
+
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
@@ -100,6 +111,10 @@ public class RsccSupportView extends BorderPane {
 
     validationImgView.setSmooth(true);
 
+    HBox.setHgrow(keyFieldAndImageBox, Priority.ALWAYS);
+
+    titleLbl.getStyleClass().add("titleLbl");
+
     connectBtn.setId("connectBtn");
     connectBtn.setDisable(true);
 
@@ -109,6 +124,28 @@ public class RsccSupportView extends BorderPane {
 
     setTop(headerView);
     setCenter(contentBox);
+  }
+
+  private void layoutKeyInputPane() {
+    GridPane.setConstraints(keyFld, 0, 0);
+    GridPane.setConstraints(validationImgView,1,0);
+    GridPane.setConstraints(connectBtn,0,1);
+    GridPane.setConstraints(titleLbl, 2, 0);
+    GridPane.setConstraints(descriptionLbl, 2, 1);
+    GridPane.setConstraints(statusBox, 0, 3);
+
+    GridPane.setColumnSpan(keyFieldAndImageBox, 3);
+    GridPane.setColumnSpan(statusBox, 3);
+
+    keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl, descriptionLbl,statusBox);
+    keyInputInnerPane.setAlignment(Pos.CENTER);
+    keyInputInnerPane.getChildren().stream()
+        .forEach(node -> {
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+        });
   }
 
 

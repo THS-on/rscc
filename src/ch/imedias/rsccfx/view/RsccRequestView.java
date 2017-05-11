@@ -78,7 +78,6 @@ public class RsccRequestView extends BorderPane {
     layoutPredefinedAddressesPane();
     layoutForm();
     layoutSupporterPane();
-
     bindFieldsToModel();
   }
 
