@@ -16,7 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.InfoOverlay;
 
@@ -171,20 +173,35 @@ public class RsccSupportView extends BorderPane {
     GridPane.setMargin(keyFld, new Insets(0,0,10,0));
     GridPane.setMargin(validationImgView, new Insets(0));
     GridPane.setMargin(connectBtn, new Insets(0));
-    keyInputInnerPane.setGridLinesVisible(true);
 
     keyInputInnerPane.setPadding(new Insets(10));
+
+    keyInputInnerPane.setGridLinesVisible(true);
 
 
   }
 
   private void layoutStartServicePane() {
-    GridPane.setConstraints(startServiceBtn, 0, 0);
+    GridPane.setConstraints(startServiceBtn, 0, 1);
     GridPane.setConstraints(startServiceTitleLbl, 1,0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1,1);
 
-    GridPane.setRowSpan(startServiceBtn, 2);
 
+    addressbookInnerPane.getChildren().addAll(startServiceBtn,
+        startServiceDescriptionLbl, startServiceTitleLbl);
+
+    // initial styling
+    addressbookInnerPane.getChildren().stream()
+        .forEach(node -> {
+              GridPane.setVgrow(node, Priority.ALWAYS);
+              GridPane.setHgrow(node, Priority.ALWAYS);
+              GridPane.setValignment(node, VPos.CENTER);
+              GridPane.setHalignment(node, HPos.CENTER);
+              GridPane.setMargin(node, new Insets(10));
+              addressbookInnerPane.setAlignment(Pos.CENTER);
+
+            }
+        );
 
     // column division
     ColumnConstraints col1 = new ColumnConstraints();
@@ -193,24 +210,21 @@ public class RsccSupportView extends BorderPane {
     col2.setPercentWidth(50);
     addressbookInnerPane.getColumnConstraints().addAll(col1,col2);
 
-    // special styling
-    GridPane.setValignment(startServiceBtn, VPos.BOTTOM);
-    GridPane.setValignment(startServiceTitleLbl, VPos.BOTTOM);
-    GridPane.setValignment(startServiceDescriptionLbl, VPos.TOP);
-    GridPane.setMargin(titleLbl, new Insets(0));
-    GridPane.setMargin(descriptionLbl, new Insets(0));
-    addressbookInnerPane.setPadding(new Insets(10));
+    RowConstraints row1 = new RowConstraints();
+    row1.setPercentHeight(25);
+    RowConstraints row2 = new RowConstraints();
+    row2.setPercentHeight(30);
+    RowConstraints row3 = new RowConstraints();
+    row3.setPercentHeight(45);
+    addressbookInnerPane.getRowConstraints().addAll(row1, row2, row3);
 
-    addressbookInnerPane.getChildren().addAll(startServiceBtn,
-        startServiceDescriptionLbl, startServiceTitleLbl);
-    addressbookInnerPane.getChildren().stream()
-        .forEach(node -> {
-          GridPane.setVgrow(node, Priority.ALWAYS);
-          GridPane.setHgrow(node, Priority.ALWAYS);
-          GridPane.setValignment(node, VPos.CENTER);
-          GridPane.setHalignment(node, HPos.CENTER);
-          GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
-        });
+    // special styling
+    GridPane.setValignment(startServiceTitleLbl, VPos.BOTTOM);
+    GridPane.setValignment(startServiceBtn, VPos.CENTER);
+    GridPane.setValignment(startServiceDescriptionLbl, VPos.CENTER);
+    GridPane.setMargin(titleLbl, new Insets(0));
+
+    addressbookInnerPane.setGridLinesVisible(true);
   }
 
   private void bindFieldsToModel() {
