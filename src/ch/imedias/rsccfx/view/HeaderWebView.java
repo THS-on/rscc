@@ -1,7 +1,9 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import java.net.URL;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -33,8 +35,7 @@ import javafx.scene.layout.Priority;
  */
 public class HeaderWebView extends VBox {
 
-  String url="https://wiki.lernstick.ch";
-  //String url="helpPage.html";
+  String wikiUrl="https://wiki.lernstick.ch";
 
   public HeaderWebView() {
     createWebHelp();
@@ -57,9 +58,12 @@ public class HeaderWebView extends VBox {
 
     this.getChildren().addAll(browser, progressBar);
 
-    //webEngine.load(url);
-    //String url = getClass().getResource("helpPage.html").toExternalForm();
-    webEngine.load(url);
+    String url1 = getClass().getClassLoader().getResource("helpPage.html").toExternalForm();
 
+    //If local Help Page should be shown
+    webEngine.load(url1);
+
+    //If external Wiki should be shown
+    //webEngine.load(wikiUrl);
   }
 }
