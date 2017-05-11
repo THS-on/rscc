@@ -21,10 +21,8 @@ public class VncViewerHandler extends Thread {
    */
   public VncViewerHandler(Rscc model, String hostAddress,
                           Integer vncViewerPort, boolean listeningMode) {
+
     this.listeningMode = listeningMode;
-    if (hostAddress == null || vncViewerPort == null) {
-      throw new IllegalArgumentException();
-    }
     this.model = model;
     this.hostAddress = hostAddress;
     this.vncViewerPort = vncViewerPort;
@@ -33,11 +31,11 @@ public class VncViewerHandler extends Thread {
 
 
   /**
-   * Starts the VNCViewer in the given mode (Listener or normal).
+   * Starts the VNCViewer in the given mode (Reverse or normal).
    */
   public void run() {
     if (listeningMode) {
-      startVncViewerListening();
+      startVncViewerReverse();
     } else {
       startVncViewer();
     }
@@ -66,7 +64,8 @@ public class VncViewerHandler extends Thread {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      connectionStatus = systemCommander.executeTerminalCommandAndUpdateModel(command, "Connected");
+      connectionStatus = systemCommander.executeTerminalCommandAndUpdateModel(
+          command, "Connected");
       System.out.println("VNCviewer: " + connectionStatus);
 
     } while (!connectionStatus.contains("Connected"));
@@ -78,13 +77,24 @@ public class VncViewerHandler extends Thread {
   /**
    * Starts this VNCViewer in Listening mode.
    */
-  private void startVncViewerListening() {
-    String vncViewerAttributes = "-listen";
+  private void startVncViewerReverse() {
+
+    //Correct weird vncviewer behavious: it adds the portnumber to 5500 and starts
+    // service on this port (0=5500, 1=5501)
+    int recalculatedPort;
+    if (vncViewerPort != null) {
+      recalculatedPort = vncViewerPort - 5500;
+    } else {
+      recalculatedPort = 0;
+    }
+
+    String vncViewerAttributes = "-listen" + recalculatedPort;
 
     String command = systemCommander.commandStringGenerator(null,
         vncViewerName, vncViewerAttributes);
 
-    systemCommander.executeTerminalCommand(command);
+    systemCommander.executeTerminalCommandAndUpdateModel(
+        command, "Connected");
   }
 
 

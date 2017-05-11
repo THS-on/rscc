@@ -13,6 +13,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -79,6 +80,7 @@ public class Rscc {
   private int remoteClientPort;
   private RunRudp rudp;
   private VncViewerHandler vncViewer;
+  private VncServerHandler vncServer;
 
 
   private Rscccfp rscccfp;
@@ -235,7 +237,9 @@ public class Rscc {
 
     LOGGER.info("RSCC: Starting VNCServer");
 
-    startVncServer();
+    vncServer = new VncServerHandler(this, null, null, false);
+    vncServer.start();
+
 
     rudp = null;
 
@@ -323,38 +327,6 @@ public class Rscc {
     vncViewer.start();
   }
 
-  /**
-   * Starts the VNC Server.public
-   */
-  public void startVncServer() {
-    StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
-
-    if (getVncViewOnly()) {
-      vncServerAttributes.append(" -viewonly");
-    }
-    vncServerAttributes.append(" -rfbport ").append(getVncPort());
-
-    setConnectionStatus("Starting vnc Server.", 1);
-
-    String command = systemCommander.commandStringGenerator(null,
-        "x11vnc", vncServerAttributes.toString());
-    systemCommander.executeTerminalCommand(command);
-  }
-
-  /**
-   * Stops the vnc server.
-   */
-  public void stopVncServer() {
-    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
-    systemCommander.executeTerminalCommand(command);
-    setConnectionStatus("VNC Server stopped.", 1);
-
-
-  }
-
-
-
-
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
@@ -366,24 +338,6 @@ public class Rscc {
     requestKeyFromServer();
   }
 
-
-  /**
-   * Starts the
-   * @param port where vncviewer should be started.
-   */
-
-  public void viewerListen(int port) throws Throwable {
-    //Correct weird vncviewer behavious: it adds the portnumber to 5500 and starts
-    // service on this port (0=5500, 1=5501)
-    int recalculatedPort = port - 5500;
-    if (port < 0) {
-      throw new Exception("VNC Port must be between 5900 and 65,535");
-    }
-    String startReverseVnc = "vncviewer -listen " + port;
-    setConnectionStatus("Trying to establish connection.", 1);
-
-    systemCommander.executeTerminalCommand(startReverseVnc);
-  }
 
 
   /**
@@ -617,5 +571,13 @@ public class Rscc {
 
   public void setIsVncSessionRunning(boolean isVncSessionRunning) {
     this.isVncSessionRunning.set(isVncSessionRunning);
+  }
+
+  public VncServerHandler getVncServer() {
+    return vncServer;
+  }
+
+  public void setVncServer(VncServerHandler vncServer) {
+    this.vncServer = vncServer;
   }
 }

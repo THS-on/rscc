@@ -149,16 +149,16 @@ public class RsccTest {
     verify(mockKeyUtil).setKey(KEY);
   }
 
-  /**
-   * Test for {@link Rscc#startVncServer()}.
-   */
-  @Test
-  public void testStartVncServer() {
-    model.startVncServer();
-    // make sure the scripts were executed
-    verify(mockSystemCommander).executeTerminalCommand(
-        argThat(script -> script.contains("x11vnc")));
-  }
+  //  /**
+  //   * Test for {@link Rscc#startVncServer()}.
+  //   */
+  //  @Test
+  //  public void testStartVncServer() {
+  //    model.startVncServer();
+  //    // make sure the scripts were executed
+  //    verify(mockSystemCommander).executeTerminalCommand(
+  //        argThat(script -> script.contains("x11vnc")));
+  //  }
 
   //  /**
   //   * Test for {@link Rscc#startVncViewer(String, Integer)}.
@@ -190,33 +190,33 @@ public class RsccTest {
   //  }
 
   /**
-   * Test for {@link Rscc#setConnectionStatusDisplay(String, int)}.
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
    */
   @Test
   public void testSetConnectionStatus() {
     int styleIndexToTest = 0;
     String statusText = "test";
-    model.setConnectionStatusDisplay(statusText,styleIndexToTest);
+    model.setConnectionStatus(statusText,styleIndexToTest);
     String currentStatus = model.getConnectionStatusStyle();
     assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
 
     styleIndexToTest = 1;
-    model.setConnectionStatusDisplay(statusText,styleIndexToTest);
+    model.setConnectionStatus(statusText,styleIndexToTest);
     currentStatus = model.getConnectionStatusStyle();
     assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
     assertEquals(model.getConnectionStatusText(), statusText);
   }
 
   /**
-   * Test for {@link Rscc#setConnectionStatusDisplay(String, int)}.
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
    */
   @Test
   public void testSetConnectionStatusFailing() {
     try {
       int styleIndexToTest = -1;
       String statusText = "test";
-      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
+      model.setConnectionStatus(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
@@ -224,7 +224,7 @@ public class RsccTest {
     try {
       int styleIndexToTest = 52;
       String statusText = "test";
-      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
+      model.setConnectionStatus(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
@@ -232,7 +232,7 @@ public class RsccTest {
     try {
       int styleIndexToTest = 0;
       String statusText = null;
-      model.setConnectionStatusDisplay(statusText,styleIndexToTest);
+      model.setConnectionStatus(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }

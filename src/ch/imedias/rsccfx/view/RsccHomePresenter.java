@@ -78,11 +78,11 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> {
-      model.setConnectionStatusDisplay("",0);
+      model.setConnectionStatus("",0);
       viewParent.setView(RsccApp.SUPPORT_VIEW);
     });
     view.requestViewBtn.setOnAction(event -> {
-      model.setConnectionStatusDisplay("",0);
+      model.setConnectionStatus("",0);
       Thread thread = new Thread(model::requestKeyFromServer);
       thread.start();
       viewParent.setView(RsccApp.REQUEST_VIEW);
