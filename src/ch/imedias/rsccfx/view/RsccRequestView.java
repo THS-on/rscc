@@ -13,7 +13,6 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,31 +34,22 @@ public class RsccRequestView extends BorderPane {
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
-  private final Rscc model;
-  private final Strings strings = new Strings();
-  private final KeyUtil keyUtil;
-
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
-
   final GridPane keyGenerationInnerPane = new GridPane();
-
   final HBox statusBox = new HBox();
   final HBox predefinedAdressesInnerBox = new HBox();
-
   final VBox contentBox = new VBox();
-
   final TitledPane predefinedAddressesTitledPane = new TitledPane();
   final TitledPane keyGenerationTitledPane = new TitledPane();
-
   final ScrollPane scrollPane = new ScrollPane();
-
   final KeyTextField generatedKeyFld = new KeyTextField();
-
   final Button reloadKeyBtn = new Button();
-
+  private final Rscc model;
+  private final Strings strings = new Strings();
+  private final KeyUtil keyUtil;
   Image reloadImg;
 
   ImageView reloadImgView;
@@ -86,45 +76,38 @@ public class RsccRequestView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    titleLbl.textProperty().set(strings.requestTitleLbl);
-    descriptionLbl.textProperty().set(strings.requestDescriptionLbl);
-    keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
-    generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
-    predefinedAddressesPane.textProperty().set(strings.requestPredefinedAdressessPane);
-    supporterDescriptionLbl.textProperty().set(strings.requestSupporterDescriptionLbl);
-
-    // TODO: Tech Group - switch waiting and ready Label
-    //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set("");
+    titleLbl.setText(strings.requestTitleLbl);
+    descriptionLbl.setText(strings.requestDescriptionLbl);
+    generatedKeyFld.setText(strings.requestGeneratedKeyFld);
+    supporterDescriptionLbl.setText(strings.requestSupporterDescriptionLbl);
+    keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
+    predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
+    statusLbl.setText("");
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
+
     reloadKeyBtn.setGraphic(reloadImgView);
-
-    keyGenerationTitledPane.setText("Key Generation");
-    keyGenerationTitledPane.setExpanded(true);
-    keyGenerationTitledPane.setId("keyGenerationTitledPane");
-
-    predefinedAddressesTitledPane.setText("Predefined Addresses");
-    predefinedAddressesTitledPane.setExpanded(false);
-    predefinedAddressesTitledPane.setId("predefinedAddressesTitledPane");
-
-    supporterDescriptionLbl.setText("Description on the right");
-
-    // TODO: Tech Group - switch waiting and ready Label
-    //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+    keyGenerationTitledPane.setExpanded(true);
+    keyGenerationTitledPane.setId("keyGenerationTitledPane");
+
+    predefinedAddressesTitledPane.setExpanded(false);
+    predefinedAddressesTitledPane.setId("predefinedAddressesTitledPane");
+
     titleLbl.getStyleClass().add("titleLbl");
+
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
 
     statusBox.getStyleClass().add("statusBox");
+    statusBox.getChildren().addAll(statusLbl);
     statusLbl.getStyleClass().add("statusLbl");
 
     //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
@@ -139,11 +122,7 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setId("reloadKeyBtn");
 
-    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
-
-    statusBox.getChildren().addAll(statusLbl);
-
-    contentBox.getChildren().addAll(keyGenerationTitledPane,keyGenerationInnerPane,predefinedAddressesTitledPane);
+    contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane, predefinedAddressesTitledPane);
     VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
     VBox.setVgrow(predefinedAdressesInnerBox, Priority.ALWAYS);
 

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -36,20 +35,18 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
-
   private ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
-
   private List<SupportAddress> supportAddresses;
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *
    * @param model model with all data.
-   * @param view the view belonging to the presenter.
+   * @param view  the view belonging to the presenter.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
@@ -118,7 +115,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void attachButtonEvents() {
-    for (Button b:buttons) {
+    for (Button b : buttons) {
       b.setOnMouseClicked(event ->
           new SupporterAttributesDialog());
     }

@@ -4,9 +4,7 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.TextSlider;
-
 import java.util.logging.Logger;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
@@ -23,66 +21,45 @@ import org.controlsfx.control.ToggleSwitch;
  * Shows popover for settings and help buttons.
  */
 public class PopOverHelper {
-  // Get Screensize
-  Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
   private static final Logger LOGGER =
       Logger.getLogger(PopOverHelper.class.getName());
-
-  private final Strings strings = new Strings();
-
-  //SettingsProperties
-  BooleanProperty viewOnly = new SimpleBooleanProperty(false);
-
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_VALUE = 6;
-
   private static final int QUALITY_MIN = 0;
   private static final int QUALITY_MAX = 9;
   private static final int QUALITY_VALUE = 6;
-
-  private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
-
-  private final double sliderWidth = overlayWidth / 1.2;
-
-  private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
-
+  private final Strings strings = new Strings();
   private final Rscc model;
-
+  // Get Screensize
+  Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+  private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
+  private final double sliderWidth = overlayWidth / 1.2;
+  //SettingsProperties
+  BooleanProperty viewOnly = new SimpleBooleanProperty(false);
   ToggleSwitch supportBgr233Tgl = new ToggleSwitch();
   ToggleSwitch requestViewOnlyTgl = new ToggleSwitch();
-
   VBox homeHelpBox = new VBox();
-
   VBox supportSettingsBox = new VBox();
   VBox supportHelpBox = new VBox();
-
   VBox requestHelpBox = new VBox();
   VBox requestSettingsBox = new VBox();
-
   VBox supportCompressionSliderBox = new VBox();
   VBox supportQualitySliderBox = new VBox();
-
   HBox supportBgr233ToggleBox = new HBox();
-
   PopOver settingsPopOver = new PopOver();
   PopOver helpPopOver = new PopOver();
-
   Label supportCompressionLbl = new Label();
   Label supportQualityLbl = new Label();
   Label supportBgr233Lbl = new Label();
   Label requestViewOnlyLbl = new Label();
-
   Label homeHelpLbl = new Label();
-
   Label requestHelpLbl = new Label();
   Label supportHelpLbl = new Label();
-
   TextSlider supportCompressionSldr;
   TextSlider supportQualitySldr;
-
   Button expertSettingsBtn = new Button();
+  private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
 
   /**
    * Initializes PopOver according to view.
@@ -236,12 +213,12 @@ public class PopOverHelper {
     return viewOnly.get();
   }
 
-  public BooleanProperty viewOnlyProperty() {
-    return viewOnly;
-  }
-
   public void setViewOnly(boolean viewOnly) {
     this.viewOnly.set(viewOnly);
+  }
+
+  public BooleanProperty viewOnlyProperty() {
+    return viewOnly;
   }
 }
 

@@ -16,10 +16,6 @@ import org.controlsfx.control.ToggleSwitch;
  */
 public class ExpertSettingsDialog extends DialogPane {
 
-  Dialog dialog = new Dialog();
-  GridPane settingsPane = new GridPane();
-  Strings strings = new Strings();
-
   final Label keyserverIpLbl = new Label();
   final Label forceConnectOverServerLbl = new Label();
   final Label keyServerHttpPortLbl = new Label();
@@ -30,9 +26,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label stunServerPortLbl = new Label();
   final Label stunServersLbl = new Label();
   final Label settingsTitleLbl = new Label();
-
   final ToggleSwitch forceConnectOverServerTgl = new ToggleSwitch();
-
   final TextField keyServerIpFld = new TextField();
   final TextField keyServerHttpPortFld = new TextField();
   final TextField vncPortFld = new TextField();
@@ -41,6 +35,9 @@ public class ExpertSettingsDialog extends DialogPane {
   final TextField localForwardingPortFld = new TextField();
   final TextField stunServerPortFld = new TextField();
   final ListView stunServersList = new ListView();
+  Dialog dialog = new Dialog();
+  GridPane settingsPane = new GridPane();
+  Strings strings = new Strings();
 
 
   /**
@@ -76,25 +73,25 @@ public class ExpertSettingsDialog extends DialogPane {
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    settingsPane.add(settingsTitleLbl,0,0);
-    settingsPane.add(forceConnectOverServerLbl,0,1);
-    settingsPane.add(forceConnectOverServerTgl,1,1);
-    settingsPane.add(keyserverIpLbl,0,2);
-    settingsPane.add(keyServerIpFld,1,2);
-    settingsPane.add(keyServerHttpPortLbl,0,3);
-    settingsPane.add(keyServerHttpPortFld,1,3);
-    settingsPane.add(vncPortLbl,0,4);
-    settingsPane.add(vncPortFld,1,4);
-    settingsPane.add(icePortLbl,0,5);
-    settingsPane.add(icePortFld,1,5);
-    settingsPane.add(udpPackageSizeLbl,0,6);
-    settingsPane.add(udpPackageSizeFld,1,6);
+    settingsPane.add(settingsTitleLbl, 0, 0);
+    settingsPane.add(forceConnectOverServerLbl, 0, 1);
+    settingsPane.add(forceConnectOverServerTgl, 1, 1);
+    settingsPane.add(keyserverIpLbl, 0, 2);
+    settingsPane.add(keyServerIpFld, 1, 2);
+    settingsPane.add(keyServerHttpPortLbl, 0, 3);
+    settingsPane.add(keyServerHttpPortFld, 1, 3);
+    settingsPane.add(vncPortLbl, 0, 4);
+    settingsPane.add(vncPortFld, 1, 4);
+    settingsPane.add(icePortLbl, 0, 5);
+    settingsPane.add(icePortFld, 1, 5);
+    settingsPane.add(udpPackageSizeLbl, 0, 6);
+    settingsPane.add(udpPackageSizeFld, 1, 6);
     settingsPane.add(localForwadingPortLbl, 0, 7);
-    settingsPane.add(localForwardingPortFld,1,7);
-    settingsPane.add(stunServerPortLbl,0,8);
-    settingsPane.add(stunServerPortFld,1,8);
+    settingsPane.add(localForwardingPortFld, 1, 7);
+    settingsPane.add(stunServerPortLbl, 0, 8);
+    settingsPane.add(stunServerPortFld, 1, 8);
     settingsPane.add(stunServersLbl, 0, 9);
-    settingsPane.add(stunServersList,1,9);
+    settingsPane.add(stunServersList, 1, 9);
 
     this.getButtonTypes().add(ButtonType.APPLY);
     this.getButtonTypes().add(ButtonType.CLOSE);

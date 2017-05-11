@@ -14,23 +14,20 @@ import javafx.scene.layout.GridPane;
  */
 public class SupporterAttributesDialog extends DialogPane {
 
-  Dialog dialog = new Dialog();
-  GridPane gridPane = new GridPane();
-
   final Label nameLbl = new Label();
   final Label adressLbl = new Label();
   final Label portLbl = new Label();
   final Label pictureLbl = new Label();
   final Label chargeableLbl = new Label();
   final Label encryptedLbl = new Label();
-
   final TextField nameFld = new TextField();
   final TextField adressFld = new TextField();
   final TextField portFld = new TextField();
   final TextField pictureFld = new TextField();
-
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
+  Dialog dialog = new Dialog();
+  GridPane gridPane = new GridPane();
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
@@ -68,18 +65,18 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    gridPane.add(nameLbl,0,0);
-    gridPane.add(nameFld,1,0);
-    gridPane.add(adressLbl,0,1);
-    gridPane.add(adressFld,1,1);
-    gridPane.add(portLbl,0,2);
-    gridPane.add(portFld,1,2);
-    gridPane.add(pictureLbl,0,3);
-    gridPane.add(pictureFld,1,3);
-    gridPane.add(chargeableLbl,0,4);
-    gridPane.add(chargeableCBox,1,4);
-    gridPane.add(encryptedLbl,0,5);
-    gridPane.add(encryptedCBox,1,5);
+    gridPane.add(nameLbl, 0, 0);
+    gridPane.add(nameFld, 1, 0);
+    gridPane.add(adressLbl, 0, 1);
+    gridPane.add(adressFld, 1, 1);
+    gridPane.add(portLbl, 0, 2);
+    gridPane.add(portFld, 1, 2);
+    gridPane.add(pictureLbl, 0, 3);
+    gridPane.add(pictureFld, 1, 3);
+    gridPane.add(chargeableLbl, 0, 4);
+    gridPane.add(chargeableCBox, 1, 4);
+    gridPane.add(encryptedLbl, 0, 5);
+    gridPane.add(encryptedCBox, 1, 5);
 
     this.getButtonTypes().add(ButtonType.APPLY);
 

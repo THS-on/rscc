@@ -40,7 +40,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * Initializes a new RsccSupportPresenter with the according view.
    *
    * @param model model with all data.
-   * @param view the view belonging to the presenter.
+   * @param view  the view belonging to the presenter.
    */
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
