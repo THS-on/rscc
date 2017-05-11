@@ -162,15 +162,15 @@ public class RsccRequestView extends BorderPane {
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
 
-    // add column constraints
+    // add row constraints
     RowConstraints row1 = new RowConstraints();
     RowConstraints row2 = new RowConstraints();
     RowConstraints row3 = new RowConstraints();
     supporterGrid.getRowConstraints().addAll(row1, row2, row3);
     int amountOfRows = supporterGrid.getRowConstraints().size();
-    col1.setPercentWidth(amountOfRows);
-    col2.setPercentWidth(amountOfRows);
-    col3.setPercentWidth(amountOfRows);
+    row1.setPercentHeight(amountOfRows);
+    row2.setPercentHeight(amountOfRows);
+    row3.setPercentHeight(amountOfRows);
 
   }
 
