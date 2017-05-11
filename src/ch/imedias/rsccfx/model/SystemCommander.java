@@ -82,16 +82,14 @@ public class SystemCommander {
                     } catch (Exception e) {
                         System.out.println(e.getCause());
                         System.out.println(e.getStackTrace());
-                        System.out.println("1");
 
                     } finally {
                         if (reader != null) {
                             try {
                                 reader.close();
                             } catch (IOException e) {
-                                System.out.println(e);                        System.out.println("2");
+                                System.out.println(e);
 
-                                // ignore
                             }
                         }
                     }
@@ -100,10 +98,11 @@ public class SystemCommander {
             t.start();
             t.join();
         } catch (Exception e) {
-            System.out.println(e);                        System.out.println("3");
-
-
         }
+        finally {
+            model.setIsVncSessionRunning(false);
+        }
+
     }
 
 
