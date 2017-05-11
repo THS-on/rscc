@@ -192,8 +192,8 @@
     -fx-alignment: center;
     -fx-padding: 10, 20, 10, 20;
     -fx-spacing: 150;
-    -fx-background-image: url("../images/supporter_background-01.svg");
-    -fx-background-size: 80%;
+    -fx-background-image: url("../images/supporter_background_1.svg");
+    -fx-background-size: 50%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center top;
 
