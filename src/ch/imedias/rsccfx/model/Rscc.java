@@ -16,7 +16,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -44,8 +46,10 @@ public class Rscc {
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
-  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncViewOnly = new SimpleBooleanProperty();
+  private final DoubleProperty vncQualitySliderValue = new SimpleDoubleProperty();
+  private final DoubleProperty vncCompressionSliderValue = new SimpleDoubleProperty();
+  private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
@@ -168,6 +172,15 @@ public class Rscc {
   }
 
   /**
+   * Stops the vnc server.
+   */
+  public void stopVncServer() {
+    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
+    systemCommander.executeTerminalCommand(command);
+
+  }
+
+  /**
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
@@ -228,11 +241,8 @@ public class Rscc {
   public void startVncServer() {
     StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
 
-    if (getVncOptionViewOnly()) {
+    if (getVncViewOnly()) {
       vncServerAttributes.append(" -viewonly");
-    }
-    if (isVncOptionWindow()) {
-      vncServerAttributes.append(" -sid pick");
     }
     vncServerAttributes.append(" -rfbport ").append(getVncPort());
 
@@ -255,6 +265,7 @@ public class Rscc {
         "vncviewer", vncViewerAttributes);
     systemCommander.executeTerminalCommand(command);
   }
+
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
@@ -325,28 +336,52 @@ public class Rscc {
     this.vncPort.set(vncPort);
   }
 
-  public boolean getVncOptionViewOnly() {
-    return vncOptionViewOnly.get();
+  public BooleanProperty vncViewOnlyProperty() {
+    return vncViewOnly;
   }
 
-  public BooleanProperty vncOptionViewOnlyProperty() {
-    return vncOptionViewOnly;
+  public void setVncViewOnly(boolean vncViewOnly) {
+    this.vncViewOnly.set(vncViewOnly);
   }
 
-  public void setVncOptionViewOnly(boolean vncOptionViewOnly) {
-    this.vncOptionViewOnly.set(vncOptionViewOnly);
+  public double getVncQualitySliderValue() {
+    return vncQualitySliderValue.get();
   }
 
-  public boolean isVncOptionWindow() {
-    return vncOptionWindow.get();
+  public DoubleProperty vncQualitySliderValueProperty() {
+    return vncQualitySliderValue;
   }
 
-  public BooleanProperty vncOptionWindowProperty() {
-    return vncOptionWindow;
+  public void setVncQualitySliderValue(int vncQualitySliderValue) {
+    this.vncQualitySliderValue.set(vncQualitySliderValue);
   }
 
-  public void setVncOptionWindow(boolean vncOptionWindow) {
-    this.vncOptionWindow.set(vncOptionWindow);
+  public boolean getVncViewOnly() {
+    return vncViewOnly.get();
+  }
+
+  public double getVncCompressionSliderValue() {
+    return vncCompressionSliderValue.get();
+  }
+
+  public DoubleProperty vncCompressionSliderValueProperty() {
+    return vncCompressionSliderValue;
+  }
+
+  public void setVncCompressionSliderValue(double vncCompressionSliderValue) {
+    this.vncCompressionSliderValue.set(vncCompressionSliderValue);
+  }
+
+  public boolean getVncBgr233() {
+    return vncBgr233.get();
+  }
+
+  public BooleanProperty vncBgr233Property() {
+    return vncBgr233;
+  }
+
+  public void setVncBgr233(boolean vncBgr233) {
+    this.vncBgr233.set(vncBgr233);
   }
 
   public KeyUtil getKeyUtil() {
