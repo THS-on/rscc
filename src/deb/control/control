@@ -1,11 +1,10 @@
 Package: rscc
-Source: rscc
+Version: 1.0
 Section: misc
 Priority: extra
-Architecture: all
-
 Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
+Homepage: http://www.imedias.ch/lernstick
+Architecture: all
+Depends: java-runtime | xtightvncviewer | x11vnc | openssl | stunnel4
 Description: Remote Support Control Center
  A GUI for establishing and offering secure reverse VNC connections.
-Homepage: http://www.imedias.ch/lernstick
-Depends: java-runtime, xtightvncviewer, x11vnc, openssl, stunnel4
