@@ -15,7 +15,7 @@
     -fx-font-family: Cantarell;
 }
 
-#helpBtn, #backBtn, #settingsBtn{
+#helpBtn, #backBtn, #settingsBtn, #reloadKeyBtn{
     /*-fx-padding: 5;*/
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
@@ -25,7 +25,7 @@
     -fx-background-color: #EAEAEA;
 }
 
-#helpBtn:hover, #backBtn:hover, #settingsBtn:hover{
+#helpBtn:hover, #backBtn:hover, #settingsBtn:hover, #reloadKeyBtn:hover{
     -fx-background-color: #f7f7f7;
     -fx-cursor: hand;
 }
@@ -86,12 +86,12 @@
 .descriptionLbl{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 20pt;
+    -fx-font-size: 16pt;
     -fx-padding: 20;
 }
 
 .titleLbl {
-    -fx-font-size: 25;
+    -fx-font-size: 20;
     -fx-wrap-text: true;
     -fx-alignment: center-left;
     -fx-padding: 20;
@@ -141,7 +141,7 @@
 #descriptionTxt{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 20pt;
+    -fx-font-size: 16pt;
     -fx-padding: 20;
 }
 
@@ -162,7 +162,7 @@
 #additionalDescriptionTxt{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 20pt;
+    -fx-font-size: 16pt;
     -fx-padding: 20;
 }
 
@@ -196,19 +196,19 @@
 
 .titled-pane > .title {
     /*-fx-pref-height: 36.0;*/
-    -fx-font-size: 20pt;
+    -fx-font-size: 16pt;
 
 }
 
 .supporterDescriptionLbl{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 20pt;
+    -fx-font-size: 16pt;
     -fx-padding: 20;
 }
 
 .supporterBtn {
-    -fx-font-size: 20pt;
+    -fx-font-size: 12pt;
     -fx-alignment: center;
 
 }
@@ -220,10 +220,11 @@
 .titleLbl{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 25pt;
+    -fx-font-size: 20pt;
     -fx-padding: 20;
     -fx-font-weight: bold;
 }
+
 
 
 /***************************************************************************
@@ -250,9 +251,9 @@
 }
 
 #connectBtn, #startServiceBtn{
-    -fx-padding: 30 80 30 80;
+    -fx-padding: 15 40 15 40;
     -fx-alignment: center;
-    -fx-font-size: 30;
+    -fx-font-size: 16;
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
     -fx-border-color:#A7A7A7;
@@ -318,8 +319,8 @@
 }
 
 .slider .thumb {
-    -fx-pref-height: 40;
-    -fx-pref-width: 40;
+    -fx-pref-height: 30;
+    -fx-pref-width: 30;
     -fx-background-radius: 30px;
     -fx-border-radius:30px;
     -fx-border-color:#A7A7A7;
@@ -382,16 +383,20 @@
 }
 
 .settingsLabels{
-    -fx-font-size: 18pt;
+    -fx-font-size: 12pt;
 }
 
 .expertSettingsBtn{
     -fx-padding: 20 30 20 30;
     -fx-alignment: center;
-    -fx-font-size: 18pt;
+    -fx-font-size: 12pt;
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
+}
 
+.expertSettingsBtn:hover{
+    -fx-background-color: #f7f7f7;
+    -fx-cursor: hand;
 }

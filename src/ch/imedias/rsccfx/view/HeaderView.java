@@ -22,8 +22,9 @@ public class HeaderView extends HBox {
       Logger.getLogger(Rscc.class.getName());
 
   private static final double HEADER_HEIGHT = 250d;
-  private static final double BUTTON_SIZE = 50d;
+  private static final double BUTTON_SIZE = 35d;
   private static final int INSETS_SIZE = 15;
+  private static final int BUTTON_PADDING = 15;
 
   private static final Insets BACK_BUTTON_INSETS = new Insets(INSETS_SIZE);
   private static final Insets SETTINGS_BUTTON_INSETS = new Insets(INSETS_SIZE,0,INSETS_SIZE,INSETS_SIZE);
@@ -66,6 +67,10 @@ public class HeaderView extends HBox {
     HBox.setMargin(backBtn, BACK_BUTTON_INSETS);
     HBox.setMargin(settingsBtn, SETTINGS_BUTTON_INSETS);
     HBox.setMargin(helpBtn, HELP_BUTTON_INSETS);
+
+    backBtn.setPadding(new Insets(BUTTON_PADDING));
+    settingsBtn.setPadding(new Insets(BUTTON_PADDING));
+    helpBtn.setPadding(new Insets(BUTTON_PADDING));
 
     this.getChildren().addAll(backBtn, spacer, settingsBtn, helpBtn);
     this.setId("header");
