@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -66,8 +65,6 @@ public class RsccSupportView extends BorderPane {
     titleLbl.textProperty().set(strings.supportTitleLbl);
     descriptionLbl.textProperty().set(strings.supportDescriptionLbl);
     connectBtn.textProperty().set(strings.supportConnectBtn);
-    keyInputTitledPane.textProperty().set(strings.supportKeyInputPane);
-    addressbookTitledPane.textProperty().set(strings.supportAdressBookPane);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.supportStatusLblReady);
@@ -78,49 +75,40 @@ public class RsccSupportView extends BorderPane {
         .getResource("dialog-error.png")
         .toExternalForm());                     // TODO: Check what to do here.
 
-    statusBox.getChildren().add(statusLbl);
-    statusBox.getStyleClass().add("statusBox");
+    keyInputTitledPane.setText(strings.supportKeyInputPane);
+
+    addressbookTitledPane.setText(strings.supportAdressBookPane);
   }
 
   private void layoutForm() {
-    addressbookTitledPane.setExpanded(false);
+    keyInputTitledPane.setExpanded(true);
+    keyInputTitledPane.setId("keyInputTitledPane");
 
-    //keyFld.setPrefHeight(KEYFLD_HEIGHT);
+    addressbookTitledPane.setExpanded(false);
+    addressbookTitledPane.setId("addressbookTitledPane");
 
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
-    statusLbl.getStyleClass().add("statusLbl");
 
+    statusLbl.getStyleClass().add("statusLbl");
+    statusBox.getChildren().add(statusLbl);
+    statusBox.getStyleClass().add("statusBox");
+
+    //keyFld.setPrefHeight(KEYFLD_HEIGHT);
     keyFld.setId("keyFld");
 
     validationImgView.setSmooth(true);
 
-    keyValidationBox.getChildren().addAll(keyFld, validationImgView);
-    HBox.setHgrow(descriptionBox, Priority.ALWAYS);
-
-    keyValidationBox.setId("keyValidationBox");
-
-    descriptionBox.getChildren().addAll(titleLbl, descriptionLbl, connectBtn);
-
-    keyAndDescriptionBox.getChildren().addAll(keyValidationBox, descriptionBox);
-
-    centerBox.getChildren().addAll(keyAndDescriptionBox, statusBox);
-    descriptionBox.getStyleClass().add("descriptionBox");
-
-    titleLbl.getStyleClass().add("titleLbl");
-
-    centerBox.setId("centerBoxSupport");
-
     connectBtn.setId("connectBtn");
-
-    keyInputTitledPane.setContent(centerBox);
-    keyInputTitledPane.setExpanded(true);
-
     connectBtn.setDisable(true);
-    setCenter(keyInputTitledPane);
+
+    contentBox.getChildren().addAll(keyInputTitledPane,keyInputInnerPane,addressbookTitledPane);
+    VBox.setVgrow(keyInputInnerPane, Priority.ALWAYS);
+    VBox.setVgrow(addressbookInnerPane, Priority.ALWAYS);
+
     setTop(headerView);
-    setBottom(addressbookTitledPane);
+    setCenter(contentBox);
   }
 
 
