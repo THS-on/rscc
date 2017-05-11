@@ -1,10 +1,11 @@
-#!/bin/sh echo "[Desktop Entry]
-                Categories=System;
-                Exec=java -jar /usr/bin/rsccfx.jar
-                Icon=rscc
-                Name=Remote Support
-                Name[de]=Fernwartung
-                Name[en]=Remote Support
-                Name[it]=Assistenza Remota
-                StartupNotify=true
-                Type=Application" > /usr/bin/applications/ch-imedias.rsccfx.desktop
+#!/bin/sh
+echo "[Desktop Entry]
+Categories=System;
+Exec=java -jar /usr/bin/rsccfx.jar
+Icon=rscc
+Name=Remote Support
+Name[de]=Fernwartung
+Name[en]=Remote Support
+Name[it]=Assistenza Remota
+StartupNotify=true
+Type=Application" > /usr/share/applications/ch-imedias-rsccfx.desktop
