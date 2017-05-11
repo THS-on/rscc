@@ -92,7 +92,7 @@ public class RsccRequestView extends BorderPane {
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
+    statusLbl.textProperty().set("");
 
 
     InputStream reloadImagePath = getClass().getClassLoader()

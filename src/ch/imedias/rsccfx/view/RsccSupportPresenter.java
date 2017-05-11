@@ -6,6 +6,7 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
@@ -104,6 +105,17 @@ public class RsccSupportPresenter implements ControlledPresenter {
     view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
     view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
 
+    model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
+      view.statusBox.getStyleClass().clear();
+      view.statusBox.getStyleClass().add(newValue);
+    });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
+    });
+
     view.keyFld.setOnKeyPressed(ke -> {
       if (ke.getCode() == KeyCode.ENTER) {
         model.connectToUser();
@@ -121,7 +133,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
         Bindings.when(keyUtil.keyValidProperty())
             .then(validImage)
             .otherwise(invalidImage)
-
     );
   }
 
@@ -137,5 +148,4 @@ public class RsccSupportPresenter implements ControlledPresenter {
         popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
     // TODO: Set actions on buttons (Help, Settings)
   }
-
 }

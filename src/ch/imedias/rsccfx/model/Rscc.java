@@ -22,6 +22,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
 /**
  * Stores the key and keyserver connection details.
  * Handles communication with the keyserver.
@@ -42,7 +43,6 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
 
-  private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
@@ -50,6 +50,11 @@ public class Rscc {
   private final DoubleProperty vncQualitySliderValue = new SimpleDoubleProperty();
   private final DoubleProperty vncCompressionSliderValue = new SimpleDoubleProperty();
   private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
+  private final StringProperty connectionStatusText = new SimpleStringProperty();
+  private final StringProperty connectionStatusStyle = new SimpleStringProperty();
+
+  private final String[] connectionStatusStyles = {
+      "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
@@ -116,7 +121,7 @@ public class Rscc {
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
       if (item.getName().contains(filter)) {
-        System.out.println(item.getName());
+        LOGGER.fine(item.getName());
         File targetFile = new File(destinationDirectory, item.getName());
         if (!targetFile.exists()) {
           targetFile.getParentFile().mkdirs();
@@ -179,24 +184,55 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
+    setConnectionStatus("Setting keyserver...", 1);
+
     keyServerSetup();
+
+    setConnectionStatus("Requesting key from server...", 1);
 
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
+
+    setConnectionStatus("Starting VNC-Server...", 1);
     keyUtil.setKey(key); // update key in model
     startVncServer();
+    setConnectionStatus("VNC-Server awaits connection", 2);
+  }
+
+  /**
+   * Sets the Status of the connection establishment.
+   *
+   * @param text             Text to show for the connection status.
+   * @param statusStyleIndex Index of the connectionStatusStyles.
+   */
+  public void setConnectionStatus(String text, int statusStyleIndex) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
+      throw new IllegalArgumentException();
+    }
+    setConnectionStatusText(text);
+    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
   /**
    * Starts connection to the user.
    */
   public void connectToUser() {
+    setConnectionStatus("Setting keyserver...", 1);
+
     keyServerSetup();
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", getVncPort(), keyUtil.getKey());
+
+    setConnectionStatus("Connect to keyserver...", 1);
+
     systemCommander.executeTerminalCommand(command);
+
+    setConnectionStatus("Starting VNC-Viewer...", 1);
+
     startVncViewer("localhost");
+
+    setConnectionStatus("Connection Established", 2);
   }
 
   /**
@@ -236,6 +272,7 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
+    setConnectionStatus("Refreshing key...", 1);
     killConnection();
     requestKeyFromServer();
   }
@@ -349,5 +386,33 @@ public class Rscc {
 
   public KeyUtil getKeyUtil() {
     return keyUtil;
+  }
+
+  public String getConnectionStatusText() {
+    return connectionStatusText.get();
+  }
+
+  public StringProperty connectionStatusTextProperty() {
+    return connectionStatusText;
+  }
+
+  public void setConnectionStatusText(String connectionStatusText) {
+    this.connectionStatusText.set(connectionStatusText);
+  }
+
+  public String getConnectionStatusStyle() {
+    return connectionStatusStyle.get();
+  }
+
+  public StringProperty connectionStatusStyleProperty() {
+    return connectionStatusStyle;
+  }
+
+  public void setConnectionStatusStyle(String connectionStatusStyle) {
+    this.connectionStatusStyle.set(connectionStatusStyle);
+  }
+
+  public String getConnectionStatusStyles(int i) {
+    return connectionStatusStyles[i];
   }
 }

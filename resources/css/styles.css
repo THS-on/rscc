@@ -84,16 +84,22 @@
 }
 
 .statusBox{
+    -fx-alignment: center;
+}
+
+.statusBoxInitialize{
     -fx-background-color: rgb(240, 173, 78);
     -fx-alignment: center;
 }
 
-.statusBox:valid{
+.statusBoxSuccess{
     -fx-background-color: rgb(92, 184, 92);
+    -fx-alignment: center;
 }
 
-.statusBox:invalid{
+.statusBoxFail{
     -fx-background-color: rgb(217, 83, 79);
+    -fx-alignment: center;
 }
 
 .statusLbl{

@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -179,6 +180,55 @@ public class RsccTest {
     try {
       model.startVncViewer(null);
       fail("IllegalArgumentException was expected when HostAddress is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+  }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatus() {
+    int styleIndexToTest = 0;
+    String statusText = "test";
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    String currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+
+    styleIndexToTest = 1;
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+  }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatusFailing() {
+    try {
+      int styleIndexToTest = -1;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 52;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 0;
+      String statusText = null;
+      model.setConnectionStatus(statusText,styleIndexToTest);
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
