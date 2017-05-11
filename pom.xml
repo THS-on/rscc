@@ -34,6 +34,7 @@
     <build>
         <sourceDirectory>${custom.src.path}</sourceDirectory>
         <testSourceDirectory>${custom.test.path}</testSourceDirectory>
+        <finalName>rscc</finalName>
         <resources>
             <resource>
                 <directory>${custom.resources.path}</directory>
@@ -238,12 +239,11 @@
                         <configuration>
                             <dataSet>
                                 <data>
-                                    <!-- FIXME: it puts the jar into a deb file 🙈 -->
                                     <src>${project.build.directory}/${project.build.finalName}.jar</src>
                                     <type>file</type>
                                     <mapper>
                                         <type>perm</type>
-                                        <prefix>/usr/share/jdeb/lib</prefix>
+                                        <prefix>/lib/live/mount/rootfs/filesystem.squashfs/usr/bin</prefix>
                                     </mapper>
                                 </data>
                             </dataSet>
