@@ -17,8 +17,13 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * Defines the behaviour of interactions
@@ -57,6 +62,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
+    setButtonSize();
   }
 
   /**
@@ -93,6 +99,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
               view.keyGenerationTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
               view.contentBox.getChildren().add(2, view.predefinedAdressesInnerBox);
+              setButtonSize();
+              view.supporterGrid.layout();
             }
           }
         }
@@ -135,25 +143,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
       // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
       view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
           .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-      view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
-          .subtract(WIDTH_SUBTRACTION_GENERAL));
-      view.keyGenerationInnerPane.prefWidthProperty().bind(scene.widthProperty());
-      view.keyGenerationInnerPane.maxWidthProperty().bind(scene.widthProperty());
-
-      view.predefinedAddressesTitledPane.prefWidthProperty().bind(scene.widthProperty());
-      view.predefinedAddressesTitledPane.maxWidthProperty().bind(scene.widthProperty());
-
-      // FIXME: need the height of the titlePane itself... or magic number. François
-
-
-      view.keyGenerationInnerPane.prefWidthProperty().bind(scene.widthProperty());
-
-      view.predefinedAdressesInnerBox.prefHeightProperty().bind(scene.heightProperty()
-          .subtract(155d));
-
-      view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
-      view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
-
+    view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
+    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
   }
 
   /**
@@ -176,6 +167,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Calls createSupporterList() and creates a button for every supporter found.
    */
   private void initSupporterList() {
+
+    createNewSupporterBtn();
     createSupporterList();
     for (int counter = 0; counter < supportAddresses.size(); counter++) {
       createNewSupporterBtn();
@@ -183,7 +176,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
           + supportAddresses.get(counter).getDescription());
     }
-    createNewSupporterBtn();
+
+
   }
 
   /**
@@ -227,6 +221,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     Button supporter = new Button("+");
     supporter.getStyleClass().add("supporterBtn");
+    supporter.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+    supporter.prefHeightProperty().bind(supporter.widthProperty());
+
+    GridPane.setVgrow(supporter, Priority.ALWAYS);
+    GridPane.setHgrow(supporter, Priority.ALWAYS);
+    GridPane.setValignment(supporter, VPos.CENTER);
+    GridPane.setHalignment(supporter, HPos.CENTER);
+    GridPane.setMargin(supporter, new Insets(20));
+
+    attachButtonEvents();
 
     buttons.add(supporter);
 
@@ -243,6 +248,21 @@ public class RsccRequestPresenter implements ControlledPresenter {
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
     }
-    attachButtonEvents();
+
+
+  }
+
+  public void setButtonSize(){
+    view.supporterGrid.getChildren().stream()
+        .forEach(node -> {
+          ((Button) node).setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(20));
+
+          ((Button)node).prefHeightProperty().bind(((Button)node).widthProperty());
+        });
   }
 }

@@ -89,7 +89,7 @@
 
 .statusBoxInitialize{
     -fx-background-color: rgb(240, 173, 78);
-    /*-fx-alignment: center;*/
+    -fx-alignment: center;
 }
 
 .statusBoxSuccess{
@@ -137,6 +137,7 @@
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
     -fx-font-size: 30pt;
+    -fx-alignment: center;
 }
 
 #additionalDescriptionTxt{
@@ -181,6 +182,13 @@
 }
 
 .supporterBtn {
+    -fx-font-size: 20pt;
+    -fx-alignment: center;
+
+}
+
+.supporterBtn:hover{
+ -fx-cursor: hand;
 
 }
 
@@ -208,8 +216,8 @@
 }
 
 #connectBtn {
-    /*-fx-alignment: bottom-right;*/
-    /*-fx-font-size: 30;*/
+    -fx-alignment: center;
+    -fx-font-size: 30;
 }
 
 #keyValidationBox {

@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.KeyTextField;
 import java.util.logging.Logger;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
@@ -24,6 +25,7 @@ public class RsccSupportView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportView.class.getName());
   private static final double KEYFLD_HEIGHT = 60d;
+  private static final int GRIDPANE_MARGING = 25;
   final HeaderView headerView;
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
@@ -132,6 +134,7 @@ public class RsccSupportView extends BorderPane {
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
         });
   }
 
@@ -150,6 +153,7 @@ public class RsccSupportView extends BorderPane {
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
         });
   }
 

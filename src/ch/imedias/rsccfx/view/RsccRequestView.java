@@ -8,6 +8,7 @@ import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
@@ -67,9 +68,9 @@ public class RsccRequestView extends BorderPane {
     this.keyUtil = model.getKeyUtil();
     SvgImageLoaderFactory.install();
     initFieldData();
+    layoutForm();
     layoutKeyGenerationPane();
     layoutPredefinedAddressesPane();
-    layoutForm();
     layoutSupporterPane();
     bindFieldsToModel();
   }
@@ -150,6 +151,15 @@ public class RsccRequestView extends BorderPane {
     col1.setPercentWidth(columnPercentWidth);
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
+
+    supporterGrid.getChildren().stream()
+        .forEach(node -> {
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(20));
+        });
   }
 
   private void layoutKeyGenerationPane() {
@@ -164,14 +174,15 @@ public class RsccRequestView extends BorderPane {
     GridPane.setColumnSpan(statusBox, 3);
 
     keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl,
-        descriptionLbl, statusBox);
-    keyGenerationInnerPane.setAlignment(Pos.CENTER);
-    keyGenerationInnerPane.getChildren().stream()
+        descriptionLbl, statusBox);   keyGenerationInnerPane.getChildren().stream()
         .forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(20));
+    keyGenerationInnerPane.setAlignment(Pos.CENTER);
+
         });
   }
 
