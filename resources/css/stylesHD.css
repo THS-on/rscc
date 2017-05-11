@@ -76,7 +76,7 @@
     -fx-wrap-text: true;
     -fx-alignment: center-left;
     -fx-padding: 20;
-    -fx-font-style: bold;
+    -fx-font-weight: bold;
 }
 
 .statusBox{
@@ -134,7 +134,7 @@
     -fx-background-size: 70%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center top;
-]
+}
 
 #reloadKeyBtn {
     /*-fx-padding: 13;*/
