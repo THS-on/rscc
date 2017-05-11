@@ -1,11 +1,11 @@
 Package: rscc
-Version: 1.0
-Section: net
-Priority: optional
-Architecture: i386
-Depends: jdk (>= 1.8)
-Maintainer: Ronny Standtke <ronny.standtke@fhnw.ch>
-Description: Remote support tool for the Lernstick system.
-Homepage: http://lernstick.ch
-Distribution: development
-Depends: default-jre | java8-runtime | debian
+Source: rscc
+Section: misc
+Priority: extra
+Architecture: all
+
+Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
+Description: Remote Support Control Center
+ A GUI for establishing and offering secure reverse VNC connections.
+Homepage: http://www.imedias.ch/lernstick
+Depends: java-runtime, xtightvncviewer, x11vnc, openssl, stunnel4
