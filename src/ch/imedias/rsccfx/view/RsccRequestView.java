@@ -2,6 +2,8 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -35,6 +37,7 @@ public class RsccRequestView extends BorderPane {
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
+  private final KeyUtil keyUtil;
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
@@ -53,10 +56,9 @@ public class RsccRequestView extends BorderPane {
 
   final ScrollPane scrollPane = new ScrollPane();
 
-  final TextField generatedKeyFld = new TextField();
+  final KeyTextField generatedKeyFld = new KeyTextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button readyBtn = new Button();
 
   Image reloadImg;
 
@@ -72,6 +74,7 @@ public class RsccRequestView extends BorderPane {
   public RsccRequestView(Rscc model) {
     this.model = model;
     headerView = new HeaderView(model);
+    this.keyUtil = model.getKeyUtil();
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutKeyGenerationPane();
@@ -83,19 +86,22 @@ public class RsccRequestView extends BorderPane {
 
   private void initFieldData() {
     // populate fields which require initial data
+    titleLbl.textProperty().set(strings.requestTitleLbl);
+    descriptionLbl.textProperty().set(strings.requestDescriptionLbl);
+    keyGeneratorPane.textProperty().set(strings.requestKeyGeneratorPane);
+    generatedKeyFld.textProperty().set(strings.requestGeneratedKeyFld);
+    predefinedAddressesPane.textProperty().set(strings.requestPredefinedAdressessPane);
+    supporterDescriptionLbl.textProperty().set(strings.requestSupporterDescriptionLbl);
 
-    titleLbl.textProperty().set("Generate key");
-
-    descriptionLbl.textProperty().set("Send this code to your supporter and click ready. "
-        + "Once your supporter enters this code, the remote support will start.");
+    // TODO: Tech Group - switch waiting and ready Label
+    //statusLbl.textProperty().set(strings.requestStatusLblReady);
+    statusLbl.textProperty().set("");
 
     InputStream reloadImagePath = getClass().getClassLoader()
         .getResourceAsStream("images/reload.svg");
     reloadImg = new Image(reloadImagePath);
     reloadImgView = new ImageView(reloadImg);
     reloadKeyBtn.setGraphic(reloadImgView);
-
-    readyBtn.textProperty().set("Ready");
 
     keyGenerationTitledPane.setText("Key Generation");
     keyGenerationTitledPane.setExpanded(true);
@@ -116,6 +122,8 @@ public class RsccRequestView extends BorderPane {
     //setup layout (aka setup specific pane etc.)
     titleLbl.getStyleClass().add("titleLbl");
 
+    supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
+
     statusBox.getStyleClass().add("statusBox");
     statusLbl.getStyleClass().add("statusLbl");
 
@@ -129,8 +137,6 @@ public class RsccRequestView extends BorderPane {
 
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-
-    readyBtn.setId("readyBtn");
     reloadKeyBtn.setId("reloadKeyBtn");
 
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
@@ -192,6 +198,6 @@ public class RsccRequestView extends BorderPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    generatedKeyFld.textProperty().bind(model.keyProperty());
+    generatedKeyFld.textProperty().bind(keyUtil.formattedKeyProperty());
   }
 }

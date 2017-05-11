@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.model;
 
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,15 +10,15 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -42,17 +43,24 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private final SystemCommander systemCommander;
 
-  private final StringProperty key = new SimpleStringProperty();
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
   private final StringProperty vncPort = new SimpleStringProperty("5900");
-  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncViewOnly = new SimpleBooleanProperty();
+  private final DoubleProperty vncQualitySliderValue = new SimpleDoubleProperty();
+  private final DoubleProperty vncCompressionSliderValue = new SimpleDoubleProperty();
+  private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
+  private final StringProperty connectionStatusText = new SimpleStringProperty();
+  private final StringProperty connectionStatusStyle = new SimpleStringProperty();
+
+  private final String[] connectionStatusStyles = {
+      "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
   //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
       .toExternalForm().replace("file:", "");
+  private final KeyUtil keyUtil;
 
   private String pathToResourceDocker;
 
@@ -60,12 +68,17 @@ public class Rscc {
    * Initializes the Rscc model class.
    *
    * @param systemCommander a SystemComander-object that executes shell commands.
+   * @param keyUtil a KeyUtil-object which stores the key, validates and formats it.
    */
-  public Rscc(SystemCommander systemCommander) {
+  public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
       throw new IllegalArgumentException("Parameter SystemCommander is NULL");
     }
+    if (keyUtil == null) {
+      throw new IllegalArgumentException("Parameter KeyUtil is NULL");
+    }
     this.systemCommander = systemCommander;
+    this.keyUtil = keyUtil;
     defineResourcePath();
     readServerConfig();
   }
@@ -108,7 +121,7 @@ public class Rscc {
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
       if (item.getName().contains(filter)) {
-        System.out.println(item.getName());
+        LOGGER.fine(item.getName());
         File targetFile = new File(destinationDirectory, item.getName());
         if (!targetFile.exists()) {
           targetFile.getParentFile().mkdirs();
@@ -142,7 +155,7 @@ public class Rscc {
    * Sets up the server with use.sh.
    */
   private void keyServerSetup() {
-    String command = commandStringGenerator(
+    String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
     systemCommander.executeTerminalCommand(command);
   }
@@ -152,33 +165,74 @@ public class Rscc {
    */
   public void killConnection() {
     // Execute port_stop.sh with the generated key to kill the connection
-    String command = commandStringGenerator(pathToResourceDocker, "port_stop.sh", getKey());
+    String command = systemCommander.commandStringGenerator(
+        pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommand(command);
-    setKey("");
+    keyUtil.setKey("");
+  }
+
+  /**
+   * Stops the vnc server.
+   */
+  public void stopVncServer() {
+    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
+    systemCommander.executeTerminalCommand(command);
+
   }
 
   /**
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
+    setConnectionStatus("Setting keyserver...", 1);
+
     keyServerSetup();
 
-    String command = commandStringGenerator(
+    setConnectionStatus("Requesting key from server...", 1);
+
+    String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", getVncPort(), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
-    setKey(key); // update key in model
+
+    setConnectionStatus("Starting VNC-Server...", 1);
+    keyUtil.setKey(key); // update key in model
     startVncServer();
+    setConnectionStatus("VNC-Server awaits connection", 2);
+  }
+
+  /**
+   * Sets the Status of the connection establishment.
+   *
+   * @param text             Text to show for the connection status.
+   * @param statusStyleIndex Index of the connectionStatusStyles.
+   */
+  public void setConnectionStatus(String text, int statusStyleIndex) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
+      throw new IllegalArgumentException();
+    }
+    setConnectionStatusText(text);
+    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
   /**
    * Starts connection to the user.
    */
   public void connectToUser() {
+    setConnectionStatus("Setting keyserver...", 1);
+
     keyServerSetup();
-    String command = commandStringGenerator(pathToResourceDocker,
-        "port_connect.sh", getVncPort(), getKey());
+    String command = systemCommander.commandStringGenerator(pathToResourceDocker,
+        "port_connect.sh", getVncPort(), keyUtil.getKey());
+
+    setConnectionStatus("Connect to keyserver...", 1);
+
     systemCommander.executeTerminalCommand(command);
+
+    setConnectionStatus("Starting VNC-Viewer...", 1);
+
     startVncViewer("localhost");
+
+    setConnectionStatus("Connection Established", 2);
   }
 
   /**
@@ -187,15 +241,12 @@ public class Rscc {
   public void startVncServer() {
     StringBuilder vncServerAttributes = new StringBuilder("-bg -nopw -q -localhost");
 
-    if (getVncOptionViewOnly()) {
+    if (getVncViewOnly()) {
       vncServerAttributes.append(" -viewonly");
-    }
-    if (isVncOptionWindow()) {
-      vncServerAttributes.append(" -sid pick");
     }
     vncServerAttributes.append(" -rfbport ").append(getVncPort());
 
-    String command = commandStringGenerator(null,
+    String command = systemCommander.commandStringGenerator(null,
         "x11vnc", vncServerAttributes.toString());
     systemCommander.executeTerminalCommand(command);
   }
@@ -210,7 +261,7 @@ public class Rscc {
     String vncViewerAttributes = "-encodings copyrect " + " " + hostAddress;
     //TODO: Encodings are missing: "tight zrle hextile""
 
-    String command = commandStringGenerator(null,
+    String command = systemCommander.commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
     systemCommander.executeTerminalCommand(command);
   }
@@ -221,25 +272,9 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
+    setConnectionStatus("Refreshing key...", 1);
     killConnection();
     requestKeyFromServer();
-  }
-
-  /**
-   * Generates String to run command.
-   */
-  private String commandStringGenerator(
-      String pathToScript, String scriptName, String... attributes) {
-    StringBuilder commandString = new StringBuilder();
-
-    if (pathToScript != null) {
-      commandString.append(pathToScript).append("/");
-    }
-    commandString.append(scriptName);
-    Arrays.stream(attributes)
-        .forEach((s) -> commandString.append(" ").append(s));
-
-    return commandString.toString();
   }
 
   /**
@@ -263,29 +298,6 @@ public class Rscc {
           + configFilePath
           + "\n Exception Message: " + e.getMessage());
     }
-  }
-
-  /**
-   * Determines if a key is valid or not.
-   * The key must not be null and must be a number with exactly 9 digits.
-   *
-   * @param key the string to validate.
-   * @return true when key has a valid format.
-   */
-  public boolean validateKey(String key) {
-    return key != null && key.matches("\\d{9}");
-  }
-
-  public StringProperty keyProperty() {
-    return key;
-  }
-
-  public String getKey() {
-    return key.get();
-  }
-
-  public void setKey(String key) {
-    this.key.set(key);
   }
 
   public String getKeyServerIp() {
@@ -324,27 +336,83 @@ public class Rscc {
     this.vncPort.set(vncPort);
   }
 
-  public boolean getVncOptionViewOnly() {
-    return vncOptionViewOnly.get();
+  public BooleanProperty vncViewOnlyProperty() {
+    return vncViewOnly;
   }
 
-  public BooleanProperty vncOptionViewOnlyProperty() {
-    return vncOptionViewOnly;
+  public void setVncViewOnly(boolean vncViewOnly) {
+    this.vncViewOnly.set(vncViewOnly);
   }
 
-  public void setVncOptionViewOnly(boolean vncOptionViewOnly) {
-    this.vncOptionViewOnly.set(vncOptionViewOnly);
+  public double getVncQualitySliderValue() {
+    return vncQualitySliderValue.get();
   }
 
-  public boolean isVncOptionWindow() {
-    return vncOptionWindow.get();
+  public DoubleProperty vncQualitySliderValueProperty() {
+    return vncQualitySliderValue;
   }
 
-  public BooleanProperty vncOptionWindowProperty() {
-    return vncOptionWindow;
+  public void setVncQualitySliderValue(int vncQualitySliderValue) {
+    this.vncQualitySliderValue.set(vncQualitySliderValue);
   }
 
-  public void setVncOptionWindow(boolean vncOptionWindow) {
-    this.vncOptionWindow.set(vncOptionWindow);
+  public boolean getVncViewOnly() {
+    return vncViewOnly.get();
+  }
+
+  public double getVncCompressionSliderValue() {
+    return vncCompressionSliderValue.get();
+  }
+
+  public DoubleProperty vncCompressionSliderValueProperty() {
+    return vncCompressionSliderValue;
+  }
+
+  public void setVncCompressionSliderValue(double vncCompressionSliderValue) {
+    this.vncCompressionSliderValue.set(vncCompressionSliderValue);
+  }
+
+  public boolean getVncBgr233() {
+    return vncBgr233.get();
+  }
+
+  public BooleanProperty vncBgr233Property() {
+    return vncBgr233;
+  }
+
+  public void setVncBgr233(boolean vncBgr233) {
+    this.vncBgr233.set(vncBgr233);
+  }
+
+  public KeyUtil getKeyUtil() {
+    return keyUtil;
+  }
+
+  public String getConnectionStatusText() {
+    return connectionStatusText.get();
+  }
+
+  public StringProperty connectionStatusTextProperty() {
+    return connectionStatusText;
+  }
+
+  public void setConnectionStatusText(String connectionStatusText) {
+    this.connectionStatusText.set(connectionStatusText);
+  }
+
+  public String getConnectionStatusStyle() {
+    return connectionStatusStyle.get();
+  }
+
+  public StringProperty connectionStatusStyleProperty() {
+    return connectionStatusStyle;
+  }
+
+  public void setConnectionStatusStyle(String connectionStatusStyle) {
+    this.connectionStatusStyle.set(connectionStatusStyle);
+  }
+
+  public String getConnectionStatusStyles(int i) {
+    return connectionStatusStyles[i];
   }
 }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -68,7 +71,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> model.refreshKey()
+        (ActionEvent event) -> {
+          Thread thread = new Thread(model::refreshKey);
+          thread.start();
+        }
     );
 
     // handles TitledPane switching between the two TitledPanes
@@ -94,6 +100,21 @@ public class RsccRequestPresenter implements ControlledPresenter {
           }
         }
     );
+
+    model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusBox.getStyleClass().clear();
+        view.statusBox.getStyleClass().add(newValue);
+      });
+    });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
+    });
+
+    attachButtonEvents();
   }
 
   private void attachButtonEvents() {

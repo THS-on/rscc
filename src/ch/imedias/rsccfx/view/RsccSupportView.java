@@ -2,6 +2,7 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import java.util.logging.Logger;
 
 import javafx.geometry.HPos;
@@ -9,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -37,7 +37,7 @@ public class RsccSupportView extends BorderPane {
 
   final HBox statusBox = new HBox();
 
-  final TextField keyFld = new TextField();
+  final KeyTextField keyFld = new KeyTextField();
 
   final VBox contentBox = new VBox();
 
@@ -108,6 +108,7 @@ public class RsccSupportView extends BorderPane {
     titleLbl.getStyleClass().add("titleLbl");
 
     connectBtn.setId("connectBtn");
+
     connectBtn.setDisable(true);
 
     contentBox.getChildren().addAll(keyInputTitledPane,keyInputInnerPane,addressbookTitledPane);

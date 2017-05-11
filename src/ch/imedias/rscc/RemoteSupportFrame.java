@@ -32,7 +32,7 @@ public class RemoteSupportFrame
     private static final Logger LOGGER =
             Logger.getLogger(RemoteSupportFrame.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
-            "ch/imedias/rsccfx/localization/Bundle");
+            "ch/imedias/rscc/Bundle");
     private final static ProcessExecutor SEEK_PROCESS_EXECUTOR =
             new ProcessExecutor();
     private final static ProcessExecutor OFFER_PROCESS_EXECUTOR =
