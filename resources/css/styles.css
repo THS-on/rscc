@@ -85,10 +85,17 @@
  **************************************************************************/
 .descriptionLbl{
     -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-font-size: 20pt;
+    -fx-padding: 20;
 }
 
 .titleLbl {
     -fx-font-size: 25;
+    -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-padding: 20;
+    -fx-font-style: bold;
 }
 
 .statusBox{
@@ -133,12 +140,16 @@
 
 #descriptionTxt{
     -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-font-size: 20pt;
+    -fx-padding: 20;
 }
 
 #keyGenerationLbl{
     -fx-font-family: Cantarell;
     -fx-font-size: 30pt;
     -fx-font-weight: bold;
+    -fx-wrap-text: true;
 }
 
 #generatedKeyFld{
@@ -150,6 +161,9 @@
 
 #additionalDescriptionTxt{
     -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-font-size: 20pt;
+    -fx-padding: 20;
 }
 
 #centerBox{
@@ -182,11 +196,15 @@
 
 .titled-pane > .title {
     /*-fx-pref-height: 36.0;*/
-    -fx-font-size: 14pt;
+    -fx-font-size: 20pt;
+
 }
 
 .supporterDescriptionLbl{
     -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-font-size: 20pt;
+    -fx-padding: 20;
 }
 
 .supporterBtn {
@@ -197,6 +215,15 @@
 
 .supporterBtn:hover{
  -fx-cursor: hand;
+}
+
+.titleLbl{
+    -fx-wrap-text: true;
+    -fx-alignment: center-left;
+    -fx-font-size: 25pt;
+    -fx-padding: 20;
+    -fx-font-weight: bold;
+}
 
 }
 
