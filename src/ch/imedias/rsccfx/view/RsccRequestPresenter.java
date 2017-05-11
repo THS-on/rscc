@@ -112,30 +112,30 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void initSize(Scene scene) {
     // initialize header
-/*
-    // initialize view
-    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
-    view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
+  /*
+      // initialize view
+      // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
+      view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
+          .subtract(WIDTH_SUBTRACTION_KEYFIELD));
+      view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
+          .subtract(WIDTH_SUBTRACTION_GENERAL));
+      view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+      view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
 
-    view.predefinedAddressesTitledPane.prefWidthProperty().bind(scene.widthProperty());
-    view.predefinedAddressesTitledPane.maxWidthProperty().bind(scene.widthProperty());
+      view.predefinedAddressesTitledPane.prefWidthProperty().bind(scene.widthProperty());
+      view.predefinedAddressesTitledPane.maxWidthProperty().bind(scene.widthProperty());
 
-    // FIXME: need the height of the titlePane itself... or magic number. François
-    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(195d));
+      // FIXME: need the height of the titlePane itself... or magic number. François
+      view.centerBox.prefHeightProperty().bind(scene.heightProperty()
+          .subtract(195d));
 
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
+      view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
 
-    view.predefinedAdressesInnerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(155d));
+      view.predefinedAdressesInnerBox.prefHeightProperty().bind(scene.heightProperty()
+          .subtract(155d));
 
-    view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
-    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));*/
+      view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
+      view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));*/
 
   }
 

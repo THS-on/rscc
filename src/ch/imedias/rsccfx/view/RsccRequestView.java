@@ -137,7 +137,8 @@ public class RsccRequestView extends BorderPane {
 
     statusBox.getChildren().addAll(statusLbl);
 
-    contentBox.getChildren().addAll(keyGenerationTitledPane,keyGenerationInnerPane,predefinedAddressesTitledPane);
+    contentBox.getChildren().addAll(keyGenerationTitledPane,keyGenerationInnerPane,
+        predefinedAddressesTitledPane);
     VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
     VBox.setVgrow(predefinedAdressesInnerBox, Priority.ALWAYS);
 
@@ -175,7 +176,8 @@ public class RsccRequestView extends BorderPane {
     GridPane.setRowSpan(reloadKeyBtn, 2);
     GridPane.setColumnSpan(statusBox, 3);
 
-    keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl, descriptionLbl, statusBox);
+    keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl,
+        descriptionLbl, statusBox);
     keyGenerationInnerPane.setAlignment(Pos.CENTER);
     keyGenerationInnerPane.getChildren().stream()
         .forEach(node -> {

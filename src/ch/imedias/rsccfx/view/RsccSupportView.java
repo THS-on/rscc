@@ -153,6 +153,8 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceTitleLbl, 1,0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1,1);
 
+    GridPane.setRowSpan(startServiceBtn, 2);
+
     addressbookInnerPane.getChildren().addAll(startServiceBtn,
         startServiceDescriptionLbl, startServiceTitleLbl);
     addressbookInnerPane.getChildren().stream()
