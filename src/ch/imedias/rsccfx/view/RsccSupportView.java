@@ -18,11 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.InfoOverlay;
 
 /**
  * Defines all elements shown in the support section.
@@ -115,6 +113,7 @@ public class RsccSupportView extends BorderPane {
     //keyFld.setPrefHeight(KEYFLD_HEIGHT);
     keyFld.getStyleClass().add("keyFld");
 
+
     validationImgView.setSmooth(true);
 
     connectBtn.setId("connectBtn");
@@ -165,6 +164,7 @@ public class RsccSupportView extends BorderPane {
     // special styling
     GridPane.setVgrow(statusBox, Priority.NEVER);
     GridPane.setValignment(titleLbl, VPos.BOTTOM);
+    GridPane.setHalignment(titleLbl, HPos.LEFT);
     GridPane.setValignment(descriptionLbl, VPos.CENTER);
     GridPane.setValignment(keyFld, VPos.CENTER);
     GridPane.setValignment(validationImgView, VPos.CENTER);
@@ -176,9 +176,6 @@ public class RsccSupportView extends BorderPane {
     GridPane.setMargin(connectBtn, new Insets(0));
 
     keyInputInnerPane.setPadding(new Insets(10));
-
-    keyInputInnerPane.setGridLinesVisible(true);
-
 
   }
 
@@ -218,12 +215,13 @@ public class RsccSupportView extends BorderPane {
     addressbookInnerPane.getRowConstraints().addAll(row1, row2, row3);
 
     // special styling
+    GridPane.setHalignment(startServiceTitleLbl, HPos.LEFT);
     GridPane.setValignment(startServiceTitleLbl, VPos.BOTTOM);
+    GridPane.setHalignment(startServiceTitleLbl, HPos.LEFT);
     GridPane.setValignment(startServiceBtn, VPos.CENTER);
     GridPane.setValignment(startServiceDescriptionLbl, VPos.CENTER);
     GridPane.setMargin(titleLbl, new Insets(0));
 
-    addressbookInnerPane.setGridLinesVisible(true);
   }
 
   private void bindFieldsToModel() {
