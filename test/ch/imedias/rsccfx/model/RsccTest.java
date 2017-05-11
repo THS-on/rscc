@@ -160,34 +160,34 @@ public class RsccTest {
         argThat(script -> script.contains("x11vnc")));
   }
 
-  /**
-   * Test for {@link Rscc#startVncViewer(String, Integer)}.
-   */
-  @Test
-  public void testStartVncViewer() {
-    String hostAddress = "localhost";
-    int vncPort = 5900;
-    model.startVncViewer(hostAddress, vncPort);
-    // make sure the scripts were executed
-    verify(mockSystemCommander).executeTerminalCommand(
-        argThat(script -> script.contains("vncviewer")
-            && script.contains(hostAddress)));
-  }
+  //  /**
+  //   * Test for {@link Rscc#startVncViewer(String, Integer)}.
+  //   */
+  //  @Test
+  //  public void testStartVncViewer() {
+  //    String hostAddress = "localhost";
+  //    int vncPort = 5900;
+  //    model.startVncViewer(hostAddress, vncPort);
+  //    // make sure the scripts were executed
+  //    verify(mockSystemCommander).executeTerminalCommand(
+  //        argThat(script -> script.contains("vncviewer")
+  //            && script.contains(hostAddress)));
+  //  }
 
-  /**
-   * Test for {@link Rscc#startVncViewer(String, Integer)}.
-   */
-  @Test
-  public void testStartVncViewerIllegalArgument() {
-    int vncPort = 5900;
-    try {
-
-      model.startVncViewer(null, 5900);
-      fail("IllegalArgumentException was expected when HostAddress is null");
-    } catch (IllegalArgumentException e) {
-      // expected behavior
-    }
-  }
+  //  /**
+  //   * Test for {@link Rscc#startVncViewer(String, Integer)}.
+  //   */
+  //  @Test
+  //  public void testStartVncViewerIllegalArgument() {
+  //    int vncPort = 5900;
+  //    try {
+  //
+  //      model.startVncViewer(null, 5900);
+  //      fail("IllegalArgumentException was expected when HostAddress is null");
+  //    } catch (IllegalArgumentException e) {
+  //      // expected behavior
+  //    }
+  //  }
 
   /**
    * Test for {@link Rscc#setConnectionStatus(String, int)}.

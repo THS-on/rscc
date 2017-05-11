@@ -79,6 +79,7 @@ public class Rscc {
   private InetAddress remoteClientIpAddress;
   private int remoteClientPort;
   private RunRudp rudp;
+  private VncViewerHandler vncViewer;
 
 
   private Rscccfp rscccfp;
@@ -305,10 +306,14 @@ public class Rscc {
       rudp.start();
 
       System.out.println("RSCC: Starting VNCViewer");
-      startVncViewer("localhost", LOCAL_FORWARDING_PORT);
+      vncViewer = new VncViewerHandler(
+          this, "localhost", LOCAL_FORWARDING_PORT, false);
+
     } else {
-      startVncViewer("localhost", vncPort.getValue());
+      vncViewer = new VncViewerHandler(
+          this, "localhost", vncPort.getValue(), false);
     }
+    vncViewer.start();
   }
 
   /**
@@ -335,34 +340,8 @@ public class Rscc {
     systemCommander.executeTerminalCommand(command);
   }
 
-  /**
-   * Starts VNC Viewer.
-   *
-   * @param hostAddress   Address to connect to.
-   * @param vncViewerPort Port to connect to.
-   */
-  public void startVncViewer(String hostAddress, Integer vncViewerPort) {
-    if (hostAddress == null || vncViewerPort == null) {
-      throw new IllegalArgumentException();
-    }
-    String vncViewerAttributes = "-bgr233 " + " " + hostAddress + "::" + vncViewerPort;
-    //TODO: Encodings are missing: "tight zrle hextile""
 
-    String command = systemCommander.commandStringGenerator(null,
-        "vncviewer", vncViewerAttributes);
 
-    String ConnectionStatus = null;
-    do{
-      ConnectionStatus = systemCommander.executeTerminalCommand(command);
-      System.out.println("VNCviewer: " + ConnectionStatus);
-    } while (ConnectionStatus.contains("Unable to connect to VNC server"));
-
-  }
-
-  public void stopVncViewer() {
-    String command = systemCommander.commandStringGenerator(null, "killall", "vncviewer");
-    systemCommander.executeTerminalCommand(command);
-  }
 
 
   /**
@@ -614,10 +593,6 @@ public class Rscc {
   public void setTerminalOutput(String terminalOutput) {
     this.terminalOutput.set(terminalOutput);
   }
-  public StringProperty getTerminalOutput(){
-    return  this.terminalOutput;
-
-  }
 
   public boolean getIsForcingServerMode() {
     return isForcingServerMode.get();
@@ -629,6 +604,10 @@ public class Rscc {
 
   public void setIsForcingServerMode(boolean isForcingServerMode) {
     this.isForcingServerMode.set(isForcingServerMode);
+  }
+
+  public SystemCommander getSystemCommander() {
+    return systemCommander;
   }
 
   public boolean isIsVncSessionRunning() {
