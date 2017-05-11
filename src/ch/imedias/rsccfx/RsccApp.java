@@ -35,6 +35,11 @@ public class RsccApp extends Application {
   private static final double borderToFullHD = 1700000;
   private static final double borderTo4K = 2800000;
 
+  private static final String styleSheet4k = "css/styles4K.css";
+  private static final String styleSheetHd = "css/stylesHD.css";
+  private static final String styleSheetLow = "css/stylesLow.css";
+
+
   /**
    * Declares views for use with ViewController.
    */
@@ -103,9 +108,17 @@ public class RsccApp extends Application {
     ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
 
     // Initialize stylesheets
-    /*if(resolution )*/
+    // Choose CSS depending on the resolution
+    String cssFile;
+    if(resolution > borderTo4K){
+      cssFile = styleSheet4k;
+    }else if (resolution < borderToFullHD){
+      cssFile = styleSheetLow;
+    }else{
+      cssFile = styleSheetHd;
+    }
     String styleSheet = getClass().getClassLoader()
-        .getResource("css/styles.css").toExternalForm();
+        .getResource(cssFile).toExternalForm();
 
     scene.getStylesheets().add(styleSheet);
   }
