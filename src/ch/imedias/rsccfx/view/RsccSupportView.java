@@ -7,13 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -87,7 +85,6 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutForm() {
-
     addressbookPane.setExpanded(false);
 
     keyFld.setPrefHeight(KEYFLD_HEIGHT);
@@ -118,6 +115,8 @@ public class RsccSupportView extends BorderPane {
     centerBox.setId("centerBoxSupport");
 
     connectBtn.setId("connectBtn");
+
+    centerBox.setId("centerBoxSupport");
 
     keyInputPane.setContent(centerBox);
     keyInputPane.setExpanded(true);

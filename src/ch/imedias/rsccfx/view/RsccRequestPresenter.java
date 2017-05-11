@@ -93,7 +93,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
       b.setOnAction(event ->
           new SupporterAttributesDialog());
     }
+
   }
+
 
   /**
    * Initializes the size of the whole RsccRequestView elements.
