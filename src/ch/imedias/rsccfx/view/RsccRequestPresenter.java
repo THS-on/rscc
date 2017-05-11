@@ -246,7 +246,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     GridPane.setValignment(button, VPos.CENTER);
     GridPane.setHalignment(button, HPos.CENTER);
     GridPane.setMargin(button, new Insets(20));
-    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    button.setMaxWidth(Double.MAX_VALUE);
+    button.minHeightProperty().bind(view.predefinedAdressesInnerBox.heightProperty().divide(3));
     //button.prefHeightProperty().bind(button.widthProperty());
     //button.minHeightProperty().bind(button.widthProperty());
     //button.maxHeightProperty().bind(button.widthProperty());
