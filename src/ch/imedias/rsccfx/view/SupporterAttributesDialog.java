@@ -42,6 +42,10 @@ public class SupporterAttributesDialog extends DialogPane {
    * Initializes all the GUI components needed in the DialogPane.
    */
   public SupporterAttributesDialog() {
+    dialog.setTitle("Supporter Details");
+    String styleSheet = getClass().getClassLoader()
+        .getResource("css/styles.css").toExternalForm();
+    this.getStylesheets().add(styleSheet);
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -52,6 +56,7 @@ public class SupporterAttributesDialog extends DialogPane {
     // populate fields which require initial data
 
     nameLbl.setText("Name");
+    nameLbl.setId("txt");
     adressLbl.setText("Adress");
     portLbl.setText("Port");
     pictureLbl.setText("Picture");
@@ -59,6 +64,7 @@ public class SupporterAttributesDialog extends DialogPane {
     encryptedLbl.setText("Encrypted");
 
     nameFld.setText("Ronny");
+    nameFld.getStyleClass().add("gridPane");
     nameFld.setEditable(false);
     nameFld.setDisable(true);
     adressFld.setText("127.0.0.1");
@@ -76,6 +82,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     // Set Hgrow for TextField
     gridPane.setHgrow(adressFld, Priority.ALWAYS);
+    gridPane.getStyleClass().add("gridPane");
 
   }
 
@@ -119,6 +126,7 @@ public class SupporterAttributesDialog extends DialogPane {
   @Override
   public ButtonBar createButtonBar() {
     final ButtonBar buttonBar = new ButtonBar();
+    buttonBar.getStyleClass().add("buttonBar");
 
     final Button connectButton = new Button("Call");
     final Button editButton = new Button("Edit");

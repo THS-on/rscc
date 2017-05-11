@@ -269,3 +269,10 @@
  *                    SupporterAttributesDialog                            *
  *                                                                         *
  **************************************************************************/
+.gridPane{
+ -fx-font-size: 25;
+}
+
+.buttonBar{
+ -fx-font-size: 25;
+}
