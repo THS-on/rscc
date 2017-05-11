@@ -20,8 +20,13 @@ import java.util.prefs.Preferences;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 
 /**
  * Defines the behaviour of interactions
@@ -72,10 +77,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        (ActionEvent event) -> {
-          Thread thread = new Thread(model::refreshKey);
-          thread.start();
-        }
+        event -> model.refreshKey()
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
@@ -219,6 +221,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private void createNewSupporterBtn() {
 
     Button supporter = new Button("+");
+    attachContextMenu(supporter);
     supporter.getStyleClass().add("supporterBtn");
 
     buttons.add(supporter);
@@ -239,4 +242,26 @@ public class RsccRequestPresenter implements ControlledPresenter {
     attachButtonEvents();
   }
 
+  private void attachContextMenu(Button button) {
+
+    // Create ContextMenu
+    ContextMenu contextMenu = new ContextMenu();
+
+    MenuItem editMenuItem = new MenuItem("Edit");
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
+
+
+    MenuItem connectMenuItem = new MenuItem("Call");
+    connectMenuItem.setOnAction(event -> {
+      /*TODO start connection*/
+
+    });
+
+    // Add MenuItem to ContextMenu
+    contextMenu.getItems().addAll(editMenuItem, connectMenuItem);
+
+    // When user right-click on Supporterbutton
+    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
+        event.getScreenY()));
+  }
 }
