@@ -99,6 +99,7 @@ public class RsccApp extends Application {
         .getResource("css/styles.css").toExternalForm();
 
     scene.getStylesheets().add(styleSheet);
+
   }
 
   @Override
