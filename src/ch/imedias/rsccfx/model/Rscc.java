@@ -69,6 +69,7 @@ public class Rscc {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
+  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
@@ -188,7 +189,6 @@ public class Rscc {
   }
 
   /**
-   *
    * Kills the connection to the keyserver.
    */
   public void killConnection() {
@@ -220,7 +220,6 @@ public class Rscc {
         pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
     String key = systemCommander.executeTerminalCommand(command);
 
-    setConnectionStatus("Starting VNC-Server...", 1);
     keyUtil.setKey(key); // update key in model
     rscccfp = new Rscccfp(this, true);
     rscccfp.setDaemon(true);
@@ -234,22 +233,6 @@ public class Rscc {
 
     System.out.println("RSCC: Staring VNCServer");
     startVncServer();
-    setConnectionStatus("VNC-Server awaits connection", 2);
-
-  }
-
-  /**
-   * Sets the Status of the connection establishment.
-   *
-   * @param text             Text to show for the connection status.
-   * @param statusStyleIndex Index of the connectionStatusStyles.
-   */
-  public void setConnectionStatus(String text, int statusStyleIndex) {
-    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
-      throw new IllegalArgumentException();
-    }
-    setConnectionStatusText(text);
-    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
 
     rudp = null;
 
@@ -265,6 +248,22 @@ public class Rscc {
       System.out.println("RSCC: Starting rudp");
       rudp.start();
     }
+
+    setConnectionStatus("VNC-Server awaits connection", 2);
+  }
+
+  /**
+   * Sets the Status of the connection establishment.
+   *
+   * @param text             Text to show for the connection status.
+   * @param statusStyleIndex Index of the connectionStatusStyles.
+   */
+  public void setConnectionStatus(String text, int statusStyleIndex) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
+      throw new IllegalArgumentException();
+    }
+    setConnectionStatusText(text);
+    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
 
@@ -281,12 +280,6 @@ public class Rscc {
     setConnectionStatus("Connect to keyserver...", 1);
 
     systemCommander.executeTerminalCommand(command);
-
-    setConnectionStatus("Starting VNC-Viewer...", 1);
-
-    startVncViewer("localhost",getVncPort());
-
-    setConnectionStatus("Connection Established", 2);
 
     rscccfp = new Rscccfp(this, false);
     rscccfp.setDaemon(true);
@@ -306,16 +299,11 @@ public class Rscc {
       rudp = new RunRudp(this, false, true);
     }
 
-
     if (rudp != null) {
       System.out.println("RSCC: Starting rudp");
 
       rudp.start();
-      try {
-        Thread.sleep(3000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
       System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", LOCAL_FORWARDING_PORT);
     } else {
@@ -354,7 +342,7 @@ public class Rscc {
    * @param vncViewerPort Port to connect to.
    */
   public void startVncViewer(String hostAddress, Integer vncViewerPort) {
-    if (hostAddress == null) {
+    if (hostAddress == null || vncViewerPort == null) {
       throw new IllegalArgumentException();
     }
     String vncViewerAttributes = "-bgr233 " + " " + hostAddress + "::" + vncViewerPort;
@@ -362,7 +350,13 @@ public class Rscc {
 
     String command = systemCommander.commandStringGenerator(null,
         "vncviewer", vncViewerAttributes);
-    System.out.println(systemCommander.executeTerminalCommand(command));
+
+    String ConnectionStatus = null;
+    do{
+      ConnectionStatus = systemCommander.executeTerminalCommand(command);
+      System.out.println("VNCviewer: " + ConnectionStatus);
+    } while (ConnectionStatus.contains("Unable to connect to VNC server"));
+
   }
 
   public void stopVncViewer() {
@@ -619,5 +613,16 @@ public class Rscc {
 
   public void setTerminalOutput(String terminalOutput) {
     this.terminalOutput.set(terminalOutput);
+  }
+  public boolean getIsForcingServerMode() {
+    return isForcingServerMode.get();
+  }
+
+  public BooleanProperty isForcingServerModeProperty() {
+    return isForcingServerMode;
+  }
+
+  public void setIsForcingServerMode(boolean isForcingServerMode) {
+    this.isForcingServerMode.set(isForcingServerMode);
   }
 }
