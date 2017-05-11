@@ -4,6 +4,10 @@
  *                                                                         *
  **************************************************************************/
 
+* {
+    -fx-font-family: Cantarell;
+}
+
 #header {
     -fx-background-color: #eeeeee; /* macarena */
     /*-fx-padding: 10;*/
@@ -12,7 +16,6 @@
 #headerText {
     -fx-font-size: 20pt;
     -fx-font-weight: bold;
-    -fx-font-family: Cantarell;
 }
 
 #helpBtn, #backBtn, #settingsBtn, #reloadKeyBtn{
@@ -146,7 +149,6 @@
 }
 
 #keyGenerationLbl{
-    -fx-font-family: Cantarell;
     -fx-font-size: 30pt;
     -fx-font-weight: bold;
     -fx-wrap-text: true;
