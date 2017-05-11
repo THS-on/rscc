@@ -68,7 +68,7 @@ public class Rscc {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
-  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(true);
+  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
 
   private boolean isLocalIceSuccessful = false;
   private boolean isRemoteIceSuccessful = false;
@@ -295,16 +295,17 @@ public class Rscc {
       rudp = new RunRudp(this, false, true);
     }
 
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     if (rudp != null) {
       System.out.println("RSCC: Starting rudp");
 
       rudp.start();
-      try {
-        Thread.sleep(3000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
       System.out.println("RSCC: Starting VNCViewer");
       startVncViewer("localhost", LOCAL_FORWARDING_PORT);
     } else {
