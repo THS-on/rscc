@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 public class SystemCommander {
   private static final Logger LOGGER =
       Logger.getLogger(SystemCommander.class.getName());
+  private Rscc model;
 
   /**
    * Executes a command in the Linux terminal.
@@ -50,6 +51,37 @@ public class SystemCommander {
     return outputString;
   }
 
+  public void executeTerminalCommandAndUpdateModelAboutProgres(String command) {
+    Process process;
+    String outputString = ""; // standard return value
+    try {
+      StringBuilder output = new StringBuilder();
+      // Execute Command
+      process = Runtime.getRuntime().exec(command);
+      process.waitFor();
+      // read the output from the command
+      BufferedReader outputReader = new BufferedReader(new
+          InputStreamReader(process.getInputStream()));
+      BufferedReader errorReader = new BufferedReader(new
+          InputStreamReader(process.getErrorStream()));
+      String line;
+      while ((line = errorReader.readLine()) != null) {
+        model.setTerminalOutput(line);
+      }
+      outputReader.close();
+      errorReader.close();
+      outputString = output.toString().trim();
+    } catch (Exception exception) {
+      LOGGER.severe("Exception thrown when running the command: "
+          + command
+          + "\n Exception Message: " + exception.getMessage());
+      throw new IllegalArgumentException();
+    }
+  }
+
+
+
+
   /**
    * Generates String to run command.
    *
@@ -74,4 +106,9 @@ public class SystemCommander {
 
     return commandString.toString();
   }
+
+  public void setModel(Rscc model) {
+    this.model = model;
+  }
+
 }

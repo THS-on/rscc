@@ -63,6 +63,7 @@ public class Rscc {
   private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
+  private final StringProperty terminalOutput = new SimpleStringProperty();
 
   private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
@@ -70,6 +71,7 @@ public class Rscc {
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
   private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
+  private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
 
   private boolean isLocalIceSuccessful = false;
   private boolean isRemoteIceSuccessful = false;
@@ -186,6 +188,7 @@ public class Rscc {
   }
 
   /**
+   *
    * Kills the connection to the keyserver.
    */
   public void killConnection() {
@@ -232,6 +235,7 @@ public class Rscc {
     System.out.println("RSCC: Staring VNCServer");
     startVncServer();
     setConnectionStatus("VNC-Server awaits connection", 2);
+
   }
 
   /**
@@ -435,6 +439,8 @@ public class Rscc {
     }
   }
 
+
+
   public String getKeyServerIp() {
     return keyServerIp.get();
   }
@@ -611,5 +617,7 @@ public class Rscc {
     return PACKAGE_SIZE;
   }
 
-
+  public void setTerminalOutput(String terminalOutput) {
+    this.terminalOutput.set(terminalOutput);
+  }
 }
