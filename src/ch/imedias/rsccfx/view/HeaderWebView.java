@@ -18,10 +18,10 @@ public class HeaderWebView extends VBox {
   final Worker<Void> worker = webEngine.getLoadWorker();
 
   public HeaderWebView() {
-    createWebHelp();
+    initWebHelp();
   }
 
-  public void createWebHelp() {
+  public void initWebHelp() {
 
     // Bind the progress property of ProgressBar
     // with progress property of Worker
