@@ -16,7 +16,7 @@ import java.net.Socket;
  * Created by pwg on 09.05.17.
  */
 public class RunRudp extends Thread {
-  private static boolean isOngoing = true;
+  private boolean isOngoing = true;
   private Rscc model;
   private boolean viewerIsRudpClient;
   private boolean callAsViewer;
@@ -27,7 +27,7 @@ public class RunRudp extends Thread {
    *
    * @param model              the one and only Model.
    * @param viewerIsRudpClient defines if the object is RUDP Client or Server.
-   * @param callAsViewer       defines if TCP-Port is server (vnc-viewer) or Client (vnc-Server).
+   * @param callAsViewer       defines if the caller is vnc server or Client (vnc-viewer).
    */
   public RunRudp(Rscc model, boolean viewerIsRudpClient, boolean callAsViewer) {
     this.model = model;
@@ -206,7 +206,7 @@ public class RunRudp extends Thread {
    * @param rudpOutput OutputStream on RUDP Socket.
    * @param bufferSize Size of the Buffer per package.
    */
-  public static void startProxy(InputStream tcpInput, OutputStream tcpOutput, InputStream
+  private void startProxy(InputStream tcpInput, OutputStream tcpOutput, InputStream
       rudpInput, OutputStream rudpOutput, int bufferSize) {
 
     final byte[] request = new byte[bufferSize];
@@ -278,7 +278,7 @@ public class RunRudp extends Thread {
   }
 
   public void setIsOngoing(boolean isOngoing) {
-    RunRudp.isOngoing = isOngoing;
+    this.isOngoing = isOngoing;
   }
 }
 
