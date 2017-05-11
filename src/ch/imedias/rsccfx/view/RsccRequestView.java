@@ -79,7 +79,6 @@ public class RsccRequestView extends BorderPane {
     initFieldData();
     layoutForm();
     layoutKeyGenerationPane();
-    layoutPredefinedAddressesPane();
     layoutSupporterPane();
     bindFieldsToModel();
   }
@@ -173,6 +172,15 @@ public class RsccRequestView extends BorderPane {
     GridPane.setRowSpan(reloadKeyBtn, 2);
     GridPane.setColumnSpan(statusBox, 3);
 
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setPercentWidth(40);
+    ColumnConstraints col2 = new ColumnConstraints();
+    col2.setPercentWidth(10);
+    ColumnConstraints col3 = new ColumnConstraints();
+    col3.setPercentWidth(50);
+
+    keyGenerationInnerPane.getColumnConstraints().addAll(col1,col2,col3);
+
     keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl,
         descriptionLbl, statusBox);   keyGenerationInnerPane.getChildren().stream()
         .forEach(node -> {
@@ -180,14 +188,10 @@ public class RsccRequestView extends BorderPane {
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
-          GridPane.setMargin(node, new Insets(20));
+          GridPane.setMargin(node, new Insets(10));
     keyGenerationInnerPane.setAlignment(Pos.CENTER);
 
         });
-  }
-
-  private void layoutPredefinedAddressesPane() {
-
   }
 
   private void bindFieldsToModel() {
