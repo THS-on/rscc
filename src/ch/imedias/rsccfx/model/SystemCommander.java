@@ -2,10 +2,7 @@ package ch.imedias.rsccfx.model;
 
 import com.google.common.base.CharMatcher;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -61,22 +58,34 @@ public class SystemCommander {
      */
 
 
-    public void executeTerminalCommandAndUpdateModel(String command, String whatTerminalNeedsToShow) {
+    public String executeTerminalCommandAndUpdateModel(String command, String whatTerminalNeedsToShow) {
         Process p;
+        StringBuilder output = new StringBuilder();
 
         try {
             p = Runtime.getRuntime().exec(command);
-            final InputStream stream = p.getErrorStream();
+            final InputStream errorStream = p.getErrorStream();
+            final InputStream inputStream = p.getInputStream();
+
             Thread t= new Thread(new Runnable() {
                 public void run() {
                     BufferedReader reader = null;
+                    BufferedReader reader2 = null;
                     try {
-                        reader = new BufferedReader(new InputStreamReader(stream));
+                        reader = new BufferedReader(new InputStreamReader(errorStream));
+                        reader2 = new BufferedReader(new InputStreamReader(inputStream));
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if(line.contains(whatTerminalNeedsToShow)){
                                 model.setIsVncSessionRunning(true);
                             }
+                            output.append(line);
+                        }
+                        while ((line = reader2.readLine()) != null) {
+                            if(line.contains(whatTerminalNeedsToShow)){
+                                model.setIsVncSessionRunning(true);
+                            }
+                            output.append(line);
                         }
 
                     } catch (Exception e) {
@@ -102,6 +111,7 @@ public class SystemCommander {
         finally {
             model.setIsVncSessionRunning(false);
         }
+        return output.toString();
 
     }
 
