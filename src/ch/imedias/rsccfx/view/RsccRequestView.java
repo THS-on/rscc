@@ -36,27 +36,36 @@ public class RsccRequestView extends BorderPane {
   private static final double GENERATEDKEYFLD_HEIGHT = 60d;
 
   final HeaderView headerView;
+
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
+
+  GridPane supporterGrid = new GridPane();
   final GridPane keyGenerationInnerPane = new GridPane();
+
   final HBox statusBox = new HBox();
   final HBox predefinedAdressesInnerBox = new HBox();
   final VBox contentBox = new VBox();
+
   final TitledPane predefinedAddressesTitledPane = new TitledPane();
   final TitledPane keyGenerationTitledPane = new TitledPane();
+
   final ScrollPane scrollPane = new ScrollPane();
+
   final KeyTextField generatedKeyFld = new KeyTextField();
+
   final Button reloadKeyBtn = new Button();
+
   private final Rscc model;
   private final Strings strings = new Strings();
   private final KeyUtil keyUtil;
+
   Image reloadImg;
 
   ImageView reloadImgView;
 
-  GridPane supporterGrid = new GridPane();
 
   /**
    * Initializes all the GUI components needed to generate the key the supporter needs.
