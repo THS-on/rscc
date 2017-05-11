@@ -162,6 +162,7 @@ public class RsccRequestView extends BorderPane {
   }
 
   private void layoutKeyGenerationPane() {
+    // set elements
     GridPane.setConstraints(generatedKeyFld, 0, 0);
     GridPane.setConstraints(reloadKeyBtn, 1, 0);
     GridPane.setConstraints(titleLbl, 2, 0);
@@ -172,34 +173,39 @@ public class RsccRequestView extends BorderPane {
     GridPane.setRowSpan(reloadKeyBtn, 2);
     GridPane.setColumnSpan(statusBox, 3);
 
-    ColumnConstraints col1 = new ColumnConstraints();
-    col1.setPercentWidth(40);
-    ColumnConstraints col2 = new ColumnConstraints();
-    col2.setPercentWidth(10);
-    ColumnConstraints col3 = new ColumnConstraints();
-    col3.setPercentWidth(50);
-
-    GridPane.setVgrow(statusBox, Priority.NEVER);
-
-    GridPane.setValignment(titleLbl,VPos.BOTTOM);
-    GridPane.setValignment(descriptionLbl,VPos.TOP);
-
-    keyGenerationInnerPane.setPadding(new Insets(10));
-
-
-    keyGenerationInnerPane.getColumnConstraints().addAll(col1,col2,col3);
-
     keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl,
-        descriptionLbl, statusBox);   keyGenerationInnerPane.getChildren().stream()
+        descriptionLbl, statusBox);
+
+    // initial styling
+    keyGenerationInnerPane.getChildren().stream()
         .forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(10));
-    keyGenerationInnerPane.setAlignment(Pos.CENTER);
+          keyGenerationInnerPane.setAlignment(Pos.CENTER);
 
-        });
+            }
+        );
+
+    // column division
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setPercentWidth(40);
+    ColumnConstraints col2 = new ColumnConstraints();
+    col2.setPercentWidth(10);
+    ColumnConstraints col3 = new ColumnConstraints();
+    col3.setPercentWidth(50);
+    keyGenerationInnerPane.getColumnConstraints().addAll(col1,col2,col3);
+
+    // special styling
+    GridPane.setVgrow(statusBox, Priority.NEVER);
+    GridPane.setValignment(titleLbl,VPos.BOTTOM);
+    GridPane.setValignment(descriptionLbl,VPos.TOP);
+    keyGenerationInnerPane.setPadding(new Insets(10));
+
+
+
   }
 
   private void bindFieldsToModel() {
