@@ -34,17 +34,24 @@ public class RsccSupportView extends BorderPane {
   final Label startServiceTitleLbl = new Label();
 
   final HBox statusBox = new HBox();
+
   final KeyTextField keyFld = new KeyTextField();
+
   final VBox contentBox = new VBox();
+
   final GridPane keyInputInnerPane = new GridPane();
   final GridPane addressbookInnerPane = new GridPane();
+
   final TitledPane keyInputTitledPane = new TitledPane();
   final TitledPane addressbookTitledPane = new TitledPane();
+
   final Button connectBtn = new Button();
+  final Button startServiceBtn = new Button();
+
   private final Rscc model;
   private final Strings strings = new Strings();
+
   ImageView validationImgView = new ImageView();
-  final Button startServiceBtn = new Button();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -106,6 +113,10 @@ public class RsccSupportView extends BorderPane {
 
     connectBtn.setId("connectBtn");
     connectBtn.setDisable(true);
+
+    startServiceBtn.setId("startServiceBtn");
+    startServiceTitleLbl.getStyleClass().add("titleLbl");
+    startServiceDescriptionLbl.getStyleClass().add("descriptionLbl");
 
     contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, addressbookTitledPane);
     VBox.setVgrow(keyInputInnerPane, Priority.ALWAYS);
