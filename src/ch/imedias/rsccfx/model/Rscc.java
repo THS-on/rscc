@@ -68,7 +68,7 @@ public class Rscc {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
-  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
+  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(true);
 
   private boolean isLocalIceSuccessful = false;
   private boolean isRemoteIceSuccessful = false;
@@ -217,6 +217,8 @@ public class Rscc {
     String key = systemCommander.executeTerminalCommand(command);
 
     setConnectionStatus("Starting VNC-Server...", 1);
+    startVncServer();
+
     keyUtil.setKey(key); // update key in model
     rscccfp = new Rscccfp(this, true);
     rscccfp.setDaemon(true);
@@ -229,22 +231,6 @@ public class Rscc {
     }
 
     System.out.println("RSCC: Staring VNCServer");
-    startVncServer();
-    setConnectionStatus("VNC-Server awaits connection", 2);
-  }
-
-  /**
-   * Sets the Status of the connection establishment.
-   *
-   * @param text             Text to show for the connection status.
-   * @param statusStyleIndex Index of the connectionStatusStyles.
-   */
-  public void setConnectionStatus(String text, int statusStyleIndex) {
-    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
-      throw new IllegalArgumentException();
-    }
-    setConnectionStatusText(text);
-    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
 
     rudp = null;
 
@@ -260,6 +246,22 @@ public class Rscc {
       System.out.println("RSCC: Starting rudp");
       rudp.start();
     }
+
+    setConnectionStatus("VNC-Server awaits connection", 2);
+  }
+
+  /**
+   * Sets the Status of the connection establishment.
+   *
+   * @param text             Text to show for the connection status.
+   * @param statusStyleIndex Index of the connectionStatusStyles.
+   */
+  public void setConnectionStatus(String text, int statusStyleIndex) {
+    if (statusStyleIndex < 0 || statusStyleIndex >= connectionStatusStyles.length || text == null) {
+      throw new IllegalArgumentException();
+    }
+    setConnectionStatusText(text);
+    setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
 
