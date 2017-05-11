@@ -70,8 +70,6 @@ public class Rscc {
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionViewOnly = new SimpleBooleanProperty(false);
-  private final BooleanProperty vncOptionWindow = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
 
   private boolean isLocalIceSuccessful = false;
@@ -248,6 +246,11 @@ public class Rscc {
     vncServer = new VncServerHandler(this, null, null, false);
     vncServer.start();
 
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     rudp = null;
 
@@ -319,7 +322,6 @@ public class Rscc {
       LOGGER.info("RSCC: Starting rudp");
       setConnectionStatus("Starting direct VNC connection.", 1);
 
-
       rudp.start();
 
       LOGGER.info("RSCC: Starting VNCViewer");
@@ -345,7 +347,6 @@ public class Rscc {
     killConnection();
     requestKeyFromServer();
   }
-
 
 
   /**

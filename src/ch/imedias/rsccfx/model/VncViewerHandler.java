@@ -1,11 +1,15 @@
 package ch.imedias.rsccfx.model;
 
+import java.util.logging.Logger;
+
 /**
  * This Class handles a VNC viewer.
  * The Thread keeps running as long as the VNCViewer is running.
  * Created by jp on 11/05/17.
  */
 public class VncViewerHandler extends Thread {
+  private static final Logger LOGGER =
+      Logger.getLogger(Rscc.class.getName());
   private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncViewerName = "vncviewer";
@@ -54,10 +58,7 @@ public class VncViewerHandler extends Thread {
 
     String connectionStatus = null;
 
-    for (int i = 0; i < 10; i++) {
-
-
-    }
+    int cycle = 0;
     do {
       try {
         Thread.sleep(1000);
@@ -66,11 +67,10 @@ public class VncViewerHandler extends Thread {
       }
       connectionStatus = systemCommander.executeTerminalCommandAndUpdateModel(
           command, "Connected");
-      System.out.println("VNCviewer: " + connectionStatus);
+      LOGGER.info("VNCviewer: " + connectionStatus);
+      cycle++;
+    } while (!connectionStatus.contains("Connected") && cycle < 8);
 
-    } while (!connectionStatus.contains("Connected"));
-
-    System.out.println("out of loop");
   }
 
 

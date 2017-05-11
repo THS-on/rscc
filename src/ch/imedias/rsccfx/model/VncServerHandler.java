@@ -45,8 +45,8 @@ public class VncServerHandler extends Thread {
   /**
    * Starts this VNCServer listening on localhost.
    */
-  private void startVncServer() {
-    StringBuilder vncServerAttributes = new StringBuilder("-once -localhost");
+  public void startVncServer() {
+    StringBuilder vncServerAttributes = new StringBuilder("-bg -localhost");
 
     if (model.getVncViewOnly()) {
       vncServerAttributes.append(" -viewonly");
@@ -55,8 +55,8 @@ public class VncServerHandler extends Thread {
 
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
-    systemCommander.executeTerminalCommandAndUpdateModel(command,
-        "connection from client");
+    systemCommander.executeTerminalCommand(command);
+    //"connection from client"
   }
 
 
@@ -71,6 +71,7 @@ public class VncServerHandler extends Thread {
         vncServerName, vncServerAttributes.toString());
     systemCommander.executeTerminalCommandAndUpdateModel(command,
         "OK");
+    //"OK"
   }
 
 
