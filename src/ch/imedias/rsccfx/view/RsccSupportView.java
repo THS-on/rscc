@@ -35,8 +35,6 @@ public class RsccSupportView extends BorderPane {
   final Label descriptionLbl = new Label();
   final Label statusLbl = new Label();
 
-  final HBox keyFieldAndImageBox = new HBox();
-
   final HBox statusBox = new HBox();
 
   final TextField keyFld = new TextField();
@@ -94,10 +92,6 @@ public class RsccSupportView extends BorderPane {
     addressbookTitledPane.setExpanded(false);
     addressbookTitledPane.setId("addressbookTitledPane");
 
-    keyFieldAndImageBox.getChildren().addAll(keyFld, validationImgView);
-
-    HBox.setHgrow(keyFieldAndImageBox, Priority.ALWAYS);
-
     titleLbl.getStyleClass().add("titleLbl");
 
     descriptionLbl.getStyleClass().add("descriptionLbl");
@@ -110,8 +104,6 @@ public class RsccSupportView extends BorderPane {
     keyFld.setId("keyFld");
 
     validationImgView.setSmooth(true);
-
-    HBox.setHgrow(keyFieldAndImageBox, Priority.ALWAYS);
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -134,7 +126,6 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(descriptionLbl, 2, 1);
     GridPane.setConstraints(statusBox, 0, 3);
 
-    GridPane.setColumnSpan(keyFieldAndImageBox, 3);
     GridPane.setColumnSpan(statusBox, 3);
 
     keyInputInnerPane.getChildren().addAll(keyFld, validationImgView,connectBtn, titleLbl, descriptionLbl,statusBox);
