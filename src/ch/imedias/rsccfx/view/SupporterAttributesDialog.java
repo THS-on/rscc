@@ -12,14 +12,15 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * Creates the DialogPane by SupporterButton click.
  */
 public class SupporterAttributesDialog extends DialogPane {
 
-  Dialog dialog = new Dialog();
-  GridPane gridPane = new GridPane();
+  final Dialog dialog = new Dialog();
+  final GridPane gridPane = new GridPane();
 
   final Label nameLbl = new Label();
   final Label adressLbl = new Label();
@@ -73,6 +74,8 @@ public class SupporterAttributesDialog extends DialogPane {
     chargeableCBox.setDisable(true);
     encryptedCBox.setDisable(true);
 
+    // Set Hgrow for TextField
+    gridPane.setHgrow(adressFld, Priority.ALWAYS);
 
   }
 
@@ -81,7 +84,8 @@ public class SupporterAttributesDialog extends DialogPane {
     gridPane.setHgap(20);
     gridPane.setVgap(10);
     gridPane.setPadding(new Insets(25, 25, 25, 25));
-    dialog.setResizable(true);
+    gridPane.autosize();
+    dialog.setResizable(false);
     dialog.setHeight(500);
     dialog.setWidth(500);
 
@@ -104,7 +108,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);
-    dialog.setResizable(false);
+
   }
 
 
@@ -137,13 +141,13 @@ public class SupporterAttributesDialog extends DialogPane {
         dialog.close();
 
       } else {
-      applyButton.setText("Close");
-      connectButton.setVisible(true);
+        applyButton.setText("Close");
+        connectButton.setVisible(true);
       }
     });
 
     // Add buttons to the ButtonBar
-    buttonBar.getButtons().addAll( connectButton, editButton,applyButton );
+    buttonBar.getButtons().addAll(connectButton, editButton,applyButton);
 
     return buttonBar;
   }
