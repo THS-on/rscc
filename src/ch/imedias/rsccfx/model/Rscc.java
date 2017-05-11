@@ -267,6 +267,7 @@ public class Rscc {
    * again.
    */
   public void refreshKey() {
+    setConnectionStatus("Refreshing key...", 1);
     killConnection();
     requestKeyFromServer();
   }

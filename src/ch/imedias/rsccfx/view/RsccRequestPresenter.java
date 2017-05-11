@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -71,7 +72,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> model.refreshKey()
+        (ActionEvent event) -> {
+          Thread thread = new Thread(model::refreshKey);
+          thread.start();
+        }
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
