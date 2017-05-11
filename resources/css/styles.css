@@ -225,6 +225,7 @@
     -fx-font-weight: bold;
 }
 
+
 /***************************************************************************
  *                                                                         *
  *                             SupportView                                 *
@@ -308,17 +309,27 @@
  *                                                                         *
  **************************************************************************/
 
+.settingsBoxes{
+    -fx-padding: 10;
+}
+
 #settingsBox{
     -fx-padding: 50;
 }
 
 .slider .thumb {
-    -fx-pref-height: 25;
-    -fx-pref-width: 25;
+    -fx-pref-height: 40;
+    -fx-pref-width: 40;
+    -fx-background-radius: 30px;
+    -fx-border-radius:30px;
+    -fx-border-color:#A7A7A7;
+    -fx-background-color: #EAEAEA;
 }
 
 .slider .thumb:hover {
     -fx-cursor: hand;
+    -fx-background-color: #f7f7f7;
+
 }
 
 .slider {
@@ -336,6 +347,41 @@
     -fx-font-size: 150%;
 }
 
+.toggles {
+    -fx-alignment: baseline-center;
+}
+.toggles .thumb-area {
+    -fx-background-color: #EAEAEA;
+    -fx-pref-width: 70;
+    -fx-pref-height: 30;
+    -fx-padding: 20;
+}
+
+.toggles .thumb{
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+    -fx-background-radius: 30px;
+    -fx-border-radius:30px;
+    -fx-border-color:#A7A7A7;
+    -fx-background-color: #EAEAEA;
+}
+
 .toggles:selected .thumb-area {
     -fx-background-color: #A7A7A7;
+
+}
+
+#requestViewOnlyLbl{
+    -fx-font-size: 18pt;
+}
+
+.expertSettingsBtn{
+    -fx-padding: 10 20 10 20;
+    -fx-alignment: center;
+    -fx-font-size: 18pt;
+    -fx-background-radius: 4px;
+    -fx-border-radius:4px;
+    -fx-border-color:#A7A7A7;
+    -fx-background-color: #EAEAEA;
+
 }
