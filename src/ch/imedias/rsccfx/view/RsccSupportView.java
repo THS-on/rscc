@@ -13,10 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.InfoOverlay;
 
 /**
  * Defines all elements shown in the support section.
@@ -127,9 +129,9 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void layoutKeyInputPane() {
-    GridPane.setConstraints(keyFld, 0, 0);
-    GridPane.setConstraints(validationImgView, 1, 0);
-    GridPane.setConstraints(connectBtn, 0, 1);
+    GridPane.setConstraints(keyFld, 0, 1);
+    GridPane.setConstraints(validationImgView, 1, 1);
+    GridPane.setConstraints(connectBtn, 0, 2);
     GridPane.setConstraints(titleLbl, 2, 0);
     GridPane.setConstraints(descriptionLbl, 2, 1);
     GridPane.setConstraints(statusBox, 0, 3);
@@ -147,6 +149,33 @@ public class RsccSupportView extends BorderPane {
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
         });
+
+    // column division
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setPercentWidth(40);
+    ColumnConstraints col2 = new ColumnConstraints();
+    col2.setPercentWidth(10);
+    ColumnConstraints col3 = new ColumnConstraints();
+    col3.setPercentWidth(50);
+    keyInputInnerPane.getColumnConstraints().addAll(col1,col2,col3);
+
+    // special styling
+    GridPane.setVgrow(statusBox, Priority.NEVER);
+    GridPane.setValignment(titleLbl,VPos.BOTTOM);
+    GridPane.setValignment(descriptionLbl,VPos.CENTER);
+    GridPane.setValignment(keyFld, VPos.CENTER);
+    GridPane.setValignment(validationImgView, VPos.CENTER);
+    GridPane.setValignment(connectBtn, VPos.TOP);
+    GridPane.setMargin(titleLbl, new Insets(0));
+    GridPane.setMargin(descriptionLbl, new Insets(0));
+    GridPane.setMargin(keyFld, new Insets(0,0,10,0));
+    GridPane.setMargin(validationImgView, new Insets(0));
+    GridPane.setMargin(connectBtn, new Insets(0));
+    keyInputInnerPane.setGridLinesVisible(true);
+
+    keyInputInnerPane.setPadding(new Insets(10));
+
+
   }
 
   private void layoutStartServicePane() {
@@ -155,6 +184,22 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceDescriptionLbl, 1,1);
 
     GridPane.setRowSpan(startServiceBtn, 2);
+
+
+    // column division
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setPercentWidth(50);
+    ColumnConstraints col2 = new ColumnConstraints();
+    col2.setPercentWidth(50);
+    addressbookInnerPane.getColumnConstraints().addAll(col1,col2);
+
+    // special styling
+    GridPane.setValignment(startServiceBtn, VPos.BOTTOM);
+    GridPane.setValignment(startServiceTitleLbl, VPos.BOTTOM);
+    GridPane.setValignment(startServiceDescriptionLbl, VPos.TOP);
+    GridPane.setMargin(titleLbl, new Insets(0));
+    GridPane.setMargin(descriptionLbl, new Insets(0));
+    addressbookInnerPane.setPadding(new Insets(10));
 
     addressbookInnerPane.getChildren().addAll(startServiceBtn,
         startServiceDescriptionLbl, startServiceTitleLbl);

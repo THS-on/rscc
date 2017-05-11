@@ -276,6 +276,8 @@
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
     -fx-font-size: 30pt;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
 }
 
 .supporterBtn {

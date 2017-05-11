@@ -202,9 +202,9 @@ public class RsccRequestView extends BorderPane {
     GridPane.setVgrow(statusBox, Priority.NEVER);
     GridPane.setValignment(titleLbl,VPos.BOTTOM);
     GridPane.setValignment(descriptionLbl,VPos.TOP);
+    GridPane.setMargin(titleLbl, new Insets(0));
+    GridPane.setMargin(descriptionLbl, new Insets(0));
     keyGenerationInnerPane.setPadding(new Insets(10));
-
-
 
   }
 
