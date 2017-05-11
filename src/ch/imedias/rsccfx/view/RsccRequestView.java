@@ -2,6 +2,8 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
+import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 
 import java.io.InputStream;
@@ -34,6 +36,7 @@ public class RsccRequestView extends BorderPane {
   final HeaderView headerView;
   private final Rscc model;
   private final Strings strings = new Strings();
+  private final KeyUtil keyUtil;
 
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
@@ -52,7 +55,7 @@ public class RsccRequestView extends BorderPane {
   final TitledPane predefinedAddressesPane = new TitledPane();
   final ScrollPane scrollPane = new ScrollPane();
 
-  final TextField generatedKeyFld = new TextField();
+  final KeyTextField generatedKeyFld = new KeyTextField();
 
   final Button reloadKeyBtn = new Button();
 
@@ -70,6 +73,7 @@ public class RsccRequestView extends BorderPane {
   public RsccRequestView(Rscc model) {
     this.model = model;
     headerView = new HeaderView(model);
+    this.keyUtil = model.getKeyUtil();
     SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
@@ -88,7 +92,7 @@ public class RsccRequestView extends BorderPane {
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.textProperty().set(strings.requestStatusLblReady);
-    statusLbl.textProperty().set(strings.requestStatusLblWaiting);
+    statusLbl.textProperty().set("");
 
 
     InputStream reloadImagePath = getClass().getClassLoader()
@@ -170,6 +174,6 @@ public class RsccRequestView extends BorderPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    generatedKeyFld.textProperty().bind(model.keyProperty());
+    generatedKeyFld.textProperty().bind(keyUtil.formattedKeyProperty());
   }
 }

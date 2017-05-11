@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -71,7 +73,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> model.refreshKey()
+        (ActionEvent event) -> {
+          Thread thread = new Thread(model::refreshKey);
+          thread.start();
+        }
     );
 
     // Closes the other TitledPane so that just one TitledPane is shown on the screen.
@@ -81,6 +86,20 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.predefinedAddressesPane.setOnMouseClicked(
         event -> view.keyGeneratorPane.setExpanded(false)
     );
+
+    model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusBox.getStyleClass().clear();
+        view.statusBox.getStyleClass().add(newValue);
+      });
+    });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
+    });
+
     attachButtonEvents();
   }
 
@@ -89,7 +108,9 @@ public class RsccRequestPresenter implements ControlledPresenter {
       b.setOnMouseClicked(event ->
           new SupporterAttributesDialog());
     }
+
   }
+
 
   /**
    * Initializes the size of the whole RsccRequestView elements.
@@ -218,4 +239,5 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
     attachButtonEvents();
   }
+
 }

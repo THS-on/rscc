@@ -1,0 +1,115 @@
+package ch.imedias.rsccfx.view;
+
+import ch.imedias.rsccfx.localization.Strings;
+import javafx.geometry.Insets;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import org.controlsfx.control.ToggleSwitch;
+
+/**
+ * Creates the DialogPane for the expert settings.
+ */
+public class ExpertSettingsDialog extends DialogPane {
+
+  Dialog dialog = new Dialog();
+  GridPane settingsPane = new GridPane();
+  Strings strings = new Strings();
+
+  final Label keyserverIpLbl = new Label();
+  final Label forceConnectOverServerLbl = new Label();
+  final Label keyServerHttpPortLbl = new Label();
+  final Label vncPortLbl = new Label();
+  final Label icePortLbl = new Label();
+  final Label udpPackageSizeLbl = new Label();
+  final Label localForwadingPortLbl = new Label();
+  final Label stunServerPortLbl = new Label();
+  final Label stunServersLbl = new Label();
+  final Label settingsTitleLbl = new Label();
+
+  final ToggleSwitch forceConnectOverServerTgl = new ToggleSwitch();
+
+  final TextField keyServerIpFld = new TextField();
+  final TextField keyServerHttpPortFld = new TextField();
+  final TextField vncPortFld = new TextField();
+  final TextField icePortFld = new TextField();
+  final TextField udpPackageSizeFld = new TextField();
+  final TextField localForwardingPortFld = new TextField();
+  final TextField stunServerPortFld = new TextField();
+  final ListView stunServersList = new ListView();
+
+
+  /**
+   * Initializes all the GUI components needed in the DialogPane.
+   */
+  public ExpertSettingsDialog() {
+    initFieldData();
+    layoutForm();
+    bindFieldsToModel();
+    dialog.show();
+  }
+
+  private void initFieldData() {
+    // populate fields which require initial data
+    forceConnectOverServerLbl.textProperty().set(strings.expertForceConnectOverServerLbl);
+    keyserverIpLbl.textProperty().set(strings.expertKeyserverIpLbl);
+    keyServerHttpPortLbl.textProperty().set(strings.expertKeyserverHttpLbl);
+    vncPortLbl.textProperty().set(strings.expertVncPortLbl);
+    icePortLbl.textProperty().set(strings.expertIcePortLbl);
+    udpPackageSizeLbl.textProperty().set(strings.expertUdpPackageSizeLbl);
+    localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
+    stunServersLbl.textProperty().set(strings.expertStunserverLbl);
+    stunServerPortLbl.textProperty().set(strings.expertStunServerPortLbl);
+    settingsTitleLbl.textProperty().set(strings.settingsTitleLbl);
+  }
+
+  private void layoutForm() {
+    //setup layout (aka setup specific pane etc.)
+    settingsPane.setHgap(20);
+    settingsPane.setVgap(10);
+    settingsPane.setPadding(new Insets(25));
+    dialog.setResizable(true);
+    dialog.setHeight(500);
+    dialog.setWidth(500);
+
+    settingsPane.add(settingsTitleLbl,0,0);
+    settingsPane.add(forceConnectOverServerLbl,0,1);
+    settingsPane.add(forceConnectOverServerTgl,1,1);
+    settingsPane.add(keyserverIpLbl,0,2);
+    settingsPane.add(keyServerIpFld,1,2);
+    settingsPane.add(keyServerHttpPortLbl,0,3);
+    settingsPane.add(keyServerHttpPortFld,1,3);
+    settingsPane.add(vncPortLbl,0,4);
+    settingsPane.add(vncPortFld,1,4);
+    settingsPane.add(icePortLbl,0,5);
+    settingsPane.add(icePortFld,1,5);
+    settingsPane.add(udpPackageSizeLbl,0,6);
+    settingsPane.add(udpPackageSizeFld,1,6);
+    settingsPane.add(localForwadingPortLbl, 0, 7);
+    settingsPane.add(localForwardingPortFld,1,7);
+    settingsPane.add(stunServerPortLbl,0,8);
+    settingsPane.add(stunServerPortFld,1,8);
+    settingsPane.add(stunServersLbl, 0, 9);
+    settingsPane.add(stunServersList,1,9);
+
+    this.getButtonTypes().add(ButtonType.APPLY);
+    this.getButtonTypes().add(ButtonType.CLOSE);
+    this.getButtonTypes().add(ButtonType.PREVIOUS);
+
+
+    this.setContent(settingsPane);
+    dialog.setDialogPane(this);
+  }
+
+
+  private void bindFieldsToModel() {
+    // make bindings to the model
+  }
+
+}
+
+
