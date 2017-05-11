@@ -17,13 +17,8 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 
 /**
  * Defines the behaviour of interactions
@@ -98,12 +93,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
               view.keyGenerationTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
               view.contentBox.getChildren().add(2, view.predefinedAdressesInnerBox);
-              Platform.runLater(() -> {
-                view.supporterGrid.getChildren().stream().forEach(node -> {
-                  Button button = (Button) node;
-                  initButtonSize(button);
-                });
-              });
             }
           }
         }
@@ -224,8 +213,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     Button supporter = new Button("+");
     supporter.getStyleClass().add("supporterBtn");
 
-    initButtonSize(supporter);
-
     attachButtonEvents();
 
     buttons.add(supporter);
@@ -235,7 +222,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {
       rowSize++;
     }
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+    view.supporterGrid.getChildren().add(buttons.get(buttonSize));
 
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
@@ -244,20 +231,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
     }
-
-
   }
 
-  private void initButtonSize(Button button) {
-    GridPane.setVgrow(button, Priority.ALWAYS);
-    GridPane.setHgrow(button, Priority.ALWAYS);
-    GridPane.setValignment(button, VPos.CENTER);
-    GridPane.setHalignment(button, HPos.CENTER);
-    GridPane.setMargin(button, new Insets(20));
-    button.setMaxWidth(Double.MAX_VALUE);
-    button.prefHeightProperty().bind(button.widthProperty());
-    button.minHeightProperty().bind(button.widthProperty());
-    button.maxHeightProperty().bind(button.widthProperty());
-    view.supporterGrid.requestLayout();
-  }
 }

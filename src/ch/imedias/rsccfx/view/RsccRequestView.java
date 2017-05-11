@@ -18,11 +18,10 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 /**
@@ -42,7 +41,7 @@ public class RsccRequestView extends BorderPane {
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
 
-  GridPane supporterGrid = new GridPane();
+  FlowPane supporterGrid = new FlowPane();
   final GridPane keyGenerationInnerPane = new GridPane();
 
   final HBox statusBox = new HBox();
@@ -151,19 +150,6 @@ public class RsccRequestView extends BorderPane {
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     scrollPane.setContent(supporterGrid);
 
-    // add column constraints
-    ColumnConstraints col1 = new ColumnConstraints();
-    ColumnConstraints col2 = new ColumnConstraints();
-    ColumnConstraints col3 = new ColumnConstraints();
-    supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
-    int amountOfColumns = supporterGrid.getColumnConstraints().size();
-    int columnPercentWidth = 100 / amountOfColumns;
-    col1.setPercentWidth(columnPercentWidth);
-    col2.setPercentWidth(columnPercentWidth);
-    col3.setPercentWidth(columnPercentWidth);
-    RowConstraints row1 = new RowConstraints();
-    row1.prefHeightProperty().bind(col1.prefWidthProperty());
-    supporterGrid.getRowConstraints().addAll(row1);
   }
 
   private void layoutKeyGenerationPane() {
