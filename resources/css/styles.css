@@ -270,9 +270,9 @@
  *                                                                         *
  **************************************************************************/
 .gridPane{
- -fx-font-size: 25;
+ -fx-font-size: 20;
 }
 
 .buttonBar{
- -fx-font-size: 25;
+ -fx-font-size: 20;
 }

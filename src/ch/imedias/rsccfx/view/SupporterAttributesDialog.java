@@ -130,7 +130,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     final Button connectButton = new Button("Call");
     final Button editButton = new Button("Edit");
-    final Button applyButton = new Button("Close");
+    final Button applyButton = new Button(" Close ");
 
     // Create the buttons to go into the ButtonBar
     ButtonBar.setButtonData(connectButton, ButtonBar.ButtonData.YES);
