@@ -29,6 +29,12 @@ public class RsccApp extends Application {
 
   public static final String APP_NAME = "Remote Support";
 
+  //2560x1440 ==> 3686400 ==> 4K
+  //1920x1080 ==> 2073600 ==> FullHD
+  //1440x900  ==> 1296000 ==> MacBook Air
+  private static final double borderToFullHD = 1700000;
+  private static final double borderTo4K = 2800000;
+
   /**
    * Declares views for use with ViewController.
    */
@@ -73,14 +79,19 @@ public class RsccApp extends Application {
     // Get Screensize
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-    //set Stage boundaries to visible bounds of the main screen
-    stage.setWidth(primaryScreenBounds.getWidth() / 1.8);
-    stage.setHeight(primaryScreenBounds.getHeight() / 1.5);
-    stage.setX(primaryScreenBounds.getWidth() / 2 - stage.getWidth() / 2);
-    stage.setY(primaryScreenBounds.getHeight() / 2 - stage.getHeight() / 2);
+    double screenHeight = primaryScreenBounds.getHeight();
+    double screenWidth = primaryScreenBounds.getWidth();
 
-    stage.setMinWidth((primaryScreenBounds.getWidth() / 1.8) / 1.2);
-    stage.setMinHeight((primaryScreenBounds.getHeight() / 1.5) / 1.3);
+    double resolution = screenHeight * screenWidth;
+
+    //set Stage boundaries to visible bounds of the main screen
+    stage.setWidth(screenWidth / 1.8);
+    stage.setHeight(screenHeight / 1.5);
+    stage.setX(screenWidth / 2 - stage.getWidth() / 2);
+    stage.setY(screenHeight / 2 - stage.getHeight() / 2);
+
+    stage.setMinWidth((screenWidth / 1.8) / 1.2);
+    stage.setMinHeight((screenHeight / 1.5) / 1.3);
 
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
@@ -92,6 +103,7 @@ public class RsccApp extends Application {
     ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
 
     // Initialize stylesheets
+    /*if(resolution )*/
     String styleSheet = getClass().getClassLoader()
         .getResource("css/styles.css").toExternalForm();
 
