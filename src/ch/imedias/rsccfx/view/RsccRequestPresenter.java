@@ -24,7 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 
 /**
  * Defines the behaviour of interactions
@@ -63,7 +62,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
-    initGridPane();
   }
 
   /**
@@ -242,27 +240,13 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
   }
 
-  private void initGridPane(){
-    // add row constraints
-    int amountOfRows = (int)Math.ceil(view.supporterGrid.getChildren().size() % view.supporterGrid.getColumnConstraints().size());
-    int rowsPercentWidth = 100 / amountOfRows;
-    for(int i = 0; i < amountOfRows; ++i) {
-      RowConstraints row = new RowConstraints();
-      row.setPercentHeight(rowsPercentWidth);
-      view.supporterGrid.getRowConstraints().add(row);
-    }
-  }
-
   private void initButtonSize(Button button) {
     GridPane.setVgrow(button, Priority.ALWAYS);
     GridPane.setHgrow(button, Priority.ALWAYS);
     GridPane.setValignment(button, VPos.CENTER);
     GridPane.setHalignment(button, HPos.CENTER);
     GridPane.setMargin(button, new Insets(20));
-    button.setMaxWidth(Double.MAX_VALUE);
-    button.minHeightProperty().bind(view.predefinedAdressesInnerBox.heightProperty().divide(3));
-    //button.prefHeightProperty().bind(button.widthProperty());
-    //button.minHeightProperty().bind(button.widthProperty());
-    //button.maxHeightProperty().bind(button.widthProperty());
+    button.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+    button.setMinHeight(100);
   }
 }
