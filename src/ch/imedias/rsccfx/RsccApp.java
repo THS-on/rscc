@@ -32,8 +32,11 @@ public class RsccApp extends Application {
   //2560x1440 ==> 3686400 ==> 4K
   //1920x1080 ==> 2073600 ==> FullHD
   //1440x900  ==> 1296000 ==> MacBook Air
-  private static final double borderToFullHD = 1700000;
-  private static final double borderTo4K = 2800000;
+  private static final double borderToFullHd = 1700000;
+  private static final double borderTo4k = 2800000;
+
+  public static final double scaleToFullHd = 2073600 / 1296000;
+  public static final double scaleTo4k = 3686400 / 1296000;
 
   private static final String styleSheet4k = "css/styles4K.css";
   private static final String styleSheetHd = "css/stylesHD.css";
@@ -109,9 +112,9 @@ public class RsccApp extends Application {
     double resolution = screenHeight * screenWidth;
 
     String cssFile;
-    if(resolution > borderTo4K){
+    if(resolution > borderTo4k){
       cssFile = styleSheet4k;
-    }else if (resolution < borderToFullHD){
+    }else if (resolution < borderToFullHd){
       cssFile = styleSheetLow;
     }else{
       cssFile = styleSheetHd;
