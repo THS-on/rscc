@@ -203,6 +203,8 @@
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
                         <!-- exclude View and Presenter classes, since views and presenter are not tested -->
                         <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
+                        <!-- exclude Rudp, sice those classes are not tested -->
+                        <exclude>ch/imedias/rsccfx/model/connectionutils/rudp/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>
@@ -281,6 +283,10 @@
                 <configuration>
                     <charset>UTF-8</charset>
                     <sourcepath>${basedir}/src/ch/imedias/rsccfx</sourcepath>
+                    <sourceFileExcludes>
+                        <sourceFileExclude>**/rudp/**/*.java</sourceFileExclude>
+                    </sourceFileExcludes>
+
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -302,6 +308,8 @@
                         <exclude>ch/imedias/rscc/**/*.class</exclude>
                         <!-- exclude View and Presenter classes, since views and presenter are not tested -->
                         <exclude>ch/imedias/rsccfx/view/**/*.class</exclude>
+                        <!-- exclude Rudp, sice those classes are not tested -->
+                        <exclude>ch/imedias/rsccfx/model/connectionutils/rudp/**/*.class</exclude>
                         <!-- exclude RsccApp and Strings class, since those are not tested either -->
                         <exclude>/**/*RsccApp*.class</exclude>
                         <exclude>/**/*Strings*.class</exclude>

@@ -52,6 +52,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private List<SupportAddress> supportAddresses;
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
+
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *

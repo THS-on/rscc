@@ -46,8 +46,9 @@ public class RsccApp extends Application {
   @Override
   public void start(Stage stage) {
     setLogLevel(Level.INFO);
-
-    model = new Rscc(new SystemCommander(), new KeyUtil());
+    SystemCommander systemCommander = new SystemCommander();
+    model = new Rscc(systemCommander, new KeyUtil());
+    systemCommander.setModel(model);
     ViewController mainView = new ViewController();
 
     Group root = new Group();
