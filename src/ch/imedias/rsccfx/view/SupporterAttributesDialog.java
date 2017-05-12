@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rscc.SupportAddress;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -19,11 +18,7 @@ public class SupporterAttributesDialog extends DialogPane {
   Dialog dialog = new Dialog();
   GridPane gridPane = new GridPane();
 
-  private String name;
-  private String address;
-  private String port;
-  private Boolean encrypted;
-  private int listPos;
+  private Supporter supporter;
 
   final Label nameLbl = new Label();
   final Label adressLbl = new Label();
@@ -43,41 +38,14 @@ public class SupporterAttributesDialog extends DialogPane {
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
 
-  /**
-   * Initializes all the GUI components needed in the DialogPane.
-   */
-
-  public SupporterAttributesDialog() {
-    this.name = "";
-    this.address = "";
-    this.port = "";
-    this.encrypted = false;
-    this.listPos = RsccRequestPresenter.supportAddresses.size();
-    initFieldData();
-    layoutForm();
-    bindFieldsToModel();
-    dialog.show();
-  }
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
-   * @param name = name of the supporter.
-   * @param address = address of the supporter.
-   * @param encrypted = boolean, true if it is encrypted.
-   * @param listpos = index position in the SupporterAddress list.
+   * @param supporter = the supporter for the dialog.
    */
-  public SupporterAttributesDialog(String name, String address, Boolean encrypted, int listpos) {
-    this.name = name;
-    if (address.contains(":")) {
-      String[] addressPort = address.split(":");
-      this.address = addressPort[0];
-      this.port = addressPort[1];
-    } else {
-      this.address = address;
-      this.port = "";
-    }
-    this.encrypted = encrypted;
-    this.listPos = listpos;
+  public SupporterAttributesDialog(Supporter supporter) {
+    this.supporter = supporter;
+
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -93,12 +61,12 @@ public class SupporterAttributesDialog extends DialogPane {
     chargeableLbl.setText("Chargeable");
     encryptedLbl.setText("Encrypted");
 
-    nameFld.setText(name);
-    addressFld.setText(address);
-    portFld.setText(port);
+    nameFld.setText(supporter.getDescription());
+    addressFld.setText(supporter.getAddress());
+    portFld.setText(supporter.getPort());
     pictureFld.setText("/images/sup.jpg");
-    chargeableCBox.setSelected(false);
-    encryptedCBox.setSelected(encrypted);
+    chargeableCBox.setSelected(supporter.isChargeable());
+    encryptedCBox.setSelected(supporter.isEncrypted());
 
   }
 
@@ -133,12 +101,6 @@ public class SupporterAttributesDialog extends DialogPane {
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    dummyBtn.setOnAction(event -> {
-      RsccRequestPresenter.supportAddresses.set(listPos, new SupportAddress(
-          nameFld.getText(),
-          addressFld.getText() + ":" + portFld.getText(),
-          encryptedCBox.isSelected()));
-      RsccRequestPresenter.setTextOnButtons(listPos);
-    });
+    //TODO bindings
   }
 }
