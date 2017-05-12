@@ -247,6 +247,7 @@
                                     </mapper>
                                 </data>
                             </dataSet>
+                            <controlDir>debianfx</controlDir>
                         </configuration>
                     </execution>
                 </executions>
