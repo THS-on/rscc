@@ -1,10 +1,14 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rscc.ProcessExecutor;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -12,6 +16,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javax.swing.*;
 
 /**
  * Presenter class of RsccSupportView. Defines the behaviour of interactions
@@ -156,4 +161,89 @@ public class RsccSupportPresenter implements ControlledPresenter {
         popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
     // TODO: Set actions on buttons (Help, Settings)
   }
+
+
+  private void offerSupportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_offerSupportButtonActionPerformed
+    if (offerSupportButton.getActionCommand().equals("start")) {
+
+      SwingWorker viewerSwingWorker = new SwingWorker() {
+
+        @Override
+        protected Object doInBackground() throws Exception {
+          Number compression = model.getVncCompression();
+          Number quality = model.getVncQuality();
+          List<String> commandList = new ArrayList<String>();
+          commandList.add("xtightvncviewer");
+          commandList.add("-listen");
+          commandList.add("-compresslevel");
+          commandList.add(compression.toString());
+          commandList.add("-quality");
+          commandList.add(quality.toString());
+          if (bgr233CheckBox.isSelected()) {
+            commandList.add("-bgr233");
+          }
+          OFFER_PROCESS_EXECUTOR.executeProcess(commandList.toArray(
+              new String[commandList.size()]));
+          return null;
+        }
+
+        @Override
+        protected void done() {
+          compressionSpinner.setEnabled(true);
+          qualitySpinner.setEnabled(true);
+          bgr233CheckBox.setEnabled(true);
+          securePortsTextField.setEnabled(true);
+          offerSupportButton.setActionCommand("start");
+          offerSupportButton.setText(BUNDLE.getString("Start_Service"));
+          offerSupportButton.setIcon(new ImageIcon(getClass().getResource(
+              "/ch/imedias/rscc/icons/16x16/fork.png")));
+        }
+      };
+      viewerSwingWorker.execute();
+
+      // check that the pem file for stunnel is there
+      final String pemFilePath = System.getProperty("user.home")
+          + "/.local/stunnel.pem";
+      if (!securePorts.isEmpty()) {
+        File pemFile = new File(pemFilePath);
+        if (!pemFile.exists()) {
+          ProcessExecutor processExecutor = new ProcessExecutor();
+          processExecutor.executeProcess("openssl", "req", "-x509",
+              "-nodes", "-days", "36500", "-subj",
+              "/C=/ST=/L=/CN=tmp", "-newkey",
+              "rsa:1024",
+              "-keyout", pemFilePath, "-out", pemFilePath);
+        }
+      }
+
+      for (final Integer securePort : securePorts) {
+        SwingWorker tunnelSwingWorker = new SwingWorker() {
+
+          @Override
+          protected Object doInBackground() throws Exception {
+            ProcessExecutor tunnelExecutor = new ProcessExecutor();
+            tunnelExecutor.executeProcess(
+                "stunnel", "-f", "-P", "", "-p", pemFilePath,
+                "-d", securePort.toString(), "-r", "5500");
+            TUNNEL_EXECUTORS.add(tunnelExecutor);
+            return null;
+          }
+        };
+        tunnelSwingWorker.execute();
+      }
+
+      compressionSpinner.setEnabled(false);
+      qualitySpinner.setEnabled(false);
+      bgr233CheckBox.setEnabled(false);
+      securePortsTextField.setEnabled(false);
+      offerSupportButton.setActionCommand("stop");
+      offerSupportButton.setText(BUNDLE.getString("Stop_Service"));
+      offerSupportButton.setIcon(new ImageIcon(getClass().getResource(
+          "/ch/imedias/rscc/icons/16x16/"
+              + "process-stop.png")));
+    } else {
+      stopOffer();
+    }
+  }//GEN-LAST:event_offerSupportButtonActionPerformed
+
 }
