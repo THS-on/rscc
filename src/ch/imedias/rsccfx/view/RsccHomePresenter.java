@@ -58,8 +58,6 @@ public class RsccHomePresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    headerPresenter.initSize(scene);
-
     view.requestImgView.fitHeightProperty().bind(scene.heightProperty()
         .subtract(view.headerView.heightProperty()).divide(IMG_VIEW_DIVISOR));
     view.supportImgView.fitHeightProperty().bind(scene.heightProperty()
@@ -78,11 +76,11 @@ public class RsccHomePresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.supportViewBtn.setOnAction(event -> {
-      model.setConnectionStatus("",0);
+      model.setConnectionStatus("", 0);
       viewParent.setView(RsccApp.SUPPORT_VIEW);
     });
     view.requestViewBtn.setOnAction(event -> {
-      model.setConnectionStatus("",0);
+      model.setConnectionStatus("", 0);
       Thread thread = new Thread(model::requestKeyFromServer);
       thread.start();
       viewParent.setView(RsccApp.REQUEST_VIEW);

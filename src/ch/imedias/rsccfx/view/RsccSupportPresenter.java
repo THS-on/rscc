@@ -40,7 +40,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * Initializes a new RsccSupportPresenter with the according view.
    *
    * @param model model with all data.
-   * @param view the view belonging to the presenter.
+   * @param view  the view belonging to the presenter.
    */
   public RsccSupportPresenter(Rscc model, RsccSupportView view) {
     this.model = model;
@@ -68,18 +68,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    // initialize header
-    headerPresenter.initSize(scene);
-
     // initialize view
-    view.titleLbl.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_ENTERKEY));
-
-    // FIXME: Magic numbeeer.
-    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
-
-    view.keyInputPane.prefWidthProperty().bind(scene.widthProperty());
 
     view.keyFld.prefWidthProperty().bind(scene.widthProperty()
         .subtract(WIDTH_SUBTRACTION_ENTERKEY));
@@ -101,9 +90,29 @@ public class RsccSupportPresenter implements ControlledPresenter {
         }
     );
 
-    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyInputPane.setOnMouseClicked(event -> view.addressbookPane.setExpanded(false));
-    view.addressbookPane.setOnMouseClicked(event -> view.keyInputPane.setExpanded(false));
+    // handles TitledPane switching between the two TitledPanes
+    view.keyInputTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.addressbookTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.addressbookInnerPane);
+              view.contentBox.getChildren().add(1, view.keyInputInnerPane);
+            }
+          }
+        }
+    );
+    view.addressbookTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.keyInputTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.keyInputInnerPane);
+              view.contentBox.getChildren().add(2, view.addressbookInnerPane);
+            }
+          }
+        }
+    );
 
     model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
       view.statusBox.getStyleClass().clear();
@@ -121,7 +130,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
         model.connectToUser();
       }
     });
-
   }
 
   private void initBindings() {

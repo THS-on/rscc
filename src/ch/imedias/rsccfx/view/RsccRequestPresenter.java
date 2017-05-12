@@ -7,26 +7,24 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * Defines the behaviour of interactions
@@ -35,35 +33,31 @@ import javafx.scene.input.ContextMenuEvent;
 public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
-  private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
   private static final int GRID_MAXIMUM_COLUMNS = 3;
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
-
   private ArrayList<Button> buttons = new ArrayList<>();
   private int rowSize = 0;
-
   private List<SupportAddress> supportAddresses;
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
-
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *
    * @param model model with all data.
-   * @param view the view belonging to the presenter.
+   * @param view  the view belonging to the presenter.
    */
   public RsccRequestPresenter(Rscc model, RsccRequestView view) {
     this.model = model;
     this.view = view;
     headerPresenter = new HeaderPresenter(model, view.headerView);
     attachEvents();
+    attachButtonEvents();
     initHeader();
     initSupporterList();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
@@ -78,15 +72,34 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> model.refreshKey()
+        event -> {
+          Thread thread = new Thread(model::refreshKey);
+          thread.start();
+        }
     );
 
-    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(
-        event -> view.predefinedAddressesPane.setExpanded(false)
+    // handles TitledPane switching between the two TitledPanes
+    view.keyGenerationTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.supporterTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.supporterInnerBox);
+              view.contentBox.getChildren().add(1, view.keyGenerationInnerPane);
+            }
+          }
+        }
     );
-    view.predefinedAddressesPane.setOnMouseClicked(
-        event -> view.keyGeneratorPane.setExpanded(false)
+    view.supporterTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.keyGenerationTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
+              view.contentBox.getChildren().add(2, view.supporterInnerBox);
+            }
+          }
+        }
     );
 
     model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
@@ -106,13 +119,11 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void attachButtonEvents() {
-    for (Button b:buttons) {
+    for (Button b : buttons) {
       b.setOnMouseClicked(event ->
           new SupporterAttributesDialog());
     }
-
   }
-
 
   /**
    * Initializes the size of the whole RsccRequestView elements.
@@ -122,32 +133,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    // initialize header
-    headerPresenter.initSize(scene);
-
     // initialize view
-    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
-    view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
-
-    view.predefinedAddressesPane.prefWidthProperty().bind(scene.widthProperty());
-    view.predefinedAddressesPane.maxWidthProperty().bind(scene.widthProperty());
-
-    // FIXME: need the height of the titlePane itself... or magic number. François
-    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(195d));
-
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
-
-    view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(155d));
-
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
-    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.supporterInnerPane.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.reloadKeyBtn.prefHeightProperty().bind(view.generatedKeyFld.heightProperty());
 
   }
 
@@ -170,8 +159,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
   /**
    * Calls createSupporterList() and creates a button for every supporter found.
    */
-
   private void initSupporterList() {
+    createNewSupporterBtn();
     createSupporterList();
     for (int counter = 0; counter < supportAddresses.size(); counter++) {
       createNewSupporterBtn();
@@ -179,7 +168,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
       buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
           + supportAddresses.get(counter).getDescription());
     }
-    createNewSupporterBtn();
+
+
   }
 
   /**
@@ -225,6 +215,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     attachContextMenu(supporter);
     supporter.getStyleClass().add("supporterBtn");
 
+    initButtonSize(supporter);
+
+    attachButtonEvents();
+
     buttons.add(supporter);
 
     int buttonSize = buttons.size() - 1;
@@ -232,7 +226,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {
       rowSize++;
     }
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+    view.supporterInnerPane.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
     if (buttonSize > 1) {    // IndexOutOfBoundsException fix.
@@ -240,7 +235,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     } else if (buttonSize > 0) {
       buttons.get(0).setOnAction(null);
     }
-    attachButtonEvents();
   }
 
   private void attachContextMenu(Button button) {
@@ -264,5 +258,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // When user right-click on Supporterbutton
     button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
         event.getScreenY()));
+  }
+
+  private void initButtonSize(Button button) {
+    GridPane.setVgrow(button, Priority.ALWAYS);
+    GridPane.setHgrow(button, Priority.ALWAYS);
+    GridPane.setValignment(button, VPos.CENTER);
+    GridPane.setHalignment(button, HPos.CENTER);
+    GridPane.setMargin(button, new Insets(10));
+
+    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    button.setPadding(new Insets(20));
+
   }
 }
