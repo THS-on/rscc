@@ -6,7 +6,8 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
 import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-import java.io.InputStream;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.util.logging.Logger;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -35,8 +36,8 @@ public class RsccRequestView extends BorderPane {
 
   private final double scalingFactor = RsccApp.scalingFactor;
 
-  private double BUTTON_SIZE = 35d * scalingFactor;
-  private double BUTTON_PADDING = 15 *scalingFactor;
+  private double BUTTON_SIZE = 50d;
+  private double BUTTON_PADDING = 0;
 
   final HeaderView headerView;
 
@@ -59,7 +60,7 @@ public class RsccRequestView extends BorderPane {
 
   final KeyTextField generatedKeyFld = new KeyTextField();
 
-  final Button reloadKeyBtn = new Button();
+   Button reloadKeyBtn;
 
   private final Rscc model;
   private final Strings strings = new Strings();
@@ -98,13 +99,9 @@ public class RsccRequestView extends BorderPane {
     keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
     predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
     statusLbl.setText("");
+    FontAwesomeIconView fontAwesomeIconView = new FontAwesomeIconView(FontAwesomeIcon.ANGELLIST);
+    reloadKeyBtn = new Button("", ;
 
-    InputStream reloadImagePath = getClass().getClassLoader()
-        .getResourceAsStream("images/reload.svg");
-    reloadImg = new Image(reloadImagePath);
-    reloadImgView = new ImageView(reloadImg);
-
-    reloadKeyBtn.setGraphic(reloadImgView);
   }
 
   private void layoutForm() {
@@ -128,10 +125,6 @@ public class RsccRequestView extends BorderPane {
     //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT);
     generatedKeyFld.setEditable(false);
     generatedKeyFld.getStyleClass().add("keyFld");
-
-    reloadImgView.fitWidthProperty().set(BUTTON_SIZE);
-    reloadImgView.fitHeightProperty().set(BUTTON_SIZE);
-    reloadImgView.setPreserveRatio(true);
 
     reloadKeyBtn.setPrefWidth(BUTTON_SIZE);
     reloadKeyBtn.setPrefHeight(BUTTON_SIZE);
