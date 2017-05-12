@@ -15,8 +15,8 @@
 
 #helpBtn, #backBtn, #settingsBtn, #reloadKeyBtn{
     /*-fx-padding: 5;*/
-    -fx-background-radius: 4px;
-    -fx-border-radius:4px;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
 }
@@ -36,8 +36,8 @@
     -fx-fit-to-width: true;
     -fx-content-display: left;
     -fx-border-color:#A7A7A7;
-    -fx-background-radius: 4px;
-    -fx-border-radius:4px;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
     -fx-font-family: "DejaVu Sans";
     -fx-background-color: #EAEAEA;
 }
@@ -48,7 +48,7 @@
 }
 
 .homeButtonBoxes {
-    -fx-spacing: 80;
+    -fx-spacing: 6.154em;
 }
 
 .BigFont{
@@ -183,11 +183,11 @@
 }
 
 #connectBtn, #startServiceBtn{
-    -fx-padding: 15 40 15 40;
+    -fx-padding: 1.154em 3.077em 1.154em 3.077em;
     -fx-alignment: center;
-    -fx-font-size: 1.231;
-    -fx-background-radius: 4px;
-    -fx-border-radius:4px;
+    -fx-font-size: 1.231em;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
 }
@@ -204,14 +204,14 @@
  **************************************************************************/
 
 .settingsBoxes{
-    -fx-padding: 30;
+    -fx-padding: 2.308em;
 }
 
 .slider .thumb {
-    -fx-pref-height: 30;
-    -fx-pref-width: 30;
-    -fx-background-radius: 30px;
-    -fx-border-radius:30px;
+    -fx-pref-height: 2.308em;
+    -fx-pref-width: 2.308em;
+    -fx-background-radius: 2.308em;
+    -fx-border-radius: 2.308em;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
 }
@@ -225,11 +225,11 @@
 .slider {
     -fx-border-color: white;
     -fx-border-style: dashed;
-    -fx-border-width: 2;
+    -fx-border-width: 0.154em;
 }
 
 .sliderTxts {
-    -fx-font-size: 200%;
+    -fx-font-size: 2em;
 }
 
 .toggles {
@@ -238,16 +238,16 @@
 
 .toggles .thumb-area {
     -fx-background-color: #EAEAEA;
-    -fx-pref-width: 70;
-    -fx-pref-height: 30;
-    -fx-padding: 20;
+    -fx-pref-width: 5.385em;
+    -fx-pref-height: 2.308em;
+    -fx-padding: 1.538em;
 }
 
 .toggles .thumb{
-    -fx-pref-width: 40;
-    -fx-pref-height: 40;
-    -fx-background-radius: 30px;
-    -fx-border-radius:30px;
+    -fx-pref-width: 3.077em;
+    -fx-pref-height: 3.077em;
+    -fx-background-radius: 2.308em;
+    -fx-border-radius: 2.308em;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
 }
@@ -266,15 +266,15 @@
 }
 
 .settingsLabels{
-    -fx-font-size: 12pt;
+    -fx-font-size: 1.231em;
 }
 
 .expertSettingsBtn{
-    -fx-padding: 20 30 20 30;
+    -fx-padding: 1.538em 2.308em 1.538em 2.308em;
     -fx-alignment: center;
-    -fx-font-size: 12pt;
-    -fx-background-radius: 4px;
-    -fx-border-radius:4px;
+    -fx-font-size: 1.231em;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
     -fx-border-color:#A7A7A7;
     -fx-background-color: #EAEAEA;
 }
