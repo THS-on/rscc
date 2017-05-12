@@ -6,17 +6,21 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javax.swing.*;
 
 /**
  * Presenter class of RsccSupportView. Defines the behaviour of interactions
@@ -40,6 +44,9 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final KeyUtil keyUtil;
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
+  private final BooleanProperty serviceRunning = new SimpleBooleanProperty(false);
+  Task startServiceTask;
+  Thread startServiceThread;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -56,6 +63,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
     initHeader();
     initBindings();
     popOverHelper = new PopOverHelper(model, RsccApp.SUPPORT_VIEW);
+    startServiceTask = startService();
+    startServiceThread = new Thread(startServiceTask);
   }
 
   /**
@@ -135,6 +144,27 @@ public class RsccSupportPresenter implements ControlledPresenter {
         model.connectToUser();
       }
     });
+
+    view.connectBtn.setOnAction(event -> startServiceThread.start());
+
+    serviceRunningProperty().addListener((observable, oldValue, newValue) -> {
+      if(oldValue != newValue){
+        EventHandler<ActionEvent> isRunningAction = event -> startServiceTask.cancel();
+        EventHandler<ActionEvent> isNotRunningAction = event -> startServiceThread.start();
+        if (newValue) {
+          // service is running
+          view.connectBtn.setOnAction(isRunningAction);
+          view.connectBtn.setText("Cancel");
+        } else {
+          // service is not running
+          view.connectBtn.setOnAction(isNotRunningAction);
+          view.connectBtn.setText("Connect");
+        }
+      }
+    });
+    //EventHandler<ActionEvent> startAction = event -> startServiceThread.start();
+
+
   }
 
   private void initBindings() {
@@ -162,85 +192,43 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // TODO: Set actions on buttons (Help, Settings)
   }
 
-
-  private void startService(){
+  private Task startService() {
     ProcessExecutor processExecutor = new ProcessExecutor();
-        @Override
-        protected Object doInBackground() throws Exception {
-          Number compression = model.getVncCompression();
-          Number quality = model.getVncQuality();
-          List<String> commandList = new ArrayList<>();
-          commandList.add("xtightvncviewer");
-          commandList.add("-listen");
-          commandList.add("-compresslevel");
-          commandList.add(compression.toString());
-          commandList.add("-quality");
-          commandList.add(quality.toString());
-          if (model.getVncBgr233()) {
-            commandList.add("-bgr233");
-          }
-          processExecutor.executeProcess(commandList.toArray(
-              new String[commandList.size()]));
-          return null;
+    Task task = new Task<Void>() {
+      @Override public Void call() {
+        Number compression = model.getVncCompression();
+        Number quality = model.getVncQuality();
+        List<String> commandList = new ArrayList<>();
+        commandList.add("xtightvncviewer");
+        commandList.add("-listen");
+        commandList.add("-compresslevel");
+        commandList.add(compression.toString());
+        commandList.add("-quality");
+        commandList.add(quality.toString());
+        if (model.getVncBgr233()) {
+          commandList.add("-bgr233");
         }
-
-        @Override
-        protected void done() {
-          compressionSpinner.setEnabled(true);
-          qualitySpinner.setEnabled(true);
-          bgr233CheckBox.setEnabled(true);
-          securePortsTextField.setEnabled(true);
-          offerSupportButton.setActionCommand("start");
-          offerSupportButton.setText(BUNDLE.getString("Start_Service"));
-          offerSupportButton.setIcon(new ImageIcon(getClass().getResource(
-              "/ch/imedias/rscc/icons/16x16/fork.png")));
-        }
-      };
-      viewerSwingWorker.execute();
-
-      // check that the pem file for stunnel is there
-      final String pemFilePath = System.getProperty("user.home")
-          + "/.local/stunnel.pem";
-      if (!securePorts.isEmpty()) {
-        File pemFile = new File(pemFilePath);
-        if (!pemFile.exists()) {
-          ProcessExecutor processExecutor = new ProcessExecutor();
-          processExecutor.executeProcess("openssl", "req", "-x509",
-              "-nodes", "-days", "36500", "-subj",
-              "/C=/ST=/L=/CN=tmp", "-newkey",
-              "rsa:1024",
-              "-keyout", pemFilePath, "-out", pemFilePath);
-        }
+        processExecutor.executeProcess(commandList.toArray(
+            new String[commandList.size()]));
+        return null;
       }
+    };
+    task.onRunningProperty().addListener(event -> setServiceRunning(true));
+    task.onCancelledProperty().addListener(event -> setServiceRunning(false));
+    return task;
+  }
 
-      for (final Integer securePort : securePorts) {
-        SwingWorker tunnelSwingWorker = new SwingWorker() {
 
-          @Override
-          protected Object doInBackground() throws Exception {
-            ProcessExecutor tunnelExecutor = new ProcessExecutor();
-            tunnelExecutor.executeProcess(
-                "stunnel", "-f", "-P", "", "-p", pemFilePath,
-                "-d", securePort.toString(), "-r", "5500");
-            TUNNEL_EXECUTORS.add(tunnelExecutor);
-            return null;
-          }
-        };
-        tunnelSwingWorker.execute();
-      }
 
-      compressionSpinner.setEnabled(false);
-      qualitySpinner.setEnabled(false);
-      bgr233CheckBox.setEnabled(false);
-      securePortsTextField.setEnabled(false);
-      offerSupportButton.setActionCommand("stop");
-      offerSupportButton.setText(BUNDLE.getString("Stop_Service"));
-      offerSupportButton.setIcon(new ImageIcon(getClass().getResource(
-          "/ch/imedias/rscc/icons/16x16/"
-              + "process-stop.png")));
-    } else {
-      stopOffer();
-    }
-  }//GEN-LAST:event_offerSupportButtonActionPerformed
+  public boolean isServiceRunning() {
+    return serviceRunning.get();
+  }
 
+  public BooleanProperty serviceRunningProperty() {
+    return serviceRunning;
+  }
+
+  public void setServiceRunning(boolean serviceRunning) {
+    this.serviceRunning.set(serviceRunning);
+  }
 }
