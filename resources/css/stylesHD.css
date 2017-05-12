@@ -72,7 +72,7 @@
 }
 
 .titleLbl {
-    -fx-font-size: 20;
+    -fx-font-size: 22pt;
     -fx-wrap-text: true;
     -fx-alignment: center-left;
     -fx-padding: 20;
