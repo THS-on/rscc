@@ -5,6 +5,7 @@ import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import java.io.InputStream;
 import java.util.logging.Logger;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -79,10 +80,11 @@ public class RsccHomeView extends BorderPane {
 
     requestBox.getChildren().addAll(requestImgView, requestBoxLabels);
     requestBox.getStyleClass().add("homeButtonBoxes");
+    // TODO: make Insets a constant
+    requestBox.setPadding(new Insets(10, 25, 10, 40));
 
     requestViewBtn.setGraphic(requestBox);
     requestViewBtn.getStyleClass().add("HomeNavigationBtn");
-
     supportBigLbl.getStyleClass().add("BigFont");
     supportSmallLbl.getStyleClass().add("SmallFont");
 
@@ -98,6 +100,9 @@ public class RsccHomeView extends BorderPane {
 
     supportBox.getChildren().addAll(supportImgView, supportBoxLabels);
     supportBox.getStyleClass().add("homeButtonBoxes");
+    // TODO: make Insets a constant
+    supportBox.setPadding(new Insets(10, 25, 10, 40));
+
 
     supportViewBtn.setGraphic(supportBox);
     supportViewBtn.getStyleClass().add("HomeNavigationBtn");

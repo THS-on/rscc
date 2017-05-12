@@ -47,6 +47,14 @@
     -fx-cursor: hand;
 }
 
+.homeButtonBoxes {
+    -fx-spacing: 80;
+}
+
+.homeButtonImages {
+
+}
+
 .BigFont{
     -fx-font-size: 25pt;
 }
@@ -72,7 +80,7 @@
 }
 
 .titleLbl {
-    -fx-font-size: 20;
+    -fx-font-size: 22pt;
     -fx-wrap-text: true;
     -fx-alignment: center-left;
     -fx-padding: 20;
