@@ -46,6 +46,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private int rowSize = 0;
   private List<SupportAddress> supportAddresses;
 
+
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *

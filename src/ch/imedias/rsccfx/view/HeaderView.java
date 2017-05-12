@@ -1,6 +1,5 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 
