@@ -60,7 +60,7 @@ public class RsccRequestView extends BorderPane {
 
   final KeyTextField generatedKeyFld = new KeyTextField();
 
-   Button reloadKeyBtn;
+   Button reloadKeyBtn = new Button();
 
   private final Rscc model;
   private final Strings strings = new Strings();
@@ -99,8 +99,8 @@ public class RsccRequestView extends BorderPane {
     keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
     predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
     statusLbl.setText("");
-    FontAwesomeIconView fontAwesomeIconView = new FontAwesomeIconView(FontAwesomeIcon.ANGELLIST);
-    reloadKeyBtn = new Button("", ;
+    FontAwesomeIconView fontAwesomeIconView = new FontAwesomeIconView(FontAwesomeIcon.GEAR);
+    reloadKeyBtn.setGraphic(fontAwesomeIconView);
 
   }
 
