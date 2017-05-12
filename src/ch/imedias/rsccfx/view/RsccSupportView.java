@@ -56,6 +56,8 @@ public class RsccSupportView extends BorderPane {
 
   ImageView validationImgView;
 
+  private Pane emptyPane = new Pane();
+
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
    *
@@ -182,12 +184,13 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceBtn, 0, 1);
     GridPane.setConstraints(startServiceTitleLbl, 1, 0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1, 1);
-    GridPane.setConstraints(statusBox, 0, 2);
+    GridPane.setConstraints(emptyPane, 0, 2);
+    GridPane.setConstraints(statusBox, 0, 3);
 
     GridPane.setColumnSpan(statusBox, 2);
 
     startServiceInnerPane.getChildren().addAll(startServiceBtn,
-        startServiceDescriptionLbl, startServiceTitleLbl, statusBox);
+        startServiceDescriptionLbl, startServiceTitleLbl, emptyPane, statusBox);
 
     // initial styling
     startServiceInnerPane.getChildren().stream().forEach(node -> {
@@ -214,7 +217,7 @@ public class RsccSupportView extends BorderPane {
     RowConstraints row3 = new RowConstraints();
     row3.setPercentHeight(35);
     RowConstraints row4 = new RowConstraints();
-    row3.setPercentHeight(5);
+    row3.setPercentHeight(10);
     startServiceInnerPane.getRowConstraints().addAll(row1, row2, row3, row4);
 
     // special styling
