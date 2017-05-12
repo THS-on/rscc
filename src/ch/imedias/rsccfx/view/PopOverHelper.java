@@ -25,21 +25,24 @@ import org.controlsfx.control.ToggleSwitch;
 public class PopOverHelper {
   private static final Logger LOGGER =
       Logger.getLogger(PopOverHelper.class.getName());
+
   private static final int COMPRESSION_MIN = 0;
   private static final int COMPRESSION_MAX = 9;
   private static final int COMPRESSION_VALUE = 6;
+
   private static final int QUALITY_MIN = 0;
   private static final int QUALITY_MAX = 9;
   private static final int QUALITY_VALUE = 6;
+
   private final Strings strings = new Strings();
   private final Rscc model;
 
-  // / Get Screensize
+  // Get Screensize
   Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
   private final double overlayWidth = primaryScreenBounds.getWidth() / 9;
   private final double sliderWidth = overlayWidth / 1.2;
 
-  //SettingsProperties
+  // SettingsProperties
   BooleanProperty viewOnly = new SimpleBooleanProperty(false);
 
   ToggleSwitch supportBgr233Tgl = new ToggleSwitch();

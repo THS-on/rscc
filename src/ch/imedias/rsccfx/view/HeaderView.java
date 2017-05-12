@@ -1,23 +1,19 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-
 import java.util.logging.Logger;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.HPos;
-
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
@@ -70,8 +66,8 @@ public class HeaderView extends GridPane {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    GridPane.setConstraints(backBtn, 0,0);
-    GridPane.setConstraints(settingsBtn, 2,0);
+    GridPane.setConstraints(backBtn, 0, 0);
+    GridPane.setConstraints(settingsBtn, 2, 0);
     GridPane.setConstraints(helpBtn, 3, 0);
 
     RowConstraints row1 = new RowConstraints();
@@ -93,7 +89,7 @@ public class HeaderView extends GridPane {
     GridPane.setHalignment(settingsBtn, HPos.RIGHT);
     GridPane.setHalignment(helpBtn, HPos.RIGHT);
 
-    this.getChildren().addAll(backBtn,settingsBtn, helpBtn);
+    this.getChildren().addAll(backBtn, settingsBtn, helpBtn);
 
     // initial styling
     this.getChildren().stream()
@@ -105,7 +101,7 @@ public class HeaderView extends GridPane {
           GridPane.setMargin(node, new Insets(BUTTON_MARGIN));
 
           Button button = (Button) node;
-          button.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+          button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         });
 

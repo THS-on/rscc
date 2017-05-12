@@ -24,13 +24,16 @@ public class RsccHomeView extends BorderPane {
   final HeaderView headerView;
   final Button requestViewBtn = new Button();
   final Button supportViewBtn = new Button();
+
   final VBox contentBox = new VBox();
   final HBox requestBox = new HBox();
   final VBox requestBoxLabels = new VBox();
   final HBox supportBox = new HBox();
   final VBox supportBoxLabels = new VBox();
+
   private final Rscc model;
   private final Strings strings = new Strings();
+
   Image requestImg;
   Image supportImg;
   ImageView requestImgView;
@@ -39,7 +42,6 @@ public class RsccHomeView extends BorderPane {
   Label requestSmallLbl = new Label();
   Label supportBigLbl = new Label();
   Label supportSmallLbl = new Label();
-
 
   /**
    * Initializes all the GUI components needed on the start page.

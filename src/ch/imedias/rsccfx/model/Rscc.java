@@ -13,7 +13,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -36,16 +35,19 @@ import javafx.beans.property.StringProperty;
 public class Rscc {
   private static final Logger LOGGER =
       Logger.getLogger(Rscc.class.getName());
+
   /**
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
+
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
+
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUN_SERVERS = {
       "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
@@ -57,20 +59,31 @@ public class Rscc {
 
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
   private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
+  private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
+  private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
+
   private final BooleanProperty vncViewOnly = new SimpleBooleanProperty();
   private final DoubleProperty vncQualitySliderValue = new SimpleDoubleProperty();
   private final DoubleProperty vncCompressionSliderValue = new SimpleDoubleProperty();
+
   private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
-  private final StringProperty terminalOutput = new SimpleStringProperty();
 
   private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
-  private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
-  private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
+
+  private final StringProperty terminalOutput = new SimpleStringProperty();
+
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
+
+  //TODO: Replace when the StunFileGeneration is ready
+  private final String pathToStunDumpFile = this.getClass()
+      .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
+      .toExternalForm().replace("file:", "");
+
+  private final KeyUtil keyUtil;
 
   private boolean isLocalIceSuccessful = false;
   private boolean isRemoteIceSuccessful = false;
@@ -79,23 +92,14 @@ public class Rscc {
   private RunRudp rudp;
   private VncViewerHandler vncViewer;
   private VncServerHandler vncServer;
-
-
   private Rscccfp rscccfp;
-
-  //TODO: Replace when the StunFileGeneration is ready
-  private final String pathToStunDumpFile = this.getClass()
-      .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
-      .toExternalForm().replace("file:", "");
-  private final KeyUtil keyUtil;
-
   private String pathToResourceDocker;
 
   /**
    * Initializes the Rscc model class.
    *
    * @param systemCommander a SystemComander-object that executes shell commands.
-   * @param keyUtil a KeyUtil-object which stores the key, validates and formats it.
+   * @param keyUtil         a KeyUtil-object which stores the key, validates and formats it.
    */
   public Rscc(SystemCommander systemCommander, KeyUtil keyUtil) {
     if (systemCommander == null) {
@@ -111,6 +115,14 @@ public class Rscc {
     defineResourcePath();
     readServerConfig();
 
+  }
+
+  public static int getLocalForwardingPort() {
+    return LOCAL_FORWARDING_PORT;
+  }
+
+  public static int getPackageSize() {
+    return PACKAGE_SIZE;
   }
 
   /**
@@ -293,7 +305,6 @@ public class Rscc {
     setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
-
   /**
    * Starts connection to the user.
    */
@@ -345,7 +356,6 @@ public class Rscc {
     vncViewer.start();
   }
 
-
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
    * again.
@@ -355,7 +365,6 @@ public class Rscc {
     killConnection();
     requestKeyFromServer();
   }
-
 
   /**
    * Reads the docker server configuration from file ssh.rc under "/pathToResourceDocker".
@@ -380,90 +389,88 @@ public class Rscc {
     }
   }
 
-
-
   public String getKeyServerIp() {
     return keyServerIp.get();
-  }
-
-  public StringProperty keyServerIpProperty() {
-    return keyServerIp;
   }
 
   public void setKeyServerIp(String keyServerIp) {
     this.keyServerIp.set(keyServerIp);
   }
 
-  public String getKeyServerHttpPort() {
-    return keyServerHttpPort.get();
+  public StringProperty keyServerIpProperty() {
+    return keyServerIp;
   }
 
-  public StringProperty keyServerHttpPortProperty() {
-    return keyServerHttpPort;
+  public String getKeyServerHttpPort() {
+    return keyServerHttpPort.get();
   }
 
   public void setKeyServerHttpPort(String keyServerHttpPort) {
     this.keyServerHttpPort.set(keyServerHttpPort);
   }
 
-  public int getVncPort() {
-    return vncPort.get();
+  public StringProperty keyServerHttpPortProperty() {
+    return keyServerHttpPort;
   }
 
-  public IntegerProperty vncPortProperty() {
-    return vncPort;
+  public int getVncPort() {
+    return vncPort.get();
   }
 
   public void setVncPort(int vncPort) {
     this.vncPort.set(vncPort);
   }
 
-  public BooleanProperty vncViewOnlyProperty() {
-    return vncViewOnly;
+  public IntegerProperty vncPortProperty() {
+    return vncPort;
   }
 
-  public void setVncViewOnly(boolean vncViewOnly) {
-    this.vncViewOnly.set(vncViewOnly);
+  public BooleanProperty vncViewOnlyProperty() {
+    return vncViewOnly;
   }
 
   public double getVncQualitySliderValue() {
     return vncQualitySliderValue.get();
   }
 
-  public DoubleProperty vncQualitySliderValueProperty() {
-    return vncQualitySliderValue;
-  }
-
   public void setVncQualitySliderValue(int vncQualitySliderValue) {
     this.vncQualitySliderValue.set(vncQualitySliderValue);
+  }
+
+  public DoubleProperty vncQualitySliderValueProperty() {
+    return vncQualitySliderValue;
   }
 
   public boolean getVncViewOnly() {
     return vncViewOnly.get();
   }
 
-  public double getVncCompressionSliderValue() {
-    return vncCompressionSliderValue.get();
+  public void setVncViewOnly(boolean vncViewOnly) {
+    this.vncViewOnly.set(vncViewOnly);
   }
 
-  public DoubleProperty vncCompressionSliderValueProperty() {
-    return vncCompressionSliderValue;
+  public double getVncCompressionSliderValue() {
+    return vncCompressionSliderValue.get();
   }
 
   public void setVncCompressionSliderValue(double vncCompressionSliderValue) {
     this.vncCompressionSliderValue.set(vncCompressionSliderValue);
   }
 
+  public DoubleProperty vncCompressionSliderValueProperty() {
+    return vncCompressionSliderValue;
+  }
+
   public boolean getVncBgr233() {
     return vncBgr233.get();
   }
 
-  public BooleanProperty vncBgr233Property() {
-    return vncBgr233;
-  }
-
   public void setVncBgr233(boolean vncBgr233) {
     this.vncBgr233.set(vncBgr233);
+  }
+
+  public BooleanProperty vncBgr233Property() {
+    return vncBgr233;
   }
 
   public KeyUtil getKeyUtil() {
@@ -474,24 +481,24 @@ public class Rscc {
     return connectionStatusText.get();
   }
 
-  public StringProperty connectionStatusTextProperty() {
-    return connectionStatusText;
-  }
-
   public void setConnectionStatusText(String connectionStatusText) {
     this.connectionStatusText.set(connectionStatusText);
+  }
+
+  public StringProperty connectionStatusTextProperty() {
+    return connectionStatusText;
   }
 
   public String getConnectionStatusStyle() {
     return connectionStatusStyle.get();
   }
 
-  public StringProperty connectionStatusStyleProperty() {
-    return connectionStatusStyle;
-  }
-
   public void setConnectionStatusStyle(String connectionStatusStyle) {
     this.connectionStatusStyle.set(connectionStatusStyle);
+  }
+
+  public StringProperty connectionStatusStyleProperty() {
+    return connectionStatusStyle;
   }
 
   public String getConnectionStatusStyles(int i) {
@@ -518,12 +525,12 @@ public class Rscc {
     return icePort.get();
   }
 
-  public IntegerProperty icePortProperty() {
-    return icePort;
-  }
-
   public void setIcePort(int icePort) {
     this.icePort.set(icePort);
+  }
+
+  public IntegerProperty icePortProperty() {
+    return icePort;
   }
 
   public String[] getStunServers() {
@@ -550,14 +557,6 @@ public class Rscc {
     isRemoteIceSuccessful = remoteIceSuccessful;
   }
 
-  public static int getLocalForwardingPort() {
-    return LOCAL_FORWARDING_PORT;
-  }
-
-  public static int getPackageSize() {
-    return PACKAGE_SIZE;
-  }
-
   public void setTerminalOutput(String terminalOutput) {
     this.terminalOutput.set(terminalOutput);
   }
@@ -566,12 +565,12 @@ public class Rscc {
     return isForcingServerMode.get();
   }
 
-  public BooleanProperty isForcingServerModeProperty() {
-    return isForcingServerMode;
-  }
-
   public void setIsForcingServerMode(boolean isForcingServerMode) {
     this.isForcingServerMode.set(isForcingServerMode);
+  }
+
+  public BooleanProperty isForcingServerModeProperty() {
+    return isForcingServerMode;
   }
 
   public SystemCommander getSystemCommander() {
@@ -582,12 +581,12 @@ public class Rscc {
     return isVncSessionRunning.get();
   }
 
-  public BooleanProperty isVncSessionRunningProperty() {
-    return isVncSessionRunning;
-  }
-
   public void setIsVncSessionRunning(boolean isVncSessionRunning) {
     this.isVncSessionRunning.set(isVncSessionRunning);
+  }
+
+  public BooleanProperty isVncSessionRunningProperty() {
+    return isVncSessionRunning;
   }
 
   public VncServerHandler getVncServer() {

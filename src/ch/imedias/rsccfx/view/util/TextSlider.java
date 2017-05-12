@@ -14,8 +14,8 @@ import javafx.scene.text.Text;
  */
 public class TextSlider extends StackPane {
 
-  Slider slider;
-  Text valueText = new Text();
+  private final Slider slider;
+  private final Text valueText = new Text();
 
   /**
    * Initializes a new slider with the value as a text on top of the thumb.

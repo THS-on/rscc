@@ -46,7 +46,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private int rowSize = 0;
   private List<SupportAddress> supportAddresses;
 
-
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
    *
@@ -85,7 +84,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
           if (oldValue != newValue) {
             if (newValue) {
               view.predefinedAddressesTitledPane.setExpanded(false);
-              view.contentBox.getChildren().removeAll(view.predefinedAdressesInnerBox);
+              view.contentBox.getChildren().removeAll(view.predefinedAddressesInnerBox);
               view.contentBox.getChildren().add(1, view.keyGenerationInnerPane);
             }
           }
@@ -97,7 +96,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
             if (newValue) {
               view.keyGenerationTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
-              view.contentBox.getChildren().add(2, view.predefinedAdressesInnerBox);
+              view.contentBox.getChildren().add(2, view.predefinedAddressesInnerBox);
             }
           }
         }
@@ -268,7 +267,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     GridPane.setHalignment(button, HPos.CENTER);
     GridPane.setMargin(button, new Insets(10));
 
-    button.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     button.setPadding(new Insets(20));
 
   }

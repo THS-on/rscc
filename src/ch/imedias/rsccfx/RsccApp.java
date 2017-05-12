@@ -28,6 +28,13 @@ public class RsccApp extends Application {
       Logger.getLogger(RsccApp.class.getName());
 
   public static final String APP_NAME = "Remote Support";
+  /**
+   * Declares views for use with ViewController.
+   */
+  public static final String HOME_VIEW = "home";
+  public static final String REQUEST_VIEW = "requestHelp";
+
+  public static final String SUPPORT_VIEW = "supporter";
 
   private static final double resolution4k = 2560 * 1440;
   private static final double resolutionFullHd = 1920 * 1080;
@@ -36,9 +43,9 @@ public class RsccApp extends Application {
   private static final double borderToFullHd = (resolutionLow + resolutionFullHd) / 2;
   private static final double borderTo4k = (resolutionFullHd + resolution4k) / 2;
 
-  private static final double rootTextSize4k = 13;
-  private static final double rootTextSizeFullHd = 11;
-  private static final double rootTextSizeLow = 9;
+  private static final double ROOT_TEXT_SIZE_4K = 13;
+  private static final double ROOT_TEXT_SIZE_FULL_HD = 11;
+  private static final double ROOT_TEXT_SIZE_LOW = 9;
 
   public static double rootTextSize;
 
@@ -48,18 +55,10 @@ public class RsccApp extends Application {
    */
   public static double scalingFactor;
 
-  public static String styleSheet;
-
-  private static final String styleSheet4k = "css/styles.css";
-  private static final String styleSheetHd = "css/stylesHD.css";
-  private static final String styleSheetLow = "css/stylesLow.css";
-
   /**
-   * Declares views for use with ViewController.
+   * Defines the stylesheet that is being used.
    */
-  public static final String HOME_VIEW = "home";
-  public static final String REQUEST_VIEW = "requestHelp";
-  public static final String SUPPORT_VIEW = "supporter";
+  public static String styleSheet;
 
   private Rscc model;
 
@@ -90,22 +89,21 @@ public class RsccApp extends Application {
     // Choose CSS depending on the resolution and set scaling factor
     double resolution = screenHeight * screenWidth;
 
-    String cssFile;
     if (resolution > borderTo4k) {
       // 4K resolution
-      rootTextSize = rootTextSize4k;
+      rootTextSize = ROOT_TEXT_SIZE_4K;
       LOGGER.info("4K Resolution, Text Size: " + rootTextSize);
     } else if (resolution < borderToFullHd) {
       // low resolution (below Full HD)
-      rootTextSize = rootTextSizeLow;
+      rootTextSize = ROOT_TEXT_SIZE_LOW;
       LOGGER.info("Low Resolution, Text Size: " + rootTextSize);
     } else {
       // Full HD resolution
-      rootTextSize = rootTextSizeFullHd;
+      rootTextSize = ROOT_TEXT_SIZE_FULL_HD;
       LOGGER.info("Full HD Resolution, Text Size: " + rootTextSize);
     }
 
-    scalingFactor = rootTextSize / rootTextSize4k;
+    scalingFactor = rootTextSize / ROOT_TEXT_SIZE_4K;
 
     styleSheet = getClass().getClassLoader()
         .getResource("css/styles.css").toExternalForm();

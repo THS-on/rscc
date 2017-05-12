@@ -22,14 +22,14 @@ public class SupporterAttributesDialog extends DialogPane {
   final GridPane attributePane = new GridPane();
 
   final Label nameLbl = new Label();
-  final Label adressLbl = new Label();
+  final Label addressLbl = new Label();
   final Label portLbl = new Label();
   final Label pictureLbl = new Label();
   final Label chargeableLbl = new Label();
   final Label encryptedLbl = new Label();
 
   final TextField nameFld = new TextField();
-  final TextField adressFld = new TextField();
+  final TextField addressFld = new TextField();
   final TextField portFld = new TextField();
   final TextField pictureFld = new TextField();
 
@@ -54,7 +54,7 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setTitle("Supporter Details");
     nameLbl.setText("Name");
     nameLbl.setId("txt");
-    adressLbl.setText("Adress");
+    addressLbl.setText("Adress");
     portLbl.setText("Port");
     pictureLbl.setText("Picture");
     chargeableLbl.setText("Chargeable");
@@ -64,9 +64,9 @@ public class SupporterAttributesDialog extends DialogPane {
     nameFld.getStyleClass().add("gridPane");
     nameFld.setEditable(false);
     nameFld.setDisable(true);
-    adressFld.setText("127.0.0.1");
-    adressFld.setEditable(false);
-    adressFld.setDisable(true);
+    addressFld.setText("127.0.0.1");
+    addressFld.setEditable(false);
+    addressFld.setDisable(true);
     portFld.setText("5900");
     portFld.setEditable(false);
     portFld.setDisable(true);
@@ -78,7 +78,7 @@ public class SupporterAttributesDialog extends DialogPane {
     encryptedCBox.setDisable(true);
 
     // Set Hgrow for TextField
-    attributePane.setHgrow(adressFld, Priority.ALWAYS);
+    attributePane.setHgrow(addressFld, Priority.ALWAYS);
     attributePane.getStyleClass().add("gridPane");
 
   }
@@ -94,18 +94,18 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    attributePane.add(nameLbl,0,0);
-    attributePane.add(nameFld,1,0);
-    attributePane.add(adressLbl,0,1);
-    attributePane.add(adressFld,1,1);
-    attributePane.add(portLbl,0,2);
-    attributePane.add(portFld,1,2);
-    attributePane.add(pictureLbl,0,3);
-    attributePane.add(pictureFld,1,3);
-    attributePane.add(chargeableLbl,0,4);
-    attributePane.add(chargeableCBox,1,4);
-    attributePane.add(encryptedLbl,0,5);
-    attributePane.add(encryptedCBox,1,5);
+    attributePane.add(nameLbl, 0, 0);
+    attributePane.add(nameFld, 1, 0);
+    attributePane.add(addressLbl, 0, 1);
+    attributePane.add(addressFld, 1, 1);
+    attributePane.add(portLbl, 0, 2);
+    attributePane.add(portFld, 1, 2);
+    attributePane.add(pictureLbl, 0, 3);
+    attributePane.add(pictureFld, 1, 3);
+    attributePane.add(chargeableLbl, 0, 4);
+    attributePane.add(chargeableCBox, 1, 4);
+    attributePane.add(encryptedLbl, 0, 5);
+    attributePane.add(encryptedCBox, 1, 5);
 
     this.createButtonBar();
 
@@ -153,7 +153,7 @@ public class SupporterAttributesDialog extends DialogPane {
     });
 
     // Add buttons to the ButtonBar
-    buttonBar.getButtons().addAll(connectButton, editButton,applyButton);
+    buttonBar.getButtons().addAll(connectButton, editButton, applyButton);
 
     return buttonBar;
   }
@@ -161,8 +161,8 @@ public class SupporterAttributesDialog extends DialogPane {
   private void changeEditable(boolean bool) {
     nameFld.setEditable(bool);
     nameFld.setDisable(!bool);
-    adressFld.setEditable(!bool);
-    adressFld.setDisable(!bool);
+    addressFld.setEditable(!bool);
+    addressFld.setDisable(!bool);
     portFld.setEditable(!bool);
     portFld.setDisable(!bool);
     pictureFld.setEditable(!bool);

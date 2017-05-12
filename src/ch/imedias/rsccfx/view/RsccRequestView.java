@@ -26,46 +26,33 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-
 /**
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestView.class.getName());
-
-  private final double scalingFactor = RsccApp.scalingFactor;
-
   private static final double BUTTON_PADDING = 30;
   private static final double ICON_SIZE = 30;
-
   final HeaderView headerView;
-
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
-
-  GridPane supporterGrid = new GridPane();
   final GridPane keyGenerationInnerPane = new GridPane();
-
   final HBox statusBox = new HBox();
-  final HBox predefinedAdressesInnerBox = new HBox();
+  final HBox predefinedAddressesInnerBox = new HBox();
   final VBox contentBox = new VBox();
-
   final TitledPane predefinedAddressesTitledPane = new TitledPane();
   final TitledPane keyGenerationTitledPane = new TitledPane();
-
   final ScrollPane scrollPane = new ScrollPane();
-
   final KeyTextField generatedKeyFld = new KeyTextField();
-
-  Button reloadKeyBtn = new Button();
-
+  private final double scalingFactor = RsccApp.scalingFactor;
   private final Rscc model;
   private final Strings strings = new Strings();
   private final KeyUtil keyUtil;
-
+  GridPane supporterGrid = new GridPane();
+  Button reloadKeyBtn = new Button();
   private Pane emptyPane = new Pane();
 
 
@@ -134,14 +121,14 @@ public class RsccRequestView extends BorderPane {
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
-    VBox.setVgrow(predefinedAdressesInnerBox, Priority.ALWAYS);
+    VBox.setVgrow(predefinedAddressesInnerBox, Priority.ALWAYS);
 
     setTop(headerView);
     setCenter(contentBox);
   }
 
   private void layoutSupporterPane() {
-    predefinedAdressesInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+    predefinedAddressesInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
 
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

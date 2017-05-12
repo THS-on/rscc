@@ -28,6 +28,7 @@ public class RsccSupportView extends BorderPane {
       Logger.getLogger(RsccSupportView.class.getName());
   private static final int GRIDPANE_MARGIN = 25;
   final HeaderView headerView;
+
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label statusLbl = new Label();
@@ -186,12 +187,12 @@ public class RsccSupportView extends BorderPane {
 
     // initial styling
     addressbookInnerPane.getChildren().stream().forEach(node -> {
-      GridPane.setVgrow(node, Priority.ALWAYS);
-      GridPane.setHgrow(node, Priority.ALWAYS);
-      GridPane.setValignment(node, VPos.CENTER);
-      GridPane.setHalignment(node, HPos.CENTER);
-      GridPane.setMargin(node, new Insets(10));
-      addressbookInnerPane.setAlignment(Pos.CENTER);
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(10));
+          addressbookInnerPane.setAlignment(Pos.CENTER);
         }
     );
 

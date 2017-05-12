@@ -39,12 +39,11 @@ public class ExpertSettingsDialog extends DialogPane {
 
   final ListView stunServersList = new ListView();
 
-  Dialog dialog = new Dialog();
+  final Dialog dialog = new Dialog();
 
-  GridPane settingsPane = new GridPane();
+  final GridPane settingsPane = new GridPane();
 
-  Strings strings = new Strings();
-
+  private final Strings strings = new Strings();
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
