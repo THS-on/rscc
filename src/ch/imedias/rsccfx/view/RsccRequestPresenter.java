@@ -33,8 +33,6 @@ import javafx.scene.layout.Priority;
 public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
-  private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
   private static final int GRID_MAXIMUM_COLUMNS = 3;
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
@@ -136,8 +134,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void initSize(Scene scene) {
     // initialize view
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
-          .subtract(WIDTH_SUBTRACTION_KEYFIELD));
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
     view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
     view.reloadKeyBtn.prefHeightProperty().bind(view.generatedKeyFld.heightProperty());

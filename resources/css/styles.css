@@ -18,7 +18,7 @@
     /*-fx-padding: 10;*/
 }
 
-#helpBtn, #backBtn, #settingsBtn, #reloadKeyBtn{
+#helpBtn, #backBtn, #settingsBtn{
     /*-fx-padding: 5;*/
     -fx-background-radius: 0.308em;
     -fx-border-radius: 0.308em;
@@ -124,11 +124,19 @@
     -fx-font-size: 3.077em;
     -fx-text-alignment: center;
     -fx-alignment: center;
+    -fx-padding: 2em 0 2em 0;
 }
 
 .titled-pane > .title {
     /*-fx-pref-height: 36.0;*/
     -fx-font-size: 1.641em;
+}
+
+#reloadKeyBtn {
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
+    -fx-border-color:#A7A7A7;
+    -fx-background-color: #EAEAEA;
 }
 
 /***************************************************************************

@@ -97,8 +97,6 @@ public class RsccRequestView extends BorderPane {
     predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
     statusLbl.setText("");
 
-    KEY_FIELD_HEIGHT_FOR_BUTTON = generatedKeyFld.getHeight() - 5;
-
     FontAwesomeIconView refreshIcon = new FontAwesomeIconView(FontAwesomeIcon.REFRESH);
     refreshIcon.setGlyphSize(ICON_SIZE);
     reloadKeyBtn.setGraphic(refreshIcon);
@@ -111,6 +109,7 @@ public class RsccRequestView extends BorderPane {
 
     keyGenerationTitledPane.setExpanded(true);
     keyGenerationTitledPane.setId("keyGenerationTitledPane");
+
 
     predefinedAddressesTitledPane.setExpanded(false);
     predefinedAddressesTitledPane.setId("predefinedAddressesTitledPane");
@@ -125,7 +124,6 @@ public class RsccRequestView extends BorderPane {
     statusBox.getChildren().addAll(statusLbl);
     statusLbl.getStyleClass().add("statusLbl");
 
-    //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT);
     generatedKeyFld.setEditable(false);
     generatedKeyFld.getStyleClass().add("keyFld");
 
@@ -202,6 +200,7 @@ public class RsccRequestView extends BorderPane {
 
     // special styling
     GridPane.setVgrow(statusBox, Priority.NEVER);
+    GridPane.setValignment(statusBox, VPos.BOTTOM);
     GridPane.setHalignment(titleLbl, HPos.LEFT);
     GridPane.setValignment(titleLbl, VPos.BOTTOM);
     GridPane.setHalignment(descriptionLbl, HPos.LEFT);
