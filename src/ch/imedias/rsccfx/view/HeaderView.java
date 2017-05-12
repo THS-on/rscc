@@ -32,9 +32,7 @@ public class HeaderView extends GridPane {
 
   private static final double ICON_SIZE = 40;
 
-  private static final double HEADER_HEIGHT = 250d;
   private static final DoubleProperty BUTTON_SIZE = new SimpleDoubleProperty(100);
-  private static final int INSETS_SIZE = 15;
   private static final int BUTTON_MARGIN = 10;
 
   final Button backBtn = new Button();
@@ -73,8 +71,6 @@ public class HeaderView extends GridPane {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-
-
     GridPane.setConstraints(backBtn, 0,0);
     GridPane.setConstraints(settingsBtn, 2,0);
     GridPane.setConstraints(helpBtn, 3, 0);
@@ -93,7 +89,6 @@ public class HeaderView extends GridPane {
     col2.setPercentWidth(70);
     col3.setPercentWidth(10);
     col4.setPercentWidth(10);
-
 
     GridPane.setHalignment(backBtn, HPos.LEFT);
     GridPane.setHalignment(settingsBtn, HPos.RIGHT);
@@ -116,8 +111,6 @@ public class HeaderView extends GridPane {
         });
 
     this.prefHeightProperty().bind(BUTTON_SIZE);
-
-
 
     this.setId("header");
 
