@@ -47,6 +47,10 @@
     -fx-cursor: hand;
 }
 
+.homeButtonBoxes {
+    -fx-spacing: 80;
+}
+
 .BigFont{
     -fx-font-size: 25pt;
 }
