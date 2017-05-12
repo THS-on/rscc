@@ -1,13 +1,12 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogEvent;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -42,9 +41,7 @@ public class SupporterAttributesDialog extends DialogPane {
    */
   public SupporterAttributesDialog() {
     // TODO: 4K usw.?
-    String styleSheet = getClass().getClassLoader()
-        .getResource("css/styles.css").toExternalForm();
-    this.getStylesheets().add(styleSheet);
+    this.getStylesheets().add(RsccApp.styleSheet);
     initFieldData();
     layoutForm();
     bindFieldsToModel();

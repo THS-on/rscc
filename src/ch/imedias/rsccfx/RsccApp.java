@@ -29,14 +29,19 @@ public class RsccApp extends Application {
 
   public static final String APP_NAME = "Remote Support";
 
-  //2560x1440 ==> 3686400 ==> 4K
-  //1920x1080 ==> 2073600 ==> FullHD
-  //1440x900  ==> 1296000 ==> MacBook Air
-  private static final double borderToFullHd = 1700000;
-  private static final double borderTo4k = 2800000;
+  private static final double resolution4k = 2560 * 1440;
+  private static final double resolutionFullHd = 1920 * 1080;
+  private static final double resolutionLow = 1440 * 900;
 
-  public static final double scaleToFullHd = 2073600 / 1296000;
-  public static final double scaleTo4k = 3686400 / 1296000;
+  private static final double borderToFullHd = (resolutionLow + resolutionFullHd) / 2;
+  private static final double borderTo4k = (resolutionFullHd + resolution4k) / 2;
+
+  /**
+   * Must be used in all views for all values
+   */
+  public static double scalingFactor;
+
+  public static String styleSheet;
 
   private static final String styleSheet4k = "css/styles4K.css";
   private static final String styleSheetHd = "css/stylesHD.css";
@@ -113,14 +118,20 @@ public class RsccApp extends Application {
 
     String cssFile;
     if (resolution > borderTo4k) {
+      // 4K resolution
       cssFile = styleSheet4k;
+      scalingFactor = 1;
     } else if (resolution < borderToFullHd) {
+      // low resolution (below Full HD)
       cssFile = styleSheetLow;
+      scalingFactor = resolutionLow / resolution4k;
     } else {
+      // Full HD resolution
       cssFile = styleSheetHd;
+      scalingFactor = resolutionFullHd / resolution4k;
     }
 
-    String styleSheet = getClass().getClassLoader()
+    styleSheet = getClass().getClassLoader()
         .getResource(cssFile).toExternalForm();
 
     scene.getStylesheets().add(styleSheet);
