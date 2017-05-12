@@ -39,11 +39,11 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
   private final KeyUtil keyUtil;
-  private ViewController viewParent;
-  private PopOverHelper popOverHelper;
   private final BooleanProperty serviceRunning = new SimpleBooleanProperty(false);
   Task startServiceTask;
   ProcessExecutor offerProcessExecutor = new ProcessExecutor();
+  private ViewController viewParent;
+  private PopOverHelper popOverHelper;
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -147,6 +147,27 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // initial start of service
     view.startServiceBtn.setOnAction(event -> new Thread(createService()).start());
 
+    serviceRunningProperty().addListener((observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              // change layout to running state
+              view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
+              view.startServiceBtn.setText(view.strings.stopService);
+              model.setConnectionStatus(view.strings.statusBoxServiceStarted, 2);
+            } else {
+              // end the offering process
+              offerProcessExecutor.destroy();
+              ProcessExecutor processExecutor = new ProcessExecutor();
+              processExecutor.executeProcess("killall", "-9", "stunnel4");
+              // prepare to offer again
+              startServiceTask = createService();
+              view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
+              view.startServiceBtn.setText(view.strings.startService);
+              model.setConnectionStatus(view.strings.statusBoxServiceStopped, 3);
+            }
+          }
+        }
+    );
   }
 
   private void initBindings() {
@@ -176,7 +197,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
   private Task createService() {
     Task task = new Task<Void>() {
-      @Override public Void call() {
+      @Override
+      public Void call() {
         Number compression = model.getVncCompression();
         Number quality = model.getVncQuality();
         List<String> commandList = new ArrayList<>();
@@ -195,22 +217,23 @@ public class RsccSupportPresenter implements ControlledPresenter {
       }
     };
     task.setOnRunning(event -> {
-      // change layout to running state
-      view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
-      view.startServiceBtn.setText(view.strings.stopService);
-      model.setConnectionStatus(view.strings.statusBoxServiceStarted, 2);
+      setServiceRunning(true);
     });
     task.setOnCancelled(event -> {
-      // end the offering process
-      offerProcessExecutor.destroy();
-      ProcessExecutor processExecutor = new ProcessExecutor();
-      processExecutor.executeProcess("killall", "-9", "stunnel4");
-      // prepare to offer again
-      startServiceTask = createService();
-      view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
-      view.startServiceBtn.setText(view.strings.startService);
-      model.setConnectionStatus(view.strings.statusBoxServiceStopped, 3);
+      setServiceRunning(false);
     });
     return task;
+  }
+
+  public boolean isServiceRunning() {
+    return serviceRunning.get();
+  }
+
+  public void setServiceRunning(boolean serviceRunning) {
+    this.serviceRunning.set(serviceRunning);
+  }
+
+  public BooleanProperty serviceRunningProperty() {
+    return serviceRunning;
   }
 }
