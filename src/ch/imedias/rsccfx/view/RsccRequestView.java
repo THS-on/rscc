@@ -37,7 +37,6 @@ public class RsccRequestView extends BorderPane {
   private final double scalingFactor = RsccApp.scalingFactor;
 
   private static final double BUTTON_PADDING = 30;
-  private static double KEY_FIELD_HEIGHT_FOR_BUTTON;
   private static final double ICON_SIZE = 30;
 
   final HeaderView headerView;
@@ -127,7 +126,6 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.setEditable(false);
     generatedKeyFld.getStyleClass().add("keyFld");
 
-    reloadKeyBtn.setPrefWidth(reloadKeyBtn.getHeight());
     reloadKeyBtn.setPadding(new Insets(BUTTON_PADDING));
     reloadKeyBtn.setId("reloadKeyBtn");
 

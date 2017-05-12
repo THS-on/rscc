@@ -35,7 +35,7 @@ public class HeaderView extends GridPane {
   private static final double HEADER_HEIGHT = 250d;
   private static final DoubleProperty BUTTON_SIZE = new SimpleDoubleProperty(100);
   private static final int INSETS_SIZE = 15;
-  private static final int BUTTON_MARGIN = 5;
+  private static final int BUTTON_MARGIN = 10;
 
   final Button backBtn = new Button();
   final Button helpBtn = new Button();

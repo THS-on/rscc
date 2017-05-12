@@ -18,6 +18,9 @@
     /*-fx-padding: 10;*/
 }
 
+#headerGrid{
+}
+
 #helpBtn, #backBtn, #settingsBtn{
     /*-fx-padding: 5;*/
     -fx-background-radius: 0.308em;
