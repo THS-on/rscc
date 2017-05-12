@@ -3,20 +3,13 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.view.util.KeyTextField;
-
 import java.util.logging.Logger;
-
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
  * Defines all elements shown in the support section.
@@ -34,7 +26,7 @@ import javafx.scene.text.Font;
 public class RsccSupportView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportView.class.getName());
-  private static final int GRIDPANE_MARGING = 25;
+  private static final int GRIDPANE_MARGIN = 25;
   final HeaderView headerView;
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
@@ -60,7 +52,7 @@ public class RsccSupportView extends BorderPane {
   private final Rscc model;
   private final Strings strings = new Strings();
 
-  private ImageView validationImgView;
+  ImageView validationImgView;
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -153,7 +145,7 @@ public class RsccSupportView extends BorderPane {
       GridPane.setHgrow(node, Priority.ALWAYS);
       GridPane.setValignment(node, VPos.CENTER);
       GridPane.setHalignment(node, HPos.CENTER);
-      GridPane.setMargin(node, new Insets(GRIDPANE_MARGING));
+      GridPane.setMargin(node, new Insets(GRIDPANE_MARGIN));
     });
 
     // column division
