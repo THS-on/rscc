@@ -37,7 +37,8 @@ public class RsccApp extends Application {
   private static final double borderTo4k = (resolutionFullHd + resolution4k) / 2;
 
   /**
-   * Must be used in all views for all values
+   * Defines the scaling based on the DPI of the screen in relation to a 4K resolution display.
+   * Must be used in all views to scale all displayed values that cannot be set in the CSS.
    */
   public static double scalingFactor;
 
@@ -69,6 +70,42 @@ public class RsccApp extends Application {
 
     final Scene scene = new Scene(mainView);
 
+    // Get Screensize
+    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+    double screenHeight = primaryScreenBounds.getHeight();
+    double screenWidth = primaryScreenBounds.getWidth();
+
+    // set Stage boundaries to visible bounds of the main screen
+    stage.setWidth(screenWidth / 1.8);
+    stage.setHeight(screenHeight / 1.5);
+    stage.setX(screenWidth / 2 - stage.getWidth() / 2);
+    stage.setY(screenHeight / 2 - stage.getHeight() / 2);
+
+    stage.setMinWidth((screenWidth / 1.8) / 1.2);
+    stage.setMinHeight((screenHeight / 1.5) / 1.3);
+
+    // Initialize stylesheets
+    // Choose CSS depending on the resolution and set scaling factor
+    double resolution = screenHeight * screenWidth;
+
+    String cssFile;
+    if (resolution > borderTo4k) {
+      // 4K resolution
+      cssFile = styleSheet4k;
+      scalingFactor = 1;
+    } else if (resolution < borderToFullHd) {
+      // low resolution (below Full HD)
+      cssFile = styleSheetLow;
+      scalingFactor = resolutionLow / resolution4k;
+    } else {
+      // Full HD resolution
+      cssFile = styleSheetHd;
+      scalingFactor = resolutionFullHd / resolution4k;
+    }
+    styleSheet = getClass().getClassLoader()
+        .getResource(cssFile).toExternalForm();
+
     // Initialize the views and load them into ViewController
     // HomeView
     Node view = new RsccHomeView(model);
@@ -88,21 +125,6 @@ public class RsccApp extends Application {
     // Set initial screen
     mainView.setView(RsccApp.HOME_VIEW);
 
-    // Get Screensize
-    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-    double screenHeight = primaryScreenBounds.getHeight();
-    double screenWidth = primaryScreenBounds.getWidth();
-
-    //set Stage boundaries to visible bounds of the main screen
-    stage.setWidth(screenWidth / 1.8);
-    stage.setHeight(screenHeight / 1.5);
-    stage.setX(screenWidth / 2 - stage.getWidth() / 2);
-    stage.setY(screenHeight / 2 - stage.getHeight() / 2);
-
-    stage.setMinWidth((screenWidth / 1.8) / 1.2);
-    stage.setMinHeight((screenHeight / 1.5) / 1.3);
-
     stage.setScene(scene);
     stage.setTitle(APP_NAME);
     stage.show();
@@ -111,28 +133,6 @@ public class RsccApp extends Application {
     ((RsccHomePresenter) mainView.getPresenter(HOME_VIEW)).initSize(scene);
     ((RsccRequestPresenter) mainView.getPresenter(REQUEST_VIEW)).initSize(scene);
     ((RsccSupportPresenter) mainView.getPresenter(SUPPORT_VIEW)).initSize(scene);
-
-    // Initialize stylesheets
-    // Choose CSS depending on the resolution
-    double resolution = screenHeight * screenWidth;
-
-    String cssFile;
-    if (resolution > borderTo4k) {
-      // 4K resolution
-      cssFile = styleSheet4k;
-      scalingFactor = 1;
-    } else if (resolution < borderToFullHd) {
-      // low resolution (below Full HD)
-      cssFile = styleSheetLow;
-      scalingFactor = resolutionLow / resolution4k;
-    } else {
-      // Full HD resolution
-      cssFile = styleSheetHd;
-      scalingFactor = resolutionFullHd / resolution4k;
-    }
-
-    styleSheet = getClass().getClassLoader()
-        .getResource(cssFile).toExternalForm();
 
     scene.getStylesheets().add(styleSheet);
   }
