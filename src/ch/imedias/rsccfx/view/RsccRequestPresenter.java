@@ -226,7 +226,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {
       rowSize++;
     }
-    view.supporterInnerPane.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+    view.supporterInnerPane.add(buttons.get(buttonSize),
+        buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
 
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
