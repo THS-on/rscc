@@ -105,7 +105,7 @@ public class RsccApp extends Application {
     scalingFactor = rootTextSize / rootTextSize4k;
 
     styleSheet = getClass().getClassLoader()
-        .getResource("styles.css").toExternalForm();
+        .getResource("css/styles.css").toExternalForm();
 
     model = new Rscc(new SystemCommander(), new KeyUtil());
     ViewController mainView = new ViewController();

@@ -263,6 +263,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
         event.getScreenY()));
   }
+
   private void initButtonSize(Button button) {
     GridPane.setVgrow(button, Priority.ALWAYS);
     GridPane.setHgrow(button, Priority.ALWAYS);

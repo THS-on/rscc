@@ -3,19 +3,17 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-import java.io.InputStream;
-import java.util.logging.Logger;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+
+import java.util.logging.Logger;
+
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+
 
 /**
  * Defines all elements shown in the header.

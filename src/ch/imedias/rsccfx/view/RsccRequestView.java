@@ -6,12 +6,9 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
 import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
-import java.io.InputStream;
-import java.security.Key;
-import java.util.logging.Logger;
-
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.util.logging.Logger;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,8 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -29,6 +24,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+
 
 /**
  * Defines all elements shown in the request section.
@@ -39,8 +36,8 @@ public class RsccRequestView extends BorderPane {
 
   private final double scalingFactor = RsccApp.scalingFactor;
 
-  private double BUTTON_PADDING = 30;
-  private double KEY_FIELD_HEIGHT_FOR_BUTTON;
+  private static final double BUTTON_PADDING = 30;
+  private static double KEY_FIELD_HEIGHT_FOR_BUTTON;
   private static final double ICON_SIZE = 30;
 
   final HeaderView headerView;
@@ -64,7 +61,7 @@ public class RsccRequestView extends BorderPane {
 
   final KeyTextField generatedKeyFld = new KeyTextField();
 
-   Button reloadKeyBtn = new Button();
+  Button reloadKeyBtn = new Button();
 
   private final Rscc model;
   private final Strings strings = new Strings();
@@ -175,7 +172,7 @@ public class RsccRequestView extends BorderPane {
     GridPane.setConstraints(reloadKeyBtn, 1, 1);
     GridPane.setConstraints(titleLbl, 2, 0);
     GridPane.setConstraints(descriptionLbl, 2, 1);
-    GridPane.setConstraints(emptyPane,0,2);
+    GridPane.setConstraints(emptyPane, 0, 2);
     GridPane.setConstraints(statusBox, 0, 3);
 
     GridPane.setColumnSpan(statusBox, 3);
@@ -201,14 +198,14 @@ public class RsccRequestView extends BorderPane {
     col2.setPercentWidth(10);
     ColumnConstraints col3 = new ColumnConstraints();
     col3.setPercentWidth(50);
-    keyGenerationInnerPane.getColumnConstraints().addAll(col1,col2,col3);
+    keyGenerationInnerPane.getColumnConstraints().addAll(col1, col2, col3);
 
     // special styling
     GridPane.setVgrow(statusBox, Priority.NEVER);
     GridPane.setHalignment(titleLbl, HPos.LEFT);
-    GridPane.setValignment(titleLbl,VPos.BOTTOM);
+    GridPane.setValignment(titleLbl, VPos.BOTTOM);
     GridPane.setHalignment(descriptionLbl, HPos.LEFT);
-    GridPane.setValignment(reloadKeyBtn,VPos.CENTER);
+    GridPane.setValignment(reloadKeyBtn, VPos.CENTER);
     GridPane.setMargin(titleLbl, new Insets(0));
     GridPane.setMargin(descriptionLbl, new Insets(0));
     keyGenerationInnerPane.setPadding(new Insets(10 * scalingFactor));
