@@ -163,26 +163,23 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
 
-  private void offerSupportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_offerSupportButtonActionPerformed
-    if (offerSupportButton.getActionCommand().equals("start")) {
-
-      SwingWorker viewerSwingWorker = new SwingWorker() {
-
+  private void startService(){
+    ProcessExecutor processExecutor = new ProcessExecutor();
         @Override
         protected Object doInBackground() throws Exception {
           Number compression = model.getVncCompression();
           Number quality = model.getVncQuality();
-          List<String> commandList = new ArrayList<String>();
+          List<String> commandList = new ArrayList<>();
           commandList.add("xtightvncviewer");
           commandList.add("-listen");
           commandList.add("-compresslevel");
           commandList.add(compression.toString());
           commandList.add("-quality");
           commandList.add(quality.toString());
-          if (bgr233CheckBox.isSelected()) {
+          if (model.getVncBgr233()) {
             commandList.add("-bgr233");
           }
-          OFFER_PROCESS_EXECUTOR.executeProcess(commandList.toArray(
+          processExecutor.executeProcess(commandList.toArray(
               new String[commandList.size()]));
           return null;
         }
