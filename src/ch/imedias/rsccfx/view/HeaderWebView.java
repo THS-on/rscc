@@ -22,12 +22,15 @@ public class HeaderWebView extends VBox {
   final WebView browser = new WebView();
   final WebEngine webEngine = browser.getEngine();
   final Worker<Void> worker = webEngine.getLoadWorker();
-  final int BROWSERWIDTH = 1000;
+  static final int BROWSERWIDTH = 1000;
 
   public HeaderWebView() {
     initWebHelp();
   }
 
+  /**
+   * initialize the web browswer.
+   */
   public void initWebHelp() {
 
     // Bind the progress property of ProgressBar
@@ -41,7 +44,7 @@ public class HeaderWebView extends VBox {
     try  {
       String url1 = getClass().getClassLoader().getResource("helpPage.html").toExternalForm();
     } catch (NullPointerException e) {
-        LOGGER.log(Level.SEVERE, "File helpPage.html not found");
+      LOGGER.log(Level.SEVERE, "File helpPage.html not found");
     }
 
 
