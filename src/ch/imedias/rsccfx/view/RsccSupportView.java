@@ -227,7 +227,7 @@ public class RsccSupportView extends BorderPane {
     GridPane.setValignment(startServiceBtn, VPos.CENTER);
     GridPane.setValignment(startServiceDescriptionLbl, VPos.CENTER);
     GridPane.setVgrow(statusBox, Priority.NEVER);
-    GridPane.setValignment(statusBox, VPos.BOTTOM;
+    GridPane.setValignment(statusBox, VPos.BOTTOM);
 
     GridPane.setMargin(titleLbl, new Insets(0));
 
