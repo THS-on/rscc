@@ -99,8 +99,6 @@ public class HeaderView extends GridPane {
     GridPane.setHalignment(settingsBtn, HPos.RIGHT);
     GridPane.setHalignment(helpBtn, HPos.RIGHT);
 
-    this.setGridLinesVisible(true);
-
     this.getChildren().addAll(backBtn,settingsBtn, helpBtn);
 
     // initial styling
