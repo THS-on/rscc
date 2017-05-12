@@ -147,6 +147,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // initial start of service
     view.startServiceBtn.setOnAction(event -> new Thread(createService()).start());
 
+    // when the service is running, disable all interactions
+    view.keyInputTitledPane.disableProperty().bind(serviceRunningProperty());
+    view.startServiceTitledPane.disableProperty().bind(serviceRunningProperty());
+    view.headerView.backBtn.disableProperty().bind(serviceRunningProperty());
+    view.headerView.settingsBtn.disableProperty().bind(serviceRunningProperty());
+    view.headerView.helpBtn.disableProperty().bind(serviceRunningProperty());
+
     // react if the service is running or is being stopped
     serviceRunningProperty().addListener((observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
@@ -156,10 +163,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
               view.startServiceBtn.setText(view.strings.stopService);
               model.setConnectionStatus(view.strings.statusBoxServiceStarted, 2);
             } else {
-              // end the offering process
-              offerProcessExecutor.destroy();
-              ProcessExecutor processExecutor = new ProcessExecutor();
-              processExecutor.executeProcess("killall", "-9", "stunnel4");
+              endService();
               // prepare to offer again
               startServiceTask = createService();
               view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
@@ -220,6 +224,13 @@ public class RsccSupportPresenter implements ControlledPresenter {
     task.setOnRunning(event -> setServiceRunning(true));
     task.setOnCancelled(event -> setServiceRunning(false));
     return task;
+  }
+
+  private void endService(){
+    // end the offering process
+    offerProcessExecutor.destroy();
+    ProcessExecutor processExecutor = new ProcessExecutor();
+    processExecutor.executeProcess("killall", "-9", "stunnel4");
   }
 
   public boolean isServiceRunning() {
