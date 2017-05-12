@@ -147,6 +147,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // initial start of service
     view.startServiceBtn.setOnAction(event -> new Thread(createService()).start());
 
+    // react if the service is running or is being stopped
     serviceRunningProperty().addListener((observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
             if (newValue) {
