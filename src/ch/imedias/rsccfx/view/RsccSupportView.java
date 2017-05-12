@@ -76,9 +76,9 @@ public class RsccSupportView extends BorderPane {
     descriptionLbl.setText(strings.supportDescriptionLbl);
     connectBtn.setText(strings.supportConnectBtn);
 
-    startServiceBtn.textProperty().set(strings.startServiceBtn);
+    startServiceBtn.textProperty().set(strings.startService);
     startServiceDescriptionLbl.textProperty().set(strings.startServiceDescpriptionLbl);
-    startServiceTitleLbl.textProperty().set(strings.startServiceTitleLbl);
+    startServiceTitleLbl.textProperty().set(strings.startService);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.setText(strings.supportStatusLblReady);

@@ -193,7 +193,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     task.setOnRunning(event -> {
       // change layout to running state
       view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
-      view.startServiceBtn.setText("Cancel");
+      view.startServiceBtn.setText(view.strings.stopService);
     });
     task.setOnCancelled(event -> {
       // end the offering process
@@ -203,7 +203,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
       // prepare to offer again
       startServiceTask = createService();
       view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
-      view.startServiceBtn.setText("Connect");
+      view.startServiceBtn.setText(view.strings.startService);
     });
     return task;
   }
