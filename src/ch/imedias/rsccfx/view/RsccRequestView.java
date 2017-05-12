@@ -1,5 +1,6 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
@@ -32,9 +33,10 @@ public class RsccRequestView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestView.class.getName());
 
-  private static final double BUTTON_SIZE = 35d;
-  private static final double BUTTON_PADDING = 15;
-  private static final double GENERATEDKEYFLD_HEIGHT = 60d;
+  private final double scalingFactor = RsccApp.scalingFactor;
+
+  private double BUTTON_SIZE = 35d * scalingFactor;
+  private double BUTTON_PADDING = 15 *scalingFactor;
 
   final HeaderView headerView;
 
@@ -58,7 +60,6 @@ public class RsccRequestView extends BorderPane {
   final KeyTextField generatedKeyFld = new KeyTextField();
 
   final Button reloadKeyBtn = new Button();
-  final Button emptyButton = new Button();
 
   private final Rscc model;
   private final Strings strings = new Strings();
@@ -124,16 +125,16 @@ public class RsccRequestView extends BorderPane {
     statusBox.getChildren().addAll(statusLbl);
     statusLbl.getStyleClass().add("statusLbl");
 
-    //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
+    //generatedKeyFld.setPrefHeight(GENERATEDKEYFLD_HEIGHT);
+    generatedKeyFld.setEditable(false);
     generatedKeyFld.getStyleClass().add("keyFld");
 
-    reloadImgView.fitWidthProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadImgView.fitHeightProperty().set(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadImgView.fitWidthProperty().set(BUTTON_SIZE);
+    reloadImgView.fitHeightProperty().set(BUTTON_SIZE);
     reloadImgView.setPreserveRatio(true);
 
-    reloadKeyBtn.setPrefWidth(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefHeight(BUTTON_SIZE); // FIXME: Has this to be in the CSS?
+    reloadKeyBtn.setPrefWidth(BUTTON_SIZE);
+    reloadKeyBtn.setPrefHeight(BUTTON_SIZE);
     reloadKeyBtn.setPadding(new Insets(BUTTON_PADDING));
     reloadKeyBtn.setId("reloadKeyBtn");
 
@@ -159,9 +160,12 @@ public class RsccRequestView extends BorderPane {
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
+
     supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+
     int amountOfColumns = supporterGrid.getColumnConstraints().size();
     int columnPercentWidth = 100 / amountOfColumns;
+
     col1.setPercentWidth(columnPercentWidth);
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
@@ -188,7 +192,7 @@ public class RsccRequestView extends BorderPane {
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
-          GridPane.setMargin(node, new Insets(10));
+          GridPane.setMargin(node, new Insets(10 * scalingFactor));
           keyGenerationInnerPane.setAlignment(Pos.CENTER);
         });
 
@@ -209,7 +213,7 @@ public class RsccRequestView extends BorderPane {
     GridPane.setValignment(reloadKeyBtn,VPos.CENTER);
     GridPane.setMargin(titleLbl, new Insets(0));
     GridPane.setMargin(descriptionLbl, new Insets(0));
-    keyGenerationInnerPane.setPadding(new Insets(10));
+    keyGenerationInnerPane.setPadding(new Insets(10 * scalingFactor));
 
   }
 
