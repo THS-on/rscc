@@ -108,6 +108,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
               view.startServiceTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.startServiceInnerPane);
               view.contentBox.getChildren().add(1, view.keyInputInnerPane);
+              model.setConnectionStatus("", 0);
             }
           }
         }
@@ -119,28 +120,31 @@ public class RsccSupportPresenter implements ControlledPresenter {
               view.keyInputTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyInputInnerPane);
               view.contentBox.getChildren().add(2, view.startServiceInnerPane);
+              model.setConnectionStatus("", 0);
             }
           }
         }
     );
 
+    // handles statusBox updates from connectionStatus property in model
     model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
       view.statusBox.getStyleClass().clear();
       view.statusBox.getStyleClass().add(newValue);
     });
-
     model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
       Platform.runLater(() -> {
         view.statusLbl.textProperty().set(newValue);
       });
     });
 
+    // make it possible to connect by pressing enter
     view.keyFld.setOnKeyPressed(ke -> {
       if (ke.getCode() == KeyCode.ENTER) {
         model.connectToUser();
       }
     });
 
+    // initial start of service
     view.startServiceBtn.setOnAction(event -> new Thread(createService()).start());
 
   }
@@ -194,9 +198,11 @@ public class RsccSupportPresenter implements ControlledPresenter {
       // change layout to running state
       view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
       view.startServiceBtn.setText(view.strings.stopService);
+      model.setConnectionStatus("Starting service...", 1);
     });
     task.setOnCancelled(event -> {
       // end the offering process
+      model.setConnectionStatus("Stopping service...", 2);
       offerProcessExecutor.destroy();
       ProcessExecutor processExecutor = new ProcessExecutor();
       processExecutor.executeProcess("killall", "-9", "stunnel4");
