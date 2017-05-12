@@ -52,15 +52,15 @@
 }
 
 .BigFont{
-    -fx-font-size: 33 rem;
+    -fx-font-size: 2.538em;
 }
 
 .SmallFont{
-    -fx-font-size: 24 rem;
+    -fx-font-size: 1.846em;
 }
 
 #contentBox {
-    -fx-spacing: 20px;
+    -fx-spacing: 1.538em;
 }
 
 /***************************************************************************
@@ -71,15 +71,15 @@
 .descriptionLbl{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 16pt;
-    -fx-padding: 20;
+    -fx-font-size: 1.654em;
+    -fx-padding: 1.538em;
 }
 
 .titleLbl {
-    -fx-font-size: 22pt;
+    -fx-font-size: 2.256em;
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-padding: 20;
+    -fx-padding: 1.538em;
     -fx-font-weight: bold;
 }
 
@@ -104,7 +104,7 @@
 
 .statusLbl{
     -fx-text-fill: white;
-    -fx-font-size: 16px;
+    -fx-font-size: 1.231em;
 }
 
 .descriptionBox {
@@ -116,14 +116,14 @@
 .keyFld {
     -fx-background-color: #e2e2e2;
     -fx-font-family: Monospaced;
-    -fx-font-size: 30pt;
+    -fx-font-size: 3.077em;
     -fx-text-alignment: center;
     -fx-alignment: center;
 }
 
 .titled-pane > .title {
     /*-fx-pref-height: 36.0;*/
-    -fx-font-size: 16pt;
+    -fx-font-size: 1.641em;
 }
 
 /***************************************************************************
@@ -147,14 +147,14 @@
 .supporterDescriptionLbl{
     -fx-wrap-text: true;
     -fx-alignment: center-left;
-    -fx-font-size: 16pt;
-    -fx-padding: 20;
+    -fx-font-size: 1.641em;
+    -fx-padding: 1.538em;
 }
 
 .supporterBtn {
-    -fx-font-size: 12pt;
+    -fx-font-size: 1.231em;
     -fx-alignment: center;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 0.385em;
     -fx-background-color: white;
     -fx-border-color: lightgrey;
 
@@ -185,7 +185,7 @@
 #connectBtn, #startServiceBtn{
     -fx-padding: 15 40 15 40;
     -fx-alignment: center;
-    -fx-font-size: 16;
+    -fx-font-size: 1.231;
     -fx-background-radius: 4px;
     -fx-border-radius:4px;
     -fx-border-color:#A7A7A7;
@@ -282,17 +282,4 @@
 .expertSettingsBtn:hover{
     -fx-background-color: #f7f7f7;
     -fx-cursor: hand;
-}
-
-/***************************************************************************
- *                                                                         *
- *                    SupporterAttributesDialog                            *
- *                                                                         *
- **************************************************************************/
-.gridPane{
- -fx-font-size: 20;
-}
-
-.buttonBar{
- -fx-font-size: 20;
 }
