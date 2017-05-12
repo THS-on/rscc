@@ -152,12 +152,15 @@
  *                                                                         *
  **************************************************************************/
 
-/* TODO: set tag */
-#centerBoxRequest {
+.contentRequest {
     -fx-background-image: url("../images/help_background.svg");
     -fx-background-size: 70%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center top;
+}
+
+#scrollPane {
+    -fx-background: none;
 }
 
 #reloadKeyBtn {
@@ -192,8 +195,7 @@
  *                                                                         *
  **************************************************************************/
 
-/* TODO: set tag */
-#centerBoxSupport {
+.contentSupport {
     /*-fx-alignment: center;*/
     /*-fx-padding: 10, 20, 10, 20;*/
     /*-fx-spacing: 150;*/

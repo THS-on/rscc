@@ -32,29 +32,41 @@ import javafx.scene.layout.VBox;
 public class RsccRequestView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestView.class.getName());
+
   private static final double BUTTON_PADDING = 30;
   private static final double ICON_SIZE = 30;
+
   final HeaderView headerView;
+
   final Label titleLbl = new Label();
   final Label descriptionLbl = new Label();
   final Label supporterDescriptionLbl = new Label();
   final Label statusLbl = new Label();
+
   final GridPane keyGenerationInnerPane = new GridPane();
+  final GridPane supporterInnerPane = new GridPane();
+
   final HBox statusBox = new HBox();
-  final HBox predefinedAddressesInnerBox = new HBox();
+
+  final HBox supporterInnerBox = new HBox();
+
   final VBox contentBox = new VBox();
-  final TitledPane predefinedAddressesTitledPane = new TitledPane();
+
   final TitledPane keyGenerationTitledPane = new TitledPane();
+  final TitledPane supporterTitledPane = new TitledPane();
+
   final ScrollPane scrollPane = new ScrollPane();
+
   final KeyTextField generatedKeyFld = new KeyTextField();
   private final double scalingFactor = RsccApp.scalingFactor;
   private final Rscc model;
   private final Strings strings = new Strings();
-  private final KeyUtil keyUtil;
-  GridPane supporterGrid = new GridPane();
-  Button reloadKeyBtn = new Button();
-  private Pane emptyPane = new Pane();
 
+  private final KeyUtil keyUtil;
+
+  Button reloadKeyBtn = new Button();
+
+  private Pane emptyPane = new Pane();
 
   /**
    * Initializes all the GUI components needed to generate the key the supporter needs.
@@ -80,7 +92,7 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.setText(strings.requestGeneratedKeyFld);
     supporterDescriptionLbl.setText(strings.requestSupporterDescriptionLbl);
     keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
-    predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
+    supporterTitledPane.setText(strings.requestPredefinedAdressessPane);
     statusLbl.setText("");
 
     FontAwesomeIconView refreshIcon = new FontAwesomeIconView(FontAwesomeIcon.REFRESH);
@@ -91,14 +103,11 @@ public class RsccRequestView extends BorderPane {
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-
-
     keyGenerationTitledPane.setExpanded(true);
     keyGenerationTitledPane.setId("keyGenerationTitledPane");
 
-
-    predefinedAddressesTitledPane.setExpanded(false);
-    predefinedAddressesTitledPane.setId("predefinedAddressesTitledPane");
+    supporterTitledPane.setExpanded(false);
+    supporterTitledPane.setId("supporterTitledPane");
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -117,31 +126,34 @@ public class RsccRequestView extends BorderPane {
     reloadKeyBtn.setId("reloadKeyBtn");
 
     contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane,
-        predefinedAddressesTitledPane);
+        supporterTitledPane);
     descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
 
     VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
-    VBox.setVgrow(predefinedAddressesInnerBox, Priority.ALWAYS);
+    keyGenerationInnerPane.getStyleClass().add("contentRequest");
+    VBox.setVgrow(supporterInnerBox, Priority.ALWAYS);
+    supporterInnerBox.getStyleClass().add("contentRequest");
 
     setTop(headerView);
     setCenter(contentBox);
   }
 
   private void layoutSupporterPane() {
-    predefinedAddressesInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+    supporterInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
 
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-    scrollPane.setContent(supporterGrid);
+    scrollPane.setContent(supporterInnerPane);
+    scrollPane.setId("scrollPane");
 
     // add column constraints
     ColumnConstraints col1 = new ColumnConstraints();
     ColumnConstraints col2 = new ColumnConstraints();
     ColumnConstraints col3 = new ColumnConstraints();
 
-    supporterGrid.getColumnConstraints().addAll(col1, col2, col3);
+    supporterInnerPane.getColumnConstraints().addAll(col1, col2, col3);
 
-    int amountOfColumns = supporterGrid.getColumnConstraints().size();
+    int amountOfColumns = supporterInnerPane.getColumnConstraints().size();
     int columnPercentWidth = 100 / amountOfColumns;
 
     col1.setPercentWidth(columnPercentWidth);

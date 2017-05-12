@@ -110,7 +110,6 @@ public class RsccSupportView extends BorderPane {
 
     keyFld.getStyleClass().add("keyFld");
 
-
     validationImgView.setSmooth(true);
 
     connectBtn.setId("connectBtn");
@@ -122,7 +121,9 @@ public class RsccSupportView extends BorderPane {
 
     contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, addressbookTitledPane);
     VBox.setVgrow(keyInputInnerPane, Priority.ALWAYS);
+    keyInputInnerPane.getStyleClass().add("contentSupport");
     VBox.setVgrow(addressbookInnerPane, Priority.ALWAYS);
+    addressbookInnerPane.getStyleClass().add("contentSupport");
 
     setTop(headerView);
     setCenter(contentBox);

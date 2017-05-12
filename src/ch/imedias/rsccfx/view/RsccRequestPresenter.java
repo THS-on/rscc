@@ -83,20 +83,20 @@ public class RsccRequestPresenter implements ControlledPresenter {
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
             if (newValue) {
-              view.predefinedAddressesTitledPane.setExpanded(false);
-              view.contentBox.getChildren().removeAll(view.predefinedAddressesInnerBox);
+              view.supporterTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.supporterInnerBox);
               view.contentBox.getChildren().add(1, view.keyGenerationInnerPane);
             }
           }
         }
     );
-    view.predefinedAddressesTitledPane.expandedProperty().addListener(
+    view.supporterTitledPane.expandedProperty().addListener(
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
             if (newValue) {
               view.keyGenerationTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
-              view.contentBox.getChildren().add(2, view.predefinedAddressesInnerBox);
+              view.contentBox.getChildren().add(2, view.supporterInnerBox);
             }
           }
         }
@@ -135,7 +135,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   public void initSize(Scene scene) {
     // initialize view
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
-    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.supporterInnerPane.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
     view.reloadKeyBtn.prefHeightProperty().bind(view.generatedKeyFld.heightProperty());
 
   }
@@ -226,7 +226,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {
       rowSize++;
     }
-    view.supporterGrid.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
+    view.supporterInnerPane.add(buttons.get(buttonSize), buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
 
     buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
     // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
