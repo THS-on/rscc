@@ -145,24 +145,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
       }
     });
 
-    view.connectBtn.setOnAction(event -> startServiceThread.start());
+    view.startServiceBtn.setOnAction(event -> startServiceThread.start());
 
-    serviceRunningProperty().addListener((observable, oldValue, newValue) -> {
-      if(oldValue != newValue){
-        EventHandler<ActionEvent> isRunningAction = event -> startServiceTask.cancel();
-        EventHandler<ActionEvent> isNotRunningAction = event -> startServiceThread.start();
-        if (newValue) {
-          // service is running
-          view.connectBtn.setOnAction(isRunningAction);
-          view.connectBtn.setText("Cancel");
-        } else {
-          // service is not running
-          view.connectBtn.setOnAction(isNotRunningAction);
-          view.connectBtn.setText("Connect");
-        }
-      }
-    });
-    //EventHandler<ActionEvent> startAction = event -> startServiceThread.start();
 
 
   }
@@ -193,7 +177,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   private Task startService() {
-    ProcessExecutor processExecutor = new ProcessExecutor();
+    ProcessExecutor offerProcessExecutor = new ProcessExecutor();
     Task task = new Task<Void>() {
       @Override public Void call() {
         Number compression = model.getVncCompression();
@@ -208,27 +192,26 @@ public class RsccSupportPresenter implements ControlledPresenter {
         if (model.getVncBgr233()) {
           commandList.add("-bgr233");
         }
-        processExecutor.executeProcess(commandList.toArray(
+        offerProcessExecutor.executeProcess(commandList.toArray(
             new String[commandList.size()]));
         return null;
       }
     };
-    task.onRunningProperty().addListener(event -> setServiceRunning(true));
-    task.onCancelledProperty().addListener(event -> setServiceRunning(false));
+
+    task.setOnRunning(event -> {
+      // change layout to running state
+      view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
+      view.startServiceBtn.setText("Cancel");
+    });
+    task.setOnCancelled(event -> {
+      // end the offering process
+      offerProcessExecutor.destroy();
+      ProcessExecutor processExecutor = new ProcessExecutor();
+      processExecutor.executeProcess("killall", "-9", "stunnel4");
+      // change layout back to normal
+      view.startServiceBtn.setOnAction(event2 -> startServiceThread.start());
+      view.startServiceBtn.setText("Connect");
+    });
     return task;
-  }
-
-
-
-  public boolean isServiceRunning() {
-    return serviceRunning.get();
-  }
-
-  public BooleanProperty serviceRunningProperty() {
-    return serviceRunning;
-  }
-
-  public void setServiceRunning(boolean serviceRunning) {
-    this.serviceRunning.set(serviceRunning);
   }
 }
