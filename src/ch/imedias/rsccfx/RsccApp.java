@@ -94,12 +94,15 @@ public class RsccApp extends Application {
     if (resolution > borderTo4k) {
       // 4K resolution
       rootTextSize = rootTextSize4k;
+      LOGGER.info("4K Resolution, Text Size: " + rootTextSize);
     } else if (resolution < borderToFullHd) {
       // low resolution (below Full HD)
       rootTextSize = rootTextSizeLow;
+      LOGGER.info("Low Resolution, Text Size: " + rootTextSize);
     } else {
       // Full HD resolution
       rootTextSize = rootTextSizeFullHd;
+      LOGGER.info("Full HD Resolution, Text Size: " + rootTextSize);
     }
 
     scalingFactor = rootTextSize / rootTextSize4k;
