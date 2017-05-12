@@ -216,12 +216,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
         return null;
       }
     };
-    task.setOnRunning(event -> {
-      setServiceRunning(true);
-    });
-    task.setOnCancelled(event -> {
-      setServiceRunning(false);
-    });
+    task.setOnRunning(event -> setServiceRunning(true));
+    task.setOnCancelled(event -> setServiceRunning(false));
     return task;
   }
 
