@@ -68,8 +68,14 @@ public class SupporterAttributesDialog extends DialogPane {
    */
   public SupporterAttributesDialog(String name, String address, Boolean encrypted, int listpos) {
     this.name = name;
-    this.address = address; // TODO split address into address and port (maybe not here)
-    this.port = address;
+    if (address.contains(":")) {
+      String[] addressPort = address.split(":");
+      this.address = addressPort[0];
+      this.port = addressPort[1];
+    } else {
+      this.address = address;
+      this.port = "";
+    }
     this.encrypted = encrypted;
     this.listPos = listpos;
     initFieldData();

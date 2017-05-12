@@ -12,6 +12,8 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +85,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   *  Events for the supporter buttons, has to be called by createNewSupporterBtn too.
+   *  Events for the supporter buttons. Text on Buttons change when you edit name or address.
    */
   private void attachButtonEvents() {
     for (int i = 0; i < buttons.size(); i++) {
@@ -92,7 +94,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
       if (i < supportAddresses.size()) {
         b.setOnMouseClicked(event ->
             new SupporterAttributesDialog(supportAddresses.get(finalI).getDescription(),
-                                          // TODO split address into address and port
                                           supportAddresses.get(finalI).getAddress(),
                                           supportAddresses.get(finalI).isEncrypted(),
                                           finalI));
@@ -187,6 +188,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     if (supportAddressesXml == null) {
       // use some hardcoded defaults
       supportAddresses = getDefaultList(); // TODO defaultfile should be xml
+
     } else {
       byte[] array = supportAddressesXml.getBytes();
       ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
@@ -198,7 +200,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   /**
    * Saves the preferences made by the user.
    */
-  private void saveSupporterList() {
+  private void savePreferences() {
     // save preferences
     ByteArrayOutputStream byteArrayOutputStream =
         new ByteArrayOutputStream();
@@ -236,4 +238,5 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
     attachButtonEvents();
   }
+
 }
