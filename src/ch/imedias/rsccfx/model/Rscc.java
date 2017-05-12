@@ -70,6 +70,12 @@ public class Rscc {
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
+  // TODO: Added this on my own. @pwg & @jpduloch: Please double check, thank you :)
+  private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(PACKAGE_SIZE);
+  private final IntegerProperty localForwardingPort = new SimpleIntegerProperty(
+      LOCAL_FORWARDING_PORT);
+  private final IntegerProperty stunServerPort = new SimpleIntegerProperty(STUN_SERVER_PORT);
+
   private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
 
@@ -119,6 +125,10 @@ public class Rscc {
 
   public static int getLocalForwardingPort() {
     return LOCAL_FORWARDING_PORT;
+  }
+
+  public void setLocalForwardingPort(int localForwardingPort) {
+    this.localForwardingPort.set(localForwardingPort);
   }
 
   public static int getPackageSize() {
@@ -541,6 +551,10 @@ public class Rscc {
     return STUN_SERVER_PORT;
   }
 
+  public void setStunServerPort(int stunServerPort) {
+    this.stunServerPort.set(stunServerPort);
+  }
+
   public boolean isLocalIceSuccessful() {
     return isLocalIceSuccessful;
   }
@@ -595,5 +609,25 @@ public class Rscc {
 
   public void setVncServer(VncServerHandler vncServer) {
     this.vncServer = vncServer;
+  }
+
+  public int getUdpPackageSize() {
+    return udpPackageSize.get();
+  }
+
+  public void setUdpPackageSize(int udpPackageSize) {
+    this.udpPackageSize.set(udpPackageSize);
+  }
+
+  public IntegerProperty udpPackageSizeProperty() {
+    return udpPackageSize;
+  }
+
+  public IntegerProperty localForwardingPortProperty() {
+    return localForwardingPort;
+  }
+
+  public IntegerProperty stunServerPortProperty() {
+    return stunServerPort;
   }
 }
