@@ -1,6 +1,7 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.RsccApp;
+import ch.imedias.rsccfx.localization.Strings;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -20,6 +21,8 @@ public class SupporterAttributesDialog extends DialogPane {
 
   final Dialog dialog = new Dialog();
   final GridPane attributePane = new GridPane();
+
+  Strings strings = new Strings();
 
   final Label nameLbl = new Label();
   final Label addressLbl = new Label();
@@ -51,14 +54,14 @@ public class SupporterAttributesDialog extends DialogPane {
   private void initFieldData() {
     // populate fields which require initial data
     // TODO: Strings class
-    dialog.setTitle("Supporter Details");
-    nameLbl.setText("Name");
+    dialog.setTitle(strings.dialogTitleText);
+    nameLbl.setText(strings.dialogNameText);
     nameLbl.setId("txt");
-    addressLbl.setText("Adress");
-    portLbl.setText("Port");
-    pictureLbl.setText("Picture");
-    chargeableLbl.setText("Chargeable");
-    encryptedLbl.setText("Encrypted");
+    addressLbl.setText(strings.dialogAddressText);
+    portLbl.setText(strings.dialogPortText);
+    pictureLbl.setText(strings.dialogImageText);
+    chargeableLbl.setText(strings.dialogChargeableLbl);
+    encryptedLbl.setText(strings.dialogEncryptedLbl);
 
     nameFld.setText("Ronny");
     nameFld.getStyleClass().add("gridPane");
@@ -93,6 +96,7 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setResizable(false);
     dialog.setHeight(500);
     dialog.setWidth(500);
+    attributePane.setId("dialogAttributePane");
 
     attributePane.add(nameLbl, 0, 0);
     attributePane.add(nameFld, 1, 0);
