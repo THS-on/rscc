@@ -20,10 +20,15 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 
 /**
  * Defines the behaviour of interactions
@@ -73,7 +78,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        (ActionEvent event) -> {
+        event -> {
           Thread thread = new Thread(model::refreshKey);
           thread.start();
         }
@@ -134,9 +139,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    // initialize header
     // initialize view
-    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
     view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
           .subtract(WIDTH_SUBTRACTION_KEYFIELD));
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
@@ -215,6 +218,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private void createNewSupporterBtn() {
 
     Button supporter = new Button("+");
+    attachContextMenu(supporter);
     supporter.getStyleClass().add("supporterBtn");
 
     initButtonSize(supporter);
@@ -239,6 +243,28 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
   }
 
+  private void attachContextMenu(Button button) {
+
+    // Create ContextMenu
+    ContextMenu contextMenu = new ContextMenu();
+
+    MenuItem editMenuItem = new MenuItem("Edit");
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
+
+
+    MenuItem connectMenuItem = new MenuItem("Call");
+    connectMenuItem.setOnAction(event -> {
+      /*TODO start connection*/
+
+    });
+
+    // Add MenuItem to ContextMenu
+    contextMenu.getItems().addAll(editMenuItem, connectMenuItem);
+
+    // When user right-click on Supporterbutton
+    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
+        event.getScreenY()));
+  }
   private void initButtonSize(Button button) {
     GridPane.setVgrow(button, Priority.ALWAYS);
     GridPane.setHgrow(button, Priority.ALWAYS);

@@ -10,8 +10,13 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * Defines all elements shown in the support section.
@@ -28,7 +34,6 @@ import javafx.scene.layout.VBox;
 public class RsccSupportView extends BorderPane {
   private static final Logger LOGGER =
       Logger.getLogger(RsccSupportView.class.getName());
-  private static final double KEYFLD_HEIGHT = 60d;
   private static final int GRIDPANE_MARGING = 25;
   final HeaderView headerView;
   final Label titleLbl = new Label();
@@ -55,7 +60,7 @@ public class RsccSupportView extends BorderPane {
   private final Rscc model;
   private final Strings strings = new Strings();
 
-  ImageView validationImgView = new ImageView();
+  private ImageView validationImgView;
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -110,7 +115,6 @@ public class RsccSupportView extends BorderPane {
     statusBox.getChildren().add(statusLbl);
     statusBox.getStyleClass().add("statusBox");
 
-    //keyFld.setPrefHeight(KEYFLD_HEIGHT);
     keyFld.getStyleClass().add("keyFld");
 
 
