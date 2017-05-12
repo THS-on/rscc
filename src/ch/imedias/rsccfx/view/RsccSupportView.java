@@ -42,10 +42,10 @@ public class RsccSupportView extends BorderPane {
   final VBox contentBox = new VBox();
 
   final GridPane keyInputInnerPane = new GridPane();
-  final GridPane addressbookInnerPane = new GridPane();
+  final GridPane startServiceInnerPane = new GridPane();
 
   final TitledPane keyInputTitledPane = new TitledPane();
-  final TitledPane addressbookTitledPane = new TitledPane();
+  final TitledPane startServiceTitledPane = new TitledPane();
 
   final Button connectBtn = new Button();
   final Button startServiceBtn = new Button();
@@ -90,15 +90,15 @@ public class RsccSupportView extends BorderPane {
         .toExternalForm());                     // TODO: Check what to do here.
 
     keyInputTitledPane.setText(strings.supportKeyInputPane);
-    addressbookTitledPane.setText(strings.supportAdressBookPane);
+    startServiceTitledPane.setText(strings.supportAdressBookPane);
   }
 
   private void layoutForm() {
     keyInputTitledPane.setExpanded(true);
     keyInputTitledPane.setId("keyInputTitledPane");
 
-    addressbookTitledPane.setExpanded(false);
-    addressbookTitledPane.setId("addressbookTitledPane");
+    startServiceTitledPane.setExpanded(false);
+    startServiceTitledPane.setId("startServiceTitledPane");
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -119,11 +119,11 @@ public class RsccSupportView extends BorderPane {
     startServiceTitleLbl.getStyleClass().add("titleLbl");
     startServiceDescriptionLbl.getStyleClass().add("descriptionLbl");
 
-    contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, addressbookTitledPane);
+    contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, startServiceTitledPane);
     VBox.setVgrow(keyInputInnerPane, Priority.ALWAYS);
     keyInputInnerPane.getStyleClass().add("contentSupport");
-    VBox.setVgrow(addressbookInnerPane, Priority.ALWAYS);
-    addressbookInnerPane.getStyleClass().add("contentSupport");
+    VBox.setVgrow(startServiceInnerPane, Priority.ALWAYS);
+    startServiceInnerPane.getStyleClass().add("contentSupport");
 
     setTop(headerView);
     setCenter(contentBox);
@@ -181,19 +181,21 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceBtn, 0, 1);
     GridPane.setConstraints(startServiceTitleLbl, 1, 0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1, 1);
+    GridPane.setConstraints(statusBox, 0, 2);
 
+    GridPane.setColumnSpan(statusBox, 2);
 
-    addressbookInnerPane.getChildren().addAll(startServiceBtn,
-        startServiceDescriptionLbl, startServiceTitleLbl);
+    startServiceInnerPane.getChildren().addAll(startServiceBtn,
+        startServiceDescriptionLbl, startServiceTitleLbl, statusBox);
 
     // initial styling
-    addressbookInnerPane.getChildren().stream().forEach(node -> {
+    startServiceInnerPane.getChildren().stream().forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(10));
-          addressbookInnerPane.setAlignment(Pos.CENTER);
+          startServiceInnerPane.setAlignment(Pos.CENTER);
         }
     );
 
@@ -202,7 +204,7 @@ public class RsccSupportView extends BorderPane {
     col1.setPercentWidth(50);
     ColumnConstraints col2 = new ColumnConstraints();
     col2.setPercentWidth(50);
-    addressbookInnerPane.getColumnConstraints().addAll(col1, col2);
+    startServiceInnerPane.getColumnConstraints().addAll(col1, col2);
 
     RowConstraints row1 = new RowConstraints();
     row1.setPercentHeight(25);
@@ -210,7 +212,7 @@ public class RsccSupportView extends BorderPane {
     row2.setPercentHeight(30);
     RowConstraints row3 = new RowConstraints();
     row3.setPercentHeight(45);
-    addressbookInnerPane.getRowConstraints().addAll(row1, row2, row3);
+    startServiceInnerPane.getRowConstraints().addAll(row1, row2, row3);
 
     // special styling
     GridPane.setHalignment(startServiceTitleLbl, HPos.LEFT);

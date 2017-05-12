@@ -15,10 +15,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
@@ -63,7 +60,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     initHeader();
     initBindings();
     popOverHelper = new PopOverHelper(model, RsccApp.SUPPORT_VIEW);
-    startServiceTask = startService();
+    startServiceTask = createService();
   }
 
   /**
@@ -108,20 +105,20 @@ public class RsccSupportPresenter implements ControlledPresenter {
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
             if (newValue) {
-              view.addressbookTitledPane.setExpanded(false);
-              view.contentBox.getChildren().removeAll(view.addressbookInnerPane);
+              view.startServiceTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.startServiceInnerPane);
               view.contentBox.getChildren().add(1, view.keyInputInnerPane);
             }
           }
         }
     );
-    view.addressbookTitledPane.expandedProperty().addListener(
+    view.startServiceTitledPane.expandedProperty().addListener(
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
             if (newValue) {
               view.keyInputTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyInputInnerPane);
-              view.contentBox.getChildren().add(2, view.addressbookInnerPane);
+              view.contentBox.getChildren().add(2, view.startServiceInnerPane);
             }
           }
         }
@@ -144,7 +141,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
       }
     });
 
-    view.startServiceBtn.setOnAction(event -> new Thread(startService()).start());
+    view.startServiceBtn.setOnAction(event -> new Thread(createService()).start());
 
   }
 
@@ -173,7 +170,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     // TODO: Set actions on buttons (Help, Settings)
   }
 
-  private Task startService() {
+  private Task createService() {
     Task task = new Task<Void>() {
       @Override public Void call() {
         Number compression = model.getVncCompression();
@@ -203,8 +200,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
       offerProcessExecutor.destroy();
       ProcessExecutor processExecutor = new ProcessExecutor();
       processExecutor.executeProcess("killall", "-9", "stunnel4");
-      // change layout back to normal
-      startServiceTask = startService();
+      // prepare to offer again
+      startServiceTask = createService();
       view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
       view.startServiceBtn.setText("Connect");
     });
