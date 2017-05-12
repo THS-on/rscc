@@ -140,6 +140,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
           .subtract(WIDTH_SUBTRACTION_KEYFIELD));
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
     view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.reloadKeyBtn.prefHeightProperty().bind(view.generatedKeyFld.heightProperty());
+
   }
 
   /**

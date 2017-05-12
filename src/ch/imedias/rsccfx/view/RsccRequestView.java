@@ -6,9 +6,12 @@ import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
 import ch.imedias.rsccfx.view.util.KeyTextField;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import java.io.InputStream;
+import java.security.Key;
+import java.util.logging.Logger;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import java.util.logging.Logger;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,8 +39,9 @@ public class RsccRequestView extends BorderPane {
 
   private final double scalingFactor = RsccApp.scalingFactor;
 
-  private double BUTTON_SIZE = 50d;
-  private double BUTTON_PADDING = 0;
+  private double BUTTON_PADDING = 30;
+  private double KEY_FIELD_HEIGHT_FOR_BUTTON;
+  private static final double ICON_SIZE = 30;
 
   final HeaderView headerView;
 
@@ -68,10 +72,6 @@ public class RsccRequestView extends BorderPane {
 
   private Pane emptyPane = new Pane();
 
-  Image reloadImg;
-
-  ImageView reloadImgView;
-
 
   /**
    * Initializes all the GUI components needed to generate the key the supporter needs.
@@ -99,13 +99,19 @@ public class RsccRequestView extends BorderPane {
     keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
     predefinedAddressesTitledPane.setText(strings.requestPredefinedAdressessPane);
     statusLbl.setText("");
-    FontAwesomeIconView fontAwesomeIconView = new FontAwesomeIconView(FontAwesomeIcon.GEAR);
-    reloadKeyBtn.setGraphic(fontAwesomeIconView);
+
+    KEY_FIELD_HEIGHT_FOR_BUTTON = generatedKeyFld.getHeight() - 5;
+
+    FontAwesomeIconView refreshIcon = new FontAwesomeIconView(FontAwesomeIcon.REFRESH);
+    refreshIcon.setGlyphSize(ICON_SIZE);
+    reloadKeyBtn.setGraphic(refreshIcon);
 
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
+
+
     keyGenerationTitledPane.setExpanded(true);
     keyGenerationTitledPane.setId("keyGenerationTitledPane");
 
@@ -126,8 +132,7 @@ public class RsccRequestView extends BorderPane {
     generatedKeyFld.setEditable(false);
     generatedKeyFld.getStyleClass().add("keyFld");
 
-    reloadKeyBtn.setPrefWidth(BUTTON_SIZE);
-    reloadKeyBtn.setPrefHeight(BUTTON_SIZE);
+    reloadKeyBtn.setPrefWidth(reloadKeyBtn.getHeight());
     reloadKeyBtn.setPadding(new Insets(BUTTON_PADDING));
     reloadKeyBtn.setId("reloadKeyBtn");
 

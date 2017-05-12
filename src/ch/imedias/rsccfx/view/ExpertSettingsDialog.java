@@ -26,7 +26,9 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label stunServerPortLbl = new Label();
   final Label stunServersLbl = new Label();
   final Label settingsTitleLbl = new Label();
+
   final ToggleSwitch forceConnectOverServerTgl = new ToggleSwitch();
+
   final TextField keyServerIpFld = new TextField();
   final TextField keyServerHttpPortFld = new TextField();
   final TextField vncPortFld = new TextField();
@@ -34,9 +36,13 @@ public class ExpertSettingsDialog extends DialogPane {
   final TextField udpPackageSizeFld = new TextField();
   final TextField localForwardingPortFld = new TextField();
   final TextField stunServerPortFld = new TextField();
+
   final ListView stunServersList = new ListView();
+
   Dialog dialog = new Dialog();
+
   GridPane settingsPane = new GridPane();
+
   Strings strings = new Strings();
 
 

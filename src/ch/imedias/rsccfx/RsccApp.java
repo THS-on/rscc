@@ -44,7 +44,7 @@ public class RsccApp extends Application {
 
   public static String styleSheet;
 
-  private static final String styleSheet4k = "css/styles4K.css";
+  private static final String styleSheet4k = "css/styles.css";
   private static final String styleSheetHd = "css/stylesHD.css";
   private static final String styleSheetLow = "css/stylesLow.css";
 
