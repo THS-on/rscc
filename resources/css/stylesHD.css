@@ -52,11 +52,11 @@
 }
 
 .BigFont{
-    -fx-font-size: 25pt;
+    -fx-font-size: 33 rem;
 }
 
 .SmallFont{
-    -fx-font-size: 18pt;
+    -fx-font-size: 24 rem;
 }
 
 #contentBox {
