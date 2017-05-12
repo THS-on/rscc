@@ -120,7 +120,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
               view.keyInputTitledPane.setExpanded(false);
               view.contentBox.getChildren().removeAll(view.keyInputInnerPane);
               view.contentBox.getChildren().add(2, view.startServiceInnerPane);
-              model.setConnectionStatus("", 0);
+              model.setConnectionStatus("Service not running", 0);
             }
           }
         }
@@ -194,19 +194,15 @@ public class RsccSupportPresenter implements ControlledPresenter {
         return null;
       }
     };
-    task.setOnSucceeded(
-        event -> model.setConnectionStatus("Service started", 2)
-    );
     task.setOnRunning(event -> {
       // change layout to running state
       view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
       view.startServiceBtn.setText(view.strings.stopService);
-      model.setConnectionStatus("Starting service...", 1);
+      model.setConnectionStatus("Service started", 2);
     });
-    task.set
     task.setOnCancelled(event -> {
       // end the offering process
-      model.setConnectionStatus("Stopping service...", 3);
+      model.setConnectionStatus("Service stopped", 3);
       offerProcessExecutor.destroy();
       ProcessExecutor processExecutor = new ProcessExecutor();
       processExecutor.executeProcess("killall", "-9", "stunnel4");
@@ -214,7 +210,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
       startServiceTask = createService();
       view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
       view.startServiceBtn.setText(view.strings.startService);
-      model.setConnectionStatus("Service not running", 0);
     });
     return task;
   }
