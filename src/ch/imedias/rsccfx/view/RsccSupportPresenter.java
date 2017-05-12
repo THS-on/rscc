@@ -46,7 +46,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private PopOverHelper popOverHelper;
   private final BooleanProperty serviceRunning = new SimpleBooleanProperty(false);
   Task startServiceTask;
-  Thread startServiceThread;
+  ProcessExecutor offerProcessExecutor = new ProcessExecutor();
 
   /**
    * Initializes a new RsccSupportPresenter with the according view.
@@ -64,7 +64,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
     initBindings();
     popOverHelper = new PopOverHelper(model, RsccApp.SUPPORT_VIEW);
     startServiceTask = startService();
-    startServiceThread = new Thread(startServiceTask);
   }
 
   /**
@@ -145,9 +144,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
       }
     });
 
-    view.startServiceBtn.setOnAction(event -> startServiceThread.start());
-
-
+    view.startServiceBtn.setOnAction(event -> new Thread(startService()).start());
 
   }
 
@@ -177,7 +174,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   }
 
   private Task startService() {
-    ProcessExecutor offerProcessExecutor = new ProcessExecutor();
     Task task = new Task<Void>() {
       @Override public Void call() {
         Number compression = model.getVncCompression();
@@ -197,7 +193,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
         return null;
       }
     };
-
     task.setOnRunning(event -> {
       // change layout to running state
       view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
@@ -209,7 +204,8 @@ public class RsccSupportPresenter implements ControlledPresenter {
       ProcessExecutor processExecutor = new ProcessExecutor();
       processExecutor.executeProcess("killall", "-9", "stunnel4");
       // change layout back to normal
-      view.startServiceBtn.setOnAction(event2 -> startServiceThread.start());
+      startServiceTask = startService();
+      view.startServiceBtn.setOnAction(event2 -> new Thread(startServiceTask).start());
       view.startServiceBtn.setText("Connect");
     });
     return task;
