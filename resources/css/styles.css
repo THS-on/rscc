@@ -298,6 +298,12 @@
     -fx-font-size: 1.231em;
 }
 
+/***************************************************************************
+ *                                                                         *
+ *                             Expert Settings                             *
+ *                                                                         *
+ **************************************************************************/
+
 .expertSettingsBtn{
     -fx-padding: 1.538em 2.308em 1.538em 2.308em;
     -fx-alignment: center;
@@ -313,16 +319,24 @@
     -fx-cursor: hand;
 }
 
+.settingsPane > .label {
+    -fx-font-size: 1.3em;
+}
+
+.settingsPane > .text-field{
+    -fx-font-size: 1.3em;
+}
+
 /***************************************************************************
  *                                                                         *
- *                             Expert Settings                             *
+ *                             Dialog Supporter                            *
  *                                                                         *
  **************************************************************************/
 
-.expertSettingsLbl {
-
+#dialogAttributePane > .label {
+    -fx-font-size: 1.3em;
 }
 
-.expertSettingsFld {
-
+#dialogAttributePane > .text-field {
+    -fx-font-size: 1.3em;
 }
