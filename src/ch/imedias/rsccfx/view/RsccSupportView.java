@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -54,6 +55,8 @@ public class RsccSupportView extends BorderPane {
   final Strings strings = new Strings();
 
   ImageView validationImgView;
+
+  private Pane emptyPane = new Pane();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -181,12 +184,13 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceBtn, 0, 1);
     GridPane.setConstraints(startServiceTitleLbl, 1, 0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1, 1);
+    GridPane.setConstraints(emptyPane, 0, 2);
     GridPane.setConstraints(statusBox, 0, 3);
 
     GridPane.setColumnSpan(statusBox, 2);
 
     startServiceInnerPane.getChildren().addAll(startServiceBtn,
-        startServiceDescriptionLbl, startServiceTitleLbl, statusBox);
+        startServiceDescriptionLbl, startServiceTitleLbl, emptyPane, statusBox);
 
     // initial styling
     startServiceInnerPane.getChildren().stream().forEach(node -> {
