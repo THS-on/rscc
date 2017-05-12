@@ -51,7 +51,7 @@ public class RsccSupportView extends BorderPane {
   final Button startServiceBtn = new Button();
 
   private final Rscc model;
-  private final Strings strings = new Strings();
+  final Strings strings = new Strings();
 
   ImageView validationImgView;
 
