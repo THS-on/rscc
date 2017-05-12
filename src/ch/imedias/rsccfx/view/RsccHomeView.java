@@ -73,7 +73,6 @@ public class RsccHomeView extends BorderPane {
     requestImg = new Image(requestHelpImagePath);
     requestImgView = new ImageView(requestImg);
     requestImgView.setPreserveRatio(true);
-    requestImgView.getStyleClass().add("homeButtonImages");
     requestBoxLabels.getChildren().addAll(requestBigLbl, requestSmallLbl);
     requestBoxLabels.setAlignment(Pos.CENTER_LEFT);
     requestBoxLabels.getStyleClass().add("boxLabels");
@@ -93,7 +92,6 @@ public class RsccHomeView extends BorderPane {
     supportImg = new Image(offerSupportImagePath);
     supportImgView = new ImageView(supportImg);
     supportImgView.setPreserveRatio(true);
-    supportImgView.getStyleClass().add("homeButtonImages");
     supportBoxLabels.getChildren().addAll(supportBigLbl, supportSmallLbl);
     supportBoxLabels.setAlignment(Pos.CENTER_LEFT);
     supportBoxLabels.getStyleClass().add("boxLabels");
