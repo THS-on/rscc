@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 public class Supporter implements Serializable {
 
+  private String toString;
   private String description;
   private String address;
   private String port;
@@ -26,6 +27,7 @@ public class Supporter implements Serializable {
     this.port = "";
     this.encrypted = false;
     this.chargeable = false;
+    this.toString = "+";
   }
 
   /**
@@ -44,11 +46,11 @@ public class Supporter implements Serializable {
     this.port = port;
     this.encrypted = encrypted;
     this.chargeable = chargeable;
+    this.toString = description;
   }
 
   /**
    * returns the description.
-   *
    * @return the description.
    */
   public String getDescription() {
@@ -57,7 +59,6 @@ public class Supporter implements Serializable {
 
   /**
    * sets the description.
-   *
    * @param description the description to set.
    */
   public void setDescription(String description) {
@@ -66,7 +67,6 @@ public class Supporter implements Serializable {
 
   /**
    * returns the address.
-   *
    * @return the address.
    */
   public String getAddress() {
@@ -75,7 +75,6 @@ public class Supporter implements Serializable {
 
   /**
    * sets the address.
-   *
    * @param address the address to set.
    */
   public void setAddress(String address) {
@@ -84,7 +83,6 @@ public class Supporter implements Serializable {
 
   /**
    * returns the port.
-   *
    * @return the port.
    */
   public String getPort() {
@@ -93,7 +91,6 @@ public class Supporter implements Serializable {
 
   /**
    * sets the port.
-   *
    * @param port the port to set.
    */
   public void setPort(String port) {
@@ -103,7 +100,6 @@ public class Supporter implements Serializable {
   /**
    * returns <code>true</code>, if the connection is encrypted,
    * <code>false</code> otherwise.
-   *
    * @return <code>true</code>, if the connection is encrypted,
    * <code>false</code> otherwise.
    */
@@ -112,9 +108,8 @@ public class Supporter implements Serializable {
   }
 
   /**
-   * sets the encrypted property of the SupportAddress.
-   *
-   * @param encrypted if the SupportAddress is used for encrypted connections.
+   * sets the encrypted property of the Supporter.
+   * @param encrypted if the Supporter is used for encrypted connections.
    */
   public void setEncrypted(boolean encrypted) {
     this.encrypted = encrypted;
@@ -123,7 +118,6 @@ public class Supporter implements Serializable {
   /**
    * returns <code>true</code>m if the supporter is chargeable,
    * <code>false</code> otherwise.
-   *
    * @return <code>true</code>, if the connection is chargeable,
    * <code>false</code> otherwise.
    */
@@ -134,7 +128,6 @@ public class Supporter implements Serializable {
 
   /**
    * sets the chargeable property of the Supporter.
-   *
    * @param chargeable if the Supporter is chargeable.
    */
   public void setChargeable(boolean chargeable) {
@@ -143,11 +136,19 @@ public class Supporter implements Serializable {
 
   /**
    * returns the PersistenceDelegate.
-   *
    * @return the PersistenceDelegate.
    */
   public static PersistenceDelegate getPersistenceDelegate() {
     return new DefaultPersistenceDelegate(
         new String[] {"description", "address", "port", "encrypted", "chargeable"});
+  }
+
+  /**
+   * returns a + or the address depending on the constructor
+   * @return returns the string set in the constructor
+   */
+  @Override
+  public String toString() {
+    return toString;
   }
 }

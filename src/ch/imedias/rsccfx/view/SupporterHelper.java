@@ -26,7 +26,7 @@ public class SupporterHelper {
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
   /**
-   * create default supportter list from file
+   * create default supporter list from file
    * @return list of supporter
    */
   private List<Supporter> getDefaultXmlList() {
@@ -83,6 +83,7 @@ public class SupporterHelper {
         List<Supporter> supporters = (List<Supporter>) decoder.readObject();
         return supporters;
       } catch (ClassCastException e) {
+        // FIXME somehow if invalid preferences are found it doesnt catch it.
         LOGGER.info("invalid preferences found, default list loaded");
         return getDefaultXmlList();
       }

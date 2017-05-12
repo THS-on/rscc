@@ -34,7 +34,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private PopOverHelper popOverHelper;
 
   private static ArrayList<Button> buttons = new ArrayList<>();
-  private int rowSize = 0;
   private int buttonSize = 0;
 
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
@@ -155,23 +154,11 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     supporterBtn.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
-    buttonSize++;
-    rowSize = (buttonSize % GRID_MAXIMUM_COLUMNS) + 1;
-    int row = (buttonSize - 1) / GRID_MAXIMUM_COLUMNS;
-    int column = buttonSize % GRID_MAXIMUM_COLUMNS;
+    int row = ((buttonSize - 1) / GRID_MAXIMUM_COLUMNS) + 1;
+    int column = ((buttonSize -1) % GRID_MAXIMUM_COLUMNS) + 1;
     view.supporterGrid.add(supporterBtn, column, row);
+    buttonSize++;
   }
-
-  /**
-   * adds text to the created buttons.
-   *
-   * @param index = index in supporter of the button.
-   */
-  public void setTextOnButtons(int index) {
-    // TODO: connect to the right GUI component
-    buttons.get(index).textProperty().set(supporters.get(index).getDescription());
-  }
-
 
   /**
    * Saves the preferences made by the user.
