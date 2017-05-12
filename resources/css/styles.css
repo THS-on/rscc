@@ -130,6 +130,10 @@
     -fx-padding: 2em 0 2em 0;
 }
 
+.titled-pane {
+    -fx-font-size: 1.641em;
+}
+
 .titled-pane > .title {
     /*-fx-pref-height: 36.0;*/
     -fx-font-size: 1.641em;
@@ -298,4 +302,18 @@
 .expertSettingsBtn:hover{
     -fx-background-color: #f7f7f7;
     -fx-cursor: hand;
+}
+
+/***************************************************************************
+ *                                                                         *
+ *                             Expert Settings                             *
+ *                                                                         *
+ **************************************************************************/
+
+.expertSettingsLbl {
+
+}
+
+.expertSettingsFld {
+
 }
