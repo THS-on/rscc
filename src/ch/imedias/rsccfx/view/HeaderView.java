@@ -102,7 +102,7 @@ public class HeaderView extends GridPane {
     this.getChildren().addAll(backBtn,settingsBtn, helpBtn);
 
     // initial styling
-    this.getChildren().stream().skip(1)
+    this.getChildren().stream()
         .forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
