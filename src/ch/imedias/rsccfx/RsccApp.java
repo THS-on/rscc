@@ -36,6 +36,12 @@ public class RsccApp extends Application {
   private static final double borderToFullHd = (resolutionLow + resolutionFullHd) / 2;
   private static final double borderTo4k = (resolutionFullHd + resolution4k) / 2;
 
+  private static final double rootTextSize4k = 13;
+  private static final double rootTextSizeFullHd = 11;
+  private static final double rootTextSizeLow = 9;
+
+  public static double rootTextSize;
+
   /**
    * Defines the scaling based on the DPI of the screen in relation to a 4K resolution display.
    * Must be used in all views to scale all displayed values that cannot be set in the CSS.
@@ -65,11 +71,6 @@ public class RsccApp extends Application {
   public void start(Stage stage) {
     setLogLevel(Level.INFO);
 
-    model = new Rscc(new SystemCommander(), new KeyUtil());
-    ViewController mainView = new ViewController();
-
-    final Scene scene = new Scene(mainView);
-
     // Get Screensize
     Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
@@ -92,19 +93,27 @@ public class RsccApp extends Application {
     String cssFile;
     if (resolution > borderTo4k) {
       // 4K resolution
-      cssFile = styleSheet4k;
-      scalingFactor = 1;
+      rootTextSize = rootTextSize4k;
     } else if (resolution < borderToFullHd) {
       // low resolution (below Full HD)
-      cssFile = styleSheetLow;
-      scalingFactor = resolutionLow / resolution4k;
+      rootTextSize = rootTextSizeLow;
     } else {
       // Full HD resolution
-      cssFile = styleSheetHd;
-      scalingFactor = resolutionFullHd / resolution4k;
+      rootTextSize = rootTextSizeFullHd;
     }
+
+    scalingFactor = rootTextSize / rootTextSize4k;
+
     styleSheet = getClass().getClassLoader()
-        .getResource(cssFile).toExternalForm();
+        .getResource("styles.css").toExternalForm();
+
+    model = new Rscc(new SystemCommander(), new KeyUtil());
+    ViewController mainView = new ViewController();
+
+    // Set root font size, everything adapts to it afterwards
+    mainView.setStyle("-fx-font-size: " + rootTextSize + "px;");
+
+    final Scene scene = new Scene(mainView);
 
     // Initialize the views and load them into ViewController
     // HomeView
