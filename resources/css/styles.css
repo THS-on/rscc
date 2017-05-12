@@ -312,10 +312,10 @@
  *                                                                         *
  **************************************************************************/
 
-.expertSettingsLbl {
-
+.settingsPane > .label {
+    -fx-font-size: 1.3em;
 }
 
-.expertSettingsFld {
-
+.settingsPane > .text-field{
+    -fx-font-size: 1.3em;
 }

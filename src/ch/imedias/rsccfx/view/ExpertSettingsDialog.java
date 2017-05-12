@@ -1,7 +1,11 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
@@ -25,7 +29,6 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label localForwadingPortLbl = new Label();
   final Label stunServerPortLbl = new Label();
   final Label stunServersLbl = new Label();
-  final Label settingsTitleLbl = new Label();
 
   final ToggleSwitch forceConnectOverServerTgl = new ToggleSwitch();
 
@@ -49,6 +52,7 @@ public class ExpertSettingsDialog extends DialogPane {
    * Initializes all the GUI components needed in the DialogPane.
    */
   public ExpertSettingsDialog() {
+    this.getStylesheets().add(RsccApp.styleSheet);
     initFieldData();
     layoutForm();
     bindFieldsToModel();
@@ -66,7 +70,6 @@ public class ExpertSettingsDialog extends DialogPane {
     localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
     stunServersLbl.textProperty().set(strings.expertStunserverLbl);
     stunServerPortLbl.textProperty().set(strings.expertStunServerPortLbl);
-    settingsTitleLbl.textProperty().set(strings.settingsTitleLbl);
   }
 
   private void layoutForm() {
@@ -77,8 +80,12 @@ public class ExpertSettingsDialog extends DialogPane {
     dialog.setResizable(true);
     dialog.setHeight(500);
     dialog.setWidth(500);
+    dialog.setTitle(strings.expertSettingsDialogTitle);
 
-    settingsPane.add(settingsTitleLbl, 0, 0);
+    settingsPane.getStyleClass().add("settingsPane");
+
+    forceConnectOverServerTgl.getStyleClass().add("toggles");
+
     settingsPane.add(forceConnectOverServerLbl, 0, 1);
     settingsPane.add(forceConnectOverServerTgl, 1, 1);
     settingsPane.add(keyserverIpLbl, 0, 2);
