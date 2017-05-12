@@ -191,16 +191,19 @@ public class RsccSupportPresenter implements ControlledPresenter {
         }
         offerProcessExecutor.executeProcess(commandList.toArray(
             new String[commandList.size()]));
-        model.setConnectionStatus("Service started", 2);
         return null;
       }
     };
+    task.setOnSucceeded(
+        event -> model.setConnectionStatus("Service started", 2)
+    );
     task.setOnRunning(event -> {
       // change layout to running state
       view.startServiceBtn.setOnAction(event2 -> startServiceTask.cancel());
       view.startServiceBtn.setText(view.strings.stopService);
       model.setConnectionStatus("Starting service...", 1);
     });
+    task.set
     task.setOnCancelled(event -> {
       // end the offering process
       model.setConnectionStatus("Stopping service...", 3);
