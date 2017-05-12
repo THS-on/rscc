@@ -2,6 +2,7 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
+import ch.imedias.rsccfx.model.Rscc;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.util.converter.NumberStringConverter;
 import org.controlsfx.control.ToggleSwitch;
 
 /**
@@ -47,11 +49,14 @@ public class ExpertSettingsDialog extends DialogPane {
   final GridPane settingsPane = new GridPane();
 
   private final Strings strings = new Strings();
+  private final Rscc model;
+
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
    */
-  public ExpertSettingsDialog() {
+  public ExpertSettingsDialog(Rscc model) {
+    this.model = model;
     this.getStylesheets().add(RsccApp.styleSheet);
     initFieldData();
     layoutForm();
@@ -114,9 +119,22 @@ public class ExpertSettingsDialog extends DialogPane {
     dialog.setDialogPane(this);
   }
 
-
   private void bindFieldsToModel() {
     // make bindings to the model
+    forceConnectOverServerTgl.selectedProperty().bindBidirectional(
+        model.isForcingServerModeProperty());
+    keyServerIpFld.textProperty().bindBidirectional(model.keyServerIpProperty());
+    keyServerHttpPortFld.textProperty().bindBidirectional(model.keyServerHttpPortProperty());
+    // TODO: NumberStringConverter Lookup
+    vncPortFld.textProperty().bindBidirectional(model.vncPortProperty(),
+        new NumberStringConverter());
+    icePortFld.textProperty().bindBidirectional(model.icePortProperty(),
+        new NumberStringConverter());
+    // TODO: These properties are missing.
+    // udpPackageSizeFld.textProperty().bindBidirectional(model.udpPackageSizeProperty());
+    // localForwardingPortFld.textProperty().bindBidirectional(model.port);
+    // stunServerPortFld.textProperty().bindBidirectional();
+    // TODO: Stunserver-List needs to be binded
   }
 
 }

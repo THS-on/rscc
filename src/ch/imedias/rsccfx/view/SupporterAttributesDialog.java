@@ -43,7 +43,6 @@ public class SupporterAttributesDialog extends DialogPane {
    * Initializes all the GUI components needed in the DialogPane.
    */
   public SupporterAttributesDialog() {
-    // TODO: 4K usw.?
     this.getStylesheets().add(RsccApp.styleSheet);
     initFieldData();
     layoutForm();
@@ -53,7 +52,6 @@ public class SupporterAttributesDialog extends DialogPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    // TODO: Strings class
     dialog.setTitle(strings.dialogTitleText);
     nameLbl.setText(strings.dialogNameText);
     nameLbl.setId("txt");

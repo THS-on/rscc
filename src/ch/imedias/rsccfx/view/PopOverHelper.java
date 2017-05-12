@@ -255,7 +255,7 @@ public class PopOverHelper {
   }
 
   private void invokeExpertSettings() {
-    expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog());
+    expertSettingsBtn.setOnAction(actionEvent -> new ExpertSettingsDialog(model));
   }
 
   public boolean isViewOnly() {
