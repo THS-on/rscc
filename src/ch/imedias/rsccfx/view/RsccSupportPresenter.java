@@ -226,7 +226,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     return task;
   }
 
-  private void endService(){
+  private void endService() {
     // end the offering process
     offerProcessExecutor.destroy();
     ProcessExecutor processExecutor = new ProcessExecutor();
