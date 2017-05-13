@@ -389,6 +389,11 @@ public class Rscc {
     }
   }
 
+  public void startViewerReverse(){
+      this.vncViewer = new VncViewerHandler(this,null,null,true);
+      vncViewer.run();
+  }
+
   public String getKeyServerIp() {
     return keyServerIp.get();
   }
@@ -596,4 +601,5 @@ public class Rscc {
   public void setVncServer(VncServerHandler vncServer) {
     this.vncServer = vncServer;
   }
+
 }
