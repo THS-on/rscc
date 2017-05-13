@@ -79,7 +79,7 @@ public class VncViewerHandler extends Thread {
    */
   private void startVncViewerReverse() {
 
-    //Correct weird vncviewer behavious: it adds the portnumber to 5500 and starts
+    //Correct weird vncviewer behaviour: it adds the portnumber to 5500 and starts
     // service on this port (0=5500, 1=5501)
     int recalculatedPort;
     if (vncViewerPort != null) {
@@ -87,14 +87,18 @@ public class VncViewerHandler extends Thread {
     } else {
       recalculatedPort = 0;
     }
+    if (recalculatedPort<1024 || recalculatedPort>65535) {
+      throw new IllegalArgumentException("Illegal Portnumber");
+    }
 
-    String vncViewerAttributes = "-listen" + recalculatedPort;
+    String vncViewerAttributes = "-listen " + recalculatedPort;
 
     String command = systemCommander.commandStringGenerator(null,
         vncViewerName, vncViewerAttributes);
 
     systemCommander.executeTerminalCommandAndUpdateModel(
         command, "Connected");
+    //Todo: vncviewer runs even after the app is closed: needs to be fixed
   }
 
 

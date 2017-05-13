@@ -391,7 +391,7 @@ public class Rscc {
 
   public void startViewerReverse(){
       this.vncViewer = new VncViewerHandler(this,null,null,true);
-      vncViewer.run();
+      vncViewer.start();
   }
 
   public String getKeyServerIp() {
