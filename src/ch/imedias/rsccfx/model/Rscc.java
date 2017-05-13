@@ -48,7 +48,6 @@ public class Rscc {
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
 
-  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUN_SERVERS = {
       "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
@@ -57,8 +56,8 @@ public class Rscc {
 
   private final SystemCommander systemCommander;
 
-  private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
-  private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
+  private final StringProperty keyServerIp = new SimpleStringProperty();
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty();
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
 
@@ -77,11 +76,6 @@ public class Rscc {
 
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
-
-  //TODO: Replace when the StunFileGeneration is ready
-  private final String pathToStunDumpFile = this.getClass()
-      .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
-      .toExternalForm().replace("file:", "");
 
   private final KeyUtil keyUtil;
 
@@ -239,7 +233,7 @@ public class Rscc {
     setConnectionStatus("Requesting key from server...", 1);
 
     String command = systemCommander.commandStringGenerator(
-        pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
+        pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()));
     String key = systemCommander.executeTerminalCommand(command);
 
     keyUtil.setKey(key); // update key in model
