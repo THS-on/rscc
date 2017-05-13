@@ -20,4 +20,3 @@ compress=no
 ### the log file (can be useful for debugging)
 logfile=p2p.log
 #logfile=/dev/null
-172.17.0.1
