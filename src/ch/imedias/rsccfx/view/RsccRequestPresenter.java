@@ -126,7 +126,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   /**
    * creates a button for every supporter in the supporter list.
    */
-
   public void initSupporterList() {
     supporters = supporterHelper.loadSupporters();
     // check if invalid format of XML was found during loading

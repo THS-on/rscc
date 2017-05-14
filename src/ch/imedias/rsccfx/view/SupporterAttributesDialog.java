@@ -20,7 +20,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
   private Supporter supporter;
 
-  final Label nameLbl = new Label();
+  final Label descriptionLbl = new Label();
   final Label adressLbl = new Label();
   final Label portLbl = new Label();
   final Label pictureLbl = new Label();
@@ -47,6 +47,7 @@ public class SupporterAttributesDialog extends DialogPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
+    // TODO: Validate that a description has been entered, else 2 + buttons can be created
     dialog.showAndWait()
         .filter(response -> response == applyBtnType)
         .ifPresent(response -> saveData());
@@ -54,7 +55,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
   private void initFieldData() {
     // populate fields which require initial data
-    nameLbl.setText("Name");
+    descriptionLbl.setText("Name");
     adressLbl.setText("Adress");
     portLbl.setText("Port");
     pictureLbl.setText("Picture");
@@ -87,7 +88,7 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setHeight(500);
     dialog.setWidth(500);
 
-    gridPane.add(nameLbl,0,0);
+    gridPane.add(descriptionLbl,0,0);
     gridPane.add(nameFld,1,0);
     gridPane.add(adressLbl,0,1);
     gridPane.add(addressFld,1,1);
