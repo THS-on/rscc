@@ -31,6 +31,7 @@ public class SupporterAttributesDialog extends DialogPane {
   final TextField portFld = new TextField();
   final TextField pictureFld = new TextField();
   final ButtonType applyBtnType = ButtonType.APPLY;
+  final ButtonType cancelBtnType = ButtonType.CANCEL;
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
   Strings strings = new Strings();
@@ -110,70 +111,11 @@ public class SupporterAttributesDialog extends DialogPane {
     attributePane.add(encryptedLbl, 0, 5);
     attributePane.add(encryptedCBox, 1, 5);
 
-    //this.createButtonBar();
     this.getButtonTypes().add(applyBtnType);
-    //this.getButtonTypes().add(ButtonType.CLOSE);
+    this.getButtonTypes().add(cancelBtnType);
 
     this.setContent(attributePane);
     dialog.setDialogPane(this);
   }
-
-
-  private void bindFieldsToModel() {
-    // make bindings to the model
-  }
-
-  /* TODO: use it?
-  @Override
-  public ButtonBar createButtonBar() {
-    final ButtonBar buttonBar = new ButtonBar();
-    buttonBar.getStyleClass().add("buttonBar");
-
-    final Button connectButton = new Button("Call");
-    final Button editButton = new Button("Edit");
-    final Button applyButton = new Button(" Close ");
-
-    // Create the buttons to go into the ButtonBar
-    ButtonBar.setButtonData(connectButton, ButtonBar.ButtonData.YES);
-
-    ButtonBar.setButtonData(editButton, ButtonBar.ButtonData.NO);
-    editButton.setOnAction(event -> {
-      changeEditable(true);
-      applyButton.setText("Apply");
-      connectButton.setVisible(false);
-    });
-
-    ButtonBar.setButtonData(applyButton, ButtonBar.ButtonData.APPLY);
-    applyButton.setOnAction(event -> {
-      changeEditable(false);
-      if (applyButton.getText().equals("Close")) {
-        dialog.close();
-
-      } else {
-        applyButton.setText("Close");
-        connectButton.setVisible(true);
-      }
-    });
-
-    // Add buttons to the ButtonBar
-    buttonBar.getButtons().addAll(connectButton, editButton, applyButton);
-
-    return buttonBar;
-  }
-
-  private void changeEditable(boolean bool) {
-    nameFld.setEditable(bool);
-    nameFld.setDisable(!bool);
-    addressFld.setEditable(!bool);
-    addressFld.setDisable(!bool);
-    portFld.setEditable(!bool);
-    portFld.setDisable(!bool);
-    pictureFld.setEditable(!bool);
-    pictureFld.setDisable(!bool);
-    chargeableCBox.setDisable(!bool);
-    encryptedCBox.setDisable(!bool);
-
-  }
-  */
 
 }
