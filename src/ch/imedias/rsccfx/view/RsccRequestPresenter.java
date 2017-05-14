@@ -4,7 +4,6 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-
 import ch.imedias.rsccfx.model.xml.Supporter;
 import ch.imedias.rsccfx.model.xml.SupporterHelper;
 import java.util.List;
@@ -165,7 +164,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     supporterBtn.setOnAction(event -> {
       // if create new button was pressed
-      if("+".equals(supporter.toString())) {
+      if ("+".equals(supporter.toString())) {
         createNewSupporterBtn(new Supporter());
       }
       // Open Dialog to modify data

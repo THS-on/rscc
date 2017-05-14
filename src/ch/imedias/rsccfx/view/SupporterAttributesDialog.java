@@ -3,11 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.xml.Supporter;
-import ch.imedias.rsccfx.localization.Strings;
-import ch.imedias.rsccfx.model.xml.Supporter;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
@@ -15,7 +11,6 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Priority;
 
 /**
@@ -25,30 +20,25 @@ public class SupporterAttributesDialog extends DialogPane {
 
   final Dialog dialog = new Dialog();
   final GridPane attributePane = new GridPane();
-
-  Strings strings = new Strings();
-
-  private Supporter supporter;
-
   final Label descriptionLbl = new Label();
   final Label addressLbl = new Label();
   final Label portLbl = new Label();
   final Label pictureLbl = new Label();
   final Label chargeableLbl = new Label();
   final Label encryptedLbl = new Label();
-
   final TextField nameFld = new TextField();
   final TextField addressFld = new TextField();
   final TextField portFld = new TextField();
   final TextField pictureFld = new TextField();
-
   final ButtonType applyBtnType = ButtonType.APPLY;
-
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
+  Strings strings = new Strings();
+  private Supporter supporter;
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
+   *
    * @param supporter the supporter for the dialog.
    */
   public SupporterAttributesDialog(Supporter supporter) {

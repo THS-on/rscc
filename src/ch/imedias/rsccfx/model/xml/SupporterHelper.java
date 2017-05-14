@@ -1,14 +1,12 @@
 package ch.imedias.rsccfx.model.xml;
 
 import ch.imedias.rsccfx.RsccApp;
-
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -19,11 +17,11 @@ public class SupporterHelper {
 
   private static final Logger LOGGER =
       Logger.getLogger(SupporterHelper.class.getName());
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
   private static final String DEFAULT_SUPPORTERS_FILENAME = "rscc-defaults-lernstick.xml";
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
-  private List<Supporter> getSupportersFromXml(File file){
+  private List<Supporter> getSupportersFromXml(File file) {
     List<Supporter> supportersList = null;
     try {
       JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
@@ -32,6 +30,25 @@ public class SupporterHelper {
       Supporters supporters = (Supporters) jaxbUnmarshaller.unmarshal(file);
 
       supportersList = supporters.getSupporters();
+    } catch (JAXBException e) {
+      e.printStackTrace();
+    }
+    return supportersList;
+  }
+
+  private List<Supporter> getSupportersFromXml(String string) {
+    List<Supporter> supportersList = null;
+    StringReader reader = new StringReader(string);
+
+    try {
+      JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
+      Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+      Supporters supporters = (Supporters) jaxbUnmarshaller.unmarshal(reader);
+
+      supportersList = supporters.getSupporters();
+    } catch (UnmarshalException unmarshalException) {
+      // gets thrown when the format is invalid, in this case return default
+      supportersList = getDefaultSupporters();
     } catch (JAXBException e) {
       e.printStackTrace();
     }
@@ -51,25 +68,6 @@ public class SupporterHelper {
     } catch (JAXBException e) {
       e.printStackTrace();
     }
-  }
-
-  private List<Supporter> getSupportersFromXml(String string){
-    List<Supporter> supportersList = null;
-    StringReader reader = new StringReader(string);
-
-    try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
-      Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-      Supporters supporters = (Supporters) jaxbUnmarshaller.unmarshal(reader);
-
-      supportersList = supporters.getSupporters();
-    } catch (UnmarshalException unmarshalException) {
-      // gets thrown when the format is invalid, in this case return default
-      supportersList = getDefaultSupporters();
-    } catch (JAXBException e) {
-      e.printStackTrace();
-    }
-    return supportersList;
   }
 
   private String supportersToXml(List<Supporter> supporters) {
@@ -94,18 +92,18 @@ public class SupporterHelper {
     return string;
   }
 
-    /**
-   * create default supporter list from file
-   * @return list of supporter
+  /**
+   * Returns a default list of supporters.
    */
   public List<Supporter> getDefaultSupporters() {
-    File supportersXmlFile = new File(getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILENAME).getFile());
+    File supportersXmlFile =
+        new File(getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILENAME).getFile());
     return getSupportersFromXml(supportersXmlFile);
   }
 
   /**
-   * Gets the supporter list.
-   * If no preferences are found the defaultList is generated.
+   * Gets the supporter list from the preferences file.
+   * If no preferences are found the default list is generated.
    */
   public List<Supporter> loadSupporters() {
     // load preferences
