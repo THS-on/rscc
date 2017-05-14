@@ -161,6 +161,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     Button supporterBtn = new Button(supporter.toString());
     supporterBtn.getStyleClass().add("supporterBtn");
+    initButtonSize(supporterBtn);
 
     supporterBtn.setOnAction(event -> {
       // if create new button was pressed
@@ -205,7 +206,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   private void initButtonSize(Button button) {
-    // TODO: Use it!
     GridPane.setVgrow(button, Priority.ALWAYS);
     GridPane.setHgrow(button, Priority.ALWAYS);
     GridPane.setValignment(button, VPos.CENTER);
