@@ -81,6 +81,10 @@ public class SupporterHelper {
       XMLDecoder decoder = new XMLDecoder(inputStream);
       try {
         List<Supporter> supporters = (List<Supporter>) decoder.readObject();
+        // check if the decoded object is really of the type "Supporter" and not "SupportAddress"
+        if (!(supporters.get(0) instanceof Supporter)) {
+          throw new ClassCastException();
+        }
         return supporters;
       } catch (ClassCastException e) {
         // FIXME somehow if invalid preferences are found it doesnt catch it.
