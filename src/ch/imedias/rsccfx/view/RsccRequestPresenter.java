@@ -5,6 +5,8 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 
+import ch.imedias.rsccfx.model.xml.Supporter;
+import ch.imedias.rsccfx.model.xml.SupporterHelper;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;

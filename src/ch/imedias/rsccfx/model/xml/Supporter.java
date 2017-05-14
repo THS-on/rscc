@@ -1,13 +1,17 @@
-package ch.imedias.rsccfx.view;
+package ch.imedias.rsccfx.model.xml;
 
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.PersistenceDelegate;
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * the address of a VNX supporter.
  */
-
+@XmlRootElement
 public class Supporter implements Serializable {
 
   private String toString;
@@ -61,6 +65,7 @@ public class Supporter implements Serializable {
    * sets the description.
    * @param description the description to set.
    */
+  @XmlElement
   public void setDescription(String description) {
     this.description = description;
   }
@@ -77,6 +82,7 @@ public class Supporter implements Serializable {
    * sets the address.
    * @param address the address to set.
    */
+  @XmlElement
   public void setAddress(String address) {
     this.address = address;
   }
@@ -93,6 +99,7 @@ public class Supporter implements Serializable {
    * sets the port.
    * @param port the port to set.
    */
+  @XmlElement
   public void setPort(String port) {
     this.port = port;
   }
@@ -111,6 +118,7 @@ public class Supporter implements Serializable {
    * sets the encrypted property of the Supporter.
    * @param encrypted if the Supporter is used for encrypted connections.
    */
+  @XmlElement
   public void setEncrypted(boolean encrypted) {
     this.encrypted = encrypted;
   }
@@ -130,6 +138,7 @@ public class Supporter implements Serializable {
    * sets the chargeable property of the Supporter.
    * @param chargeable if the Supporter is chargeable.
    */
+  @XmlElement
   public void setChargeable(boolean chargeable) {
     this.chargeable = chargeable;
   }

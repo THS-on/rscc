@@ -1,4 +1,4 @@
-package ch.imedias.rsccfx.view;
+package ch.imedias.rsccfx.model.xml;
 
 import ch.imedias.rsccfx.RsccApp;
 
@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -25,7 +30,40 @@ public class SupporterHelper {
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
-  /**
+
+  public List<Supporter> getSupportersFromXml(){
+    List<Supporter> supportersList = null;
+    try {
+      File file = new File("G:\\file.xml");
+      JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
+
+      Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+      Supporters supporters = (Supporters) jaxbUnmarshaller.unmarshal(file);
+      supportersList = supporters.getSupporters();
+    } catch (JAXBException e) {
+      e.printStackTrace();
+    }
+    return supportersList;
+  }
+
+  public void supportersToXml(List<Supporter> supporters) {
+    try {
+      File file = new File("G:\\file.xml");
+      JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
+      Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+      Supporters owl = new Supporters();
+      owl.setSupporters(supporters);
+
+      // output pretty printed
+      jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      jaxbMarshaller.marshal(owl, file);
+    } catch (JAXBException e) {
+      e.printStackTrace();
+    }
+  }
+
+    /**
    * create default supporter list from file
    * @return list of supporter
    */
