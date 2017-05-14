@@ -123,16 +123,16 @@ public class ExpertSettingsDialog extends DialogPane {
     keyServerIpFld.textProperty().bindBidirectional(model.keyServerIpProperty());
     keyServerHttpPortFld.textProperty().bindBidirectional(model.keyServerHttpPortProperty());
     vncPortFld.textProperty().bindBidirectional(model.vncPortProperty(),
-        new NumberStringConverter());
+        new NumberStringConverter("#"));
     icePortFld.textProperty().bindBidirectional(model.icePortProperty(),
-        new NumberStringConverter());
+        new NumberStringConverter("#"));
     // TODO: These properties were missing - please check if they are alright.
     udpPackageSizeFld.textProperty().bindBidirectional(model.udpPackageSizeProperty(),
-        new NumberStringConverter());
+        new NumberStringConverter("#"));
     localForwardingPortFld.textProperty().bindBidirectional(model.localForwardingPortProperty(),
-        new NumberStringConverter());
+        new NumberStringConverter("#"));
     stunServerPortFld.textProperty().bindBidirectional(model.stunServerPortProperty(),
-        new NumberStringConverter());
+        new NumberStringConverter("#"));
     // TODO: Stunserver-List needs to be binded
   }
 
