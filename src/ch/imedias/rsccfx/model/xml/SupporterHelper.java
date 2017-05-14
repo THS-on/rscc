@@ -12,6 +12,7 @@ import java.util.prefs.Preferences;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
 public class SupporterHelper {
@@ -62,6 +63,9 @@ public class SupporterHelper {
       Supporters supporters = (Supporters) jaxbUnmarshaller.unmarshal(reader);
 
       supportersList = supporters.getSupporters();
+    } catch (UnmarshalException unmarshalException) {
+      // gets thrown when the format is invalid, in this case return default
+      supportersList = getDefaultSupporters();
     } catch (JAXBException e) {
       e.printStackTrace();
     }
