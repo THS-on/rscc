@@ -161,6 +161,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     Button supporterBtn = new Button(supporter.toString());
     supporterBtn.getStyleClass().add("supporterBtn");
     initButtonSize(supporterBtn);
+    attachContextMenu(supporterBtn, supporter);
 
     supporterBtn.setOnAction(event -> {
       // if create new button was pressed
@@ -180,14 +181,13 @@ public class RsccRequestPresenter implements ControlledPresenter {
     buttonSize++;
   }
 
-  private void attachContextMenu(Button button) {
-    // TODO: use it!
+  private void attachContextMenu(Button button, Supporter supporter) {
     // Create ContextMenu
     ContextMenu contextMenu = new ContextMenu();
 
     MenuItem editMenuItem = new MenuItem("Edit");
     // FIXME: new Supporter() must be changed to the supporter of the button
-    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(new Supporter()));
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
 
     MenuItem connectMenuItem = new MenuItem("Call");
