@@ -54,6 +54,16 @@ public class Supporter implements Serializable {
   }
 
   /**
+   * returns the PersistenceDelegate.
+   *
+   * @return the PersistenceDelegate.
+   */
+  public static PersistenceDelegate getPersistenceDelegate() {
+    return new DefaultPersistenceDelegate(
+        new String[] {"description", "address", "port", "encrypted", "chargeable"});
+  }
+
+  /**
    * returns the description.
    * @return the description.
    */
@@ -144,16 +154,7 @@ public class Supporter implements Serializable {
   }
 
   /**
-   * returns the PersistenceDelegate.
-   * @return the PersistenceDelegate.
-   */
-  public static PersistenceDelegate getPersistenceDelegate() {
-    return new DefaultPersistenceDelegate(
-        new String[] {"description", "address", "port", "encrypted", "chargeable"});
-  }
-
-  /**
-   * returns a + or the address depending on the constructor
+   * returns a + or the address depending on the constructor.
    * @return returns the string set in the constructor
    */
   @Override

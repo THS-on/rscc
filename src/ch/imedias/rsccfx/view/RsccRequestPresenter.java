@@ -27,20 +27,13 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
   private static final int GRID_MAXIMUM_COLUMNS = 3;
-
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private final SupporterHelper supporterHelper;
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
-
-  private static ArrayList<Button> buttons = new ArrayList<>();
   private int buttonSize = 0;
-
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
-  private static final String SUPPORT_ADDRESSES = "supportAddresses";
-
   public static List<Supporter> supporters;
 
 
