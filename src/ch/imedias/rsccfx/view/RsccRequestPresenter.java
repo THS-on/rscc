@@ -150,8 +150,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     supporterBtn.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
-    int row = ((buttonSize - 1) / GRID_MAXIMUM_COLUMNS) + 1;
-    int column = ((buttonSize -1) % GRID_MAXIMUM_COLUMNS) + 1;
+    int row = buttonSize / GRID_MAXIMUM_COLUMNS;
+    int column = buttonSize % GRID_MAXIMUM_COLUMNS;
     view.supporterGrid.add(supporterBtn, column, row);
     buttonSize++;
   }
