@@ -1,10 +1,15 @@
 package ch.imedias.rsccfx.model;
 
 import com.google.common.base.CharMatcher;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -21,7 +26,7 @@ public class SystemCommander {
    * @param command terminal command to be executed.
    * @return String trimmed output of the terminal without whitespaces at beginning / end.
    */
-  public String executeTerminalCommand(String command) {
+  public String executeTerminalCommandAndReturnOutput(String command) {
     Process process;
     String outputString = ""; // standard return value
     try {
@@ -31,9 +36,9 @@ public class SystemCommander {
       process.waitFor();
       // read the output from the command
       BufferedReader outputReader = new BufferedReader(new
-          InputStreamReader(process.getInputStream()));
+              InputStreamReader(process.getInputStream()));
       BufferedReader errorReader = new BufferedReader(new
-          InputStreamReader(process.getErrorStream()));
+              InputStreamReader(process.getErrorStream()));
       String line;
       while ((line = outputReader.readLine()) != null) {
         output.append(line).append("\n");
@@ -46,30 +51,80 @@ public class SystemCommander {
       outputString = output.toString().trim();
     } catch (Exception exception) {
       LOGGER.severe("Exception thrown when running the command: "
-          + command
-          + "\n Exception Message: " + exception.getMessage());
+              + command
+              + "\n Exception Message: " + exception.getMessage());
       throw new IllegalArgumentException();
     }
     return outputString;
   }
 
+  public long startProcessAndReturnPid(String command) {
+    Process process;
+    try {
+      // Execute Command
+      process = Runtime.getRuntime().exec(command);
+
+      //needed or not?
+ //     process.waitFor();
+
+    } catch (Exception exception) {
+      LOGGER.severe("Exception thrown when running the command: "
+              + command
+              + "\n Exception Message: " + exception.getMessage());
+      throw new IllegalArgumentException();
+    }
+      long pid = -1;
+
+      try {
+        if (process.getClass().getName().equals("java.lang.UNIXProcess")) {
+          Field f = process.getClass().getDeclaredField("pid");
+          f.setAccessible(true);
+          pid = f.getLong(process);
+          f.setAccessible(false);
+        }
+      } catch (Exception e) {
+        pid = -1;
+      }
+    System.out.println(pid);
+      return pid;
+  }
+
 
   /**
    * Executes a TerminalCommand, that listen for a specified StringOutput and sets the
-   * setIsVncSessionRunning accordingly.
+   * setIsVncSessionRunning accordingly.Runs untill the process is finished or killed!
    *
    * @param command                 to be executed
    * @param whatTerminalNeedsToShow String to compare to and when to set connection ongoing in model
+   * @param returnPid                A LongProperty if you need the just started process pid, null if not
    */
-  public String executeTerminalCommandAndUpdateModel(String command,
-                                                     String whatTerminalNeedsToShow) {
-    Process p;
+  public String startProcessAndUpdate(String command,
+                                      String whatTerminalNeedsToShow, BooleanProperty update, LongProperty returnPid) {
+    Process process;
     StringBuilder output = new StringBuilder();
 
     try {
-      p = Runtime.getRuntime().exec(command);
-      final InputStream errorStream = p.getErrorStream();
-      final InputStream inputStream = p.getInputStream();
+      process = Runtime.getRuntime().exec(command);
+      final InputStream errorStream = process.getErrorStream();
+      final InputStream inputStream = process.getInputStream();
+
+      long pid = -1;
+
+      if(returnPid!=null) {
+        try {
+          if (process.getClass().getName().equals("java.lang.UNIXProcess")) {
+            Field f = process.getClass().getDeclaredField("pid");
+            f.setAccessible(true);
+            pid = f.getLong(process);
+            f.setAccessible(false);
+          }
+        } catch (Exception e) {
+          pid = -1;
+        }
+        returnPid.setValue(pid);
+        System.out.println(pid);
+      }
+
 
       Thread t = new Thread(new Runnable() {
         public void run() {
@@ -81,13 +136,13 @@ public class SystemCommander {
             String line = null;
             while ((line = reader.readLine()) != null) {
               if (line.contains(whatTerminalNeedsToShow)) {
-                model.setIsVncSessionRunning(true);
+                update.setValue(true);
               }
               output.append(line);
             }
             while ((line = reader2.readLine()) != null) {
               if (line.contains(whatTerminalNeedsToShow)) {
-                model.setIsVncSessionRunning(true);
+                update.setValue(true);
               }
               output.append(line);
             }
@@ -112,7 +167,7 @@ public class SystemCommander {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      model.setIsVncSessionRunning(false);
+      update.setValue(false);
     }
     return output.toString();
 

@@ -1,5 +1,10 @@
 package ch.imedias.rsccfx.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+
 import java.util.logging.Logger;
 
 /**
@@ -13,6 +18,8 @@ public class VncViewerHandler extends Thread {
   private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncViewerName = "vncviewer";
+  private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
+  private LongProperty vncClientPid = new SimpleLongProperty(-1);
   private String hostAddress;
   private Integer vncViewerPort;
   private boolean listeningMode;
@@ -65,8 +72,8 @@ public class VncViewerHandler extends Thread {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      connectionStatus = systemCommander.executeTerminalCommandAndUpdateModel(
-          command, "Connected");
+      connectionStatus = systemCommander.startProcessAndUpdate(
+          command, "Connected",model.isVncSessionRunningProperty(), vncClientPid);
       LOGGER.info("VNCviewer: " + connectionStatus);
       cycle++;
     } while (!connectionStatus.contains("Connected") && cycle < 8);
@@ -93,17 +100,30 @@ public class VncViewerHandler extends Thread {
     String command = systemCommander.commandStringGenerator(null,
         vncViewerName, vncViewerAttributes);
 
-    systemCommander.executeTerminalCommandAndUpdateModel(
-        command, "Connected");
+    systemCommander.startProcessAndUpdate(
+        command, "Connected", model.isVncSessionRunningProperty(), vncClientPid);
+    isRunning.setValue(true);
   }
 
 
-  /**
+  /*
    * Kills all processes with the Name of the VNCViewer.
    */
   public void killVncViewer() {
-    String command = systemCommander.commandStringGenerator(null,
-        "killall", vncViewerName);
-    systemCommander.executeTerminalCommand(command);
+    if(isRunning.get()) {
+    systemCommander.executeTerminalCommandAndReturnOutput("kill "+vncClientPid.get());
+    }
+  }
+
+  public boolean isRunning() {
+    return isRunning.get();
+  }
+
+  public BooleanProperty isRunningProperty() {
+    return isRunning;
+  }
+
+  public void setIsRunning(boolean isRunning) {
+    this.isRunning.set(isRunning);
   }
 }

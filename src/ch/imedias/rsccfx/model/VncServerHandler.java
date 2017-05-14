@@ -1,5 +1,10 @@
 package ch.imedias.rsccfx.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+
 /**
  * This Class handles a VNC Server.
  * The Thread keeps running as long as the VNCServer is running.
@@ -9,6 +14,8 @@ public class VncServerHandler extends Thread {
   private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncServerName = "x11vnc";
+  private BooleanProperty isRunning = new SimpleBooleanProperty(false);
+  private LongProperty vncServerPid = new SimpleLongProperty(-1);
   private String hostAddress;
   private Integer vncViewerPort;
   private boolean reverseMode;
@@ -55,7 +62,7 @@ public class VncServerHandler extends Thread {
 
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
-    systemCommander.executeTerminalCommand(command);
+   vncServerPid.set(systemCommander.startProcessAndReturnPid(command));
     //"connection from client"
   }
 
@@ -69,8 +76,8 @@ public class VncServerHandler extends Thread {
 
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
-    systemCommander.executeTerminalCommandAndUpdateModel(command,
-        "OK");
+    systemCommander.startProcessAndUpdate(command,
+        "OK",model.isVncSessionRunningProperty(),vncServerPid);
     //"OK"
   }
 
@@ -81,6 +88,19 @@ public class VncServerHandler extends Thread {
   public void killVncServer() {
     String command = systemCommander.commandStringGenerator(null,
         "killall", vncServerName);
-    systemCommander.executeTerminalCommand(command);
+    systemCommander.executeTerminalCommandAndReturnOutput(command);
+  }
+
+
+  public boolean isRunning() {
+    return isRunning.get();
+  }
+
+  public BooleanProperty isRunningProperty() {
+    return isRunning;
+  }
+
+  public void setIsRunning(boolean isRunning) {
+    this.isRunning.set(isRunning);
   }
 }

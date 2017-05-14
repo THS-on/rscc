@@ -155,5 +155,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
     headerPresenter.setSettingsBtnAction(event ->
         popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
     // TODO: Set actions on buttons (Help, Settings)
+
   }
 }

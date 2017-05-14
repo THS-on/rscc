@@ -18,14 +18,13 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
+import javafx.beans.Observable;
+import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 /**
@@ -77,8 +76,14 @@ public class Rscc {
 
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty isSshRunning = new SimpleBooleanProperty(false);
+  private final LongProperty sshPid = new SimpleLongProperty(-1);
 
-  //TODO: Replace when the StunFileGeneration is ready
+
+
+
+
+    //TODO: Replace when the StunFileGeneration is ready
   private final String pathToStunDumpFile = this.getClass()
       .getClassLoader().getResource(STUN_DUMP_FILE_NAME)
       .toExternalForm().replace("file:", "");
@@ -114,6 +119,7 @@ public class Rscc {
     this.keyUtil = keyUtil;
     defineResourcePath();
     readServerConfig();
+
 
   }
 
@@ -199,7 +205,8 @@ public class Rscc {
   private void keyServerSetup() {
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
-    systemCommander.executeTerminalCommand(command);
+    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
+    isSshRunning.setValue(true);
   }
 
   /**
@@ -219,12 +226,12 @@ public class Rscc {
       vncViewer.killVncViewer();
     }
 
-    systemCommander.executeTerminalCommand("pkill ssh");
+    systemCommander.executeTerminalCommandAndReturnOutput("pkill ssh");
 
     // Execute port_stop.sh with the generated key to kill the connection
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
-    systemCommander.executeTerminalCommand(command);
+    systemCommander.executeTerminalCommandAndReturnOutput(command);
     keyUtil.setKey("");
   }
 
@@ -240,7 +247,7 @@ public class Rscc {
 
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_share.sh", Integer.toString(getVncPort()), pathToStunDumpFile);
-    String key = systemCommander.executeTerminalCommand(command);
+    String key = systemCommander.executeTerminalCommandAndReturnOutput(command);
 
     keyUtil.setKey(key); // update key in model
     rscccfp = new Rscccfp(this, true);
@@ -256,7 +263,12 @@ public class Rscc {
     LOGGER.info("RSCC: Starting VNCServer");
 
     vncServer = new VncServerHandler(this, null, null, false);
-    vncServer.start();
+      isVncSessionRunning.addListener((observableValue, aBoolean, t1) -> {
+          if(aBoolean && !vncViewer.isRunning()){vncServer.isRunningProperty().set(true);
+              System.out.println("changed vncServerIsRunning to true");}
+      });
+
+      vncServer.start();
 
     try {
       Thread.sleep(1000);
@@ -283,13 +295,6 @@ public class Rscc {
     setConnectionStatus("VNC-Server waits for incoming connection", 2);
   }
 
-  /**
-   * Stops the vnc server.
-   */
-  public void stopVncServer() {
-    String command = systemCommander.commandStringGenerator(null, "killall", "x11vnc");
-    systemCommander.executeTerminalCommand(command);
-  }
 
   /**
    * Sets the Status of the connection establishment.
@@ -317,7 +322,8 @@ public class Rscc {
 
     setConnectionStatus("Connected to keyserver.", 1);
 
-    systemCommander.executeTerminalCommand(command);
+    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
+    isSshRunning.setValue(true);
 
     rscccfp = new Rscccfp(this, false);
     rscccfp.setDaemon(true);
@@ -353,8 +359,15 @@ public class Rscc {
       vncViewer = new VncViewerHandler(
           this, "localhost", vncPort.getValue(), false);
     }
-    vncViewer.start();
+
+      isVncSessionRunning.addListener((observableValue, aBoolean, t1) -> {
+          if(aBoolean && !vncServer.isRunning()){vncViewer.isRunningProperty().set(true);
+              System.out.println("changed vncViewerIsRunning to true");}
+      });
+
+      vncViewer.start();
   }
+
 
   /**
    * Refreshes the key by killing the connection, requesting a new key and starting the server
