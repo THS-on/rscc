@@ -51,16 +51,6 @@ public class Supporter implements Serializable {
   }
 
   /**
-   * returns the PersistenceDelegate.
-   *
-   * @return the PersistenceDelegate.
-   */
-  public static PersistenceDelegate getPersistenceDelegate() {
-    return new DefaultPersistenceDelegate(
-        new String[] {"description", "address", "port", "encrypted", "chargeable"});
-  }
-
-  /**
    * returns the description.
    * @return the description.
    */
