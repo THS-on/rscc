@@ -149,6 +149,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     supporterBtn.getStyleClass().add("supporterBtn");
 
     supporterBtn.setOnAction(event -> {
+      // if create new button was pressed
+      if("+".equals(supporter.toString())) {
+        createNewSupporterBtn(new Supporter());
+      }
       // Open Dialog to modify data
       new SupporterAttributesDialog(supporter);
       // Update data in button name and save to preferences
