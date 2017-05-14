@@ -174,8 +174,6 @@ public class RsccRequestView extends BorderPane {
     col2.setPercentWidth(columnPercentWidth);
     col3.setPercentWidth(columnPercentWidth);
 
-    // ***************
-
     setTop(headerView);
     setCenter(keyGeneratorPane);
     setBottom(predefinedAddressesPane);
