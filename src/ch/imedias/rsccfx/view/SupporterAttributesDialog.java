@@ -48,7 +48,6 @@ public class SupporterAttributesDialog extends DialogPane {
     this.supporter = supporter;
     initFieldData();
     layoutForm();
-    bindFieldsToModel();
     // TODO: Validate that a description has been entered, else 2 + buttons can be created
     dialog.showAndWait()
         .filter(response -> response == applyBtnType)
