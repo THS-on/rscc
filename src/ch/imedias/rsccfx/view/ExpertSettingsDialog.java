@@ -69,7 +69,7 @@ public class ExpertSettingsDialog extends DialogPane {
     vncPortLbl.textProperty().set(strings.expertVncPortLbl);
     icePortLbl.textProperty().set(strings.expertIcePortLbl);
     udpPackageSizeLbl.textProperty().set(strings.expertUdpPackageSizeLbl);
-    localForwadingPortLbl.textProperty().set(strings.expertForwardingPortLbl);
+    localForwadingPortLbl.textProperty().set(strings.expertProxyPortLbl);
     stunServersLbl.textProperty().set(strings.expertStunserverLbl);
     stunServerPortLbl.textProperty().set(strings.expertStunServerPortLbl);
   }
