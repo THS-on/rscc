@@ -30,11 +30,9 @@ public class SupporterHelper {
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
 
-
-  public List<Supporter> getSupportersFromXml(){
+  public List<Supporter> getSupportersFromXml(File file){
     List<Supporter> supportersList = null;
     try {
-      File file = new File("G:\\file.xml");
       JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
 
       Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -46,18 +44,16 @@ public class SupporterHelper {
     return supportersList;
   }
 
-  public void supportersToXml(List<Supporter> supporters) {
+  public void supportersToXml(List<Supporter> supporters, File file) {
     try {
-      File file = new File("G:\\file.xml");
       JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
       Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
-      Supporters owl = new Supporters();
-      owl.setSupporters(supporters);
+      Supporters supportersWrapper = new Supporters();
+      supportersWrapper.setSupporters(supporters);
 
-      // output pretty printed
       jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-      jaxbMarshaller.marshal(owl, file);
+      jaxbMarshaller.marshal(supportersWrapper, file);
     } catch (JAXBException e) {
       e.printStackTrace();
     }

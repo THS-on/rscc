@@ -11,13 +11,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Created by François Martin on 14.05.2017.
  */
-@XmlRootElement
+@XmlRootElement(name = "supporters")
+@XmlAccessorType (XmlAccessType.FIELD)
 public class Supporters {
 
+  @XmlElement(name = "supporter")
   private List<Supporter> supporters = null;
 
-  @XmlElementWrapper(name="supportersList")
-  @XmlElement
   public List<Supporter> getSupporters() {
     return supporters;
   }
