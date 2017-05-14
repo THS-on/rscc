@@ -94,7 +94,7 @@ public class SupporterHelper {
    * create default supporter list from file
    * @return list of supporter
    */
-  private List<Supporter> getDefaultSupporters() {
+  public List<Supporter> getDefaultSupporters() {
     File supportersXmlFile = new File(getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILENAME).getFile());
     return getSupportersFromXml(supportersXmlFile);
   }
