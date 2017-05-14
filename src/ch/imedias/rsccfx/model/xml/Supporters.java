@@ -3,13 +3,11 @@ package ch.imedias.rsccfx.model.xml;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by François Martin on 14.05.2017.
+ * Wrapper class of Supporter to support using List<Supporter> data types with JAXB.
  */
 @XmlRootElement(name = "supporters")
 @XmlAccessorType (XmlAccessType.FIELD)
