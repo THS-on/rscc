@@ -148,7 +148,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     Button supporterBtn = new Button(supporter.toString());
     supporterBtn.getStyleClass().add("supporterBtn");
 
-    supporterBtn.setOnAction(event -> new SupporterAttributesDialog(supporter));
+    supporterBtn.setOnAction(event -> {
+      new SupporterAttributesDialog(supporter);
+      supporterHelper.saveSupporters(supporters);
+    });
 
     int row = buttonSize / GRID_MAXIMUM_COLUMNS;
     int column = buttonSize % GRID_MAXIMUM_COLUMNS;
