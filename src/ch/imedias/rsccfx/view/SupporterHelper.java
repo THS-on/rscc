@@ -1,7 +1,6 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.RsccApp;
-
 import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -9,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,21 +19,21 @@ public class SupporterHelper {
 
   private static final Logger LOGGER =
       Logger.getLogger(SupporterHelper.class.getName());
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
   /**
-   * create default supporter list from file
+   * create default supporter list from file.
    * @return list of supporter
    */
   private List<Supporter> getDefaultXmlList() {
     List<Supporter> defaultList = new ArrayList<>();
     try {
-
-      File fXmlFile = new File(getClass().getClassLoader().getResource("rscc-defaults-lernstick.xml").getFile());
+      File xmlFile = new File(getClass().getClassLoader()
+          .getResource("rscc-defaults-lernstick.xml").getFile());
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-      Document doc = dBuilder.parse(fXmlFile);
+      DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
+      Document doc = documentBuilder.parse(xmlFile);
 
       doc.getDocumentElement().normalize();
 
@@ -51,8 +48,10 @@ public class SupporterHelper {
           String description = element.getElementsByTagName("description").item(0).getTextContent();
           String address = element.getElementsByTagName("address").item(0).getTextContent();
           String port = element.getElementsByTagName("port").item(0).getTextContent();;
-          boolean encrypted = Boolean.parseBoolean(element.getElementsByTagName("encrypted").item(0).getTextContent());
-          boolean chargeable = Boolean.parseBoolean(element.getElementsByTagName("chargeable").item(0).getTextContent());
+          boolean encrypted = Boolean.parseBoolean(element.getElementsByTagName("encrypted")
+              .item(0).getTextContent());
+          boolean chargeable = Boolean.parseBoolean(element.getElementsByTagName("chargeable")
+              .item(0).getTextContent());
           defaultList.add(new Supporter(description, address, port, encrypted, chargeable));
         }
       }

@@ -4,14 +4,12 @@ import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
@@ -25,21 +23,17 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
   private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
   private static final int GRID_MAXIMUM_COLUMNS = 3;
-
+  private static final String SUPPORT_ADDRESSES = "supportAddresses";
+  public static List<Supporter> supporters;
+  private static ArrayList<Button> buttons = new ArrayList<>();
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
   private final SupporterHelper supporterHelper;
+  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
-
-  private static ArrayList<Button> buttons = new ArrayList<>();
   private int buttonSize = 0;
-
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
-  private static final String SUPPORT_ADDRESSES = "supportAddresses";
-
-  public static List<Supporter> supporters;
 
 
   /**
@@ -155,7 +149,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
     supporterBtn.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
     int row = ((buttonSize - 1) / GRID_MAXIMUM_COLUMNS) + 1;
-    int column = ((buttonSize -1) % GRID_MAXIMUM_COLUMNS) + 1;
+    int column = ((buttonSize - 1) % GRID_MAXIMUM_COLUMNS) + 1;
     view.supporterGrid.add(supporterBtn, column, row);
     buttonSize++;
   }
