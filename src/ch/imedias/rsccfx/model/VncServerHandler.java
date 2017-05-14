@@ -95,7 +95,7 @@ public class VncServerHandler extends Thread {
    * Kills the started process via PID.
    */
   public void killVncServer() {
-  if(isRunning()){
+  if(isRunning() && vncServerPid.get()!=-1){
     systemCommander.executeTerminalCommandAndReturnOutput("kill "+vncServerPid);
     LOGGER.info("Killed vncServer with PID "+ vncServerPid.get());
     isRunning.setValue(false);

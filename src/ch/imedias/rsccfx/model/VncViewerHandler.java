@@ -119,7 +119,7 @@ public class VncViewerHandler extends Thread {
    * Kills all processes with the Name of the VNCViewer.
    */
   public void killVncViewer() {
-    if(isRunning.get()) {
+    if(isRunning.get()&&vncViewerPid.get()!=-1) {
     systemCommander.executeTerminalCommandAndReturnOutput("kill "+ vncViewerPid.get());
     LOGGER.info("Killed vncViewer with PID "+ vncViewerPid.get());
     isRunning.setValue(false);

@@ -87,10 +87,9 @@ public class Rscccfp extends Thread {
 
     //Wait for connection
     LOGGER.info("RSCCCFP: wait for client");
-    try{
-    connectionSocket = serverSocket.accept();}
-    catch(Exception e){//FIXME: Funny behaviour: causes Linux to log out! Kinda Bluescreen :)
-      serverSocket.close();}
+
+    connectionSocket = serverSocket.accept();
+
     inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
     outputStream = new DataOutputStream(connectionSocket.getOutputStream());
     LOGGER.info("RSCCCFP: Client connected");

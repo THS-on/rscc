@@ -302,8 +302,8 @@ public class Rscc {
     setConnectionStatus("VNC-Server waits for incoming connection", 2);
     } catch (Exception e) {
         e.printStackTrace();
-
-        killConnection();
+        //FIXME Probably this causes Bluescreen
+       // killConnection();
     }
     }
 
