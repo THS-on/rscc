@@ -7,12 +7,8 @@ import ch.imedias.rsccfx.model.Rscc;
 
 import ch.imedias.rsccfx.model.xml.Supporter;
 import ch.imedias.rsccfx.model.xml.SupporterHelper;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -132,7 +128,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
 
   public void initSupporterList() {
-    supporters = supporterHelper.createSupporterList();
+    supporters = supporterHelper.loadSupporters();
 
     supporters.stream().forEachOrdered(this::createNewSupporterBtn);
 

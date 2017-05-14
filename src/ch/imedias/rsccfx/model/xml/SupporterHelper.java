@@ -22,7 +22,7 @@ public class SupporterHelper {
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
   private static final String DEFAULT_SUPPORTERS_FILENAME = "rscc-defaults-lernstick.xml";
 
-  public List<Supporter> getSupportersFromXml(File file){
+  private List<Supporter> getSupportersFromXml(File file){
     List<Supporter> supportersList = null;
     try {
       JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
@@ -37,7 +37,7 @@ public class SupporterHelper {
     return supportersList;
   }
 
-  public void supportersToXml(List<Supporter> supporters, File file) {
+  private void supportersToXml(List<Supporter> supporters, File file) {
     try {
       JAXBContext jaxbContext = JAXBContext.newInstance(Supporters.class);
       Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -52,7 +52,7 @@ public class SupporterHelper {
     }
   }
 
-  public List<Supporter> getSupportersFromXml(String string){
+  private List<Supporter> getSupportersFromXml(String string){
     List<Supporter> supportersList = null;
     StringReader reader = new StringReader(string);
 
@@ -68,7 +68,7 @@ public class SupporterHelper {
     return supportersList;
   }
 
-  public String supportersToXml(List<Supporter> supporters) {
+  private String supportersToXml(List<Supporter> supporters) {
     String string = null;
 
     Supporters supportersWrapper = new Supporters();
@@ -103,7 +103,7 @@ public class SupporterHelper {
    * Gets the supporter list.
    * If no preferences are found the defaultList is generated.
    */
-  public List<Supporter> createSupporterList() {
+  public List<Supporter> loadSupporters() {
     // load preferences
     String supportersXml = getSupportersXmlFromPreferences();
     if (supportersXml == null) {
@@ -114,11 +114,16 @@ public class SupporterHelper {
     }
   }
 
-  public String getSupportersXmlFromPreferences() {
+  public void saveSupporters(List<Supporter> supporters) {
+    String supportersXml = supportersToXml(supporters);
+    setSupportersInPreferences(supportersXml);
+  }
+
+  private String getSupportersXmlFromPreferences() {
     return preferences.get(SUPPORT_ADDRESSES, null);
   }
 
-  public void setSupportersInPreferences(String supportersXmlString) {
+  private void setSupportersInPreferences(String supportersXmlString) {
     if (supportersXmlString != null) {
       preferences.put(SUPPORT_ADDRESSES, supportersXmlString);
     } else {
