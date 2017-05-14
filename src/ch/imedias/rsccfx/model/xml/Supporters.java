@@ -7,9 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Wrapper class of Supporter to support using List<Supporter> data types with JAXB.
+ * Wrapper class of Supporter, enables to use List data types of Supporter with JAXB.
  */
-
 @XmlRootElement(name = "supporters")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Supporters {
