@@ -1,10 +1,6 @@
 package ch.imedias.rsccfx.model.xml;
 
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.PersistenceDelegate;
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,6 +48,7 @@ public class Supporter implements Serializable {
 
   /**
    * returns the description.
+   *
    * @return the description.
    */
   public String getDescription() {
@@ -60,6 +57,7 @@ public class Supporter implements Serializable {
 
   /**
    * sets the description.
+   *
    * @param description the description to set.
    */
   @XmlElement
@@ -69,6 +67,7 @@ public class Supporter implements Serializable {
 
   /**
    * returns the address.
+   *
    * @return the address.
    */
   public String getAddress() {
@@ -77,6 +76,7 @@ public class Supporter implements Serializable {
 
   /**
    * sets the address.
+   *
    * @param address the address to set.
    */
   @XmlElement
@@ -86,6 +86,7 @@ public class Supporter implements Serializable {
 
   /**
    * returns the port.
+   *
    * @return the port.
    */
   public String getPort() {
@@ -94,6 +95,7 @@ public class Supporter implements Serializable {
 
   /**
    * sets the port.
+   *
    * @param port the port to set.
    */
   @XmlElement
@@ -104,6 +106,7 @@ public class Supporter implements Serializable {
   /**
    * returns <code>true</code>, if the connection is encrypted,
    * <code>false</code> otherwise.
+   *
    * @return <code>true</code>, if the connection is encrypted,
    * <code>false</code> otherwise.
    */
@@ -113,6 +116,7 @@ public class Supporter implements Serializable {
 
   /**
    * sets the encrypted property of the Supporter.
+   *
    * @param encrypted if the Supporter is used for encrypted connections.
    */
   @XmlElement
@@ -123,6 +127,7 @@ public class Supporter implements Serializable {
   /**
    * returns <code>true</code>m if the supporter is chargeable,
    * <code>false</code> otherwise.
+   *
    * @return <code>true</code>, if the connection is chargeable,
    * <code>false</code> otherwise.
    */
@@ -133,6 +138,7 @@ public class Supporter implements Serializable {
 
   /**
    * sets the chargeable property of the Supporter.
+   *
    * @param chargeable if the Supporter is chargeable.
    */
   @XmlElement
@@ -142,6 +148,7 @@ public class Supporter implements Serializable {
 
   /**
    * returns a + or the address depending on the constructor.
+   *
    * @return returns the string set in the constructor
    */
   @Override
