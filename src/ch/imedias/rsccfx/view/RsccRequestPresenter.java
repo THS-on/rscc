@@ -9,9 +9,16 @@ import ch.imedias.rsccfx.model.xml.Supporter;
 import ch.imedias.rsccfx.model.xml.SupporterHelper;
 import java.util.List;
 import java.util.logging.Logger;
-
+import javafx.application.Platform;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * Defines the behaviour of interactions
@@ -20,8 +27,6 @@ import javafx.scene.control.Button;
 public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
-  private static final double WIDTH_SUBTRACTION_GENERAL = 50d;
-  private static final double WIDTH_SUBTRACTION_KEYFIELD = 100d;
   private static final int GRID_MAXIMUM_COLUMNS = 3;
   private final Rscc model;
   private final RsccRequestView view;
@@ -59,16 +64,48 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
   private void attachEvents() {
     view.reloadKeyBtn.setOnAction(
-        event -> model.refreshKey()
+        event -> {
+          Thread thread = new Thread(model::refreshKey);
+          thread.start();
+        }
     );
 
-    // Closes the other TitledPane so that just one TitledPane is shown on the screen.
-    view.keyGeneratorPane.setOnMouseClicked(
-        event -> view.predefinedAddressesPane.setExpanded(false)
+    // handles TitledPane switching between the two TitledPanes
+    view.keyGenerationTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.supporterTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.supporterInnerBox);
+              view.contentBox.getChildren().add(1, view.keyGenerationInnerPane);
+            }
+          }
+        }
     );
-    view.predefinedAddressesPane.setOnMouseClicked(
-        event -> view.keyGeneratorPane.setExpanded(false)
+    view.supporterTitledPane.expandedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (oldValue != newValue) {
+            if (newValue) {
+              view.keyGenerationTitledPane.setExpanded(false);
+              view.contentBox.getChildren().removeAll(view.keyGenerationInnerPane);
+              view.contentBox.getChildren().add(2, view.supporterInnerBox);
+            }
+          }
+        }
     );
+
+    model.connectionStatusStyleProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusBox.getStyleClass().clear();
+        view.statusBox.getStyleClass().add(newValue);
+      });
+    });
+
+    model.connectionStatusTextProperty().addListener((observable, oldValue, newValue) -> {
+      Platform.runLater(() -> {
+        view.statusLbl.textProperty().set(newValue);
+      });
+    });
   }
 
   /**
@@ -79,32 +116,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * @throws NullPointerException if called before this object is fully initialized.
    */
   public void initSize(Scene scene) {
-    // initialize header
-    headerPresenter.initSize(scene);
-
     // initialize view
-    // TODO: requestHelpView --> generatedKeyFld should not take the whole width!
-    view.generatedKeyFld.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_KEYFIELD));
-    view.descriptionLbl.prefWidthProperty().bind(scene.widthProperty()
-        .subtract(WIDTH_SUBTRACTION_GENERAL));
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
-    view.keyGeneratorPane.maxWidthProperty().bind(scene.widthProperty());
-
-    view.predefinedAddressesPane.prefWidthProperty().bind(scene.widthProperty());
-    view.predefinedAddressesPane.maxWidthProperty().bind(scene.widthProperty());
-
-    // FIXME: need the height of the titlePane itself... or magic number. François
-    view.centerBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(200d));
-
-    view.keyGeneratorPane.prefWidthProperty().bind(scene.widthProperty());
-
-    view.predefinedAdressessBox.prefHeightProperty().bind(scene.heightProperty()
-        .subtract(159d));
-
     view.supporterDescriptionLbl.prefWidthProperty().bind(scene.widthProperty().divide(3));
-    view.supporterGrid.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.supporterInnerPane.prefWidthProperty().bind(scene.widthProperty().divide(3).multiply(2));
+    view.reloadKeyBtn.prefHeightProperty().bind(view.generatedKeyFld.heightProperty());
 
   }
 
@@ -124,7 +139,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   }
 
   /**
-   * creates a button for every supporter in the supporter list.
+   * Calls createSupporterList() and creates a button for every supporter found.
    */
   public void initSupporterList() {
     supporters = supporterHelper.loadSupporters();
@@ -164,4 +179,41 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.supporterGrid.add(supporterBtn, column, row);
     buttonSize++;
   }
+
+  private void attachContextMenu(Button button) {
+    // TODO: use it!
+    // Create ContextMenu
+    ContextMenu contextMenu = new ContextMenu();
+
+    MenuItem editMenuItem = new MenuItem("Edit");
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
+
+
+    MenuItem connectMenuItem = new MenuItem("Call");
+    connectMenuItem.setOnAction(event -> {
+      /*TODO start connection*/
+
+    });
+
+    // Add MenuItem to ContextMenu
+    contextMenu.getItems().addAll(editMenuItem, connectMenuItem);
+
+    // When user right-click on Supporterbutton
+    button.setOnContextMenuRequested(event -> contextMenu.show(button, event.getScreenX(),
+        event.getScreenY()));
+  }
+
+  private void initButtonSize(Button button) {
+    // TODO: Use it!
+    GridPane.setVgrow(button, Priority.ALWAYS);
+    GridPane.setHgrow(button, Priority.ALWAYS);
+    GridPane.setValignment(button, VPos.CENTER);
+    GridPane.setHalignment(button, HPos.CENTER);
+    GridPane.setMargin(button, new Insets(10));
+
+    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    button.setPadding(new Insets(20));
+
+  }
+
 }
