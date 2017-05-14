@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * the address of a VNX supporter.
  */
+
 @XmlRootElement(name = "supporter")
 public class Supporter implements Serializable {
 
