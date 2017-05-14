@@ -2,7 +2,6 @@ package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.xml.Supporter;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
@@ -33,12 +32,10 @@ public class SupporterAttributesDialog extends DialogPane {
   final TextField portFld = new TextField();
   final TextField pictureFld = new TextField();
 
-  final ButtonType applyBtn = ButtonType.APPLY;
-  final Button dummyBtn = new Button("dummy");
+  final ButtonType applyBtnType = ButtonType.APPLY;
 
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
-
 
   /**
    * Initializes all the GUI components needed in the DialogPane.
@@ -50,7 +47,9 @@ public class SupporterAttributesDialog extends DialogPane {
     initFieldData();
     layoutForm();
     bindFieldsToModel();
-    dialog.show();
+    dialog.showAndWait()
+        .filter(response -> response == applyBtnType)
+        .ifPresent(response -> saveData());
   }
 
   private void initFieldData() {
@@ -69,6 +68,14 @@ public class SupporterAttributesDialog extends DialogPane {
     chargeableCBox.setSelected(supporter.isChargeable());
     encryptedCBox.setSelected(supporter.isEncrypted());
 
+  }
+
+  private void saveData() {
+    supporter.setDescription(nameFld.getText());
+    supporter.setAddress(addressFld.getText());
+    supporter.setPort(portFld.getText());
+    supporter.setEncrypted(encryptedCBox.isSelected());
+    supporter.setChargeable(chargeableCBox.isSelected());
   }
 
   private void layoutForm() {
@@ -92,9 +99,8 @@ public class SupporterAttributesDialog extends DialogPane {
     gridPane.add(chargeableCBox,1,4);
     gridPane.add(encryptedLbl,0,5);
     gridPane.add(encryptedCBox,1,5);
-    gridPane.add(dummyBtn, 1, 6);
 
-    this.getButtonTypes().add(applyBtn);
+    this.getButtonTypes().add(applyBtnType);
 
     this.setContent(gridPane);
     dialog.setDialogPane(this);
