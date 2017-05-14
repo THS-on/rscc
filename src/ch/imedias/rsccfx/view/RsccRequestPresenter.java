@@ -154,21 +154,4 @@ public class RsccRequestPresenter implements ControlledPresenter {
     view.supporterGrid.add(supporterBtn, column, row);
     buttonSize++;
   }
-
-  /**
-   * Saves the preferences made by the user.
-   */
-  private void savePreferences() {
-    // save supporter
-    ByteArrayOutputStream byteArrayOutputStream =
-        new ByteArrayOutputStream();
-    XMLEncoder encoder = new XMLEncoder(byteArrayOutputStream);
-    encoder.setPersistenceDelegate(Supporter.class,
-        Supporter.getPersistenceDelegate());
-    encoder.writeObject(supporters);
-    encoder.close();
-    String supporterXml = byteArrayOutputStream.toString();
-    preferences.put(SUPPORT_ADDRESSES, supporterXml);
-
-  }
 }
