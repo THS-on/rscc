@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "supporter")
 public class Supporter implements Serializable {
 
-  private String toString;
   private String description;
   private String address;
   private String port;
@@ -31,7 +30,6 @@ public class Supporter implements Serializable {
     this.port = "";
     this.encrypted = false;
     this.chargeable = false;
-    this.toString = "+";
   }
 
   /**
@@ -50,7 +48,6 @@ public class Supporter implements Serializable {
     this.port = port;
     this.encrypted = encrypted;
     this.chargeable = chargeable;
-    this.toString = description;
   }
 
   /**
@@ -159,6 +156,12 @@ public class Supporter implements Serializable {
    */
   @Override
   public String toString() {
-    return toString;
+    String string = null;
+    if ("".equals(description)) {
+      string = "+";
+    } else {
+      string = description;
+    }
+    return string;
   }
 }
