@@ -25,7 +25,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final Label vncPortLbl = new Label();
   final Label icePortLbl = new Label();
   final Label udpPackageSizeLbl = new Label();
-  final Label localForwadingPortLbl = new Label();
+  final Label proxyPortLbl = new Label();
   final Label stunServerPortLbl = new Label();
   final Label stunServersLbl = new Label();
 
@@ -36,7 +36,7 @@ public class ExpertSettingsDialog extends DialogPane {
   final TextField vncPortFld = new TextField();
   final TextField icePortFld = new TextField();
   final TextField udpPackageSizeFld = new TextField();
-  final TextField localForwardingPortFld = new TextField();
+  final TextField proxyPortFld = new TextField();
   final TextField stunServerPortFld = new TextField();
 
   final ListView stunServersList = new ListView();
@@ -69,7 +69,7 @@ public class ExpertSettingsDialog extends DialogPane {
     vncPortLbl.textProperty().set(strings.expertVncPortLbl);
     icePortLbl.textProperty().set(strings.expertIcePortLbl);
     udpPackageSizeLbl.textProperty().set(strings.expertUdpPackageSizeLbl);
-    localForwadingPortLbl.textProperty().set(strings.expertProxyPortLbl);
+    proxyPortLbl.textProperty().set(strings.expertProxyPortLbl);
     stunServersLbl.textProperty().set(strings.expertStunserverLbl);
     stunServerPortLbl.textProperty().set(strings.expertStunServerPortLbl);
   }
@@ -100,8 +100,8 @@ public class ExpertSettingsDialog extends DialogPane {
     settingsPane.add(icePortFld, 1, 5);
     settingsPane.add(udpPackageSizeLbl, 0, 6);
     settingsPane.add(udpPackageSizeFld, 1, 6);
-    settingsPane.add(localForwadingPortLbl, 0, 7);
-    settingsPane.add(localForwardingPortFld, 1, 7);
+    settingsPane.add(proxyPortLbl, 0, 7);
+    settingsPane.add(proxyPortFld, 1, 7);
     settingsPane.add(stunServerPortLbl, 0, 8);
     settingsPane.add(stunServerPortFld, 1, 8);
     settingsPane.add(stunServersLbl, 0, 9);
@@ -129,7 +129,7 @@ public class ExpertSettingsDialog extends DialogPane {
     // TODO: These properties were missing - please check if they are alright.
     udpPackageSizeFld.textProperty().bindBidirectional(model.udpPackageSizeProperty(),
         new NumberStringConverter("#"));
-    localForwardingPortFld.textProperty().bindBidirectional(model.localForwardingPortProperty(),
+    proxyPortFld.textProperty().bindBidirectional(model.proxyPortProperty(),
         new NumberStringConverter("#"));
     stunServerPortFld.textProperty().bindBidirectional(model.stunServerPortProperty(),
         new NumberStringConverter("#"));

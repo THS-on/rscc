@@ -52,7 +52,7 @@ public class Rscc {
   private static final String[] STUN_SERVERS = {
       "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
   private static final int STUN_SERVER_PORT = 3478;
-  private static final int LOCAL_FORWARDING_PORT = 2601;
+  private static final int PROXY_PORT = 2601;
   private static final int PACKAGE_SIZE = 10000;
 
   private final SystemCommander systemCommander;
@@ -72,8 +72,8 @@ public class Rscc {
 
   // TODO: Added this on my own. @pwg & @jpduloch: Please double check, thank you :)
   private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(PACKAGE_SIZE);
-  private final IntegerProperty localForwardingPort = new SimpleIntegerProperty(
-      LOCAL_FORWARDING_PORT);
+  private final IntegerProperty proxyPort = new SimpleIntegerProperty(
+      PROXY_PORT);
   private final IntegerProperty stunServerPort = new SimpleIntegerProperty(STUN_SERVER_PORT);
 
   private final String[] connectionStatusStyles = {
@@ -123,12 +123,12 @@ public class Rscc {
 
   }
 
-  public static int getLocalForwardingPort() {
-    return LOCAL_FORWARDING_PORT;
+  public static int getProxyPort() {
+    return PROXY_PORT;
   }
 
-  public void setLocalForwardingPort(int localForwardingPort) {
-    this.localForwardingPort.set(localForwardingPort);
+  public void setProxyPort(int proxyPort) {
+    this.proxyPort.set(proxyPort);
   }
 
   public static int getPackageSize() {
@@ -357,7 +357,7 @@ public class Rscc {
       setConnectionStatus("Starting VNC Viewer.", 1);
 
       vncViewer = new VncViewerHandler(
-          this, "localhost", LOCAL_FORWARDING_PORT, false);
+          this, "localhost", PROXY_PORT, false);
 
     } else {
       vncViewer = new VncViewerHandler(
@@ -623,8 +623,8 @@ public class Rscc {
     return udpPackageSize;
   }
 
-  public IntegerProperty localForwardingPortProperty() {
-    return localForwardingPort;
+  public IntegerProperty proxyPortProperty() {
+    return proxyPort;
   }
 
   public IntegerProperty stunServerPortProperty() {
