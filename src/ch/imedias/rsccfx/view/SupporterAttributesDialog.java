@@ -107,7 +107,7 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setWidth(500);
     attributePane.setId("dialogAttributePane");
 
-    attributePane.add(nameLbl, 0, 0);
+    attributePane.add(descriptionLbl, 0, 0);
     attributePane.add(nameFld, 1, 0);
     attributePane.add(addressLbl, 0, 1);
     attributePane.add(addressFld, 1, 1);

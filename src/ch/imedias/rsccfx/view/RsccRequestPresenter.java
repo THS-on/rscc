@@ -176,7 +176,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     int row = buttonSize / GRID_MAXIMUM_COLUMNS;
     int column = buttonSize % GRID_MAXIMUM_COLUMNS;
-    view.supporterGrid.add(supporterBtn, column, row);
+    view.supporterInnerPane.add(supporterBtn, column, row);
     buttonSize++;
   }
 
@@ -186,7 +186,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     ContextMenu contextMenu = new ContextMenu();
 
     MenuItem editMenuItem = new MenuItem("Edit");
-    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
+    // FIXME: new Supporter() must be changed to the supporter of the button
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(new Supporter()));
 
 
     MenuItem connectMenuItem = new MenuItem("Call");
