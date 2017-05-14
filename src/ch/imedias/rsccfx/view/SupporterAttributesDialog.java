@@ -110,8 +110,7 @@ public class SupporterAttributesDialog extends DialogPane {
     attributePane.add(encryptedLbl, 0, 5);
     attributePane.add(encryptedCBox, 1, 5);
 
-    this.getButtonTypes().add(applyBtnType);
-    this.getButtonTypes().add(cancelBtnType);
+    this.getButtonTypes().addAll(cancelBtnType, applyBtnType);
 
     this.setContent(attributePane);
     dialog.setDialogPane(this);
