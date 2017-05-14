@@ -85,7 +85,7 @@ public class SystemCommander {
       } catch (Exception e) {
         pid = -1;
       }
-    System.out.println(pid);
+      LOGGER.info("started Process: "+command+" with PID:"+pid);
       return pid;
   }
 

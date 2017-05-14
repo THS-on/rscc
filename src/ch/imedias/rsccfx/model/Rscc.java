@@ -216,17 +216,26 @@ public class Rscc {
     if (rscccfp != null) {
       rscccfp.closeConnection();
     }
+      System.out.println("1");
     if (rudp != null) {
       rudp.setIsOngoing(false);
     }
-    if (vncServer != null) {
+      System.out.println("2");
+
+    if (vncServer!=null && vncServer.isRunning()) {
       vncServer.killVncServer();
     }
-    if (vncViewer != null) {
+      System.out.println("3");
+
+    if (vncViewer!=null && vncViewer.isRunning()) {
       vncViewer.killVncViewer();
     }
+      System.out.println("4");
 
+    //Todo: do not kill ssh via name but via PID
     systemCommander.executeTerminalCommandAndReturnOutput("pkill ssh");
+    isSshRunning.setValue(false);
+      System.out.println("5");
 
     // Execute port_stop.sh with the generated key to kill the connection
     String command = systemCommander.commandStringGenerator(
@@ -255,10 +264,8 @@ public class Rscc {
     rscccfp.start();
 
     try {
-      rscccfp.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+        rscccfp.join();
+
 
     LOGGER.info("RSCC: Starting VNCServer");
 
@@ -267,7 +274,7 @@ public class Rscc {
           if(aBoolean && !vncViewer.isRunning()){vncServer.isRunningProperty().set(true);
               System.out.println("changed vncServerIsRunning to true");}
       });
-
+      vncServer.isRunningProperty().setValue(true);
       vncServer.start();
 
     try {
@@ -293,7 +300,12 @@ public class Rscc {
     }
 
     setConnectionStatus("VNC-Server waits for incoming connection", 2);
-  }
+    } catch (Exception e) {
+        e.printStackTrace();
+
+        killConnection();
+    }
+    }
 
 
   /**
@@ -614,5 +626,14 @@ public class Rscc {
   public void setVncServer(VncServerHandler vncServer) {
     this.vncServer = vncServer;
   }
+
+  public BooleanProperty isVncServerRunning() {
+        return vncServer.isRunningProperty();
+  }
+
+  public BooleanProperty isVncViewerRunning() {
+        return vncViewer.isRunningProperty();
+  }
+
 
 }

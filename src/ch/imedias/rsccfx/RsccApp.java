@@ -151,10 +151,7 @@ public class RsccApp extends Application {
 
   @Override
   public void stop() throws Exception {
-    String key = model.getKeyUtil().getKey();
-    if (key != null) {
-      model.killConnection();
-    }
+    model.killConnection();
     super.stop();
   }
 

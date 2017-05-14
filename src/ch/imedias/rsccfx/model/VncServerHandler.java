@@ -5,12 +5,16 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 
+import java.util.logging.Logger;
+
 /**
  * This Class handles a VNC Server.
  * The Thread keeps running as long as the VNCServer is running.
  * Created by jp on 11/05/17.
  */
 public class VncServerHandler extends Thread {
+  private static final Logger LOGGER =
+          Logger.getLogger(VncServerHandler.class.getName());
   private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncServerName = "x11vnc";
@@ -63,6 +67,9 @@ public class VncServerHandler extends Thread {
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
    vncServerPid.set(systemCommander.startProcessAndReturnPid(command));
+   if(vncServerPid.get()!=-1){
+     isRunning.setValue(true);
+   }
     //"connection from client"
   }
 
@@ -76,19 +83,23 @@ public class VncServerHandler extends Thread {
 
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
+    isRunning.setValue(true);
     systemCommander.startProcessAndUpdate(command,
         "OK",model.isVncSessionRunningProperty(),vncServerPid);
     //"OK"
+    isRunning.setValue(false);
   }
 
 
   /**
-   * Kills all processes with the Name of the VNCServer.
+   * Kills the started process via PID.
    */
   public void killVncServer() {
-    String command = systemCommander.commandStringGenerator(null,
-        "killall", vncServerName);
-    systemCommander.executeTerminalCommandAndReturnOutput(command);
+  if(isRunning()){
+    systemCommander.executeTerminalCommandAndReturnOutput("kill "+vncServerPid);
+    LOGGER.info("Killed vncServer with PID "+ vncServerPid.get());
+    isRunning.setValue(false);
+  }
   }
 
 
