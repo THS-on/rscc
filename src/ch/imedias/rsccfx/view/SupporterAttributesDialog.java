@@ -120,9 +120,9 @@ public class SupporterAttributesDialog extends DialogPane {
     attributePane.add(encryptedLbl, 0, 5);
     attributePane.add(encryptedCBox, 1, 5);
 
-    this.createButtonBar();
+    //this.createButtonBar();
     this.getButtonTypes().add(applyBtnType);
-    this.getButtonTypes().add(ButtonType.CLOSE);
+    //this.getButtonTypes().add(ButtonType.CLOSE);
 
     this.setContent(attributePane);
     dialog.setDialogPane(this);
@@ -133,6 +133,7 @@ public class SupporterAttributesDialog extends DialogPane {
     // make bindings to the model
   }
 
+  /* TODO: use it?
   @Override
   public ButtonBar createButtonBar() {
     final ButtonBar buttonBar = new ButtonBar();
@@ -183,5 +184,6 @@ public class SupporterAttributesDialog extends DialogPane {
     encryptedCBox.setDisable(!bool);
 
   }
+  */
 
 }
