@@ -1,11 +1,10 @@
 package ch.imedias.rsccfx.model;
 
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
-
-import java.util.logging.Logger;
 
 /**
  * This Class handles a VNC Server.
@@ -14,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class VncServerHandler extends Thread {
   private static final Logger LOGGER =
-          Logger.getLogger(VncServerHandler.class.getName());
+      Logger.getLogger(VncServerHandler.class.getName());
   private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncServerName = "x11vnc";
@@ -27,8 +26,9 @@ public class VncServerHandler extends Thread {
 
   /**
    * Constructor to instantiate a VNCViewer.
-   * @param model The one and only Model.
-   * @param hostAddress Address to connect to.
+   *
+   * @param model         The one and only Model.
+   * @param hostAddress   Address to connect to.
    * @param vncViewerPort Port to connect to.
    */
   public VncServerHandler(Rscc model, String hostAddress,
@@ -66,10 +66,10 @@ public class VncServerHandler extends Thread {
 
     String command = systemCommander.commandStringGenerator(null,
         vncServerName, vncServerAttributes.toString());
-   vncServerPid.set(systemCommander.startProcessAndReturnPid(command));
-   if(vncServerPid.get()!=-1){
-     isRunning.setValue(true);
-   }
+    vncServerPid.set(systemCommander.startProcessAndReturnPid(command));
+    if (vncServerPid.get() != -1) {
+      isRunning.setValue(true);
+    }
     //"connection from client"
   }
 
@@ -85,7 +85,7 @@ public class VncServerHandler extends Thread {
         vncServerName, vncServerAttributes.toString());
     isRunning.setValue(true);
     systemCommander.startProcessAndUpdate(command,
-        "OK",model.isVncSessionRunningProperty(),vncServerPid);
+        "OK", model.isVncSessionRunningProperty(), vncServerPid);
     //"OK"
     isRunning.setValue(false);
   }
@@ -95,11 +95,11 @@ public class VncServerHandler extends Thread {
    * Kills the started process via PID.
    */
   public void killVncServer() {
-  if(isRunning() && vncServerPid.get()!=-1){
-    systemCommander.executeTerminalCommandAndReturnOutput("kill "+vncServerPid);
-    LOGGER.info("Killed vncServer with PID "+ vncServerPid.get());
-    isRunning.setValue(false);
-  }
+    if (isRunning() && vncServerPid.get() != -1) {
+      systemCommander.executeTerminalCommandAndReturnOutput("kill " + vncServerPid);
+      LOGGER.info("Killed vncServer with PID " + vncServerPid.get());
+      isRunning.setValue(false);
+    }
   }
 
 

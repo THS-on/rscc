@@ -1,10 +1,10 @@
 package ch.imedias.rsccfx.model;
 
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
-import java.util.logging.Logger;
 
 /**
  * This Class handles a VNC viewer.
@@ -25,8 +25,9 @@ public class VncViewerHandler extends Thread {
 
   /**
    * Constructor to instantiate a VNCViewer.
-   * @param model The one and only Model.
-   * @param hostAddress Address to connect to.
+   *
+   * @param model         The one and only Model.
+   * @param hostAddress   Address to connect to.
    * @param vncViewerPort Port to connect to.
    */
   public VncViewerHandler(Rscc model, String hostAddress,
@@ -72,7 +73,7 @@ public class VncViewerHandler extends Thread {
         e.printStackTrace();
       }
       connectionStatus = systemCommander.startProcessAndUpdate(
-          command, "Connected",model.isVncSessionRunningProperty(), vncViewerPid);
+          command, "Connected", model.isVncSessionRunningProperty(), vncViewerPid);
       LOGGER.info("VNCviewer: " + connectionStatus);
       cycle++;
     } while (!connectionStatus.contains("Connected") && cycle < 8);
@@ -87,31 +88,31 @@ public class VncViewerHandler extends Thread {
 
     //Correct weird vncviewer behaviour: it adds the portnumber to 5500 and starts
     // service on this port (0=5500, 1=5501)
-    int recalculatedPort;
+
     if (vncViewerPort == null) {
-        vncViewerPort=0;
+      vncViewerPort = 0;
     }
 
-    if(vncViewerPort<5500){
-        LOGGER.info("Cannot run below 5500, runs now on 5500");
-        vncViewerPort=5500;
+    if (vncViewerPort < 5500) {
+      LOGGER.info("Cannot run below 5500, runs now on 5500");
+      vncViewerPort = 5500;
     }
-      if(vncViewerPort>65535){
-          LOGGER.info("Valid ports only from 5500-65535, runs now on 5500");
-          vncViewerPort=5500;
-      }
-
-      recalculatedPort = vncViewerPort-5500;
-      System.out.println("orig port="+vncViewerPort+"  Cmdport: "+recalculatedPort);
+    if (vncViewerPort > 65535) {
+      LOGGER.info("Valid ports only from 5500-65535, runs now on 5500");
+      vncViewerPort = 5500;
+    }
+    int recalculatedPort;
+    recalculatedPort = vncViewerPort - 5500;
+    System.out.println("orig port=" + vncViewerPort + "  Cmdport: " + recalculatedPort);
 
     String vncViewerAttributes = "-listen " + recalculatedPort;
 
     String command = systemCommander.commandStringGenerator(null,
         vncViewerName, vncViewerAttributes);
-      isRunning.setValue(true);
+    isRunning.setValue(true);
     systemCommander.startProcessAndUpdate(
         command, "Connected", model.isVncSessionRunningProperty(), vncViewerPid);
-      isRunning.setValue(false);
+    isRunning.setValue(false);
   }
 
 
@@ -119,10 +120,10 @@ public class VncViewerHandler extends Thread {
    * Kills all processes with the Name of the VNCViewer.
    */
   public void killVncViewer() {
-    if(isRunning.get()&&vncViewerPid.get()!=-1) {
-    systemCommander.executeTerminalCommandAndReturnOutput("kill "+ vncViewerPid.get());
-    LOGGER.info("Killed vncViewer with PID "+ vncViewerPid.get());
-    isRunning.setValue(false);
+    if (isRunning.get() && vncViewerPid.get() != -1) {
+      systemCommander.executeTerminalCommandAndReturnOutput("kill " + vncViewerPid.get());
+      LOGGER.info("Killed vncViewer with PID " + vncViewerPid.get());
+      isRunning.setValue(false);
     }
   }
 

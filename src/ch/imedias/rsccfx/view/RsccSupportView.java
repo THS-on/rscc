@@ -223,7 +223,7 @@ public class RsccSupportView extends BorderPane {
   }
 
   private void bindFieldsToModel() {
-    startServiceBtn.setOnAction(e->model.startViewerReverse());
+    startServiceBtn.setOnAction(e -> model.startViewerReverse());
 
   }
 
