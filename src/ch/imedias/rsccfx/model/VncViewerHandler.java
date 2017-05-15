@@ -1,141 +1,142 @@
 package ch.imedias.rsccfx.model;
 
-import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleLongProperty;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.logging.Logger;
+
 
 /**
- * This Class handles a VNC viewer.
- * The Thread keeps running as long as the VNCViewer is running.
+ * This Class handles a VNC Viewer.
  * Created by jp on 11/05/17.
  */
-public class VncViewerHandler extends Thread {
+public class VncViewerHandler {
   private static final Logger LOGGER =
       Logger.getLogger(VncViewerHandler.class.getName());
-  private final SystemCommander systemCommander;
   private final Rscc model;
   private final String vncViewerName = "vncviewer";
-  private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
-  private LongProperty vncViewerPid = new SimpleLongProperty(-1);
-  private String hostAddress;
-  private Integer vncViewerPort;
-  private boolean listeningMode;
+  private Process process;
 
   /**
    * Constructor to instantiate a VNCViewer.
    *
-   * @param model         The one and only Model.
-   * @param hostAddress   Address to connect to.
-   * @param vncViewerPort Port to connect to.
+   * @param model The one and only model.
    */
-  public VncViewerHandler(Rscc model, String hostAddress,
-                          Integer vncViewerPort, boolean listeningMode) {
-
-    this.listeningMode = listeningMode;
+  public VncViewerHandler(Rscc model) {
     this.model = model;
-    this.hostAddress = hostAddress;
-    this.vncViewerPort = vncViewerPort;
-    this.systemCommander = model.getSystemCommander();
   }
 
 
   /**
-   * Starts the VNCViewer in the given mode (Reverse or normal).
+   * Starts VNC Viewer and tries to connect to a Server. (active connecting mode)
+   * Thread lives as long as connection is established.
+   *
+   * @param hostAddress Address to connect to.
+   * @param vncViewerPort Port to connect to.
+   * @return true
    */
-  public void run() {
-    if (listeningMode) {
-      startVncViewerReverse();
-    } else {
-      startVncViewer();
-    }
-  }
+  public boolean startVncViewerConnecting(String hostAddress, Integer vncViewerPort) {
+    final BooleanProperty connectionSucceed = new SimpleBooleanProperty(true);
+    Thread startViewerProcessThread = new Thread() {
+      public void run() {
+        try {
+          LOGGER.info("Starting VNC Viewer Connection");
 
+          process = Runtime.getRuntime().exec(
+              vncViewerName +" "+ hostAddress + "::" + vncViewerPort);
+          model.setIsVncViewerRunning(true);
 
-  /**
-   * Starts this VNCViewer connecting to <code>hostAddress</code> and <code>vncViewerPort</code>.
-   * Loops until the VNCViewer is connected to the VNCServer.
-   */
-  private void startVncViewer() {
-    String vncViewerAttributes = "-bgr233 " + " " + hostAddress + "::" + vncViewerPort;
+          InputStream errorStream = process.getErrorStream();
+          BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
+          String errorString;
+          while (process.isAlive()) {
+            errorString = errorReader.readLine();
 
-    String command = systemCommander.commandStringGenerator(null,
-        vncViewerName, vncViewerAttributes);
+            if (errorString != null && errorString.contains("Connection refused")) {
+              LOGGER.info("Detected: Viewer failed to connect");
+              connectionSucceed.setValue(false);
+              killVncViewerProcess();
+            }
 
-    String connectionStatus = null;
+            if (errorString != null && errorString.contains("Connected to RFB server")) {
+              LOGGER.info("Detected: Viewer connected sucessfully");
+              connectionSucceed.setValue(true);
+              model.setIsVncSessionRunning(true);
+            }
+          }
 
-    int cycle = 0;
-    do {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+          LOGGER.info("VNC - Viewer process has ended");
+          model.setIsVncSessionRunning(false);
+          model.setIsVncViewerRunning(false);
+
+          errorStream.close();
+
+        } catch (IOException e) {
+          e.getStackTrace();
+        }
+
+        LOGGER.info("Ending VNC Server Thread ");
       }
-      connectionStatus = systemCommander.startProcessAndUpdate(
-          command, "Connected", model.isVncSessionRunningProperty(), vncViewerPid);
-      LOGGER.info("VNCviewer: " + connectionStatus);
-      cycle++;
-    } while (!connectionStatus.contains("Connected") && cycle < 8);
+    };
 
+    startViewerProcessThread.start();
+    //TODO
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return connectionSucceed.getValue();
   }
 
 
   /**
-   * Starts this VNCViewer in Listening mode.
+   * Starts this VNCViewer listening on localhost.
    */
-  private void startVncViewerReverse() {
+  public void startVncViewerListening() {
 
-    //Correct weird vncviewer behaviour: it adds the portnumber to 5500 and starts
-    // service on this port (0=5500, 1=5501)
+    Thread startViewerProcessThread = new Thread() {
+      public void run() {
+        LOGGER.info("Starting VNC Viewer listening Thread ");
+        model.setIsVncViewerRunning(true);
+        try {
+          process = Runtime.getRuntime().exec("vncviewer -listen");
 
-    if (vncViewerPort == null) {
-      vncViewerPort = 0;
-    }
+          InputStream errorStream = process.getErrorStream();
+          BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
+          String errorString;
 
-    if (vncViewerPort < 5500) {
-      LOGGER.info("Cannot run below 5500, runs now on 5500");
-      vncViewerPort = 5500;
-    }
-    if (vncViewerPort > 65535) {
-      LOGGER.info("Valid ports only from 5500-65535, runs now on 5500");
-      vncViewerPort = 5500;
-    }
-    int recalculatedPort;
-    recalculatedPort = vncViewerPort - 5500;
-    System.out.println("orig port=" + vncViewerPort + "  Cmdport: " + recalculatedPort);
+          while (process.isAlive()) {
+            errorString = errorReader.readLine();
 
-    String vncViewerAttributes = "-listen " + recalculatedPort;
+            if (errorString != null && errorString.contains("Connected to RFB server")) {
+              LOGGER.info("Server has connected");
+              model.setIsVncSessionRunning(true);
+            }
 
-    String command = systemCommander.commandStringGenerator(null,
-        vncViewerName, vncViewerAttributes);
-    isRunning.setValue(true);
-    systemCommander.startProcessAndUpdate(
-        command, "Connected", model.isVncSessionRunningProperty(), vncViewerPid);
-    isRunning.setValue(false);
+          }
+
+          LOGGER.info("VNC - Viewer process has ended");
+          errorStream.close();
+          model.setIsVncSessionRunning(false);
+          model.setIsVncViewerRunning(false);
+
+        } catch (IOException e) {
+          e.getStackTrace();
+        }
+      }
+    };
+    startViewerProcessThread.start();
   }
 
 
-  /**
-   * Kills all processes with the Name of the VNCViewer.
-   */
-  public void killVncViewer() {
-    if (isRunning.get() && vncViewerPid.get() != -1) {
-      systemCommander.executeTerminalCommandAndReturnOutput("kill " + vncViewerPid.get());
-      LOGGER.info("Killed vncViewer with PID " + vncViewerPid.get());
-      isRunning.setValue(false);
-    }
+  public void killVncViewerProcess() {
+    LOGGER.info("Stopping VNC-Viewer Process");
+    process.destroy();
   }
 
-  public boolean isRunning() {
-    return isRunning.get();
-  }
-
-  public BooleanProperty isRunningProperty() {
-    return isRunning;
-  }
-
-  public void setIsRunning(boolean isRunning) {
-    this.isRunning.set(isRunning);
-  }
 }

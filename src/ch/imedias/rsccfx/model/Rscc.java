@@ -81,6 +81,7 @@ public class Rscc {
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncServerProcessRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty isVncViewerRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty isSshRunning = new SimpleBooleanProperty(false);
   private final LongProperty sshPid = new SimpleLongProperty(-1);
 
@@ -228,8 +229,8 @@ public class Rscc {
       vncServer = null;
     }
 
-    if (vncViewer != null && vncViewer.isRunning()) {
-      vncViewer.killVncViewer();
+    if (vncViewer != null && isVncViewerRunning.get()) {
+      vncViewer.killVncViewerProcess();
     }
 
     // Execute port_stop.sh with the generated key to kill the SSH connections
@@ -317,6 +318,7 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
+    vncViewer=new VncViewerHandler(this);
     setConnectionStatus("Get key from keyserver...", 1);
 
     keyServerSetup();
@@ -356,22 +358,12 @@ public class Rscc {
         LOGGER.info("RSCC: Starting VNCViewer");
         setConnectionStatus("Starting VNC Viewer.", 1);
 
-        vncViewer = new VncViewerHandler(
-            this, "localhost", LOCAL_FORWARDING_PORT, false);
+        vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
 
       } else {
-        vncViewer = new VncViewerHandler(
-            this, "localhost", vncPort.getValue(), false);
+        vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
       }
 
-      isVncSessionRunning.addListener((observableValue, oldValue, newValue) -> {
-////      if (newValue && !vncServer.isRunning()) {
-//        vncViewer.isRunningProperty().set(true);
-//        System.out.println("changed vncViewerIsRunning to true");
-////      }
-      });
-
-//    vncViewer.start();
     }
   }
 
@@ -410,8 +402,10 @@ public class Rscc {
   }
 
   public void startViewerReverse() {
-    this.vncViewer = new VncViewerHandler(this, null, null, true);
-    vncViewer.start();
+    if(vncViewer==null){
+      vncViewer=new VncViewerHandler(this);
+    }
+    vncViewer.startVncViewerListening();
   }
 
   public String getKeyServerIp() {
@@ -622,10 +616,6 @@ public class Rscc {
     this.vncServer = vncServer;
   }
 
-  public BooleanProperty isVncViewerRunning() {
-    return vncViewer.isRunningProperty();
-  }
-
   public boolean isIsVncServerProcessRunning() {
     return isVncServerProcessRunning.get();
   }
@@ -637,4 +627,10 @@ public class Rscc {
   public void setIsVncServerProcessRunning(boolean isVncServerProcessRunning) {
     this.isVncServerProcessRunning.set(isVncServerProcessRunning);
   }
+
+  public boolean IsVncViewerRunning() {return isVncViewerRunning.get();}
+
+  public BooleanProperty isVncViewerRunningProperty() {return isVncViewerRunning;}
+
+  public void setIsVncViewerRunning(boolean isVncViewerRunning) {this.isVncViewerRunning.set(isVncViewerRunning);}
 }
