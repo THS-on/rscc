@@ -141,13 +141,13 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Calls createSupporterList() and creates a button for every supporter found.
    */
   public void initSupporterList() {
-    List<Supporter> temp = supporterHelper.loadSupporters();
+    List<Supporter> loadedSupporters = supporterHelper.loadSupporters();
     // check if invalid format of XML was found during loading
-    if (temp == null) {
-      temp = supporterHelper.getDefaultSupporters();
+    if (loadedSupporters == null) {
+      loadedSupporters = supporterHelper.getDefaultSupporters();
     }
 
-    temp.stream().forEachOrdered(this::createNewSupporterBtn);
+    loadedSupporters.stream().forEachOrdered(this::createNewSupporterBtn);
 
     supporterHelper.saveSupporters(supporters);
   }
