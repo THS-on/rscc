@@ -18,7 +18,6 @@ public class VncServerHandler {
       Logger.getLogger(VncServerHandler.class.getName());
   private final Rscc model;
   private final String vncServerName = "x11vnc";
-  private BooleanProperty isRunning = new SimpleBooleanProperty(false);
   private Process process;
 
   /**
@@ -35,9 +34,9 @@ public class VncServerHandler {
    * Starts VNC Server in Reverse Mode.
    * Thread Live as long as connection is established.
    *
-   * @param hostAddress Address to connect to.
+   * @param hostAddress   Address to connect to.
    * @param vncViewerPort Port to connect to.
-   * @return true
+   * @return true when conneting did not fail.
    */
   public boolean startVncServerReverse(String hostAddress, Integer vncViewerPort) {
     final BooleanProperty connectionSucceed = new SimpleBooleanProperty(true);
@@ -48,7 +47,7 @@ public class VncServerHandler {
 
           process = Runtime.getRuntime().exec(
               vncServerName + " -connect " + hostAddress + ":" + vncViewerPort);
-          isRunning.set(true);
+          model.setIsVncServerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
@@ -71,7 +70,8 @@ public class VncServerHandler {
 
           LOGGER.info("VNC - Server process has ended");
           model.setIsVncSessionRunning(false);
-          isRunning.set(false);
+          model.setIsVncServerProcessRunning(false);
+
 
           errorStream.close();
 
@@ -85,12 +85,6 @@ public class VncServerHandler {
 
     startServerProcessThread.start();
 
-    try {
-      startServerProcessThread.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
     return connectionSucceed.getValue();
   }
 
@@ -103,7 +97,8 @@ public class VncServerHandler {
     Thread startServerProcessThread = new Thread() {
       public void run() {
         LOGGER.info("Starting VNC Server Thread");
-        isRunning.set(true);
+        model.setIsVncServerProcessRunning(true);
+
         try {
           process = Runtime.getRuntime().exec("x11vnc -localhost");
 
@@ -124,7 +119,7 @@ public class VncServerHandler {
           LOGGER.info("VNC - Server process has ended");
           errorStream.close();
           model.setIsVncSessionRunning(false);
-          isRunning.set(false);
+          model.setIsVncServerProcessRunning(false);
 
         } catch (IOException e) {
           e.getStackTrace();
@@ -140,12 +135,4 @@ public class VncServerHandler {
     process.destroy();
   }
 
-
-  public boolean isRunning() {
-    return isRunning.get();
-  }
-
-  public BooleanProperty isRunningProperty() {
-    return isRunning;
-  }
 }

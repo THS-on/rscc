@@ -223,8 +223,9 @@ public class Rscc {
       rudp.setIsOngoing(false);
     }
 
-    if (vncServer != null && vncServer.isRunning()) {
+    if (vncServer != null && isIsVncServerProcessRunning()) {
       vncServer.killVncServerProcess();
+      vncServer = null;
     }
 
     if (vncViewer != null && vncViewer.isRunning()) {
@@ -625,5 +626,15 @@ public class Rscc {
     return vncViewer.isRunningProperty();
   }
 
+  public boolean isIsVncServerProcessRunning() {
+    return isVncServerProcessRunning.get();
+  }
 
+  public BooleanProperty isVncServerProcessRunningProperty() {
+    return isVncServerProcessRunning;
+  }
+
+  public void setIsVncServerProcessRunning(boolean isVncServerProcessRunning) {
+    this.isVncServerProcessRunning.set(isVncServerProcessRunning);
+  }
 }
