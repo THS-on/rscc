@@ -6,6 +6,7 @@ import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.xml.Supporter;
 import ch.imedias.rsccfx.model.xml.SupporterHelper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -34,8 +35,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
   private int buttonSize = 0;
-  public static List<Supporter> supporters;
-
+  public static List<Supporter> supporters = new ArrayList<>();
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -141,23 +141,21 @@ public class RsccRequestPresenter implements ControlledPresenter {
    * Calls createSupporterList() and creates a button for every supporter found.
    */
   public void initSupporterList() {
-    supporters = supporterHelper.loadSupporters();
+    List<Supporter> temp = supporterHelper.loadSupporters();
     // check if invalid format of XML was found during loading
-    if (supporters == null) {
-      supporters = supporterHelper.getDefaultSupporters();
-      supporterHelper.saveSupporters(supporters);
+    if (temp == null) {
+      temp = supporterHelper.getDefaultSupporters();
+      supporterHelper.saveSupporters(temp);
     }
 
     supporters.stream().forEachOrdered(this::createNewSupporterBtn);
-
-    createNewSupporterBtn(new Supporter());
   }
 
   /**
    * Creates new SupporterButton and adds it to the GridPane.
    */
   public void createNewSupporterBtn(Supporter supporter) {
-
+    supporters.add(supporter);
     Button supporterBtn = new Button(supporter.toString());
     supporterBtn.getStyleClass().add("supporterBtn");
     initButtonSize(supporterBtn);
