@@ -148,6 +148,8 @@ public class RsccRequestPresenter implements ControlledPresenter {
     }
 
     temp.stream().forEachOrdered(this::createNewSupporterBtn);
+
+    supporterHelper.saveSupporters(supporters);
   }
 
   /**
@@ -176,7 +178,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     int column = buttonSize % GRID_MAXIMUM_COLUMNS;
     view.supporterInnerPane.add(supporterBtn, column, row);
     buttonSize++;
-    supporterHelper.saveSupporters(supporters);
   }
 
   private void attachContextMenu(Button button, Supporter supporter) {
