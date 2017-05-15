@@ -148,7 +148,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
       supporterHelper.saveSupporters(temp);
     }
 
-    supporters.stream().forEachOrdered(this::createNewSupporterBtn);
+    temp.stream().forEachOrdered(this::createNewSupporterBtn);
   }
 
   /**
