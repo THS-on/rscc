@@ -33,25 +33,22 @@ import javafx.beans.property.StringProperty;
  * Handles communication with the keyserver.
  */
 public class Rscc {
+  public static final int PACKAGE_SIZE = 10000; // needed, since a static method access it.
   private static final Logger LOGGER =
       Logger.getLogger(Rscc.class.getName());
-
   /**
    * Points to the "docker-build_p2p" folder inside resources, relative to the build path.
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
-
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
    * ".rscc" is a hidden folder in the user's home directory (e.g. /home/user)
    */
   private static final String RSCC_FOLDER_NAME = ".rscc";
-
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUN_SERVERS = {
       "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
-
   private final SystemCommander systemCommander;
 
   private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
@@ -67,7 +64,7 @@ public class Rscc {
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
-  private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(10000);
+  private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(PACKAGE_SIZE);
   private final IntegerProperty proxyPort = new SimpleIntegerProperty(2601);
   private final IntegerProperty stunServerPort = new SimpleIntegerProperty(3478);
 
@@ -117,6 +114,7 @@ public class Rscc {
     readServerConfig();
 
   }
+
 
 
   /**
@@ -531,10 +529,6 @@ public class Rscc {
     return STUN_SERVERS;
   }
 
-  public void setStunServerPort(int stunServerPort) {
-    this.stunServerPort.set(stunServerPort);
-  }
-
   public boolean isLocalIceSuccessful() {
     return isLocalIceSuccessful;
   }
@@ -617,5 +611,13 @@ public class Rscc {
 
   public IntegerProperty stunServerPortProperty() {
     return stunServerPort;
+  }
+
+  public int getStunServerPort() {
+    return stunServerPort.get();
+  }
+
+  public void setStunServerPort(int stunServerPort) {
+    this.stunServerPort.set(stunServerPort);
   }
 }

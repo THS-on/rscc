@@ -50,10 +50,8 @@ public class RsccSupportView extends BorderPane {
 
   final Button connectBtn = new Button();
   final Button startServiceBtn = new Button();
-
-  private final Rscc model;
   final Strings strings = new Strings();
-
+  private final Rscc model;
   ImageView validationImgView;
 
   private Pane emptyPane = new Pane();
@@ -199,7 +197,7 @@ public class RsccSupportView extends BorderPane {
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(10));
-          startServiceInnerPane.setAlignment(Pos.CENTER);
+      startServiceInnerPane.setAlignment(Pos.CENTER);
         }
     );
 

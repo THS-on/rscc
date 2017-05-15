@@ -27,6 +27,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final int GRID_MAXIMUM_COLUMNS = 3;
+  public static List<Supporter> supporters;
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
@@ -34,7 +35,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
   private int buttonSize = 0;
-  public static List<Supporter> supporters;
 
 
   /**

@@ -87,7 +87,7 @@ public class RunRudp extends Thread {
             .getHostAddress());
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getPackageSize());
+            model.getUdpPackageSize());
 
         rudpSocket.close();
         tcpSocket.close();
@@ -120,7 +120,7 @@ public class RunRudp extends Thread {
         LOGGER.info("Sucessful tcp connection");
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getPackageSize());
+            model.getUdpPackageSize());
 
         rudpSocket2.close();
         tcpSocket.close();
@@ -154,7 +154,7 @@ public class RunRudp extends Thread {
             .getHostAddress());
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getPackageSize());
+            model.getUdpPackageSize());
 
         rudpSocket2.close();
         tcpSocket.close();
@@ -192,7 +192,7 @@ public class RunRudp extends Thread {
         LOGGER.info("Sucessful tcp connection");
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
-            model.getPackageSize());
+            model.getUdpPackageSize());
 
         rudpSocket.close();
         tcpSocket.close();
