@@ -1,20 +1,13 @@
 package ch.imedias.rsccfx.view;
 
-import static ch.imedias.rscc.RemoteSupportFrame.getDefaultList;
-
-import ch.imedias.rscc.SupportAddress;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import ch.imedias.rsccfx.model.xml.Supporter;
+import ch.imedias.rsccfx.model.xml.SupporterHelper;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -34,17 +27,15 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final int GRID_MAXIMUM_COLUMNS = 3;
-  private static final String SUPPORT_ADDRESSES = "supportAddresses";
-
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
-  private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
+  private final SupporterHelper supporterHelper;
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
-  private ArrayList<Button> buttons = new ArrayList<>();
-  private int rowSize = 0;
-  private List<SupportAddress> supportAddresses;
+  private int buttonSize = 0;
+  public static List<Supporter> supporters;
+
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -56,10 +47,10 @@ public class RsccRequestPresenter implements ControlledPresenter {
     this.model = model;
     this.view = view;
     headerPresenter = new HeaderPresenter(model, view.headerView);
-    attachEvents();
-    attachButtonEvents();
+    supporterHelper = new SupporterHelper();
     initHeader();
     initSupporterList();
+    attachEvents();
     popOverHelper = new PopOverHelper(model, RsccApp.REQUEST_VIEW);
   }
 
@@ -114,15 +105,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
         view.statusLbl.textProperty().set(newValue);
       });
     });
-
-    attachButtonEvents();
-  }
-
-  private void attachButtonEvents() {
-    for (Button b : buttons) {
-      b.setOnMouseClicked(event ->
-          new SupporterAttributesDialog());
-    }
   }
 
   /**
@@ -147,7 +129,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // Set all the actions regarding buttons in this method.
     headerPresenter.setBackBtnAction(event -> {
       model.killConnection();
-      saveSupporterList(); // TODO make this an action on the "save button"
       viewParent.setView(RsccApp.HOME_VIEW);
     });
     headerPresenter.setHelpBtnAction(event ->
@@ -168,92 +149,54 @@ public class RsccRequestPresenter implements ControlledPresenter {
   /**
    * Calls createSupporterList() and creates a button for every supporter found.
    */
-  private void initSupporterList() {
-    createNewSupporterBtn();
-    createSupporterList();
-    for (int counter = 0; counter < supportAddresses.size(); counter++) {
-      createNewSupporterBtn();
-      // TODO: connect to the right GUI component
-      buttons.get(counter).textProperty().set(supportAddresses.get(counter).getAddress() + "\n"
-          + supportAddresses.get(counter).getDescription());
+  public void initSupporterList() {
+    supporters = supporterHelper.loadSupporters();
+    // check if invalid format of XML was found during loading
+    if (supporters == null) {
+      supporters = supporterHelper.getDefaultSupporters();
+      supporterHelper.saveSupporters(supporters);
     }
 
+    supporters.stream().forEachOrdered(this::createNewSupporterBtn);
 
-  }
-
-  /**
-   * Gets the supporter list.
-   * If no preferences are found the defaultList is generated.
-   */
-  private void createSupporterList() {
-    // load preferences
-    String supportAddressesXml = preferences.get(SUPPORT_ADDRESSES, null);
-    if (supportAddressesXml == null) {
-      // use some hardcoded defaults
-      supportAddresses = getDefaultList();
-    } else {
-      byte[] array = supportAddressesXml.getBytes();
-      ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
-      XMLDecoder decoder = new XMLDecoder(inputStream);
-      supportAddresses = (List<SupportAddress>) decoder.readObject();
-    }
-  }
-
-  /**
-   * Saves the preferences made by the user.
-   */
-  private void saveSupporterList() {
-    // save preferences
-    ByteArrayOutputStream byteArrayOutputStream =
-        new ByteArrayOutputStream();
-    XMLEncoder encoder = new XMLEncoder(byteArrayOutputStream);
-    encoder.setPersistenceDelegate(SupportAddress.class,
-        SupportAddress.getPersistenceDelegate());
-    encoder.writeObject(supportAddresses);
-    encoder.close();
-    String supportAddressesXml = byteArrayOutputStream.toString();
-    preferences.put(SUPPORT_ADDRESSES, supportAddressesXml);
+    createNewSupporterBtn(new Supporter());
   }
 
   /**
    * Creates new SupporterButton and adds it to the GridPane.
    */
-  private void createNewSupporterBtn() {
+  public void createNewSupporterBtn(Supporter supporter) {
 
-    Button supporter = new Button("+");
-    attachContextMenu(supporter);
-    supporter.getStyleClass().add("supporterBtn");
+    Button supporterBtn = new Button(supporter.toString());
+    supporterBtn.getStyleClass().add("supporterBtn");
+    initButtonSize(supporterBtn);
+    attachContextMenu(supporterBtn, supporter);
 
-    initButtonSize(supporter);
+    supporterBtn.setOnAction(event -> {
+      // if create new button was pressed
+      if ("+".equals(supporter.toString())) {
+        createNewSupporterBtn(new Supporter());
+      }
+      // Open Dialog to modify data
+      new SupporterAttributesDialog(supporter);
+      // Update data in button name and save to preferences
+      supporterBtn.setText(supporter.toString());
+      supporterHelper.saveSupporters(supporters);
+    });
 
-    attachButtonEvents();
-
-    buttons.add(supporter);
-
-    int buttonSize = buttons.size() - 1;
-
-    if (buttonSize % GRID_MAXIMUM_COLUMNS == 0) {
-      rowSize++;
-    }
-    view.supporterInnerPane.add(buttons.get(buttonSize),
-        buttonSize % GRID_MAXIMUM_COLUMNS, rowSize);
-
-    buttons.get(buttonSize).setOnAction(event -> createNewSupporterBtn());
-    // FIXME: Throws IndexOutOfBoundsException, because 1 - 2 is -1. And yes, we can.
-    if (buttonSize > 1) {    // IndexOutOfBoundsException fix.
-      buttons.get(buttonSize - 1).setOnAction(null);
-    } else if (buttonSize > 0) {
-      buttons.get(0).setOnAction(null);
-    }
+    int row = buttonSize / GRID_MAXIMUM_COLUMNS;
+    int column = buttonSize % GRID_MAXIMUM_COLUMNS;
+    view.supporterInnerPane.add(supporterBtn, column, row);
+    buttonSize++;
   }
 
-  private void attachContextMenu(Button button) {
-
+  private void attachContextMenu(Button button, Supporter supporter) {
     // Create ContextMenu
     ContextMenu contextMenu = new ContextMenu();
 
     MenuItem editMenuItem = new MenuItem("Edit");
-    editMenuItem.setOnAction(event -> new SupporterAttributesDialog());
+    // FIXME: new Supporter() must be changed to the supporter of the button
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
 
     MenuItem connectMenuItem = new MenuItem("Call");
@@ -281,4 +224,5 @@ public class RsccRequestPresenter implements ControlledPresenter {
     button.setPadding(new Insets(20));
 
   }
+
 }
