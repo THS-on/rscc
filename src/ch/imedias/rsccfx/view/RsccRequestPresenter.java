@@ -157,14 +157,15 @@ public class RsccRequestPresenter implements ControlledPresenter {
    */
   public void createNewSupporterBtn(Supporter supporter) {
     supporters.add(supporter);
+
     Button supporterBtn = new Button(supporter.toString());
     supporterBtn.getStyleClass().add("supporterBtn");
     initButtonSize(supporterBtn);
     attachContextMenu(supporterBtn, supporter);
 
     supporterBtn.setOnAction(event -> {
-      // if create new button was pressed
-      if ("+".equals(supporter.toString())) {
+      // if create new button (last button) was pressed
+      if (supporters.get(supporters.size()-1) == supporter) {
         createNewSupporterBtn(new Supporter());
       }
       // Open Dialog to modify data
@@ -185,14 +186,12 @@ public class RsccRequestPresenter implements ControlledPresenter {
     ContextMenu contextMenu = new ContextMenu();
 
     MenuItem editMenuItem = new MenuItem("Edit");
-    // FIXME: new Supporter() must be changed to the supporter of the button
-    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
+    editMenuItem.setOnAction(event -> new SupporterAttributesDialog(supporter));
 
     MenuItem connectMenuItem = new MenuItem("Call");
     connectMenuItem.setOnAction(event -> {
       /*TODO start connection*/
-
     });
 
     // Add MenuItem to ContextMenu
