@@ -28,6 +28,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private static final Logger LOGGER =
       Logger.getLogger(RsccRequestPresenter.class.getName());
   private static final int GRID_MAXIMUM_COLUMNS = 3;
+  public static List<Supporter> supporters = new ArrayList<>();
   private final Rscc model;
   private final RsccRequestView view;
   private final HeaderPresenter headerPresenter;
@@ -35,7 +36,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
   private int buttonSize = 0;
-  public static List<Supporter> supporters = new ArrayList<>();
 
   /**
    * Initializes a new RsccRequestPresenter with the matching view.
@@ -165,7 +165,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     supporterBtn.setOnAction(event -> {
       // if create new button (last button) was pressed
-      if (supporters.get(supporters.size()-1) == supporter) {
+      if (supporters.get(supporters.size() - 1) == supporter) {
         createNewSupporterBtn(new Supporter());
       }
       // Open Dialog to modify data
