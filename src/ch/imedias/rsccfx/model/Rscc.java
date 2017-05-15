@@ -51,9 +51,6 @@ public class Rscc {
   private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String[] STUN_SERVERS = {
       "numb.viagenie.ca", "stun.ekiga.net", "stun.gmx.net", "stun.1und1.de"};
-  private static final int STUN_SERVER_PORT = 3478;
-  private static final int PROXY_PORT = 2601;
-  private static final int PACKAGE_SIZE = 10000;
 
   private final SystemCommander systemCommander;
 
@@ -70,11 +67,9 @@ public class Rscc {
   private final StringProperty connectionStatusText = new SimpleStringProperty();
   private final StringProperty connectionStatusStyle = new SimpleStringProperty();
 
-  // TODO: Added this on my own. @pwg & @jpduloch: Please double check, thank you :)
-  private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(PACKAGE_SIZE);
-  private final IntegerProperty proxyPort = new SimpleIntegerProperty(
-      PROXY_PORT);
-  private final IntegerProperty stunServerPort = new SimpleIntegerProperty(STUN_SERVER_PORT);
+  private final IntegerProperty udpPackageSize = new SimpleIntegerProperty(10000);
+  private final IntegerProperty proxyPort = new SimpleIntegerProperty(2601);
+  private final IntegerProperty stunServerPort = new SimpleIntegerProperty(3478);
 
   private final String[] connectionStatusStyles = {
       "statusBox", "statusBoxInitialize", "statusBoxSuccess", "statusBoxFail"};
@@ -123,17 +118,6 @@ public class Rscc {
 
   }
 
-  public static int getProxyPort() {
-    return PROXY_PORT;
-  }
-
-  public void setProxyPort(int proxyPort) {
-    this.proxyPort.set(proxyPort);
-  }
-
-  public static int getPackageSize() {
-    return PACKAGE_SIZE;
-  }
 
   /**
    * Sets resource path, according to the application running either as a JAR or in the IDE.
@@ -357,7 +341,7 @@ public class Rscc {
       setConnectionStatus("Starting VNC Viewer.", 1);
 
       vncViewer = new VncViewerHandler(
-          this, "localhost", PROXY_PORT, false);
+          this, "localhost", getProxyPort(), false);
 
     } else {
       vncViewer = new VncViewerHandler(
@@ -547,10 +531,6 @@ public class Rscc {
     return STUN_SERVERS;
   }
 
-  public int getStunServerPort() {
-    return STUN_SERVER_PORT;
-  }
-
   public void setStunServerPort(int stunServerPort) {
     this.stunServerPort.set(stunServerPort);
   }
@@ -625,6 +605,14 @@ public class Rscc {
 
   public IntegerProperty proxyPortProperty() {
     return proxyPort;
+  }
+
+  public int getProxyPort() {
+    return proxyPort.get();
+  }
+
+  public void setProxyPort(int proxyPort) {
+    this.proxyPort.set(proxyPort);
   }
 
   public IntegerProperty stunServerPortProperty() {
