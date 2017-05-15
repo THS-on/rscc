@@ -266,7 +266,7 @@ public class Rscc {
     try {
       rscccfp.join();
 
-
+if(rscccfp.isConnected()){
       LOGGER.info("RSCC: Starting VNCServer");
 
       vncServer = new VncServerHandler(this, null, null, false);
@@ -276,6 +276,7 @@ public class Rscc {
           System.out.println("changed vncServerIsRunning to true");
         }
       });
+
       vncServer.isRunningProperty().setValue(true);
       vncServer.start();
 
@@ -302,11 +303,11 @@ public class Rscc {
       }
 
       setConnectionStatus("VNC-Server waits for incoming connection", 2);
-    } catch (Exception e) {
+    }} catch (Exception e) {
       e.printStackTrace();
-      //FIXME Probably this causes Bluescreen
-      // killConnection();
+       killConnection();
     }
+
   }
 
 
@@ -351,6 +352,7 @@ public class Rscc {
 
     RunRudp rudp = null;
 
+    if(rscccfp.isConnected()){
     if (isLocalIceSuccessful) {
       rudp = new RunRudp(this, true, true);
     } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
@@ -382,6 +384,7 @@ public class Rscc {
     });
 
     vncViewer.start();
+    }
   }
 
 
