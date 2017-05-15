@@ -145,7 +145,6 @@ public class RsccRequestPresenter implements ControlledPresenter {
     // check if invalid format of XML was found during loading
     if (temp == null) {
       temp = supporterHelper.getDefaultSupporters();
-      supporterHelper.saveSupporters(temp);
     }
 
     temp.stream().forEachOrdered(this::createNewSupporterBtn);
