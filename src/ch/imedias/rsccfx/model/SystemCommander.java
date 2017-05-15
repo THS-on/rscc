@@ -95,7 +95,7 @@ public class SystemCommander {
 
   /**
    * Executes a TerminalCommand, that listen for a specified StringOutput and sets the
-   * setIsVncSessionRunning accordingly.Runs untill the process is finished or killed!
+   * setVncSessionRunning accordingly.Runs untill the process is finished or killed!
    *
    * @param command                 to be executed
    * @param whatTerminalNeedsToShow String to compare to and when to set connection ongoing in model

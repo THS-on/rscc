@@ -78,10 +78,11 @@ public class Rscc {
 
   private final StringProperty terminalOutput = new SimpleStringProperty();
 
-  private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
-  private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
-  private final BooleanProperty isVncServerProcessRunning = new SimpleBooleanProperty(false);
-  private final BooleanProperty isVncViewerRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty forcingServerMode = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncSessionRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncServerProcessRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty vncViewerProcessRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty connectionEstablishmentRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty isSshRunning = new SimpleBooleanProperty(false);
   private final LongProperty sshPid = new SimpleLongProperty(-1);
 
@@ -223,11 +224,11 @@ public class Rscc {
       rudp.setIsOngoing(false);
     }
 
-    if (vncServer != null && isIsVncServerProcessRunning()) {
+    if (vncServer != null && isVncServerProcessRunning()) {
       vncServer.killVncServerProcess();
     }
 
-    if (vncViewer != null && isVncViewerRunning.get()) {
+    if (vncViewer != null && vncViewerProcessRunning.get()) {
       vncViewer.killVncViewerProcess();
     }
 
@@ -242,6 +243,7 @@ public class Rscc {
    * Requests a key from the key server.
    */
   public void requestKeyFromServer() {
+    setConnectionEstablishmentRunning(true);
     setConnectionStatus("Setting keyserver...", 1);
 
     keyServerSetup();
@@ -294,6 +296,7 @@ public class Rscc {
       e.printStackTrace();
       killConnection();
     }
+    setConnectionEstablishmentRunning(false);
   }
 
 
@@ -315,6 +318,9 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
+    setConnectionEstablishmentRunning(true);
+    System.out.println(connectionEstablishmentRunning);
+
     vncViewer = new VncViewerHandler(this);
     setConnectionStatus("Get key from keyserver...", 1);
 
@@ -360,6 +366,7 @@ public class Rscc {
       } else {
         vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
       }
+      setConnectionEstablishmentRunning(false);
 
     }
   }
@@ -403,10 +410,12 @@ public class Rscc {
    * Starts VNCViewer in reverse mode (-listen).
    */
   public void startViewerReverse() {
+    setConnectionEstablishmentRunning(true);
     if (vncViewer == null) {
       vncViewer = new VncViewerHandler(this);
     }
     vncViewer.startVncViewerListening();
+    setConnectionEstablishmentRunning(false);
   }
 
 
@@ -417,11 +426,13 @@ public class Rscc {
    * @param port    public reachable Port where vncViewer is listening
    */
   public void callSupporterDirect(String address, String port) {
+    setConnectionEstablishmentRunning(true);
     boolean connectionSuccess;
     setConnectionStatus("Connecting to " + address + ":" + port, 1);
     int portValue = -1;
     if (!port.equals("")) {
       portValue = Integer.valueOf(port);
+
     }
 
     vncServer = new VncServerHandler(this);
@@ -431,6 +442,7 @@ public class Rscc {
     } else {
       setConnectionStatus("Connection failed", 3);
     }
+    setConnectionEstablishmentRunning(false);
   }
 
   public String getKeyServerIp() {
@@ -605,32 +617,32 @@ public class Rscc {
     this.terminalOutput.set(terminalOutput);
   }
 
-  public boolean getIsForcingServerMode() {
-    return isForcingServerMode.get();
+  public boolean isForcingServerMode() {
+    return forcingServerMode.get();
   }
 
-  public void setIsForcingServerMode(boolean isForcingServerMode) {
-    this.isForcingServerMode.set(isForcingServerMode);
+  public void setForcingServerMode(boolean forcingServerMode) {
+    this.forcingServerMode.set(forcingServerMode);
   }
 
-  public BooleanProperty isForcingServerModeProperty() {
-    return isForcingServerMode;
+  public BooleanProperty forcingServerModeProperty() {
+    return forcingServerMode;
   }
 
   public SystemCommander getSystemCommander() {
     return systemCommander;
   }
 
-  public boolean isIsVncSessionRunning() {
-    return isVncSessionRunning.get();
+  public boolean isVncSessionRunning() {
+    return vncSessionRunning.get();
   }
 
-  public void setIsVncSessionRunning(boolean isVncSessionRunning) {
-    this.isVncSessionRunning.set(isVncSessionRunning);
+  public void setVncSessionRunning(boolean vncSessionRunning) {
+    this.vncSessionRunning.set(vncSessionRunning);
   }
 
-  public BooleanProperty isVncSessionRunningProperty() {
-    return isVncSessionRunning;
+  public BooleanProperty vncSessionRunningProperty() {
+    return vncSessionRunning;
   }
 
   public VncServerHandler getVncServer() {
@@ -641,27 +653,39 @@ public class Rscc {
     this.vncServer = vncServer;
   }
 
-  public boolean isIsVncServerProcessRunning() {
-    return isVncServerProcessRunning.get();
+  public boolean isVncServerProcessRunning() {
+    return vncServerProcessRunning.get();
   }
 
-  public BooleanProperty isVncServerProcessRunningProperty() {
-    return isVncServerProcessRunning;
+  public BooleanProperty vncServerProcessRunningProperty() {
+    return vncServerProcessRunning;
   }
 
-  public void setIsVncServerProcessRunning(boolean isVncServerProcessRunning) {
-    this.isVncServerProcessRunning.set(isVncServerProcessRunning);
+  public void setVncServerProcessRunning(boolean vncServerProcessRunning) {
+    this.vncServerProcessRunning.set(vncServerProcessRunning);
   }
 
   public boolean isVncViewerRunning() {
-    return isVncViewerRunning.get();
+    return vncViewerProcessRunning.get();
   }
 
-  public BooleanProperty isVncViewerRunningProperty() {
-    return isVncViewerRunning;
+  public BooleanProperty vncViewerProcessRunningProperty() {
+    return vncViewerProcessRunning;
   }
 
-  public void setIsVncViewerRunning(boolean isVncViewerRunning) {
-    this.isVncViewerRunning.set(isVncViewerRunning);
+  public void setVncViewerProcessRunning(boolean vncViewerProcessRunning) {
+    this.vncViewerProcessRunning.set(vncViewerProcessRunning);
+  }
+
+  public boolean isConnectionEstablishmentRunning() {
+    return connectionEstablishmentRunning.get();
+  }
+
+  public BooleanProperty connectionEstablishmentRunningProperty() {
+    return connectionEstablishmentRunning;
+  }
+
+  public void setConnectionEstablishmentRunning(boolean connectionEstablishmentRunning) {
+    this.connectionEstablishmentRunning.set(connectionEstablishmentRunning);
   }
 }

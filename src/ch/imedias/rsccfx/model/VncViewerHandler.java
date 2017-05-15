@@ -47,7 +47,7 @@ public class VncViewerHandler {
 
           process = Runtime.getRuntime().exec(
               vncViewerName + " " + hostAddress + "::" + vncViewerPort);
-          model.setIsVncViewerRunning(true);
+          model.setVncViewerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
@@ -64,13 +64,13 @@ public class VncViewerHandler {
             if (errorString != null && errorString.contains("Connected to RFB server")) {
               LOGGER.info("Detected: Viewer connected sucessfully");
               connectionSucceed.setValue(true);
-              model.setIsVncSessionRunning(true);
+              model.setVncSessionRunning(true);
             }
           }
 
           LOGGER.info("VNC - Viewer process has ended");
-          model.setIsVncSessionRunning(false);
-          model.setIsVncViewerRunning(false);
+          model.setVncSessionRunning(false);
+          model.setVncViewerProcessRunning(false);
 
           errorStream.close();
 
@@ -101,7 +101,7 @@ public class VncViewerHandler {
     Thread startViewerProcessThread = new Thread() {
       public void run() {
         LOGGER.info("Starting VNC Viewer listening Thread ");
-        model.setIsVncViewerRunning(true);
+        model.setVncViewerProcessRunning(true);
         try {
           process = Runtime.getRuntime().exec("vncviewer -listen");
 
@@ -114,15 +114,15 @@ public class VncViewerHandler {
 
             if (errorString != null && errorString.contains("Connected to RFB server")) {
               LOGGER.info("Server has connected");
-              model.setIsVncSessionRunning(true);
+              model.setVncSessionRunning(true);
             }
 
           }
 
           LOGGER.info("VNC - Viewer process has ended");
           errorStream.close();
-          model.setIsVncSessionRunning(false);
-          model.setIsVncViewerRunning(false);
+          model.setVncSessionRunning(false);
+          model.setVncViewerProcessRunning(false);
 
         } catch (IOException e) {
           e.getStackTrace();

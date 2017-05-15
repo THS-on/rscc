@@ -177,7 +177,12 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
   private void initBindings() {
     // disable connect button if key is NOT valid
-    view.connectBtn.disableProperty().bind(keyUtil.keyValidProperty().not());
+    view.connectBtn.disableProperty().bind(
+        Bindings.or(
+            model.connectionEstablishmentRunningProperty(),
+            keyUtil.keyValidProperty().not())
+    );
+
 
     // bind validation image to keyValidProperty
     view.validationImgView.imageProperty().bind(

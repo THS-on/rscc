@@ -50,7 +50,7 @@ public class VncServerHandler {
 
           process = Runtime.getRuntime().exec(
               vncServerName + " -connect " + hostAddress + ":" + vncViewerPort);
-          model.setIsVncServerProcessRunning(true);
+          model.setVncServerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
@@ -68,13 +68,13 @@ public class VncServerHandler {
                 && errorString.contains("OK")) {
               LOGGER.info("Detected: Reverse connect OK");
               connectionSucceed.setValue(true);
-              model.setIsVncSessionRunning(true);
+              model.setVncSessionRunning(true);
             }
           }
 
           LOGGER.info("VNC - Server process has ended");
-          model.setIsVncSessionRunning(false);
-          model.setIsVncServerProcessRunning(false);
+          model.setVncSessionRunning(false);
+          model.setVncServerProcessRunning(false);
 
 
           errorStream.close();
@@ -101,7 +101,7 @@ public class VncServerHandler {
     Thread startServerProcessThread = new Thread() {
       public void run() {
         LOGGER.info("Starting VNC Server Thread");
-        model.setIsVncServerProcessRunning(true);
+        model.setVncServerProcessRunning(true);
 
         try {
           process = Runtime.getRuntime().exec("x11vnc -localhost");
@@ -115,15 +115,15 @@ public class VncServerHandler {
 
             if (errorString != null && errorString.contains("connection from client")) {
               LOGGER.info("Client has connected");
-              model.setIsVncSessionRunning(true);
+              model.setVncSessionRunning(true);
             }
 
           }
 
           LOGGER.info("VNC - Server process has ended");
           errorStream.close();
-          model.setIsVncSessionRunning(false);
-          model.setIsVncServerProcessRunning(false);
+          model.setVncSessionRunning(false);
+          model.setVncServerProcessRunning(false);
 
         } catch (IOException e) {
           e.getStackTrace();

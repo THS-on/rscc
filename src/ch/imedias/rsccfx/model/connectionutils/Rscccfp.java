@@ -134,19 +134,19 @@ public class Rscccfp extends Thread {
     model.setConnectionStatus("Trying to establish a direct connection (ICE).", 1);
 
     LOGGER.info("RSCCCFP: Handling ServerMode");
-    outputStream.writeBoolean(model.getIsForcingServerMode());
+    outputStream.writeBoolean(model.isForcingServerMode());
 
     try {
       int remoteForcesServerMode = inputStream.read();
       if (remoteForcesServerMode == 1) {
         LOGGER.info("RSCCCFP: Remote forces ServerMode");
-        model.setIsForcingServerMode(true);
+        model.setForcingServerMode(true);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    if (model.getIsForcingServerMode()) {
+    if (model.isForcingServerMode()) {
       model.setRemoteIceSuccessful(false);
       model.setLocalIceSuccessful(false);
       agent.free();
