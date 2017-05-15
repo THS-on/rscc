@@ -228,7 +228,7 @@ public class Rscc {
       vncServer.killVncServerProcess();
     }
 
-    if (vncViewer != null && vncViewerProcessRunning.get()) {
+    if (vncViewer != null && isVncViewerProcessRunning()) {
       vncViewer.killVncViewerProcess();
     }
 
@@ -427,16 +427,15 @@ public class Rscc {
    */
   public void callSupporterDirect(String address, String port) {
     setConnectionEstablishmentRunning(true);
-    boolean connectionSuccess;
     setConnectionStatus("Connecting to " + address + ":" + port, 1);
     int portValue = -1;
     if (!port.equals("")) {
       portValue = Integer.valueOf(port);
 
     }
-
     vncServer = new VncServerHandler(this);
-    connectionSuccess = vncServer.startVncServerReverse(address, portValue > 0 ? portValue : 5500);
+    boolean connectionSuccess = vncServer
+        .startVncServerReverse(address, portValue > 0 ? portValue : 5500);
     if (connectionSuccess) {
       setConnectionStatus("Connected", 2);
     } else {
@@ -444,6 +443,31 @@ public class Rscc {
     }
     setConnectionEstablishmentRunning(false);
   }
+
+  /**
+   * Starts the VNC Viewer as in listening mode.
+   */
+  public void startVncViewerAsService() {
+    setConnectionEstablishmentRunning(true);
+    setConnectionStatus("Starting VNC Viewer as service...", 1);
+    vncViewer = new VncViewerHandler(this);
+    vncViewer.startVncViewerListening();
+    setConnectionStatus("VNC Viewer service is running", 2);
+
+    setConnectionEstablishmentRunning(false);
+  }
+
+  /**
+   * Stops the VNC Viewer.
+   */
+  public void stopVncViewerAsService() {
+    setConnectionEstablishmentRunning(true);
+    vncViewer.killVncViewerProcess();
+    setConnectionStatus("VNC Viewer service is stopped", 1);
+
+    setConnectionEstablishmentRunning(false);
+  }
+
 
   public String getKeyServerIp() {
     return keyServerIp.get();
@@ -665,7 +689,7 @@ public class Rscc {
     this.vncServerProcessRunning.set(vncServerProcessRunning);
   }
 
-  public boolean isVncViewerRunning() {
+  public boolean isVncViewerProcessRunning() {
     return vncViewerProcessRunning.get();
   }
 

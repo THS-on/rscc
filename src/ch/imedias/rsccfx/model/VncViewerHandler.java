@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -45,8 +47,17 @@ public class VncViewerHandler {
         try {
           LOGGER.info("Starting VNC Viewer Connection");
 
-          process = Runtime.getRuntime().exec(
-              vncViewerName + " " + hostAddress + "::" + vncViewerPort);
+          String[] commandArray = {
+              "xtightvncviewer",
+              hostAddress + "::" + vncViewerPort,
+              "-compresslevel",
+              Integer.toString((int) model.getVncCompression()),
+              "-quality",
+              Integer.toString((int) model.getVncQuality()),
+              (model.getVncBgr233() ? "-bgr233" : "")
+          };
+
+          process = Runtime.getRuntime().exec(commandArray);
           model.setVncViewerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
@@ -83,12 +94,14 @@ public class VncViewerHandler {
     };
 
     startViewerProcessThread.start();
-    //TODO
+
+    //TODO: find alternative for sleepingmode
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
     return connectionSucceed.getValue();
   }
 
@@ -103,7 +116,17 @@ public class VncViewerHandler {
         LOGGER.info("Starting VNC Viewer listening Thread ");
         model.setVncViewerProcessRunning(true);
         try {
-          process = Runtime.getRuntime().exec("vncviewer -listen");
+          String[] commandArray = {
+              "xtightvncviewer",
+              "-listen",
+              "-compresslevel",
+              Integer.toString((int) model.getVncCompression()),
+              "-quality",
+              Integer.toString((int) model.getVncQuality()),
+              (model.getVncBgr233() ? "-bgr233" : "")
+          };
+
+          process = Runtime.getRuntime().exec(commandArray);
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
@@ -116,13 +139,12 @@ public class VncViewerHandler {
               LOGGER.info("Server has connected");
               model.setVncSessionRunning(true);
             }
-
           }
 
-          LOGGER.info("VNC - Viewer process has ended");
-          errorStream.close();
-          model.setVncSessionRunning(false);
           model.setVncViewerProcessRunning(false);
+          model.setVncSessionRunning(false);
+          errorStream.close();
+          LOGGER.info("VNC - Viewer process has ended");
 
         } catch (IOException e) {
           e.getStackTrace();
@@ -132,10 +154,15 @@ public class VncViewerHandler {
     startViewerProcessThread.start();
   }
 
+  /**
+   * Kills the VNC Viewer process.
+   */
 
   public void killVncViewerProcess() {
     LOGGER.info("Stopping VNC-Viewer Process");
     process.destroy();
+    model.setVncViewerProcessRunning(false);
+    model.setVncSessionRunning(false);
   }
 
 }

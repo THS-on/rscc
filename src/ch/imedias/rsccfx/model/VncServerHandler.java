@@ -133,10 +133,14 @@ public class VncServerHandler {
     startServerProcessThread.start();
   }
 
-
+  /**
+   * kill the VNC Server process.
+   */
   public void killVncServerProcess() {
     LOGGER.info("Stopping VNC-Server Process");
     process.destroy();
+    model.setVncSessionRunning(false);
+    model.setVncServerProcessRunning(false);
   }
 
 }

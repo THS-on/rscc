@@ -238,6 +238,11 @@ public class PopOverHelper {
   private void supportSettingsBindings() {
     model.vncQualityProperty().bindBidirectional(supportQualitySldr
         .sliderValueProperty());
+
+    model.vncCompressionProperty().bindBidirectional(supportCompressionSldr
+        .sliderValueProperty());
+
+    model.vncBgr233Property().bindBidirectional(supportBgr233Tgl.selectedProperty());
   }
 
   /**
