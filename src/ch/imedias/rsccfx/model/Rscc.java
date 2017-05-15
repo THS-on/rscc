@@ -80,6 +80,7 @@ public class Rscc {
 
   private final BooleanProperty isForcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty isVncSessionRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty isVncServerProcessRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty isSshRunning = new SimpleBooleanProperty(false);
   private final LongProperty sshPid = new SimpleLongProperty(-1);
 
@@ -217,28 +218,20 @@ public class Rscc {
     if (rscccfp != null) {
       rscccfp.closeConnection();
     }
-    System.out.println("1");
+
     if (rudp != null) {
       rudp.setIsOngoing(false);
     }
-    System.out.println("2");
 
-   // if (vncServer != null && vncServer.isRunning()) {
-      //vncServer.killVncServer();
-   // }
-    System.out.println("3");
+    if (vncServer != null && vncServer.isRunning()) {
+      vncServer.killVncServerProcess();
+    }
 
     if (vncViewer != null && vncViewer.isRunning()) {
       vncViewer.killVncViewer();
     }
-    System.out.println("4");
 
-    //Todo: do not kill ssh via name but via PID
-    systemCommander.executeTerminalCommandAndReturnOutput("pkill ssh");
-    isSshRunning.setValue(false);
-    System.out.println("5");
-
-    // Execute port_stop.sh with the generated key to kill the connection
+    // Execute port_stop.sh with the generated key to kill the SSH connections
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommandAndReturnOutput(command);
@@ -267,48 +260,41 @@ public class Rscc {
     try {
       rscccfp.join();
 
-if(rscccfp.isConnected()){
-      LOGGER.info("RSCC: Starting VNCServer");
+      if (rscccfp.isConnected()) {
+        LOGGER.info("RSCC: Starting VNCServer");
 
-      vncServer = new VncServerHandler(this, null, null, false);
-      isVncSessionRunning.addListener((observableValue, oldValue, newValue) -> {
-        if (newValue && !vncViewer.isRunning()) {
-          vncServer.isRunningProperty().set(true);
-          System.out.println("changed vncServerIsRunning to true");
+        vncServer = new VncServerHandler(this);
+        vncServer.startVncServerListening();
+
+
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
-      });
 
-      vncServer.isRunningProperty().setValue(true);
-      vncServer.start();
+        rudp = null;
 
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+        if (isLocalIceSuccessful && isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, true, false);
+        } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, false, false);
+        } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, true, false);
+        }
+
+        if (rudp != null) {
+          LOGGER.info("RSCC: Starting rudp");
+
+          rudp.start();
+        }
+
+        setConnectionStatus("VNC-Server waits for incoming connection", 2);
       }
-
-      rudp = null;
-
-      if (isLocalIceSuccessful && isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, true, false);
-      } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, false, false);
-      } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, true, false);
-      }
-
-      if (rudp != null) {
-        LOGGER.info("RSCC: Starting rudp");
-
-        rudp.start();
-      }
-
-      setConnectionStatus("VNC-Server waits for incoming connection", 2);
-    }} catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
-       killConnection();
+      killConnection();
     }
-
   }
 
 
@@ -353,38 +339,38 @@ if(rscccfp.isConnected()){
 
     RunRudp rudp = null;
 
-    if(rscccfp.isConnected()){
-    if (isLocalIceSuccessful) {
-      rudp = new RunRudp(this, true, true);
-    } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-      rudp = new RunRudp(this, false, true);
-    }
-
-    if (rudp != null) {
-      LOGGER.info("RSCC: Starting rudp");
-      setConnectionStatus("Starting direct VNC connection.", 1);
-
-      rudp.start();
-
-      LOGGER.info("RSCC: Starting VNCViewer");
-      setConnectionStatus("Starting VNC Viewer.", 1);
-
-      vncViewer = new VncViewerHandler(
-          this, "localhost", LOCAL_FORWARDING_PORT, false);
-
-    } else {
-      vncViewer = new VncViewerHandler(
-          this, "localhost", vncPort.getValue(), false);
-    }
-
-    isVncSessionRunning.addListener((observableValue, oldValue, newValue) -> {
-      if (newValue && !vncServer.isRunning()) {
-        vncViewer.isRunningProperty().set(true);
-        System.out.println("changed vncViewerIsRunning to true");
+    if (rscccfp.isConnected()) {
+      if (isLocalIceSuccessful) {
+        rudp = new RunRudp(this, true, true);
+      } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+        rudp = new RunRudp(this, false, true);
       }
-    });
 
-    vncViewer.start();
+      if (rudp != null) {
+        LOGGER.info("RSCC: Starting rudp");
+        setConnectionStatus("Starting direct VNC connection.", 1);
+
+        rudp.start();
+
+        LOGGER.info("RSCC: Starting VNCViewer");
+        setConnectionStatus("Starting VNC Viewer.", 1);
+
+        vncViewer = new VncViewerHandler(
+            this, "localhost", LOCAL_FORWARDING_PORT, false);
+
+      } else {
+        vncViewer = new VncViewerHandler(
+            this, "localhost", vncPort.getValue(), false);
+      }
+
+      isVncSessionRunning.addListener((observableValue, oldValue, newValue) -> {
+////      if (newValue && !vncServer.isRunning()) {
+//        vncViewer.isRunningProperty().set(true);
+//        System.out.println("changed vncViewerIsRunning to true");
+////      }
+      });
+
+//    vncViewer.start();
     }
   }
 
@@ -633,10 +619,6 @@ if(rscccfp.isConnected()){
 
   public void setVncServer(VncServerHandler vncServer) {
     this.vncServer = vncServer;
-  }
-
-  public BooleanProperty isVncServerRunning() {
-    return vncServer.isRunningProperty();
   }
 
   public BooleanProperty isVncViewerRunning() {

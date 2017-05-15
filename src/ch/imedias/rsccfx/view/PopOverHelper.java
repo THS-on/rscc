@@ -245,13 +245,6 @@ public class PopOverHelper {
    * Starts the VncServer after popover is closed.
    */
   private void handleRequestSettings() {
-    settingsPopOver.showingProperty().addListener((observableValue, oldValue, newValue) -> {
-      if (newValue) {
-        model.getVncServer().killVncServer();
-      } else {
-        model.getVncServer().start();
-      }
-    });
   }
 
   private void invokeExpertSettings() {

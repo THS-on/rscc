@@ -154,6 +154,15 @@ public class RsccRequestPresenter implements ControlledPresenter {
         popOverHelper.helpPopOver.show(view.headerView.helpBtn));
     headerPresenter.setSettingsBtnAction(event ->
         popOverHelper.settingsPopOver.show(view.headerView.settingsBtn));
+
+    model.isVncSessionRunningProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue) {
+        headerPresenter.setSettingsBtnVisibility(false);
+      } else {
+        headerPresenter.setSettingsBtnVisibility(true);
+      }
+    });
+
   }
 
   /**
