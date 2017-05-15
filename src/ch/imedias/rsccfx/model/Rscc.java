@@ -35,6 +35,7 @@ import javafx.beans.property.StringProperty;
  * Handles communication with the keyserver.
  */
 public class Rscc {
+
   private static final Logger LOGGER =
       Logger.getLogger(Rscc.class.getName());
 
@@ -222,9 +223,9 @@ public class Rscc {
     }
     System.out.println("2");
 
-    if (vncServer != null && vncServer.isRunning()) {
-      vncServer.killVncServer();
-    }
+   // if (vncServer != null && vncServer.isRunning()) {
+      //vncServer.killVncServer();
+   // }
     System.out.println("3");
 
     if (vncViewer != null && vncViewer.isRunning()) {
