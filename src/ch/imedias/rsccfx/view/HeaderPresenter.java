@@ -1,19 +1,24 @@
 package ch.imedias.rsccfx.view;
 
 import ch.imedias.rsccfx.model.Rscc;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 
 /**
  * Defines the behaviour of interaction and initializes the size of the GUI components.
  */
 public class HeaderPresenter {
+  private static final Logger LOGGER =
+      Logger.getLogger(HeaderPresenter.class.getName());
   private final Rscc model;
   private final HeaderView view;
 
   /**
    * Initializes a new HeaderPresenter with the matching view.
+   *
+   * @param model model with all data.
+   * @param view  the view belonging to the presenter.
    */
   public HeaderPresenter(Rscc model, HeaderView view) {
     this.model = model;
@@ -28,15 +33,6 @@ public class HeaderPresenter {
    */
   public void setBackBtnAction(EventHandler<ActionEvent> action) {
     view.backBtn.setOnAction(action);
-  }
-
-  /**
-   * Sets the title in the center of the HeaderView.
-   *
-   * @param title new title for the header.
-   */
-  public void setHeaderTitle(String title) {
-    view.headLbl.textProperty().set(title);
   }
 
   /**
@@ -56,19 +52,26 @@ public class HeaderPresenter {
    *               when the settings button is clicked.
    */
   public void setSettingsBtnAction(EventHandler<ActionEvent> action) {
-    view.settBtn.setOnAction(action);
+    view.settingsBtn.setOnAction(action);
   }
 
   /**
-   * Initializes the size of the HeaderView.
+   * Makes the back button in the header invisible or visible.
+   * Is being used in the HomeView to make the back button invisible,
+   * since there is no previous page to it.
    *
-   * @param scene must be initialized and displayed before calling this method.
-   *              The size of all header elements are based on it.
-   * @throws NullPointerException if called before this object is fully initialized.
+   * @param isVisible value to set the visibilty of the button to.
    */
-  public void initSize(Scene scene) {
-    view.headLbl.prefWidthProperty().bind(scene.widthProperty());
-    view.headerBox.prefWidthProperty().bind(scene.widthProperty());
+  public void setBackBtnVisibility(Boolean isVisible) {
+    view.backBtn.setVisible(isVisible);
   }
 
+  /**
+   * Makes the settings button in the header invisible or visible.
+   * Is being used in the HomeView to make the settings button invisible,
+   * since there are no settings in it.
+   */
+  public void setSettingsBtnVisibility(Boolean isVisible) {
+    view.settingsBtn.setVisible(isVisible);
+  }
 }

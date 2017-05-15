@@ -1,120 +1,215 @@
 package ch.imedias.rsccfx.view;
 
+import ch.imedias.rsccfx.RsccApp;
+import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.Rscc;
+import ch.imedias.rsccfx.model.util.KeyUtil;
+import ch.imedias.rsccfx.view.util.KeyTextField;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.util.logging.Logger;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
-// TODO: Clean up messy code!
 
 /**
  * Defines all elements shown in the request section.
  */
 public class RsccRequestView extends BorderPane {
+  private static final Logger LOGGER =
+      Logger.getLogger(RsccRequestView.class.getName());
+
+  private static final double BUTTON_PADDING = 30;
+  private static final double ICON_SIZE = 30;
+
+  final HeaderView headerView;
+
+  final Label titleLbl = new Label();
+  final Label descriptionLbl = new Label();
+  final Label supporterDescriptionLbl = new Label();
+  final Label statusLbl = new Label();
+
+  final GridPane keyGenerationInnerPane = new GridPane();
+  final GridPane supporterInnerPane = new GridPane();
+
+  final HBox statusBox = new HBox();
+
+  final HBox supporterInnerBox = new HBox();
+
+  final VBox contentBox = new VBox();
+
+  final TitledPane keyGenerationTitledPane = new TitledPane();
+  final TitledPane supporterTitledPane = new TitledPane();
+
+  final ScrollPane scrollPane = new ScrollPane();
+
+  final KeyTextField generatedKeyFld = new KeyTextField();
+  private final double scalingFactor = RsccApp.scalingFactor;
   private final Rscc model;
+  private final Strings strings = new Strings();
 
-  HeaderView headerView;
-
-  Label keyGenerationLbl = new Label();
-  Label supporterAdminLbl = new Label();
-
-  VBox topBox = new VBox();
-  VBox mainBox = new VBox();
-  VBox bottomBox = new VBox();
-
-  HBox expandableBox = new HBox();
-  VBox centerBox = new VBox();
-  HBox keyGeneratingBox = new HBox();
-
-  Text descriptionTxt = new Text();
-  Text additionalDescriptionTxt = new Text();
-
-  TextField generatedKeyFld = new TextField();
+  private final KeyUtil keyUtil;
 
   Button reloadKeyBtn = new Button();
-  Button supporterAdminBtn = new Button();
+
+  private Pane emptyPane = new Pane();
 
   /**
-   * Initializes all the GUI components needed generate the token the supporter needs.
+   * Initializes all the GUI components needed to generate the key the supporter needs.
+   *
+   * @param model the model to handle the data.
    */
   public RsccRequestView(Rscc model) {
     this.model = model;
+    headerView = new HeaderView(model);
+    this.keyUtil = model.getKeyUtil();
+    SvgImageLoaderFactory.install();
     initFieldData();
     layoutForm();
+    layoutKeyGenerationPane();
+    layoutSupporterPane();
     bindFieldsToModel();
   }
 
   private void initFieldData() {
     // populate fields which require initial data
-    // TODO: String Class implementation!
-    headerView = new HeaderView(model);
+    titleLbl.setText(strings.requestTitleLbl);
+    descriptionLbl.setText(strings.requestDescriptionLbl);
+    generatedKeyFld.setText(strings.requestGeneratedKeyFld);
+    supporterDescriptionLbl.setText(strings.requestSupporterDescriptionLbl);
+    keyGenerationTitledPane.setText(strings.requestKeyGeneratorPane);
+    supporterTitledPane.setText(strings.requestPredefinedAdressessPane);
+    statusLbl.setText("");
 
-    keyGenerationLbl.textProperty().set("Key generator"); // TODO: String Class
-    keyGenerationLbl.setId("keyGenerationLbl");
+    FontAwesomeIconView refreshIcon = new FontAwesomeIconView(FontAwesomeIcon.REFRESH);
+    refreshIcon.setGlyphSize(ICON_SIZE);
+    reloadKeyBtn.setGraphic(refreshIcon);
 
-    supporterAdminLbl.textProperty().set("Supporter administration"); // TODO: String Class
-
-    descriptionTxt.textProperty().set("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
-        + "sed diam voluptua. At vero eos et accusam "
-        + "et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
-        + " no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-    descriptionTxt.setId("descriptionTxt"); // TODO: Styling
-
-    generatedKeyFld.setPrefHeight(60); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setEditable(false); // FIXME: Has this to be in the CSS?
-    generatedKeyFld.setId("generatedKeyFld");
-
-    reloadKeyBtn.setGraphic(new ImageView(new Image(getClass().getClassLoader()
-        .getResource("images/reload.png").toExternalForm())));
-    reloadKeyBtn.setPrefHeight(50); // FIXME: Has this to be in the CSS?
-    reloadKeyBtn.setPrefWidth(50); // FIXME: Has this to be in the CSS?
-
-    ImageView imageView = new ImageView((new Image(getClass().getClassLoader()
-        .getResource("images/arrowDown.png").toExternalForm())));
-    imageView.setFitHeight(15); // FIXME: Has this to be in the CSS?
-    imageView.setFitWidth(15); // FIXME: Has this to be in the CSS?
-    supporterAdminBtn.setGraphic(imageView);
-
-    // TODO: Implement String Class
-    additionalDescriptionTxt.textProperty().set("Lorem ipsum dolor sit amet"
-        + "consetetur sadipscing elitr, "
-        + "sed diam nonumy eirmod tempor invidunt "
-        + "ut labore et dolore magna aliquyam erat, sed diam voluptua. "
-        + "At vero eos et accusam et justo duo dolores et ea rebum. Stet "
-        + "clita kasd gubergren, no sea takimata sanctus est "
-        + "Lorem ipsum dolor sit amet.");
-    additionalDescriptionTxt.setId("additionalDescriptionTxt");
   }
 
   private void layoutForm() {
     //setup layout (aka setup specific pane etc.)
-    centerBox.setId("centerBox");
-    bottomBox.setId("bottomBox");
+    keyGenerationTitledPane.setExpanded(true);
+    keyGenerationTitledPane.setId("keyGenerationTitledPane");
 
-    expandableBox.getChildren().addAll(supporterAdminBtn, supporterAdminLbl);
-    keyGeneratingBox.getChildren().addAll(generatedKeyFld, reloadKeyBtn);
+    supporterTitledPane.setExpanded(false);
+    supporterTitledPane.setId("supporterTitledPane");
 
-    topBox.getChildren().add(headerView);
-    centerBox.getChildren().addAll(keyGenerationLbl, descriptionTxt, keyGeneratingBox,
-        additionalDescriptionTxt);
-    bottomBox.getChildren().add(expandableBox);
+    titleLbl.getStyleClass().add("titleLbl");
 
-    setTop(topBox);
-    setCenter(centerBox);
-    setBottom(bottomBox);
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+
+    supporterDescriptionLbl.getStyleClass().add("supporterDescriptionLbl");
+
+    statusBox.getStyleClass().add("statusBox");
+    statusBox.getChildren().addAll(statusLbl);
+    statusLbl.getStyleClass().add("statusLbl");
+
+    generatedKeyFld.setEditable(false);
+    generatedKeyFld.getStyleClass().add("keyFld");
+
+    reloadKeyBtn.setPadding(new Insets(BUTTON_PADDING));
+    reloadKeyBtn.setId("reloadKeyBtn");
+
+    contentBox.getChildren().addAll(keyGenerationTitledPane, keyGenerationInnerPane,
+        supporterTitledPane);
+    descriptionLbl.getStyleClass().add("descriptionLbl"); // TODO: Styling
+
+    VBox.setVgrow(keyGenerationInnerPane, Priority.ALWAYS);
+    keyGenerationInnerPane.getStyleClass().add("contentRequest");
+    VBox.setVgrow(supporterInnerBox, Priority.ALWAYS);
+    supporterInnerBox.getStyleClass().add("contentRequest");
+
+    setTop(headerView);
+    setCenter(contentBox);
+  }
+
+  private void layoutSupporterPane() {
+    supporterInnerBox.getChildren().addAll(scrollPane, supporterDescriptionLbl);
+
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    scrollPane.setContent(supporterInnerPane);
+    scrollPane.setId("scrollPane");
+
+    // add column constraints
+    ColumnConstraints col1 = new ColumnConstraints();
+    ColumnConstraints col2 = new ColumnConstraints();
+    ColumnConstraints col3 = new ColumnConstraints();
+
+    supporterInnerPane.getColumnConstraints().addAll(col1, col2, col3);
+
+    int amountOfColumns = supporterInnerPane.getColumnConstraints().size();
+    int columnPercentWidth = 100 / amountOfColumns;
+
+    col1.setPercentWidth(columnPercentWidth);
+    col2.setPercentWidth(columnPercentWidth);
+    col3.setPercentWidth(columnPercentWidth);
+  }
+
+  private void layoutKeyGenerationPane() {
+    // set elements
+    GridPane.setConstraints(generatedKeyFld, 0, 1);
+    GridPane.setConstraints(reloadKeyBtn, 1, 1);
+    GridPane.setConstraints(titleLbl, 2, 0);
+    GridPane.setConstraints(descriptionLbl, 2, 1);
+    GridPane.setConstraints(emptyPane, 0, 2);
+    GridPane.setConstraints(statusBox, 0, 3);
+
+    GridPane.setColumnSpan(statusBox, 3);
+
+    keyGenerationInnerPane.getChildren().addAll(generatedKeyFld, reloadKeyBtn, titleLbl,
+        descriptionLbl, statusBox, emptyPane);
+
+    // initial styling
+    keyGenerationInnerPane.getChildren().stream()
+        .forEach(node -> {
+          GridPane.setVgrow(node, Priority.ALWAYS);
+          GridPane.setHgrow(node, Priority.ALWAYS);
+          GridPane.setValignment(node, VPos.CENTER);
+          GridPane.setHalignment(node, HPos.CENTER);
+          GridPane.setMargin(node, new Insets(10 * scalingFactor));
+          keyGenerationInnerPane.setAlignment(Pos.CENTER);
+        });
+
+    // column division
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setPercentWidth(40);
+    ColumnConstraints col2 = new ColumnConstraints();
+    col2.setPercentWidth(10);
+    ColumnConstraints col3 = new ColumnConstraints();
+    col3.setPercentWidth(50);
+    keyGenerationInnerPane.getColumnConstraints().addAll(col1, col2, col3);
+
+    // special styling
+    GridPane.setVgrow(statusBox, Priority.NEVER);
+    GridPane.setValignment(statusBox, VPos.BOTTOM);
+    GridPane.setHalignment(titleLbl, HPos.LEFT);
+    GridPane.setValignment(titleLbl, VPos.BOTTOM);
+    GridPane.setHalignment(descriptionLbl, HPos.LEFT);
+    GridPane.setValignment(reloadKeyBtn, VPos.CENTER);
+    GridPane.setMargin(titleLbl, new Insets(0));
+    GridPane.setMargin(descriptionLbl, new Insets(0));
+    keyGenerationInnerPane.setPadding(new Insets(10 * scalingFactor));
+
   }
 
   private void bindFieldsToModel() {
     // make bindings to the model
-    generatedKeyFld.textProperty().bind(model.keyProperty());
+    generatedKeyFld.textProperty().bind(keyUtil.formattedKeyProperty());
   }
 }
-
-
