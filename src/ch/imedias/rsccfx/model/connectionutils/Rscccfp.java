@@ -89,13 +89,18 @@ public class Rscccfp extends Thread {
     //Wait for connection
     LOGGER.info("RSCCCFP: wait for client");
 
-    connectionSocket = serverSocket.accept();
-    connected = true;
-    inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-    outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-    LOGGER.info("RSCCCFP: Client connected");
+    try {
+      connectionSocket = serverSocket.accept();
 
-    runIceMagic();
+      connected = true;
+      inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+      outputStream = new DataOutputStream(connectionSocket.getOutputStream());
+      LOGGER.info("RSCCCFP: Client connected");
+
+      runIceMagic();
+    } catch (SocketException e) {
+      LOGGER.info("ServerSocket closed while accepting connections");
+    }
   }
 
   /**
@@ -301,11 +306,9 @@ public class Rscccfp extends Thread {
   public void closeConnection() {
     try {
       if (serverSocket != null && !serverSocket.isClosed()) {
-        try {
-          serverSocket.close();
-        } catch (SocketException e) {
-          LOGGER.info("RSCCCFP: Server Socket closed");
-        }
+
+        serverSocket.close();
+
       }
       if (connectionSocket != null && !connectionSocket.isClosed()) {
         connectionSocket.close();
