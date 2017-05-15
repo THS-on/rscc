@@ -60,8 +60,8 @@ public class Rscc {
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
 
   private final BooleanProperty vncViewOnly = new SimpleBooleanProperty();
-  private final DoubleProperty vncQualitySliderValue = new SimpleDoubleProperty();
-  private final DoubleProperty vncCompressionSliderValue = new SimpleDoubleProperty();
+  private final DoubleProperty vncQuality = new SimpleDoubleProperty();
+  private final DoubleProperty vncCompression = new SimpleDoubleProperty();
 
   private final BooleanProperty vncBgr233 = new SimpleBooleanProperty();
   private final StringProperty connectionStatusText = new SimpleStringProperty();
@@ -423,16 +423,16 @@ public class Rscc {
     return vncViewOnly;
   }
 
-  public double getVncQualitySliderValue() {
-    return vncQualitySliderValue.get();
+  public double getVncQuality() {
+    return vncQuality.get();
   }
 
-  public void setVncQualitySliderValue(int vncQualitySliderValue) {
-    this.vncQualitySliderValue.set(vncQualitySliderValue);
+  public void setVncQuality(int vncQuality) {
+    this.vncQuality.set(vncQuality);
   }
 
-  public DoubleProperty vncQualitySliderValueProperty() {
-    return vncQualitySliderValue;
+  public DoubleProperty vncQualityProperty() {
+    return vncQuality;
   }
 
   public boolean getVncViewOnly() {
@@ -443,16 +443,16 @@ public class Rscc {
     this.vncViewOnly.set(vncViewOnly);
   }
 
-  public double getVncCompressionSliderValue() {
-    return vncCompressionSliderValue.get();
+  public double getVncCompression() {
+    return vncCompression.get();
   }
 
-  public void setVncCompressionSliderValue(double vncCompressionSliderValue) {
-    this.vncCompressionSliderValue.set(vncCompressionSliderValue);
+  public void setVncCompression(double vncCompression) {
+    this.vncCompression.set(vncCompression);
   }
 
-  public DoubleProperty vncCompressionSliderValueProperty() {
-    return vncCompressionSliderValue;
+  public DoubleProperty vncCompressionProperty() {
+    return vncCompression;
   }
 
   public boolean getVncBgr233() {

@@ -236,7 +236,7 @@ public class PopOverHelper {
   }
 
   private void supportSettingsBindings() {
-    model.vncQualitySliderValueProperty().bindBidirectional(supportQualitySldr
+    model.vncQualityProperty().bindBidirectional(supportQualitySldr
         .sliderValueProperty());
   }
 
