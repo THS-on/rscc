@@ -201,8 +201,7 @@ public class RsccRequestPresenter implements ControlledPresenter {
 
     MenuItem connectMenuItem = new MenuItem("Call");
     connectMenuItem.setOnAction(event -> {
-      /*TODO start connection*/
-
+      model.callSupporterDirect(supporter.getAddress(), supporter.getPort());
     });
 
     // Add MenuItem to ContextMenu

@@ -40,10 +40,13 @@ public class VncServerHandler {
    */
   public boolean startVncServerReverse(String hostAddress, Integer vncViewerPort) {
     final BooleanProperty connectionSucceed = new SimpleBooleanProperty(true);
+
     Thread startServerProcessThread = new Thread() {
       public void run() {
         try {
           LOGGER.info("Starting VNC Server Reverse Thread");
+
+
 
           process = Runtime.getRuntime().exec(
               vncServerName + " -connect " + hostAddress + ":" + vncViewerPort);
@@ -61,7 +64,8 @@ public class VncServerHandler {
               killVncServerProcess();
             }
 
-            if (errorString != null && errorString.contains("reverse_connect") && errorString.contains("OK")) {
+            if (errorString != null && errorString.contains("reverse_connect")
+                && errorString.contains("OK")) {
               LOGGER.info("Detected: Reverse connect OK");
               connectionSucceed.setValue(true);
               model.setIsVncSessionRunning(true);

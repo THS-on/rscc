@@ -123,7 +123,6 @@ public class Rscc {
     defineResourcePath();
     readServerConfig();
 
-
   }
 
   public static int getLocalForwardingPort() {
@@ -226,7 +225,6 @@ public class Rscc {
 
     if (vncServer != null && isIsVncServerProcessRunning()) {
       vncServer.killVncServerProcess();
-      vncServer = null;
     }
 
     if (vncViewer != null && isVncViewerRunning.get()) {
@@ -267,7 +265,6 @@ public class Rscc {
 
         vncServer = new VncServerHandler(this);
         vncServer.startVncServerListening();
-
 
         try {
           Thread.sleep(1000);
@@ -318,7 +315,7 @@ public class Rscc {
    * Starts connection to the user.
    */
   public void connectToUser() {
-    vncViewer=new VncViewerHandler(this);
+    vncViewer = new VncViewerHandler(this);
     setConnectionStatus("Get key from keyserver...", 1);
 
     keyServerSetup();
@@ -401,11 +398,39 @@ public class Rscc {
     }
   }
 
+
+  /**
+   * Starts VNCViewer in reverse mode (-listen).
+   */
   public void startViewerReverse() {
-    if(vncViewer==null){
-      vncViewer=new VncViewerHandler(this);
+    if (vncViewer == null) {
+      vncViewer = new VncViewerHandler(this);
     }
     vncViewer.startVncViewerListening();
+  }
+
+
+  /**
+   * Calls Supporter from addressbook (Starts VNC Server in Reverse mode).
+   *
+   * @param address public reachable IP/Domain
+   * @param port    public reachable Port where vncViewer is listening
+   */
+  public void callSupporterDirect(String address, String port) {
+    boolean connectionSuccess;
+    setConnectionStatus("Connecting to " + address + ":" + port, 1);
+    int portValue = -1;
+    if (!port.equals("")) {
+      portValue = Integer.valueOf(port);
+    }
+
+    vncServer = new VncServerHandler(this);
+    connectionSuccess = vncServer.startVncServerReverse(address, portValue > 0 ? portValue : 5500);
+    if (connectionSuccess) {
+      setConnectionStatus("Connected", 2);
+    } else {
+      setConnectionStatus("Connection failed", 3);
+    }
   }
 
   public String getKeyServerIp() {
@@ -628,9 +653,15 @@ public class Rscc {
     this.isVncServerProcessRunning.set(isVncServerProcessRunning);
   }
 
-  public boolean IsVncViewerRunning() {return isVncViewerRunning.get();}
+  public boolean isVncViewerRunning() {
+    return isVncViewerRunning.get();
+  }
 
-  public BooleanProperty isVncViewerRunningProperty() {return isVncViewerRunning;}
+  public BooleanProperty isVncViewerRunningProperty() {
+    return isVncViewerRunning;
+  }
 
-  public void setIsVncViewerRunning(boolean isVncViewerRunning) {this.isVncViewerRunning.set(isVncViewerRunning);}
+  public void setIsVncViewerRunning(boolean isVncViewerRunning) {
+    this.isVncViewerRunning.set(isVncViewerRunning);
+  }
 }

@@ -1,13 +1,12 @@
 package ch.imedias.rsccfx.model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 
 /**
@@ -35,7 +34,7 @@ public class VncViewerHandler {
    * Starts VNC Viewer and tries to connect to a Server. (active connecting mode)
    * Thread lives as long as connection is established.
    *
-   * @param hostAddress Address to connect to.
+   * @param hostAddress   Address to connect to.
    * @param vncViewerPort Port to connect to.
    * @return true
    */
@@ -47,7 +46,7 @@ public class VncViewerHandler {
           LOGGER.info("Starting VNC Viewer Connection");
 
           process = Runtime.getRuntime().exec(
-              vncViewerName +" "+ hostAddress + "::" + vncViewerPort);
+              vncViewerName + " " + hostAddress + "::" + vncViewerPort);
           model.setIsVncViewerRunning(true);
 
           InputStream errorStream = process.getErrorStream();

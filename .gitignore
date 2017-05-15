@@ -204,5 +204,3 @@ fabric.properties
 
 ## These resources are created during execution of "port_share.sh" and therefore should not be committed
 p2p.log
-
-## Strings.java is being generated
