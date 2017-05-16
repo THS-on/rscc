@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
@@ -48,16 +49,28 @@ public class VncViewerHandler {
           LOGGER.info("Starting VNC Viewer Connection");
 
           String[] commandArray = {
-              "xtightvncviewer",
-              hostAddress + "::" + vncViewerPort,
+              "vncviewer",
+
               "-compresslevel",
               Integer.toString((int) model.getVncCompression()),
               "-quality",
-              Integer.toString((int) model.getVncQuality()),
-              (model.getVncBgr233() ? "-bgr233" : "")
+              Integer.toString((int) model.getVncQuality()),hostAddress + "::" + vncViewerPort,
+             // (model.getVncBgr233() ? "-bgr233" : "")
           };
 
-          process = Runtime.getRuntime().exec(commandArray);
+          System.out.println(Arrays.toString(commandArray));
+          System.out.println("vncviewer 127.0.0.1::5900");
+          try {
+            Thread.sleep(4000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          process = Runtime.getRuntime().exec("vncviewer 127.0.0.1::5900");
+          try {
+            process.waitFor();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
           model.setVncViewerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
@@ -65,6 +78,9 @@ public class VncViewerHandler {
           String errorString;
           while (process.isAlive()) {
             errorString = errorReader.readLine();
+            System.out.println(errorString);
+
+            //TODO -> readline!= null
 
             if (errorString != null && errorString.contains("Connection refused")) {
               LOGGER.info("Detected: Viewer failed to connect");

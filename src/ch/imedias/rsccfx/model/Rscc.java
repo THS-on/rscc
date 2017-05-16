@@ -208,7 +208,7 @@ public class Rscc {
   private void keyServerSetup() {
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
-    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
+   systemCommander.executeTerminalCommandAndReturnOutput(command);
     isSshRunning.setValue(true);
   }
 
@@ -350,6 +350,7 @@ public class Rscc {
     } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
       rudp = new RunRudp(this, false, true);
     }
+    vncViewer = new VncViewerHandler(this);
 
     if (rudp != null) {
       LOGGER.info("RSCC: Starting rudp");
@@ -360,7 +361,6 @@ public class Rscc {
       LOGGER.info("RSCC: Starting VNCViewer");
       setConnectionStatus("Starting VNC Viewer.", 1);
 
-      vncViewer = new VncViewerHandler(this);
       boolean con = false;
       while (!con) {
         System.out.println(con);
