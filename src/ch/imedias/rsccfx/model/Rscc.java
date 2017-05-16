@@ -78,7 +78,7 @@ public class Rscc {
 
   private final StringProperty terminalOutput = new SimpleStringProperty();
 
-  private final BooleanProperty forcingServerMode = new SimpleBooleanProperty(false);
+  private final BooleanProperty forcingServerMode = new SimpleBooleanProperty(true);
   private final BooleanProperty vncSessionRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty vncServerProcessRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty vncViewerProcessRunning = new SimpleBooleanProperty(false);
@@ -314,12 +314,12 @@ public class Rscc {
     setConnectionStatusStyle(getConnectionStatusStyles(statusStyleIndex));
   }
 
+
   /**
    * Starts connection to the user.
    */
   public void connectToUser() {
     setConnectionEstablishmentRunning(true);
-    System.out.println(connectionEstablishmentRunning);
 
     setConnectionStatus("Get key from keyserver...", 1);
 
@@ -330,8 +330,10 @@ public class Rscc {
 
     setConnectionStatus("Connected to keyserver.", 1);
 
-    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
-    isSshRunning.setValue(true);
+//    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
+//    isSshRunning.setValue(true);
+
+    systemCommander.executeTerminalCommandAndReturnOutput(command);
 
     rscccfp = new Rscccfp(this, false);
     rscccfp.setDaemon(true);
@@ -367,10 +369,16 @@ public class Rscc {
         con = vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
       }
     } else {
+
+
+      try {
+        Thread.sleep(3000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       boolean con = false;
-      while (!con) {
-        System.out.println(con);
-        con = vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
+      while (!isVncSessionRunning()) {
+        vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
       }
     }
     setConnectionEstablishmentRunning(false);

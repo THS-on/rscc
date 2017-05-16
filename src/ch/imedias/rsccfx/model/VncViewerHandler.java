@@ -50,27 +50,23 @@ public class VncViewerHandler {
 
           String[] commandArray = {
               "vncviewer",
-
               "-compresslevel",
               Integer.toString((int) model.getVncCompression()),
               "-quality",
-              Integer.toString((int) model.getVncQuality()),hostAddress + "::" + vncViewerPort,
-             // (model.getVncBgr233() ? "-bgr233" : "")
+              Integer.toString((int) model.getVncQuality()),
+              hostAddress + "::" + vncViewerPort,
+              (model.getVncBgr233() ? "-bgr233" : "")
           };
 
           System.out.println(Arrays.toString(commandArray));
-          System.out.println("vncviewer 127.0.0.1::5900");
+
           try {
             Thread.sleep(4000);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          process = Runtime.getRuntime().exec("vncviewer 127.0.0.1::5900");
-          try {
-            process.waitFor();
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
+          process = Runtime.getRuntime().exec(commandArray);
+
           model.setVncViewerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
@@ -82,7 +78,7 @@ public class VncViewerHandler {
 
             //TODO -> readline!= null
 
-            if (errorString != null && errorString.contains("Connection refused")) {
+            if (errorString != null && (errorString.contains("Connection refused") || errorString.contains("Usage"))) {
               LOGGER.info("Detected: Viewer failed to connect");
               connectionSucceed.setValue(false);
               killVncViewerProcess();
