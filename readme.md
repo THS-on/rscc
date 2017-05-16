@@ -1,13 +1,25 @@
 # RSCC - Remote Support Connection Client
 
-RSCC is a RemoteSupport application written in Java and using bash scripts. 
+RSCC is a RemoteSupport application to establish a connection between two clients and start an VNC-Connection, in multiple ways.
+
 Key features:
  - Uses VNC-Server and viewer
- - Client-to-Client connection using STUN-Technology
+ - Client-to-Client connection using ICE / STUN-Technology
  - Fallback solution using a relay-server
  - Runs on Linux only
  - OpenSource
 
+The use cases is allways a Requester who seeks support and his Supporter. With the following scenarios:
+ - Supporter has Public IP
+    - Supporter starts Viewer in listening mode
+    - Requester starts VNC-Server in connection mode 
+ - Both Client are behind a NAT
+    - A relay server (keyserver) is used to generate a Key
+    - Both Clients start a connection over the relay-server
+    - Both Clients run ICE to find a direct-connection using STUN/UDP-Holepunching
+    - When ICE is successful the connection is tunneled over RUDP (TCP over UDP)
+    - When no direct connection is possible, the realy-server is the fallback and will rout the traffic (TCP)
+ 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -16,10 +28,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Working Linux installation
 - Java-IDE of your choice
-- VNC-Server
-- VNC-Viewer
+- VNC-Server (x11vnc)
+- VNC-Viewer (vncviewer)
 - Python
-- Access to a running Server (use this [Dockerimage](https://hub.docker.com/r/jpduloch/p2p/) based on [Repo](https://github.com/jpduloch/p2p))
+- Maven
+- Access to a running Server (use this [Dockerimage](https://hub.docker.com/r/jpduloch/p2p/) based on this [Repo](https://github.com/jpduloch/p2p))
 ```
 Give examples
 ```
@@ -66,7 +79,7 @@ Give an example
 
 ## Deployment
 
-To use the RSCC you need a server running the 
+To use the RSCC you need a server running the Docker Image.
 
 ## Built With
 
@@ -86,7 +99,7 @@ See also the list of [contributors](https://github.com/Kennox/rscc/contributors)
 
 ## License
 
-GNU
+GPL
 
 ## Acknowledgments
 
