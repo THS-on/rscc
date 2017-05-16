@@ -1,6 +1,6 @@
 # RSCC - Remote Support Connection Client
 
-RSCC is a RemoteSupport application to establish a connection between two clients and start an VNC-Connection, in multiple ways.
+RSCC is a RemoteSupport application to establish a connection between two clients and start a VNC-Connection, in multiple ways.
 
 Key features:
  - Uses VNC-Server and viewer
@@ -9,7 +9,7 @@ Key features:
  - Runs on Linux only
  - OpenSource
 
-The use cases is allways a Requester who seeks support and his Supporter. With the following scenarios:
+The use cases is always a Requester who seeks support and his Supporter. With the following scenarios:
  - Supporter has Public IP
     - Supporter starts Viewer in listening mode
     - Requester starts VNC-Server in connection mode 
@@ -39,7 +39,15 @@ Give examples
 
 ### Installing
 
-Seting up the Development-Environment
+##Seting up the Development-Environment
+#Make sure you have all the prerequisites from above
+#clone repository
+#open project in Java-IDE
+#run mvn package
+#Run the application
+
+## Install application only
+You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers.
 
 ```
 Give the example
