@@ -1,13 +1,15 @@
 package ch.imedias.rsccfx.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import ch.imedias.rscc.ProcessExecutor;
+import ch.imedias.rsccfx.model.util.KeyUtil;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,92 +23,218 @@ public class RsccTest {
   private static final String KEY_SERVER_HTTP_PORT = "800";
 
   Rscc model;
-  ProcessExecutor mockProcessExecutor;
+  SystemCommander mockSystemCommander;
+  KeyUtil mockKeyUtil;
 
   /**
    * Initializes test fixture before each test.
    */
-  @Ignore
   @Before
   public void setUp() throws Exception {
-    mockProcessExecutor = mock(ProcessExecutor.class);
-    model = new Rscc(new SystemCommander());
-    model.keyServerSetup(KEY_SERVER_IP, KEY_SERVER_HTTP_PORT);
-    when(mockProcessExecutor.getOutput()).thenReturn("OUTPUT>" + KEY);
+    mockSystemCommander = mock(SystemCommander.class);
+    mockKeyUtil = mock(KeyUtil.class);
+    model = new Rscc(mockSystemCommander, mockKeyUtil);
+    // since commandStringGenerator is mainly a utility function and is being tested separately
+    // call the real method
+    doCallRealMethod().when(mockSystemCommander).commandStringGenerator(any(), any(), any());
+    model.setKeyServerIp(KEY_SERVER_IP);
+    model.setKeyServerHttpPort(KEY_SERVER_HTTP_PORT);
+    when(mockSystemCommander.executeTerminalCommand(
+        argThat(string -> string.contains("port_share.sh")))).thenReturn(KEY);
+    when(mockKeyUtil.getKey()).thenReturn(KEY);
   }
 
   /**
-   * Test for Constructor {@link Rscc#Rscc(SystemCommander)}.
+   * Test for Constructor {@link Rscc#Rscc(SystemCommander,KeyUtil)}.
    */
-  @Ignore
+  @Test
+  public void testRsccConstructorIllegalArguments() {
+    try {
+      new Rscc(null, mockKeyUtil);
+      fail("IllegalArgumentException was expected when SystemCommander is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(mockSystemCommander, null);
+      fail("IllegalArgumentException was expected when KeyUtil is null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      new Rscc(null, null);
+      fail("IllegalArgumentException was expected when all parameters are null");
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+  }
+
+  /**
+   * Test for Constructor {@link Rscc#Rscc(SystemCommander,KeyUtil)}.
+   */
   @Test
   public void testRsccConstructor() {
-    // TODO: write test
-  }
-
-  /**
-   * Test for {@link Rscc#keyServerSetup(String, String)}.
-   */
-  @Ignore
-  @Test
-  public void testPublicKeyServerSetup() {
-    // TODO: write test
+    try {
+      new Rscc(mockSystemCommander,mockKeyUtil);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
   }
 
   /**
    * Test for {@link Rscc#keyServerSetup()}.
    * Not marked with a @Test annotation because it is indirectly called in other tests.
    */
-  public void testPrivateKeyServerSetup() throws Exception {
-    verify(mockProcessExecutor).executeScript(eq(true), eq(true),
-        argThat(script -> script.startsWith("bash ") && script.endsWith("use.sh")),
-        eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
+  public void testKeyServerSetup() throws Exception {
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("use.sh")
+            && script.contains(KEY_SERVER_IP)
+            && script.contains(KEY_SERVER_HTTP_PORT)));
   }
 
   /**
    * Test for {@link Rscc#killConnection()}.
    */
-  @Ignore
   @Test
   public void testKillConnection() throws Exception {
     model.killConnection();
-    verify(mockProcessExecutor).executeScript(eq(true), eq(true),
-        argThat(script -> script.startsWith("bash ") && script.endsWith("port_stop.sh")), eq(KEY));
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("port_stop.sh")
+            && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
 
   /**
-   * Test for {@link Rscc#requestTokenFromServer()}.
+   * Test for {@link Rscc#requestKeyFromServer()}.
    */
   @Ignore
-  @Test
-  public void testRequestTokenFromServer() throws Exception {
-    model.requestTokenFromServer();
-    String key = model.getKey();
-    testPrivateKeyServerSetup();
+  public void testRequestKeyFromServer() throws Exception {
+    model.requestKeyFromServer();
+    testKeyServerSetup();
     // make sure the script was executed
-    verify(mockProcessExecutor).executeScript(eq(true), eq(true),
-        argThat(script -> script.startsWith("bash ") && script.endsWith("start_x11vnc.sh")),
-        eq(KEY_SERVER_IP), eq(KEY_SERVER_HTTP_PORT));
-    // make sure the key which is being returned is right
-    assertEquals(KEY, key);
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("port_share.sh")));
+    // make sure the key which is being returned is set right
+    verify(mockKeyUtil).setKey(KEY);
   }
 
   /**
    * Test for {@link Rscc#connectToUser()}.
    */
   @Ignore
-  @Test
-  public void testConnectToUser() {
-    // TODO: write test
+  public void testConnectToUser() throws Exception {
+    model.connectToUser();
+    // make sure the scripts were executed
+    this.testKeyServerSetup();
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("port_connect.sh")
+            && script.endsWith(KEY)));
+    verify(mockKeyUtil).getKey();
   }
 
   /**
    * Test for {@link Rscc#refreshKey()}.
    */
   @Ignore
-  @Test
   public void testRefreshKey() {
-    // TODO: write test
+    model.refreshKey();
+    // make sure the scripts were executed
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("port_stop.sh")));
+    verify(mockSystemCommander).executeTerminalCommand(
+        argThat(script -> script.contains("port_share.sh")));
+    // make sure the key which is being returned is set right
+    verify(mockKeyUtil).setKey(KEY);
   }
 
+  //  /**
+  //   * Test for {@link Rscc#startVncServer()}.
+  //   */
+  //  @Test
+  //  public void testStartVncServer() {
+  //    model.startVncServer();
+  //    // make sure the scripts were executed
+  //    verify(mockSystemCommander).executeTerminalCommand(
+  //        argThat(script -> script.contains("x11vnc")));
+  //  }
+
+  //  /**
+  //   * Test for {@link Rscc#startVncViewer(String, Integer)}.
+  //   */
+  //  @Test
+  //  public void testStartVncViewer() {
+  //    String hostAddress = "localhost";
+  //    int vncPort = 5900;
+  //    model.startVncViewer(hostAddress, vncPort);
+  //    // make sure the scripts were executed
+  //    verify(mockSystemCommander).executeTerminalCommand(
+  //        argThat(script -> script.contains("vncviewer")
+  //            && script.contains(hostAddress)));
+  //  }
+
+  //  /**
+  //   * Test for {@link Rscc#startVncViewer(String, Integer)}.
+  //   */
+  //  @Test
+  //  public void testStartVncViewerIllegalArgument() {
+  //    int vncPort = 5900;
+  //    try {
+  //
+  //      model.startVncViewer(null, 5900);
+  //      fail("IllegalArgumentException was expected when HostAddress is null");
+  //    } catch (IllegalArgumentException e) {
+  //      // expected behavior
+  //    }
+  //  }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatus() {
+    int styleIndexToTest = 0;
+    String statusText = "test";
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    String currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+
+    styleIndexToTest = 1;
+    model.setConnectionStatus(statusText,styleIndexToTest);
+    currentStatus = model.getConnectionStatusStyle();
+    assertEquals(model.getConnectionStatusStyles(styleIndexToTest),currentStatus);
+    assertEquals(model.getConnectionStatusText(), statusText);
+  }
+
+  /**
+   * Test for {@link Rscc#setConnectionStatus(String, int)}.
+   */
+  @Test
+  public void testSetConnectionStatusFailing() {
+    try {
+      int styleIndexToTest = -1;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 52;
+      String statusText = "test";
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+
+    try {
+      int styleIndexToTest = 0;
+      String statusText = null;
+      model.setConnectionStatus(statusText,styleIndexToTest);
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    }
+  }
 }

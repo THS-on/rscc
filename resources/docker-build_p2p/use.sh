@@ -35,7 +35,8 @@ p2p_port=$(wget $webserver/port -O- 2>$logfile)
 ### update ssh.rc
 sed -i ssh.rc \
     -e "/^p2p_server/c p2p_server=$p2p_server" \
-    -e "/^p2p_port/c p2p_port=$p2p_port"
+    -e "/^p2p_port/c p2p_port=$p2p_port" \
+    -e "/^http_port/c http_port=$http_port"
 
 ### get the keys from the webserver
 for keyname in create delete get
