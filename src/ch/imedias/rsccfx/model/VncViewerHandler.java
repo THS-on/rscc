@@ -54,8 +54,8 @@ public class VncViewerHandler {
               "-compresslevel",
               Integer.toString((int) model.getVncCompression()),
               "-quality",
-              Integer.toString((int) model.getVncQuality()),hostAddress + "::" + vncViewerPort,
-             // (model.getVncBgr233() ? "-bgr233" : "")
+              Integer.toString((int) model.getVncQuality()), hostAddress + "::" + vncViewerPort,
+              // (model.getVncBgr233() ? "-bgr233" : "")
           };
 
           System.out.println(Arrays.toString(commandArray));
