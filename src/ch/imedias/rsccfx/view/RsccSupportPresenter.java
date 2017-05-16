@@ -1,20 +1,14 @@
 package ch.imedias.rsccfx.view;
 
-import ch.imedias.rscc.ProcessExecutor;
 import ch.imedias.rsccfx.ControlledPresenter;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.ViewController;
 import ch.imedias.rsccfx.model.Rscc;
 import ch.imedias.rsccfx.model.util.KeyUtil;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -39,9 +33,6 @@ public class RsccSupportPresenter implements ControlledPresenter {
   private final RsccSupportView view;
   private final HeaderPresenter headerPresenter;
   private final KeyUtil keyUtil;
-  private final BooleanProperty serviceRunning = new SimpleBooleanProperty(false);
-  Task startServiceTask;
-  ProcessExecutor offerProcessExecutor = new ProcessExecutor();
   private ViewController viewParent;
   private PopOverHelper popOverHelper;
 

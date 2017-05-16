@@ -14,7 +14,6 @@ import javafx.beans.property.LongProperty;
 public class SystemCommander {
   private static final Logger LOGGER =
       Logger.getLogger(SystemCommander.class.getName());
-  private Rscc model;
 
   /**
    * Executes a command in the Linux terminal.
@@ -56,127 +55,6 @@ public class SystemCommander {
     return outputString;
   }
 
-  /**
-   * Executes the command given and returns PID of started Process.
-   * @param command to be executed
-   * @return PID of the started process
-   */
-  public long startProcessAndReturnPid(String command) {
-    Process process;
-    try {
-      // Execute Command
-      process = Runtime.getRuntime().exec(command);
-      process.waitFor();
-      //needed or not?
-      //     process.waitFor();
-
-    } catch (Exception exception) {
-      LOGGER.severe("Exception thrown when running the command: "
-          + command
-          + "\n Exception Message: " + exception.getMessage());
-      throw new IllegalArgumentException();
-    }
-    long pid = -1;
-
-    try {
-      if (process.getClass().getName().equals("java.lang.UNIXProcess")) {
-        Field f = process.getClass().getDeclaredField("pid");
-        f.setAccessible(true);
-        pid = f.getLong(process);
-        f.setAccessible(false);
-      }
-    } catch (Exception e) {
-      pid = -1;
-    }
-    LOGGER.info("started Process: " + command + " with PID:" + pid);
-    return pid;
-  }
-
-
-  /**
-   * Executes a TerminalCommand, that listen for a specified StringOutput and sets the
-   * setVncSessionRunning accordingly.Runs untill the process is finished or killed!
-   *
-   * @param command                 to be executed
-   * @param whatTerminalNeedsToShow String to compare to and when to set connection ongoing in model
-   * @param returnPid               A LongProperty if you need the just started process pid,
-   *                                null if not
-   */
-  public String startProcessAndUpdate(String command, String whatTerminalNeedsToShow,
-                                      BooleanProperty update, LongProperty returnPid) {
-    Process process;
-    StringBuilder output = new StringBuilder();
-
-    try {
-      process = Runtime.getRuntime().exec(command);
-      final InputStream errorStream = process.getErrorStream();
-      final InputStream inputStream = process.getInputStream();
-
-      long pid = -1;
-
-      if (returnPid != null) {
-        try {
-          if (process.getClass().getName().equals("java.lang.UNIXProcess")) {
-            Field f = process.getClass().getDeclaredField("pid");
-            f.setAccessible(true);
-            pid = f.getLong(process);
-            f.setAccessible(false);
-          }
-        } catch (Exception e) {
-          pid = -1;
-        }
-        returnPid.setValue(pid);
-        System.out.println(pid);
-      }
-
-
-      Thread t = new Thread(new Runnable() {
-        public void run() {
-          BufferedReader reader = null;
-          BufferedReader reader2 = null;
-          try {
-            reader = new BufferedReader(new InputStreamReader(errorStream));
-            reader2 = new BufferedReader(new InputStreamReader(inputStream));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-              if (line.contains(whatTerminalNeedsToShow)) {
-                update.setValue(true);
-              }
-              output.append(line);
-            }
-            while ((line = reader2.readLine()) != null) {
-              if (line.contains(whatTerminalNeedsToShow)) {
-                update.setValue(true);
-              }
-              output.append(line);
-            }
-
-          } catch (Exception e) {
-            LOGGER.info(e + " " + e.getStackTrace());
-
-          } finally {
-            if (reader != null) {
-              try {
-                reader.close();
-              } catch (IOException e) {
-                LOGGER.info(e + " " + e.getStackTrace());
-
-              }
-            }
-          }
-        }
-      });
-      t.start();
-      t.join();
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      update.setValue(false);
-    }
-    return output.toString();
-
-  }
-
 
   /**
    * Generates String to run command.
@@ -201,9 +79,5 @@ public class SystemCommander {
         .forEach((s) -> commandString.append(" ").append(s));
 
     return commandString.toString();
-  }
-
-  public void setModel(Rscc model) {
-    this.model = model;
   }
 }

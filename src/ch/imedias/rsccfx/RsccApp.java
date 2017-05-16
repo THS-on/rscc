@@ -110,7 +110,6 @@ public class RsccApp extends Application {
 
     SystemCommander systemCommander = new SystemCommander();
     model = new Rscc(systemCommander, new KeyUtil());
-    systemCommander.setModel(model);
     ViewController mainView = new ViewController();
 
     // Set root font size, everything adapts to it afterwards

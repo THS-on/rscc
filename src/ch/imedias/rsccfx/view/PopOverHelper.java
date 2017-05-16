@@ -84,6 +84,9 @@ public class PopOverHelper {
 
   /**
    * Initializes PopOver according to view.
+   *
+   * @param model The one and only Model.
+   * @param viewName TODO Add comment.
    */
   public PopOverHelper(Rscc model, String viewName) {
     this.model = model;

@@ -107,10 +107,8 @@ public class Rscccfp extends Thread {
    * Starts the TCP-Client.
    *
    * @param host Host address to connect to.
-   * @throws Throwable When connection is not possible.
    */
   public void startRscccfpClient(String host) {
-
     //connect to server
     LOGGER.info("start client");
     try {
