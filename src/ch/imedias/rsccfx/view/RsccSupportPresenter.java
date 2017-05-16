@@ -153,9 +153,9 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     model.vncSessionRunningProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue) {
-        model.setConnectionStatus("Connection established", 3);
+        model.setConnectionStatus("Connection established", 2);
       } else {
-        model.setConnectionStatus("Waiting for incomming connections", 3);
+        model.setConnectionStatus("Waiting for incomming connections", 1);
       }
 
     });
