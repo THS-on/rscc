@@ -293,15 +293,33 @@ public class RunRudp extends Thread {
   public void closeRudpConnection() {
     this.exit = true;
     try {
-      tcpInputStream.close();
-      rudpOutputStream.close();
-      tcpOutputStream.close();
-      rudpOutputStream.close();
-      rudpSocket.close();
-      rudpSocket2.close();
-      rudpServerSocket.close();
-      tcpServerSocket.close();
-      tcpSocket.close();
+      if (tcpInputStream != null) {
+        tcpInputStream.close();
+      }
+      if (rudpOutputStream != null) {
+        rudpOutputStream.close();
+      }
+      if (tcpOutputStream != null) {
+        tcpOutputStream.close();
+      }
+      if (rudpOutputStream != null) {
+        rudpOutputStream.close();
+      }
+      if (rudpSocket != null) {
+        rudpSocket.close();
+      }
+      if (rudpSocket2 != null) {
+        rudpSocket2.close();
+      }
+      if (rudpServerSocket != null) {
+        rudpServerSocket.close();
+      }
+      if (tcpServerSocket != null) {
+        tcpServerSocket.close();
+      }
+      if (tcpSocket != null) {
+        tcpSocket.close();
+      }
     } catch (IOException e) {
       LOGGER.info(e.getMessage());
     }
