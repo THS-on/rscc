@@ -51,6 +51,7 @@ public class SupporterHelper {
    * Returns a default list of supporters.
    */
   public List<Supporter> getDefaultSupporters() {
+    LOGGER.info("Loading default supporter list");
     File supportersXmlFile =
         new File(getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILENAME).getFile());
     return getSupportersFromXml(supportersXmlFile);
