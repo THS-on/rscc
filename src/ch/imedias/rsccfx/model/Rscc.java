@@ -263,9 +263,9 @@ public class Rscc {
     try {
       rscccfp.join();
 
-      LOGGER.info("RSCC: Starting VNCServer");
-
       if (getRscccfpHasTalkedToOtherClient()) {
+        LOGGER.info("RSCC: Starting VNCServer");
+
         vncServer = new VncServerHandler(this);
         vncServer.startVncServerListening();
 
