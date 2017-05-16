@@ -39,12 +39,12 @@ Give examples
 
 ### Installing
 
-##Seting up the Development-Environment
-#Make sure you have all the prerequisites from above
-#clone repository
-#open project in Java-IDE
-#run mvn package
-#Run the application
+Seting up the Development-Environment
+1. Make sure you have all the prerequisites from above
+2. Clone repository
+3. Open project in Java-IDE
+4. Run mvn package
+5. Run the application
 
 ## Install application only
 You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers.
