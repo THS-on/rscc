@@ -20,11 +20,22 @@ public class RunRudp extends Thread {
   private static final Logger LOGGER = Logger.getLogger(Rscccfp.class.getName());
 
 
-  private boolean isOngoing = true;
+  private boolean exit = false;
   private Rscc model;
   private boolean viewerIsRudpClient;
   private boolean callAsViewer;
   private ReliableSocketProfile profile;
+
+  private InputStream rudpInputStream;
+  private OutputStream rudpOutputStream;
+  private InputStream tcpInputStream;
+  private OutputStream tcpOutputStream;
+  private ReliableSocket rudpSocket;
+  private Socket rudpSocket2;
+  private ReliableServerSocket rudpServerSocket;
+  private Socket tcpSocket;
+  private ServerSocket tcpServerSocket;
+
 
   /**
    * Constructor.
@@ -46,12 +57,7 @@ public class RunRudp extends Thread {
     try {
 
       String remoteAddressAsString = model.getRemoteClientIpAddress().getHostAddress();
-
-      ReliableSocket rudpSocket;
-      Socket rudpSocket2;
-      ReliableServerSocket rudpServerSocket;
-      Socket tcpSocket;
-      ServerSocket tcpServerSocket;
+      ;
 
       model.setConnectionStatus("Trying to setup UDP proxy", 1);
 
@@ -68,8 +74,8 @@ public class RunRudp extends Thread {
         rudpSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
             model.getRemoteClientPort(), null, model.getIcePort());
 
-        final InputStream rudpInputStream = rudpSocket.getInputStream();
-        final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
+        rudpInputStream = rudpSocket.getInputStream();
+        rudpOutputStream = rudpSocket.getOutputStream();
 
         LOGGER.info("Sucessfully connected rudp to " + model.getRemoteClientIpAddress()
             .getHostAddress() + ":" + model.getRemoteClientPort());
@@ -80,8 +86,8 @@ public class RunRudp extends Thread {
         tcpSocket = tcpServerSocket.accept();
         tcpSocket.setTcpNoDelay(true);
 
-        final InputStream tcpInputStream = tcpSocket.getInputStream();
-        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+        tcpInputStream = tcpSocket.getInputStream();
+        tcpOutputStream = tcpSocket.getOutputStream();
 
         LOGGER.info("Accepted incoming tcp connection from" + tcpSocket.getInetAddress()
             .getHostAddress());
@@ -103,8 +109,8 @@ public class RunRudp extends Thread {
         rudpServerSocket = new ReliableServerSocket(model.getIcePort());
         rudpSocket2 = rudpServerSocket.accept();
 
-        final InputStream rudpInputStream = rudpSocket2.getInputStream();
-        final OutputStream rudpOutputStream = rudpSocket2.getOutputStream();
+        rudpInputStream = rudpSocket2.getInputStream();
+        rudpOutputStream = rudpSocket2.getOutputStream();
         LOGGER.info("Accepted incoming rudp connection from" + rudpSocket2.getInetAddress()
             .getHostAddress());
 
@@ -114,8 +120,8 @@ public class RunRudp extends Thread {
 
         tcpSocket = new Socket(InetAddress.getByName("127.0.0.1"), model.getVncPort());
 
-        final InputStream tcpInputStream = tcpSocket.getInputStream();
-        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+        tcpInputStream = tcpSocket.getInputStream();
+        tcpOutputStream = tcpSocket.getOutputStream();
 
         LOGGER.info("Sucessful tcp connection");
 
@@ -138,8 +144,8 @@ public class RunRudp extends Thread {
         LOGGER.info("Accepted incoming rudp connection from" + rudpSocket2.getInetAddress()
             .getHostAddress());
 
-        final InputStream rudpInputStream = rudpSocket2.getInputStream();
-        final OutputStream rudpOutputStream = rudpSocket2.getOutputStream();
+        rudpInputStream = rudpSocket2.getInputStream();
+        rudpOutputStream = rudpSocket2.getOutputStream();
 
         //TCP Server
         tcpServerSocket = new ServerSocket(model.getLocalForwardingPort());
@@ -147,8 +153,8 @@ public class RunRudp extends Thread {
         tcpSocket.setTcpNoDelay(true);
         LOGGER.info("TCP connected");
 
-        final InputStream tcpInputStream = tcpSocket.getInputStream();
-        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+        tcpInputStream = tcpSocket.getInputStream();
+        tcpOutputStream = tcpSocket.getOutputStream();
 
         LOGGER.info("Accepted incoming tcp connection from" + tcpSocket.getInetAddress()
             .getHostAddress());
@@ -174,8 +180,8 @@ public class RunRudp extends Thread {
         rudpSocket = new ReliableSocket(model.getRemoteClientIpAddress().getHostAddress(),
             model.getRemoteClientPort(), null, model.getIcePort());
 
-        final InputStream rudpInputStream = rudpSocket.getInputStream();
-        final OutputStream rudpOutputStream = rudpSocket.getOutputStream();
+        rudpInputStream = rudpSocket.getInputStream();
+        rudpOutputStream = rudpSocket.getOutputStream();
 
         LOGGER.info("Sucessfully connected rudp to " + model.getRemoteClientIpAddress()
             .getHostAddress() + ":" + model.getRemoteClientPort());
@@ -186,8 +192,8 @@ public class RunRudp extends Thread {
 
         tcpSocket = new Socket(InetAddress.getByName("127.0.0.1"), model.getVncPort());
 
-        final InputStream tcpInputStream = tcpSocket.getInputStream();
-        final OutputStream tcpOutputStream = tcpSocket.getOutputStream();
+        tcpInputStream = tcpSocket.getInputStream();
+        tcpOutputStream = tcpSocket.getOutputStream();
 
         LOGGER.info("Sucessful tcp connection");
 
@@ -226,7 +232,7 @@ public class RunRudp extends Thread {
       public void run() {
         int bytesRead;
         try {
-          while ((bytesRead = tcpInput.read(request)) != -1 && isOngoing) {
+          while ((bytesRead = tcpInput.read(request)) != -1 && !exit) {
             rudpOutput.write(request, 0, bytesRead);
             //LOGGER.info("wrote1:" + bytesRead);
             rudpOutput.flush();
@@ -261,7 +267,7 @@ public class RunRudp extends Thread {
 
     int bytesRead;
     try {
-      while ((bytesRead = rudpInput.read(reply)) != -1 && isOngoing) {
+      while ((bytesRead = rudpInput.read(reply)) != -1 && !exit) {
         tcpOutput.write(reply, 0, bytesRead);
         tcpOutput.flush();
       }
@@ -281,13 +287,28 @@ public class RunRudp extends Thread {
     // connection to our client.
   }
 
-  public boolean isIsOngoing() {
-    return isOngoing;
+  /**
+   * Stops the rudp-Proxa and closes all Sockets and streams.
+   */
+  public void closeRudpConnection() {
+    this.exit = true;
+    try {
+      tcpInputStream.close();
+      rudpOutputStream.close();
+      tcpOutputStream.close();
+      rudpOutputStream.close();
+      rudpSocket.close();
+      rudpSocket2.close();
+      rudpServerSocket.close();
+      tcpServerSocket.close();
+      tcpSocket.close();
+    } catch (IOException e) {
+      LOGGER.info(e.getMessage());
+    }
+
   }
 
-  public void setIsOngoing(boolean isOngoing) {
-    this.isOngoing = isOngoing;
-  }
+
 }
 
 

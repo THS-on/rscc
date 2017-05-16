@@ -222,7 +222,8 @@ public class Rscc {
     }
 
     if (rudp != null) {
-      rudp.setIsOngoing(false);
+      rudp.closeRudpConnection();
+      System.out.println("set rudp ongoing False");
     }
 
     if (vncServer != null && isVncServerProcessRunning()) {
