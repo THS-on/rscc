@@ -218,27 +218,32 @@ public class Rscc {
    */
   public void killConnection() {
     if (rscccfp != null) {
+      LOGGER.info("RSCCFP not null. Close RSCCFP");
       rscccfp.closeConnection();
     }
 
     if (rudp != null) {
+      LOGGER.info("Proxy not null. Try to close Proxy");
       rudp.closeRudpConnection();
-      System.out.println("set rudp ongoing False");
     }
 
     if (vncServer != null && isVncServerProcessRunning()) {
+      LOGGER.info("vncServer not null. Try to close VncServerProcess");
       vncServer.killVncServerProcess();
     }
 
     if (vncViewer != null && isVncViewerProcessRunning()) {
+      LOGGER.info("Try to close VncViewer Process");
       vncViewer.killVncViewerProcess();
     }
 
     // Execute port_stop.sh with the generated key to kill the SSH connections
+    LOGGER.info("SSH connection still active - try closing SSH connection");
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "port_stop.sh", keyUtil.getKey());
     systemCommander.executeTerminalCommandAndReturnOutput(command);
     keyUtil.setKey("");
+    LOGGER.info("Everything should be closed");
   }
 
   /**
