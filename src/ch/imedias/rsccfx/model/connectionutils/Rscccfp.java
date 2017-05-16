@@ -39,7 +39,6 @@ public class Rscccfp extends Thread {
   private String remoteSdp;
   private Agent agent;
   private IceStateListener iceStateListener;
-  private boolean connected = false;
 
   /**
    * This is the Protocol to see if a UPD Connection  between the Clients is possible.
@@ -91,8 +90,6 @@ public class Rscccfp extends Thread {
 
     try {
       connectionSocket = serverSocket.accept();
-
-      connected = true;
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       LOGGER.info("RSCCCFP: Client connected");
@@ -378,11 +375,4 @@ public class Rscccfp extends Thread {
     return rtpComponent;
   }
 
-  public boolean isConnected() {
-    return connected;
-  }
-
-  public void setConnected(boolean connected) {
-    this.connected = connected;
-  }
 }

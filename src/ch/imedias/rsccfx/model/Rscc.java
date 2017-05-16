@@ -262,7 +262,7 @@ public class Rscc {
     try {
       rscccfp.join();
 
-      if (rscccfp.isConnected()) {
+
         LOGGER.info("RSCC: Starting VNCServer");
 
         vncServer = new VncServerHandler(this);
@@ -291,7 +291,7 @@ public class Rscc {
         }
 
         setConnectionStatus("VNC-Server waits for incoming connection", 2);
-      }
+
     } catch (Exception e) {
       e.printStackTrace();
       killConnection();
@@ -345,7 +345,6 @@ public class Rscc {
 
     RunRudp rudp = null;
 
-    if (rscccfp.isConnected()) {
       if (isLocalIceSuccessful) {
         rudp = new RunRudp(this, true, true);
       } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
@@ -368,7 +367,7 @@ public class Rscc {
       }
       setConnectionEstablishmentRunning(false);
 
-    }
+
   }
 
 
