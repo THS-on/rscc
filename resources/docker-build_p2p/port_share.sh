@@ -53,7 +53,7 @@ remote_port=$(sed -n -e '2p' $keyfile | tr -d [:space:])
 
 ### start the tunnel for port-forwarding
 ssh="ssh -o StrictHostKeyChecking=no -p $p2p_port -f -N -t"
-if [ $compress = 'yes' ]; then ssh="$ssh -o StrictHostKeyChecking=no -C"; fi
+if [ $compress = 'yes' ]; then ssh="$ssh -C"; fi
 $ssh -R $remote_port:localhost:$local_port \
      -i $keyfile vnc@$p2p_server 2>>$logfile
 rm $keyfile
