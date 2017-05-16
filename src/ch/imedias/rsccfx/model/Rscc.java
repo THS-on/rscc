@@ -208,7 +208,7 @@ public class Rscc {
   private void keyServerSetup() {
     String command = systemCommander.commandStringGenerator(
         pathToResourceDocker, "use.sh", getKeyServerIp(), getKeyServerHttpPort());
-   systemCommander.executeTerminalCommandAndReturnOutput(command);
+    systemCommander.executeTerminalCommandAndReturnOutput(command);
     isSshRunning.setValue(true);
   }
 
