@@ -199,10 +199,6 @@ public class RunRudp extends Thread {
 
         startProxy(tcpInputStream, tcpOutputStream, rudpInputStream, rudpOutputStream,
             model.getPackageSize());
-
-        rudpSocket.close();
-        tcpSocket.close();
-
       }
     } catch (Exception e) {
       LOGGER.info(e.toString() + " " + e.getStackTrace());
@@ -249,8 +245,8 @@ public class RunRudp extends Thread {
           LOGGER.info(e.toString() + " " + e.getStackTrace());
         } finally {
           try {
-            tcpInput.close();
-            rudpOutput.close();
+            closeAll();
+
           } catch (Exception e) {
             LOGGER.info(e.toString() + " " + e.getStackTrace());
           }
@@ -275,8 +271,8 @@ public class RunRudp extends Thread {
       LOGGER.info(e.toString() + " " + e.getStackTrace());
     } finally {
       try {
-        tcpOutput.close();
-        rudpInput.close();
+        closeAll();
+
       } catch (Exception e) {
         LOGGER.info(e.toString() + " " + e.getStackTrace());
       }
@@ -292,37 +288,42 @@ public class RunRudp extends Thread {
    */
   public void closeRudpConnection() {
     this.exit = true;
-    try {
-      if (tcpInputStream != null) {
-        tcpInputStream.close();
-      }
-      if (rudpOutputStream != null) {
-        rudpOutputStream.close();
-      }
-      if (tcpOutputStream != null) {
-        tcpOutputStream.close();
-      }
-      if (rudpOutputStream != null) {
-        rudpOutputStream.close();
-      }
-      if (rudpSocket != null) {
-        rudpSocket.close();
-      }
-      if (rudpSocket2 != null) {
-        rudpSocket2.close();
-      }
-      if (rudpServerSocket != null) {
-        rudpServerSocket.close();
-      }
-      if (tcpServerSocket != null) {
-        tcpServerSocket.close();
-      }
-      if (tcpSocket != null) {
-        tcpSocket.close();
-      }
-    } catch (IOException e) {
-      LOGGER.info(e.getMessage());
-    }
+    closeAll();
+
+  }
+
+    private void closeAll(){
+      try {
+        if (tcpInputStream != null) {
+          tcpInputStream.close();
+        }
+        if (rudpOutputStream != null) {
+          rudpOutputStream.close();
+        }
+        if (tcpOutputStream != null) {
+          tcpOutputStream.close();
+        }
+        if (rudpOutputStream != null) {
+          rudpOutputStream.close();
+        }
+        if (rudpSocket != null) {
+          rudpSocket.close();
+        }
+        if (rudpSocket2 != null) {
+          rudpSocket2.close();
+        }
+        if (rudpServerSocket != null) {
+          rudpServerSocket.close();
+        }
+        if (tcpServerSocket != null) {
+          tcpServerSocket.close();
+        }
+        if (tcpSocket != null) {
+          tcpSocket.close();
+        }
+    }  catch (IOException e) {
+    LOGGER.info(e.getMessage());
+  }
 
   }
 
