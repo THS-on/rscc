@@ -66,7 +66,7 @@ public class SystemCommander {
     try {
       // Execute Command
       process = Runtime.getRuntime().exec(command);
-
+      process.waitFor();
       //needed or not?
       //     process.waitFor();
 

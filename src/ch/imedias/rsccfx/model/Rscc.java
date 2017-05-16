@@ -263,34 +263,34 @@ public class Rscc {
       rscccfp.join();
 
 
-        LOGGER.info("RSCC: Starting VNCServer");
+      LOGGER.info("RSCC: Starting VNCServer");
 
-        vncServer = new VncServerHandler(this);
-        vncServer.startVncServerListening();
+      vncServer = new VncServerHandler(this);
+      vncServer.startVncServerListening();
 
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
 
-        rudp = null;
+      rudp = null;
 
-        if (isLocalIceSuccessful && isRemoteIceSuccessful) {
-          rudp = new RunRudp(this, true, false);
-        } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
-          rudp = new RunRudp(this, false, false);
-        } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-          rudp = new RunRudp(this, true, false);
-        }
+      if (isLocalIceSuccessful && isRemoteIceSuccessful) {
+        rudp = new RunRudp(this, true, false);
+      } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
+        rudp = new RunRudp(this, false, false);
+      } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+        rudp = new RunRudp(this, true, false);
+      }
 
-        if (rudp != null) {
-          LOGGER.info("RSCC: Starting rudp");
+      if (rudp != null) {
+        LOGGER.info("RSCC: Starting rudp");
 
-          rudp.start();
-        }
+        rudp.start();
+      }
 
-        setConnectionStatus("VNC-Server waits for incoming connection", 2);
+      setConnectionStatus("VNC-Server waits for incoming connection", 2);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -325,6 +325,7 @@ public class Rscc {
     setConnectionStatus("Get key from keyserver...", 1);
 
     keyServerSetup();
+
     String command = systemCommander.commandStringGenerator(pathToResourceDocker,
         "port_connect.sh", Integer.toString(getVncPort()), keyUtil.getKey());
 
@@ -345,27 +346,27 @@ public class Rscc {
 
     RunRudp rudp = null;
 
-      if (isLocalIceSuccessful) {
-        rudp = new RunRudp(this, true, true);
-      } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, false, true);
-      }
+    if (isLocalIceSuccessful) {
+      rudp = new RunRudp(this, true, true);
+    } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+      rudp = new RunRudp(this, false, true);
+    }
 
-      if (rudp != null) {
-        LOGGER.info("RSCC: Starting rudp");
-        setConnectionStatus("Starting direct VNC connection.", 1);
+    if (rudp != null) {
+      LOGGER.info("RSCC: Starting rudp");
+      setConnectionStatus("Starting direct VNC connection.", 1);
 
-        rudp.start();
+      rudp.start();
 
-        LOGGER.info("RSCC: Starting VNCViewer");
-        setConnectionStatus("Starting VNC Viewer.", 1);
+      LOGGER.info("RSCC: Starting VNCViewer");
+      setConnectionStatus("Starting VNC Viewer.", 1);
 
-        vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
+      vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
 
-      } else {
-        vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
-      }
-      setConnectionEstablishmentRunning(false);
+    } else {
+      vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
+    }
+    setConnectionEstablishmentRunning(false);
 
 
   }
