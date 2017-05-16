@@ -4,12 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 
 /**
@@ -37,35 +32,28 @@ public class VncViewerHandler {
    * Starts VNC Viewer and tries to connect to a Server. (active connecting mode)
    * Thread lives as long as connection is established.
    *
-   * @param hostAddress   Address to connect to.
-   * @param vncViewerPort Port to connect to.
-   * @return true
+   * @param hostAddress Address to connect to.
    */
-  public boolean startVncViewerConnecting(String hostAddress, Integer vncViewerPort) {
-    final BooleanProperty connectionSucceed = new SimpleBooleanProperty(true);
+  public void startVncViewerConnecting(String hostAddress, Integer vncViewerPort) {
     Thread startViewerProcessThread = new Thread() {
       public void run() {
         try {
           LOGGER.info("Starting VNC Viewer Connection");
 
-          String[] commandArray = {
-              "vncviewer",
-              "-compresslevel",
-              Integer.toString((int) model.getVncCompression()),
-              "-quality",
-              Integer.toString((int) model.getVncQuality()),
-              hostAddress + "::" + vncViewerPort,
-              (model.getVncBgr233() ? "-bgr233" : "")
-          };
-
-          System.out.println(Arrays.toString(commandArray));
-
-          try {
-            Thread.sleep(4000);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
+          StringBuilder commandArray = new StringBuilder();
+          commandArray.append(vncViewerName);
+          commandArray.append(" ").append("-compresslevel");
+          commandArray.append(" ").append(Integer.toString((int) model.getVncCompression()));
+          commandArray.append(" ").append("-quality");
+          commandArray.append(" ").append(Integer.toString((int) model.getVncQuality()));
+          if (model.getVncBgr233()) {
+            commandArray.append(" ").append("-bgr233");
           }
-          process = Runtime.getRuntime().exec(commandArray);
+          commandArray.append(" ").append(hostAddress + "::" + vncViewerPort);
+
+          LOGGER.info("Strating VNCViewer with command: " + commandArray.toString());
+
+          process = Runtime.getRuntime().exec(commandArray.toString());
 
           model.setVncViewerProcessRunning(true);
 
@@ -74,19 +62,14 @@ public class VncViewerHandler {
           String errorString;
           while (process.isAlive()) {
             errorString = errorReader.readLine();
-            System.out.println(errorString);
-
-            //TODO -> readline!= null
 
             if (errorString != null && (errorString.contains("Connection refused") || errorString.contains("Usage"))) {
               LOGGER.info("Detected: Viewer failed to connect");
-              connectionSucceed.setValue(false);
               killVncViewerProcess();
             }
 
             if (errorString != null && errorString.contains("Connected to RFB server")) {
               LOGGER.info("Detected: Viewer connected sucessfully");
-              connectionSucceed.setValue(true);
               model.setVncSessionRunning(true);
             }
           }
@@ -106,15 +89,6 @@ public class VncViewerHandler {
     };
 
     startViewerProcessThread.start();
-
-    //TODO: find alternative for sleepingmode
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    return connectionSucceed.getValue();
   }
 
 
@@ -128,17 +102,23 @@ public class VncViewerHandler {
         LOGGER.info("Starting VNC Viewer listening Thread ");
         model.setVncViewerProcessRunning(true);
         try {
-          String[] commandArray = {
-              "xtightvncviewer",
-              "-listen",
-              "-compresslevel",
-              Integer.toString((int) model.getVncCompression()),
-              "-quality",
-              Integer.toString((int) model.getVncQuality()),
-              (model.getVncBgr233() ? "-bgr233" : "")
-          };
 
-          process = Runtime.getRuntime().exec(commandArray);
+
+          StringBuilder commandArray = new StringBuilder();
+          commandArray.append(vncViewerName);
+          commandArray.append(" ").append("-listen");
+          commandArray.append(" ").append("-compresslevel");
+          commandArray.append(" ").append(Integer.toString((int) model.getVncCompression()));
+          commandArray.append(" ").append("-quality");
+          commandArray.append(" ").append(Integer.toString((int) model.getVncQuality()));
+          if (model.getVncBgr233()) {
+            commandArray.append(" ").append("-bgr233");
+          }
+
+          LOGGER.info("Strating VNCViewer with command: " + commandArray.toString());
+
+          process = Runtime.getRuntime().exec(commandArray.toString());
+
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));

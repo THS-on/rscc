@@ -78,7 +78,7 @@ public class Rscc {
 
   private final StringProperty terminalOutput = new SimpleStringProperty();
 
-  private final BooleanProperty forcingServerMode = new SimpleBooleanProperty(true);
+  private final BooleanProperty forcingServerMode = new SimpleBooleanProperty(false);
   private final BooleanProperty vncSessionRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty vncServerProcessRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty vncViewerProcessRunning = new SimpleBooleanProperty(false);
@@ -330,9 +330,6 @@ public class Rscc {
 
     setConnectionStatus("Connected to keyserver.", 1);
 
-//    sshPid.setValue(systemCommander.startProcessAndReturnPid(command));
-//    isSshRunning.setValue(true);
-
     systemCommander.executeTerminalCommandAndReturnOutput(command);
 
     rscccfp = new Rscccfp(this, false);
@@ -360,25 +357,21 @@ public class Rscc {
 
       rudp.start();
 
-      LOGGER.info("RSCC: Starting VNCViewer");
-      setConnectionStatus("Starting VNC Viewer.", 1);
+    }
 
-      boolean con = false;
-      while (!con) {
-        System.out.println(con);
-        con = vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
-      }
-    } else {
+    LOGGER.info("RSCC: Starting VNCViewer");
+    setConnectionStatus("Starting VNC Viewer.", 1);
 
-
+    int i = 0;
+    while (!isVncSessionRunning() && i<10) {
+      vncViewer.startVncViewerConnecting("localhost",
+          (rudp != null) ? LOCAL_FORWARDING_PORT : vncPort.getValue());
+      i++;
+      System.out.println(i);
       try {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
       } catch (InterruptedException e) {
         e.printStackTrace();
-      }
-      boolean con = false;
-      while (!isVncSessionRunning()) {
-        vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
       }
     }
     setConnectionEstablishmentRunning(false);
