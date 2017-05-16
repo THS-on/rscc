@@ -90,11 +90,14 @@ public class Rscccfp extends Thread {
 
     try {
       connectionSocket = serverSocket.accept();
+      model.setRscccfpHasTalkedToOtherClient(true);
       inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
       outputStream = new DataOutputStream(connectionSocket.getOutputStream());
       LOGGER.info("RSCCCFP: Client connected");
 
       runIceMagic();
+
+
     } catch (SocketException e) {
       LOGGER.info("ServerSocket closed while accepting connections");
     }
@@ -106,18 +109,24 @@ public class Rscccfp extends Thread {
    * @param host Host address to connect to.
    * @throws Throwable When connection is not possible.
    */
-  public void startRscccfpClient(String host) throws Throwable {
+  public void startRscccfpClient(String host) {
 
     //connect to server
     LOGGER.info("start client");
-    connectionSocket = new Socket(host, model.getVncPort());
-    connectionSocket.setTcpNoDelay(false);
-    LOGGER.info("RSCCCFP: Connected to server");
-    outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-    inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+    try {
+      connectionSocket = new Socket(host, model.getVncPort());
+      model.setRscccfpHasTalkedToOtherClient(true);
+      connectionSocket.setTcpNoDelay(false);
+      LOGGER.info("RSCCCFP: Connected to server");
+      outputStream = new DataOutputStream(connectionSocket.getOutputStream());
+      inputStream = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
-    runIceMagic();
-
+      runIceMagic();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
   }
 
 

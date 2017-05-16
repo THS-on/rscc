@@ -83,6 +83,7 @@ public class Rscc {
   private final BooleanProperty vncServerProcessRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty vncViewerProcessRunning = new SimpleBooleanProperty(false);
   private final BooleanProperty connectionEstablishmentRunning = new SimpleBooleanProperty(false);
+  private final BooleanProperty rscccfpHasTalkedToOtherClient = new SimpleBooleanProperty(false);
   private final BooleanProperty isSshRunning = new SimpleBooleanProperty(false);
   private final LongProperty sshPid = new SimpleLongProperty(-1);
 
@@ -262,35 +263,37 @@ public class Rscc {
     try {
       rscccfp.join();
 
-
       LOGGER.info("RSCC: Starting VNCServer");
 
-      vncServer = new VncServerHandler(this);
-      vncServer.startVncServerListening();
+      if (getRscccfpHasTalkedToOtherClient()) {
+        vncServer = new VncServerHandler(this);
+        vncServer.startVncServerListening();
 
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
+        rudp = null;
+
+        if (isLocalIceSuccessful && isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, true, false);
+        } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, false, false);
+        } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
+          rudp = new RunRudp(this, true, false);
+        }
+
+        if (rudp != null) {
+          LOGGER.info("RSCC: Starting rudp");
+
+          rudp.start();
+        }
+
+        setConnectionStatus("VNC-Server waits for incoming connection", 2);
+        setRscccfpHasTalkedToOtherClient(false);
       }
-
-      rudp = null;
-
-      if (isLocalIceSuccessful && isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, true, false);
-      } else if (isLocalIceSuccessful && !isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, false, false);
-      } else if (!isLocalIceSuccessful && isRemoteIceSuccessful) {
-        rudp = new RunRudp(this, true, false);
-      }
-
-      if (rudp != null) {
-        LOGGER.info("RSCC: Starting rudp");
-
-        rudp.start();
-      }
-
-      setConnectionStatus("VNC-Server waits for incoming connection", 2);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -363,7 +366,7 @@ public class Rscc {
     setConnectionStatus("Starting VNC Viewer.", 1);
 
     int i = 0;
-    while (!isVncSessionRunning() && i<10) {
+    while (!isVncSessionRunning() && i < 10) {
       vncViewer.startVncViewerConnecting("localhost",
           (rudp != null) ? LOCAL_FORWARDING_PORT : vncPort.getValue());
       i++;
@@ -717,5 +720,17 @@ public class Rscc {
 
   public void setConnectionEstablishmentRunning(boolean connectionEstablishmentRunning) {
     this.connectionEstablishmentRunning.set(connectionEstablishmentRunning);
+  }
+
+  public boolean getRscccfpHasTalkedToOtherClient() {
+    return rscccfpHasTalkedToOtherClient.get();
+  }
+
+  public BooleanProperty rscccfpHasTalkedToOtherClientProperty() {
+    return rscccfpHasTalkedToOtherClient;
+  }
+
+  public void setRscccfpHasTalkedToOtherClient(boolean rscccfpHasTalkedToOtherClient) {
+    this.rscccfpHasTalkedToOtherClient.set(rscccfpHasTalkedToOtherClient);
   }
 }

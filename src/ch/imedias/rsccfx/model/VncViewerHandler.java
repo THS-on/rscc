@@ -63,7 +63,8 @@ public class VncViewerHandler {
           while (process.isAlive()) {
             errorString = errorReader.readLine();
 
-            if (errorString != null && (errorString.contains("Connection refused") || errorString.contains("Usage"))) {
+            if (errorString != null && (errorString.contains("Connection refused")
+                || errorString.contains("Usage"))) {
               LOGGER.info("Detected: Viewer failed to connect");
               killVncViewerProcess();
             }
@@ -118,7 +119,6 @@ public class VncViewerHandler {
           LOGGER.info("Strating VNCViewer with command: " + commandArray.toString());
 
           process = Runtime.getRuntime().exec(commandArray.toString());
-
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
