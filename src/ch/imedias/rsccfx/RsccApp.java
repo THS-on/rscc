@@ -152,6 +152,7 @@ public class RsccApp extends Application {
   public void stop() throws Exception {
     model.killConnection();
     super.stop();
+    System.exit(0);
   }
 
   private void setLogLevel(Level logLevel) {
