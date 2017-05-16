@@ -1,24 +1,24 @@
 # RSCC - Remote Support Connection Client
 
-RSCC is a RemoteSupport application to establish a connection between two clients and start a VNC-Connection, in multiple ways.
+RSCC is a remote support application to establish a connection between two clients and start a VNC-Connection, in multiple ways.
 
 Key features:
- - Uses VNC-Server and viewer
- - Client-to-Client connection using ICE / STUN-Technology
- - Fallback solution using a relay-server
- - Runs on Linux only
- - OpenSource
+ - Uses VNC server and viewer
+ - Client-to-Client (P2P) connection using ICE and STUN
+   - Fallback solution using a relay-server
+ - Runs on Linux only, tested with Lernstick
+ - Open Source
 
-The use cases is always a Requester who seeks support and his Supporter. With the following scenarios:
- - Supporter has Public IP
+The use cases always include a *requester* who seeks support and his *supporter*. The scenarios are the following:
+ - Supporter has public IP
     - Supporter starts Viewer in listening mode
-    - Requester starts VNC-Server in connection mode 
- - Both Client are behind a NAT
-    - A relay server (keyserver) is used to generate a Key
-    - Both Clients start a connection over the relay-server
-    - Both Clients run ICE to find a direct-connection using STUN/UDP-Holepunching
-    - When ICE is successful the connection is tunneled over RUDP (TCP over UDP)
-    - When no direct connection is possible, the realy-server is the fallback and will rout the traffic (TCP)
+    - Requester starts VNC server in connection mode
+ - Both clients (supporter and requester) are behind a NAT
+    - A relay server (keyserver) is used to generate a *key*
+    - The clients establish a connection through the relay server
+    - The clients run ICE to establish a direct connection using STUN/UDP hole punching
+    - If ICE is successful, the connection is tunneled over RUDP (TCP over UDP), which results in a direct (P2P) connection
+    - If no direct connection is possible, the realy server is the fallback and will route the traffic (TCP)
  
 ## Getting Started
 
@@ -27,12 +27,14 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 - Working Linux installation
-- Java-IDE of your choice
-- VNC-Server (x11vnc)
-- VNC-Viewer (vncviewer)
+  - preferably latest Lernstick build
+- Java IDE of your choice
+- Most recent Java 8 JDK
+- VNC server (x11vnc)
+- VNC viewer (vncviewer)
 - Python
 - Maven
-- Access to a running Server (use this [Dockerimage](https://hub.docker.com/r/jpduloch/p2p/) based on this [Repo](https://github.com/jpduloch/p2p))
+- Access to a running Server (use this [Docker image](https://hub.docker.com/r/jpduloch/p2p/) based on this [repository](https://github.com/jpduloch/p2p))
 ```
 Give examples
 ```
@@ -42,12 +44,13 @@ Give examples
 Seting up the Development-Environment
 1. Make sure you have all the prerequisites from above
 2. Clone repository
-3. Open project in Java-IDE
-4. Run mvn package
-5. Run the application
+3. Open project in Java IDE
+4. Import pom.xml as Maven project and download all dependencies
+5. Run mvn package
+6. Run the application
 
 ## Install application only
-You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers.
+You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers or the github releases.
 
 ```
 Give the example
@@ -63,11 +66,10 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-The WitheBox-Test are made with JUnit. Therefor you can run them in your favorite IDE or with Maven
+The whitebox tests are being carried out using JUnit 4 and Mockito. Therefore you can run them in your favorite IDE or by using Maven.
 ````
 $ mvn package
 ````
-
 
 ### Break down into end to end tests
 
@@ -79,10 +81,12 @@ Give an example
 
 ### And coding style tests
 
-Explain what these tests test and why
+To ensure proper coding style, checkstyle enforces the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html). Any checkstyle error in the rsccfx package will result into the build failing.
+The checkstyle configuration file is located in the path ```config/checkstyle.xml``` and is based on the latest commit of the [official checkstyle implementation](https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml) of the Google Java Style Guide.
 
+To check the code for checkstyle violations, run:
 ```
-Give an example
+mvn checkstyle:check
 ```
 
 ## Deployment
