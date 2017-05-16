@@ -321,7 +321,6 @@ public class Rscc {
     setConnectionEstablishmentRunning(true);
     System.out.println(connectionEstablishmentRunning);
 
-    vncViewer = new VncViewerHandler(this);
     setConnectionStatus("Get key from keyserver...", 1);
 
     keyServerSetup();
@@ -361,14 +360,20 @@ public class Rscc {
       LOGGER.info("RSCC: Starting VNCViewer");
       setConnectionStatus("Starting VNC Viewer.", 1);
 
-      vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
-
+      vncViewer = new VncViewerHandler(this);
+      boolean con = false;
+      while (!con) {
+        System.out.println(con);
+        con = vncViewer.startVncViewerConnecting("localhost", LOCAL_FORWARDING_PORT);
+      }
     } else {
-      vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
+      boolean con = false;
+      while (!con) {
+        System.out.println(con);
+        con = vncViewer.startVncViewerConnecting("localhost", vncPort.getValue());
+      }
     }
     setConnectionEstablishmentRunning(false);
-
-
   }
 
 
