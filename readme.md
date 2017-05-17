@@ -27,9 +27,9 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 - Working Linux installation
-  - preferably latest Lernstick build
-- Java IDE of your choice
-- Most recent Java 8 JDK
+  - preferably latest [Lernstick build](http://lernstick.ch/releases/lernstick_debian8_latest.iso)
+- Java IDE of your choice (e.g. IntelliJ Idea, Eclipse, NetBeans, ...)
+- Most recent []Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - VNC server (x11vnc)
 - VNC viewer (vncviewer)
 - Python
@@ -50,17 +50,18 @@ Seting up the Development-Environment
 6. Run the application
 
 ## Install application only
-You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers or the github releases.
+You can either create a debian and/or jar package with maven. Alternatively you can download an upcoming version from the imedias servers or the [this github repository](https://github.com/Kennox/rscc/releases).
+The ".jar"-file can be run with the following code:
+```
+java -jar rsccfx.jar
+```
+
+To install the debian packge (recommend!) you can run the following command in the respective directory:
 
 ```
-Give the example
+sudo dpkg -i rsccfx.deb
 ```
-
-And repeat
-
-```
-until finished
-```
+This will create all the necessary files on your local machine (e.g. desktop entry and default imedias supporters).
 
 End with an example of getting some data out of the system or using it for a little demo
 
