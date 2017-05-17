@@ -21,7 +21,8 @@ public class SupporterHelper {
   private static final Logger LOGGER =
       Logger.getLogger(SupporterHelper.class.getName());
   private static final String SUPPORT_ADDRESSES = "supportAddresses";
-  private static final String DEFAULT_SUPPORTERS_FILENAME = "rscc-defaults-lernstick.xml";
+  private static final String DEFAULT_SUPPORTERS_FILENAME =
+          "/home/user/.rscc/rscc-defaults-lernstick.xml";
   private final Preferences preferences = Preferences.userNodeForPackage(RsccApp.class);
 
   /**
@@ -53,9 +54,7 @@ public class SupporterHelper {
   public List<Supporter> getDefaultSupporters() {
     LOGGER.info("Loading default supporter list");
     File supportersXmlFile =
-        new File(
-            getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILENAME).toExternalForm()
-        );
+        new File(DEFAULT_SUPPORTERS_FILENAME);
     return getSupportersFromXml(supportersXmlFile);
   }
 
