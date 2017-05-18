@@ -4,15 +4,14 @@ import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.xml.Supporter;
 import ch.imedias.rsccfx.view.util.NumberTextField;
-import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
@@ -37,6 +36,7 @@ public class SupporterAttributesDialog extends DialogPane {
   final ButtonType cancelBtnType = ButtonType.CANCEL;
   final CheckBox chargeableCBox = new CheckBox();
   final CheckBox encryptedCBox = new CheckBox();
+  Alert alert;
   Strings strings = new Strings();
   private Supporter supporter;
 
@@ -51,10 +51,9 @@ public class SupporterAttributesDialog extends DialogPane {
     this.supporter = supporter;
     initFieldData();
     layoutForm();
+    createSupporterDialog();
     // TODO: Validate that a description has been entered, else 2 + buttons can be created
-    dialog.showAndWait()
-        .filter(response -> response == applyBtnType)
-        .ifPresent(response -> saveData());
+
   }
 
   private void initFieldData() {
@@ -74,6 +73,8 @@ public class SupporterAttributesDialog extends DialogPane {
     chargeableCBox.setSelected(supporter.isChargeable());
     encryptedCBox.setSelected(supporter.isEncrypted());
 
+    alert = new Alert(Alert.AlertType.INFORMATION,
+        strings.supporterNameInformationDialog, ButtonType.OK);
 
   }
 
@@ -120,4 +121,25 @@ public class SupporterAttributesDialog extends DialogPane {
     dialog.setDialogPane(this);
   }
 
+
+  private boolean validateName() {
+    if (nameFld.getText().trim().isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  public void createSupporterDialog() {
+    while (!validateName()) {
+      dialog.showAndWait()
+          .filter(response -> response == applyBtnType)
+          .ifPresent(response -> {
+            if (!validateName()) {
+              alert.showAndWait();
+            } else {
+              saveData();
+            }
+          });
+    }
+  }
 }
