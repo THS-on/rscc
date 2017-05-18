@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.xml.Supporter;
+import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -66,7 +67,7 @@ public class SupporterAttributesDialog extends DialogPane {
 
     nameFld.setText(supporter.getDescription());
     addressFld.setText(supporter.getAddress());
-    portFld.setText(supporter.getPort());
+    portFld.setText(String.valueOf(supporter.getPort()));
     pictureFld.setText("/images/sup.jpg");
     chargeableCBox.setSelected(supporter.isChargeable());
     encryptedCBox.setSelected(supporter.isEncrypted());
@@ -76,7 +77,7 @@ public class SupporterAttributesDialog extends DialogPane {
   private void saveData() {
     supporter.setDescription(nameFld.getText());
     supporter.setAddress(addressFld.getText());
-    supporter.setPort(portFld.getText());
+    supporter.setPort(Integer.valueOf(portFld.getText()));
     supporter.setEncrypted(encryptedCBox.isSelected());
     supporter.setChargeable(chargeableCBox.isSelected());
   }
