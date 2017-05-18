@@ -11,7 +11,7 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -20,6 +20,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  * Defines all elements shown in the support section.
@@ -54,7 +56,8 @@ public class RsccSupportView extends BorderPane {
   private final Rscc model;
   final Strings strings = new Strings();
 
-  ImageView validationImgView;
+  WebView validationImgView = new WebView();
+  WebEngine validationImg = validationImgView.getEngine();
 
   private Pane emptyPane = new Pane();
 
@@ -87,11 +90,6 @@ public class RsccSupportView extends BorderPane {
     //statusLbl.setText(strings.supportStatusLblReady);
     statusLbl.setText(strings.supportStatusLblWaiting);
 
-    validationImgView = new ImageView(getClass()
-        .getClassLoader()
-        .getResource("dialog-error.png")
-        .toExternalForm());                     // TODO: Check what to do here.
-
     keyInputTitledPane.setText(strings.supportKeyInputPane);
     startServiceTitledPane.setText(strings.supportAdressBookPane);
   }
@@ -113,8 +111,6 @@ public class RsccSupportView extends BorderPane {
 
     keyFld.getStyleClass().add("keyFld");
 
-    validationImgView.setSmooth(true);
-
     connectBtn.setId("connectBtn");
     connectBtn.setDisable(true);
 
@@ -127,6 +123,9 @@ public class RsccSupportView extends BorderPane {
     keyInputInnerPane.getStyleClass().add("contentSupport");
     VBox.setVgrow(startServiceInnerPane, Priority.ALWAYS);
     startServiceInnerPane.getStyleClass().add("contentSupport");
+
+    validationImgView.setId("validationImgView");
+    validationImgView.setBlendMode(BlendMode.DARKEN);
 
     setTop(headerView);
     setCenter(contentBox);
