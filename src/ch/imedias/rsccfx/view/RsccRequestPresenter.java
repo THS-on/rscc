@@ -9,7 +9,9 @@ import ch.imedias.rsccfx.model.xml.SupporterHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -189,9 +191,14 @@ public class RsccRequestPresenter implements ControlledPresenter {
   public void deleteSupporterBtn(Button button, Supporter supporter) {
     ObservableList<Node> buttonList = view.supporterInnerPane.getChildren();
     int buttonIndex = buttonList.indexOf(button);
+    int row = GridPane.getRowIndex(button);
+    int column = GridPane.getColumnIndex(button);
     view.supporterInnerPane.getChildren().remove(button);
-
-    buttonList.stream().
+    for (int i = buttonIndex; i < buttonList.size(); i++) {
+      Button currentButton = (Button) buttonList.get(i);
+      GridPane.setRowIndex(currentButton, row++);
+      GridPane.setRowIndex(currentButton, column++);
+    }
 
     int i = 0;
     boolean found = false;
