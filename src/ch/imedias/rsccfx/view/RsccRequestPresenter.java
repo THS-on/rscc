@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -179,6 +181,51 @@ public class RsccRequestPresenter implements ControlledPresenter {
     int column = buttonSize % GRID_MAXIMUM_COLUMNS;
     view.supporterInnerPane.add(supporterBtn, column, row);
     buttonSize++;
+  }
+
+  /**
+   * Deletes a SupporterButton.
+   */
+  public void deleteSupporterBtn(Button button, Supporter supporter) {
+    ObservableList<Node> buttonList = view.supporterInnerPane.getChildren();
+    int buttonIndex = buttonList.indexOf(button);
+    view.supporterInnerPane.getChildren().remove(button);
+
+    buttonList.stream().
+
+    int i = 0;
+    boolean found = false;
+    while(!found) {
+      buttonList.
+    }
+
+    for (int i = 0; i < buttonList.size(); i++) {
+      if()
+    }
+        stream()
+        .filter(node -> )
+    Button supporterBtn = new Button(supporter.toString());
+    supporterBtn.getStyleClass().add("supporterBtn");
+    initButtonSize(supporterBtn);
+    attachContextMenu(supporterBtn, supporter);
+
+    supporterBtn.setOnAction(event -> {
+      // if create new button (last button) was pressed
+      if (supporters.get(supporters.size() - 1) == supporter) {
+        createNewSupporterBtn(new Supporter());
+      }
+      // Open Dialog to modify data
+      new SupporterAttributesDialog(supporter);
+      // Update data in button name and save to preferences
+      supporterBtn.setText(supporter.toString());
+      supporterHelper.saveSupporters(supporters);
+    });
+
+    int row = buttonSize / GRID_MAXIMUM_COLUMNS;
+    int column = buttonSize % GRID_MAXIMUM_COLUMNS;
+    view.supporterInnerPane.getChildren().stream().
+    view.supporterInnerPane.add(supporterBtn, column, row);
+    buttonSize--;
   }
 
   private void attachContextMenu(Button button, Supporter supporter) {
