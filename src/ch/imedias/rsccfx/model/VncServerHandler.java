@@ -48,9 +48,6 @@ public class VncServerHandler {
           StringBuilder commandArray = new StringBuilder();
           commandArray.append(vncServerName);
           commandArray.append(" ").append("-connect");
-          if (model.getVncViewOnly()) {
-            commandArray.append(" ").append("-viewonly");
-          }
           commandArray.append(" ").append(hostAddress + ":" + vncViewerPort);;
 
           LOGGER.info("Strating VNC-Server with command: " + commandArray.toString());
@@ -111,7 +108,18 @@ public class VncServerHandler {
         model.setVncServerProcessRunning(true);
 
         try {
-          process = Runtime.getRuntime().exec("x11vnc -localhost");
+
+          StringBuilder commandArray = new StringBuilder();
+          commandArray.append(vncServerName);
+          commandArray.append(" ").append("-localhost");
+          if (model.getVncViewOnly()) {
+            commandArray.append(" ").append("-viewonly");
+          }
+
+          LOGGER.info("Strating VNC-Server with command: " + commandArray.toString());
+
+          process = Runtime.getRuntime().exec(commandArray.toString());
+
 
           InputStream errorStream = process.getErrorStream();
           BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
