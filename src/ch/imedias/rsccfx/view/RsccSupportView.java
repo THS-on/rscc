@@ -56,8 +56,8 @@ public class RsccSupportView extends BorderPane {
   private final Rscc model;
   final Strings strings = new Strings();
 
-  WebView validationImgView = new WebView();
-  WebEngine validationImg = validationImgView.getEngine();
+  private final WebView validationImgView = new WebView();
+  final WebEngine validationImg = validationImgView.getEngine();
 
   private Pane emptyPane = new Pane();
 
