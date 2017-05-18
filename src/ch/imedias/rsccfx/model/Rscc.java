@@ -130,20 +130,23 @@ public class Rscc {
    */
   private void defineResourcePath() {
     String userHome = System.getProperty("user.home");
+    LOGGER.fine("userHome " + userHome);
     URL theLocationOftheRunningClass = this.getClass().getProtectionDomain()
         .getCodeSource().getLocation();
+    LOGGER.fine("Source Location: " + theLocationOftheRunningClass);
     File actualClass = new File(theLocationOftheRunningClass.getFile());
     if (actualClass.isDirectory()) {
+      LOGGER.fine("Running in IDE");
       pathToResourceDocker =
           getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
               .getFile().replaceFirst("file:", "");
-
+      LOGGER.fine("Path to Docker: " + pathToResourceDocker);
     } else {
+      LOGGER.fine("Running in JAR");
+      LOGGER.fine("Destination directory: " + userHome + "/" + RSCC_FOLDER_NAME);
+      LOGGER.fine("Filter: " + DOCKER_FOLDER_NAME);
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
-      LOGGER.info("Path to Docker: " + pathToResourceDocker);
-      LOGGER.info("Source Location: " + theLocationOftheRunningClass);
-      LOGGER.info("Destination directory: " + userHome + "/" + RSCC_FOLDER_NAME);
-      LOGGER.info("Filter: " + DOCKER_FOLDER_NAME);
+      LOGGER.fine("Path to Docker: " + pathToResourceDocker);
       extractJarContents(theLocationOftheRunningClass,
           userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
     }
@@ -156,8 +159,9 @@ public class Rscc {
    */
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
     JarFile jarFile = null;
+    LOGGER.fine("Extract Jar Contents");
     try {
-      LOGGER.info("Extract Jar Contents: sourceLocation.getFile(): " + sourceLocation.getFile());
+      LOGGER.fine("sourceLocation: " + sourceLocation.getFile());
       jarFile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
       LOGGER.severe("Exception thrown when trying to get file from: "
@@ -168,13 +172,14 @@ public class Rscc {
     while (contentList.hasMoreElements()) {
       JarEntry item = contentList.nextElement();
       if (item.getName().contains(filter)) {
-        LOGGER.fine(item.getName());
+        LOGGER.fine("JarEntry: " + item.getName());
         File targetFile = new File(destinationDirectory, item.getName());
         if (!targetFile.exists()) {
           targetFile.getParentFile().mkdirs();
           targetFile = new File(destinationDirectory, item.getName());
         }
         if (item.isDirectory()) {
+          LOGGER.fine("JarEntry: " + item.getName() + " is a directory");
           continue;
         }
         try (
@@ -184,7 +189,6 @@ public class Rscc {
           while (fromStream.available() > 0) {
             toStream.write(fromStream.read());
           }
-
         } catch (FileNotFoundException e) {
           LOGGER.severe("Exception thrown when reading from file: "
               + targetFile.getName()
