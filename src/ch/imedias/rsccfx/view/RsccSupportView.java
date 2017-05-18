@@ -156,7 +156,7 @@ public class RsccSupportView extends BorderPane {
     ColumnConstraints col1 = new ColumnConstraints();
     col1.setPercentWidth(40);
     ColumnConstraints col2 = new ColumnConstraints();
-    col2.setPercentWidth(10);
+    col2.setPercentWidth(5);
     ColumnConstraints col3 = new ColumnConstraints();
     col3.setPercentWidth(50);
     keyInputInnerPane.getColumnConstraints().addAll(col1, col2, col3);

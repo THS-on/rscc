@@ -203,8 +203,8 @@
  **************************************************************************/
 
 #validationImgView {
-    -fx-max-height: 7em;
-    -fx-max-weight: 7em;
+   /* -fx-max-height: 7em;
+    -fx-max-weight: 7em;*/
 
 }
 
