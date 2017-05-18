@@ -4,22 +4,70 @@ RSCC is a remote support application to establish a connection between two clien
 
 Key features:
  - Uses VNC server and viewer
- - Client-to-Client (P2P) connection using ICE and STUN
+ - Client-to-Client (P2P) connection using ICE and STUN and 
+ - RUDP to add reliability to the transmission of UDP-packages 
    - Fallback solution using a relay-server
  - Runs on Linux only, tested with Lernstick
  - Open Source
 
 The use cases always include a *requester* who seeks support and his *supporter*. The scenarios are the following:
- - Supporter has public IP
-    - Supporter starts Viewer in listening mode
-    - Requester starts VNC server in connection mode
+ - Supporter has public IP 
+    - Supporter starts vncviewer in listening mode ("Start Service")
+    - Supporter is either in the addressbook (predefined) or lets the requester know his details (IP and port VNCViewer listens on)
+    - Requester starts VNC server in connection mode (Reverse VNC)
+    
  - Both clients (supporter and requester) are behind a NAT
-    - A relay server (keyserver) is used to generate a *key*
-    - The clients establish a connection through the relay server
-    - The clients run ICE to establish a direct connection using STUN/UDP hole punching
-    - If ICE is successful, the connection is tunneled over RUDP (TCP over UDP), which results in a direct (P2P) connection
-    - If no direct connection is possible, the realy server is the fallback and will route the traffic (TCP)
- 
+    - The clients connects via SSH to the relay server. 
+    - The relay server (keyserver) is used to generate a *key* (9-digit key) and transmits this key to the client.
+    - The requester sends this key to his supporter. 
+    - The supporter enters the received key
+    -  run the ICE-protocol (ice4j) and try to establish a direct connection using STUN/UDP hole punching
+    - If ICE is successful, the connection is tunneled over RUDP (some kind of TCP over UDP), which results in a direct (P2P) connection
+    - If no direct connection is possible, the realy server is used for fallback and will route the traffic over the already existing TCP connection.
+  
+
+## Detailed Protocol Description
+ - ICE (Interactive Connectivity Establishment) 
+    - [ICE](https://tools.ietf.org/html/rfc5245) is a protocol which helps establishing connections between users. 
+    - ICE uses STUN (Session Traversal Utilities for NAT [RFC 3489](https://www.ietf.org/rfc/rfc3489.txt), [RFC 5389](https://tools.ietf.org/html/rfc5389)) to find out the own networks public IP-address
+    - After a client has sucessfully received its own routers public IP-address it 
+      gathers all possible communication-candidates and generates an SDP (Session Description Protocol)
+    - Both clients exchange this SDP and parse the content of it.
+    - Both clients execute connectivity-tests trying to reach the remote machine. 
+    
+ - [RUDP](https://sourceforge.net/projects/rudp/)-Proxy
+    - RUDP is a protocol which ensures reliable package transmission over UDP.
+    - The RUDP-Proxy is a two-way proxy which forwards VNC traffic from localhost to the remote machine. 
+    - Example: VNC-Server is listening on port 5900, VNC-Viewer connects to port 2601 localhost via TCP.
+      The proxy forwards the incoming request on port 2601 to the remote machine to port 5050 via RUDP
+      The proxy on the remote machine takes the incoming request and forwards it to the VNC Server on port 5900.
+    - Vice versa
+      
+  ```         
+ +--------------------------+               +----------------------------+
+ | VNC Requester            |               |             VNC Supporter  |
+ |  +-------------+         |               |           +--------------+ |
+ |  |             | 5900    |               |           |              | |
+ |  |             <-----+   |               |     +-----+              | |
+ |  |  VNC Server |     |   |               |     |     |  VNC Viewer  | |
+ |  |             |     |   |               |     |     |              | |
+ |  |             |     |   |               | TCP |     |              | |
+ |  +-------------+     |TCP|               |     |     +--------------+ |
+ |                      |   |               |     |                      |
+ |  +-------------+     |   |               |     |     +--------------+ |
+ |  |             |-----+   |               |     | 2601|              | |
+ |  |             |         |               |     +----->              | |
+ |  |  Proxy      |         |               |           |  Proxy       | |
+ |  |             | 5050    +     RUDP      +     5050  |              | |
+ |  |             <-------------------------------------|              | |
+ |  +-------------+         +               +           +--------------+ |
+ |                          |               |                            |
+ |                          |               |                            |
+ |                          |               |                            |
+ |                          |               |                            |
+ +--------------------------+               +----------------------------+   
+```      
+      
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -117,6 +165,8 @@ GPL
 ## Acknowledgments
 
 * Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* RUDP: https://sourceforge.net/projects/rudp/
+* Proxy Server: http://www.java2s.com/Code/Java/Network-Protocol/Asimpleproxyserver.htm
+* Ice4j https://github.com/jitsi/ice4j#readme
+
 
