@@ -155,7 +155,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
     keyUtil.keyValidProperty().addListener(
         (observable, oldValue, newValue) -> {
           if (oldValue != newValue) {
-            if(newValue) {
+            if (newValue) {
               view.validationImg.load(validImage);
             } else {
               view.validationImg.load(invalidImage);
