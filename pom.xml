@@ -267,7 +267,6 @@
                                 <data>
                                     <src>${project.build.directory}/${project.build.finalName}.jar</src>
                                     <type>file</type>
-                                    <dst>rsccfx.deb</dst>
                                     <mapper>
                                         <type>perm</type>
                                         <prefix>/usr/bin</prefix>
