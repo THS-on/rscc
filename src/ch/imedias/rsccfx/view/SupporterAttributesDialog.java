@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.view;
 import ch.imedias.rsccfx.RsccApp;
 import ch.imedias.rsccfx.localization.Strings;
 import ch.imedias.rsccfx.model.xml.Supporter;
+import ch.imedias.rsccfx.view.util.NumberTextField;
 import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
@@ -11,6 +12,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
@@ -29,7 +31,7 @@ public class SupporterAttributesDialog extends DialogPane {
   final Label encryptedLbl = new Label();
   final TextField nameFld = new TextField();
   final TextField addressFld = new TextField();
-  final TextField portFld = new TextField();
+  final NumberTextField portFld = new NumberTextField();
   final TextField pictureFld = new TextField();
   final ButtonType applyBtnType = ButtonType.APPLY;
   final ButtonType cancelBtnType = ButtonType.CANCEL;
@@ -71,6 +73,7 @@ public class SupporterAttributesDialog extends DialogPane {
     pictureFld.setText("/images/sup.jpg");
     chargeableCBox.setSelected(supporter.isChargeable());
     encryptedCBox.setSelected(supporter.isEncrypted());
+
 
   }
 
