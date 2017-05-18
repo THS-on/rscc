@@ -44,12 +44,19 @@ public class VncServerHandler {
     Thread startServerProcessThread = new Thread() {
       public void run() {
         try {
-          LOGGER.info("Starting VNC Server Reverse Thread");
 
+          StringBuilder commandArray = new StringBuilder();
+          commandArray.append(vncServerName);
+          commandArray.append(" ").append("-connect");
+          if (model.getVncViewOnly()) {
+            commandArray.append(" ").append("-viewonly");
+          }
+          commandArray.append(" ").append(hostAddress + ":" + vncViewerPort);;
 
+          LOGGER.info("Strating VNC-Server with command: " + commandArray.toString());
 
-          process = Runtime.getRuntime().exec(
-              vncServerName + " -connect " + hostAddress + ":" + vncViewerPort);
+          process = Runtime.getRuntime().exec(commandArray.toString());
+
           model.setVncServerProcessRunning(true);
 
           InputStream errorStream = process.getErrorStream();
