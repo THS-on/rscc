@@ -202,6 +202,12 @@
  *                                                                         *
  **************************************************************************/
 
+#validationImgView {
+    -fx-max-height: 7em;
+    -fx-max-weight: 7em;
+
+}
+
 .contentSupport {
     /*-fx-alignment: center;*/
     /*-fx-padding: 10, 20, 10, 20;*/
