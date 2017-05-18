@@ -60,8 +60,8 @@ public class Rscc {
 
   private final SystemCommander systemCommander;
 
-  private final StringProperty keyServerIp = new SimpleStringProperty("86.119.39.89");
-  private final StringProperty keyServerHttpPort = new SimpleStringProperty("800");
+  private final StringProperty keyServerIp = new SimpleStringProperty();
+  private final StringProperty keyServerHttpPort = new SimpleStringProperty();
   private final IntegerProperty vncPort = new SimpleIntegerProperty(5900);
   private final IntegerProperty icePort = new SimpleIntegerProperty(5050);
 
