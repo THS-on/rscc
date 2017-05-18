@@ -139,7 +139,7 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
     // make it possible to connect by pressing enter
     view.keyFld.setOnKeyPressed(ke -> {
-      if (ke.getCode() == KeyCode.ENTER) {
+      if (ke.getCode() == KeyCode.ENTER && keyUtil.isKeyValid()) {
         model.connectToUser();
       }
     });
