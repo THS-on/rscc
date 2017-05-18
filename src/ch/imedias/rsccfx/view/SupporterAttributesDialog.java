@@ -129,7 +129,7 @@ public class SupporterAttributesDialog extends DialogPane {
     return true;
   }
 
-  public void createSupporterDialog() {
+  private void createSupporterDialog() {
     while (!validateName()) {
       dialog.showAndWait()
           .filter(response -> response == applyBtnType)
