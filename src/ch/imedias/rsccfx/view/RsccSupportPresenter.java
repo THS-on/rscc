@@ -28,8 +28,10 @@ public class RsccSupportPresenter implements ControlledPresenter {
 
   private static final double WIDTH_SUBTRACTION_ENTERKEY = 100d;
 
-  private String validImage = getClass().getClassLoader().getResource("images/valid.svg").toExternalForm();
-  private String invalidImage = getClass().getClassLoader().getResource("images/invalid.svg").toExternalForm();
+  private String validImage =
+      getClass().getClassLoader().getResource("images/valid.svg").toExternalForm();
+  private String invalidImage =
+      getClass().getClassLoader().getResource("images/invalid.svg").toExternalForm();
 
   private final Rscc model;
   private final RsccSupportView view;
