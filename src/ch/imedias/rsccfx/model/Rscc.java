@@ -140,6 +140,10 @@ public class Rscc {
 
     } else {
       pathToResourceDocker = userHome + "/" + RSCC_FOLDER_NAME + "/" + DOCKER_FOLDER_NAME;
+      LOGGER.info("Path to Docker: " + pathToResourceDocker);
+      LOGGER.info("Source Location: " + theLocationOftheRunningClass);
+      LOGGER.info("Destination directory: " + userHome + "/" + RSCC_FOLDER_NAME);
+      LOGGER.info("Filter: " + DOCKER_FOLDER_NAME);
       extractJarContents(theLocationOftheRunningClass,
           userHome + "/" + RSCC_FOLDER_NAME, DOCKER_FOLDER_NAME);
     }
@@ -153,6 +157,7 @@ public class Rscc {
   private void extractJarContents(URL sourceLocation, String destinationDirectory, String filter) {
     JarFile jarFile = null;
     try {
+      LOGGER.info("Extract Jar Contents: sourceLocation.getFile(): " + sourceLocation.getFile());
       jarFile = new JarFile(new File(sourceLocation.getFile()));
     } catch (IOException e) {
       LOGGER.severe("Exception thrown when trying to get file from: "
