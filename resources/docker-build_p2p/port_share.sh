@@ -55,19 +55,19 @@ fi
 
 ### create a key pair for the connection and get
 ### the key name, remote port and the private key
-keyfile=$(tempfile)
+keyfile=$(mktemp)
 ssh -o StrictHostKeyChecking=no -p $p2p_port -i keys/create.key vnc@$p2p_server > $keyfile 2>>$logfile
 key=$(sed -n -e '1p' $keyfile | tr -d [:space:])
 remote_port=$(sed -n -e '2p' $keyfile | tr -d [:space:])
 
 ###exctract upload key
-uploadkey=$(tempfile)
+uploadkey=$(mktemp)
 sed -n '30,$w '$uploadkey $keyfile
 sed -i '30,$d' $keyfile
 chmod 0600 $keyfile
 chmod 0600 $uploadkey
 
-dumpUploadfile=$(tempfile -n /tmp/$key.stn)
+dumpUploadfile=$(touch /tmp/$key.stn && echo /tmp/$key.stn)
 cp $stunDumpFullPath $dumpUploadfile
 
 ###upload file

@@ -58,10 +58,10 @@ then
 fi
 
 ### get the private key of the connection
-keyfile=$(tempfile)
+keyfile=$(mktemp)
 echo -e "$key\n" | ssh -o StrictHostKeyChecking=no -p $p2p_port -i keys/get.key vnc@$p2p_server > $keyfile 2>>$logfile
 
-uploadkey=$(tempfile -n /tmp/$key.stn)
+uploadkey=$(touch /tmp/$key.stn && echo /tmp/$key.stn)
 sed -n '29,$w '$uploadkey $keyfile
 sed -i '29,$d' $keyfile
 chmod 0600 $keyfile
