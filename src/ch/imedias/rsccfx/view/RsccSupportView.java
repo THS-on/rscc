@@ -124,7 +124,6 @@ public class RsccSupportView extends BorderPane {
     VBox.setVgrow(startServiceInnerPane, Priority.ALWAYS);
     startServiceInnerPane.getStyleClass().add("contentSupport");
 
-    validationImgView.setId("validationImgView");
     validationImgView.setBlendMode(BlendMode.DARKEN); // makes background transparent
 
     setTop(headerView);
