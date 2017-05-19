@@ -93,16 +93,23 @@
 
 .statusBox{
     -fx-alignment: center;
+    -fx-background-color: darkgray;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
 }
 
 .statusBoxInitialize{
     -fx-background-color: rgb(240, 173, 78);
     -fx-alignment: center;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
 }
 
 .statusBoxSuccess{
     -fx-background-color: rgb(92, 184, 92);
     -fx-alignment: center;
+    -fx-background-radius: 0.308em;
+    -fx-border-radius: 0.308em;
 }
 
 .statusBoxFail{

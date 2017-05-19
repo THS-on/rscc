@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "[Desktop Entry]
 Categories=System;
-Exec=java -jar /usr/bin/rsccfx.jar
+Exec=sudo java -jar /usr/bin/rsccfx.jar
 Icon=rscc
 Name=Remote Support
 Name[de]=Fernwartung (JavaFX)

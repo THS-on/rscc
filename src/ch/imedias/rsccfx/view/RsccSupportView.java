@@ -11,14 +11,17 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  * Defines all elements shown in the support section.
@@ -42,18 +45,21 @@ public class RsccSupportView extends BorderPane {
   final VBox contentBox = new VBox();
 
   final GridPane keyInputInnerPane = new GridPane();
-  final GridPane addressbookInnerPane = new GridPane();
+  final GridPane startServiceInnerPane = new GridPane();
 
   final TitledPane keyInputTitledPane = new TitledPane();
-  final TitledPane addressbookTitledPane = new TitledPane();
+  final TitledPane startServiceTitledPane = new TitledPane();
 
   final Button connectBtn = new Button();
   final Button startServiceBtn = new Button();
 
   private final Rscc model;
-  private final Strings strings = new Strings();
+  final Strings strings = new Strings();
 
-  ImageView validationImgView;
+  private final WebView validationImgView = new WebView();
+  final WebEngine validationImg = validationImgView.getEngine();
+
+  private Pane emptyPane = new Pane();
 
   /**
    * Initializes all the GUI components needed to enter the key the supporter received.
@@ -76,29 +82,24 @@ public class RsccSupportView extends BorderPane {
     descriptionLbl.setText(strings.supportDescriptionLbl);
     connectBtn.setText(strings.supportConnectBtn);
 
-    startServiceBtn.textProperty().set(strings.startServiceBtn);
+    startServiceBtn.textProperty().set(strings.startService);
     startServiceDescriptionLbl.textProperty().set(strings.startServiceDescpriptionLbl);
-    startServiceTitleLbl.textProperty().set(strings.startServiceTitleLbl);
+    startServiceTitleLbl.textProperty().set(strings.startService);
 
     // TODO: Tech Group - switch waiting and ready Label
     //statusLbl.setText(strings.supportStatusLblReady);
     statusLbl.setText(strings.supportStatusLblWaiting);
 
-    validationImgView = new ImageView(getClass()
-        .getClassLoader()
-        .getResource("dialog-error.png")
-        .toExternalForm());                     // TODO: Check what to do here.
-
     keyInputTitledPane.setText(strings.supportKeyInputPane);
-    addressbookTitledPane.setText(strings.supportAdressBookPane);
+    startServiceTitledPane.setText(strings.supportAdressBookPane);
   }
 
   private void layoutForm() {
     keyInputTitledPane.setExpanded(true);
     keyInputTitledPane.setId("keyInputTitledPane");
 
-    addressbookTitledPane.setExpanded(false);
-    addressbookTitledPane.setId("addressbookTitledPane");
+    startServiceTitledPane.setExpanded(false);
+    startServiceTitledPane.setId("startServiceTitledPane");
 
     titleLbl.getStyleClass().add("titleLbl");
 
@@ -110,8 +111,6 @@ public class RsccSupportView extends BorderPane {
 
     keyFld.getStyleClass().add("keyFld");
 
-    validationImgView.setSmooth(true);
-
     connectBtn.setId("connectBtn");
     connectBtn.setDisable(true);
 
@@ -119,11 +118,13 @@ public class RsccSupportView extends BorderPane {
     startServiceTitleLbl.getStyleClass().add("titleLbl");
     startServiceDescriptionLbl.getStyleClass().add("descriptionLbl");
 
-    contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, addressbookTitledPane);
+    contentBox.getChildren().addAll(keyInputTitledPane, keyInputInnerPane, startServiceTitledPane);
     VBox.setVgrow(keyInputInnerPane, Priority.ALWAYS);
     keyInputInnerPane.getStyleClass().add("contentSupport");
-    VBox.setVgrow(addressbookInnerPane, Priority.ALWAYS);
-    addressbookInnerPane.getStyleClass().add("contentSupport");
+    VBox.setVgrow(startServiceInnerPane, Priority.ALWAYS);
+    startServiceInnerPane.getStyleClass().add("contentSupport");
+
+    validationImgView.setBlendMode(BlendMode.DARKEN); // makes background transparent
 
     setTop(headerView);
     setCenter(contentBox);
@@ -154,7 +155,7 @@ public class RsccSupportView extends BorderPane {
     ColumnConstraints col1 = new ColumnConstraints();
     col1.setPercentWidth(40);
     ColumnConstraints col2 = new ColumnConstraints();
-    col2.setPercentWidth(10);
+    col2.setPercentWidth(5);
     ColumnConstraints col3 = new ColumnConstraints();
     col3.setPercentWidth(50);
     keyInputInnerPane.getColumnConstraints().addAll(col1, col2, col3);
@@ -181,19 +182,22 @@ public class RsccSupportView extends BorderPane {
     GridPane.setConstraints(startServiceBtn, 0, 1);
     GridPane.setConstraints(startServiceTitleLbl, 1, 0);
     GridPane.setConstraints(startServiceDescriptionLbl, 1, 1);
+    GridPane.setConstraints(emptyPane, 0, 2);
+    GridPane.setConstraints(statusBox, 0, 3);
 
+    GridPane.setColumnSpan(statusBox, 2);
 
-    addressbookInnerPane.getChildren().addAll(startServiceBtn,
-        startServiceDescriptionLbl, startServiceTitleLbl);
+    startServiceInnerPane.getChildren().addAll(startServiceBtn,
+        startServiceDescriptionLbl, startServiceTitleLbl, emptyPane, statusBox);
 
     // initial styling
-    addressbookInnerPane.getChildren().stream().forEach(node -> {
+    startServiceInnerPane.getChildren().stream().forEach(node -> {
           GridPane.setVgrow(node, Priority.ALWAYS);
           GridPane.setHgrow(node, Priority.ALWAYS);
           GridPane.setValignment(node, VPos.CENTER);
           GridPane.setHalignment(node, HPos.CENTER);
           GridPane.setMargin(node, new Insets(10));
-          addressbookInnerPane.setAlignment(Pos.CENTER);
+          startServiceInnerPane.setAlignment(Pos.CENTER);
         }
     );
 
@@ -202,15 +206,17 @@ public class RsccSupportView extends BorderPane {
     col1.setPercentWidth(50);
     ColumnConstraints col2 = new ColumnConstraints();
     col2.setPercentWidth(50);
-    addressbookInnerPane.getColumnConstraints().addAll(col1, col2);
+    startServiceInnerPane.getColumnConstraints().addAll(col1, col2);
 
     RowConstraints row1 = new RowConstraints();
     row1.setPercentHeight(25);
     RowConstraints row2 = new RowConstraints();
     row2.setPercentHeight(30);
     RowConstraints row3 = new RowConstraints();
-    row3.setPercentHeight(45);
-    addressbookInnerPane.getRowConstraints().addAll(row1, row2, row3);
+    row3.setPercentHeight(35);
+    RowConstraints row4 = new RowConstraints();
+    row3.setPercentHeight(10);
+    startServiceInnerPane.getRowConstraints().addAll(row1, row2, row3, row4);
 
     // special styling
     GridPane.setHalignment(startServiceTitleLbl, HPos.LEFT);
@@ -218,6 +224,9 @@ public class RsccSupportView extends BorderPane {
     GridPane.setHalignment(startServiceTitleLbl, HPos.LEFT);
     GridPane.setValignment(startServiceBtn, VPos.CENTER);
     GridPane.setValignment(startServiceDescriptionLbl, VPos.CENTER);
+    GridPane.setVgrow(statusBox, Priority.NEVER);
+    GridPane.setValignment(statusBox, VPos.BOTTOM);
+
     GridPane.setMargin(titleLbl, new Insets(0));
 
   }
