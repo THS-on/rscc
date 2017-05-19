@@ -121,7 +121,6 @@ public class Rscc {
     this.keyUtil = keyUtil;
     defineResourcePath();
     readServerConfig();
-
   }
 
   public static int getLocalForwardingPort() {
