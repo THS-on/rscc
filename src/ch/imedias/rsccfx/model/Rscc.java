@@ -3,7 +3,6 @@ package ch.imedias.rsccfx.model;
 import ch.imedias.rsccfx.model.connectionutils.Rscccfp;
 import ch.imedias.rsccfx.model.connectionutils.RunRudp;
 import ch.imedias.rsccfx.model.util.KeyUtil;
-import com.google.common.base.Function;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
@@ -28,7 +28,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.util.function.*;
 
 
 /**
@@ -53,7 +52,6 @@ public class Rscc {
   private String pathToDefaultSupporters;
   private static final String[] EXTRACTED_RESOURCES =
       {DOCKER_FOLDER_NAME, STUN_DUMP_FILE_NAME, DEFAULT_SUPPORTERS_FILE_NAME};
-
 
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
@@ -100,7 +98,8 @@ public class Rscc {
   private VncServerHandler vncServer;
   private Rscccfp rscccfp;
 
-  private static final UnaryOperator<String> REMOVE_FILE_IN_PATH = string -> string.replaceFirst("file:", "");
+  private static final UnaryOperator<String> REMOVE_FILE_IN_PATH =
+      string -> string.replaceFirst("file:", "");
 
   /**
    * Initializes the Rscc model class.

@@ -29,7 +29,7 @@ public class SupporterHelper {
    * Initializes a new SupporterHelper object.
    * @param model Rscc model.
    */
-  public SupporterHelper(Rscc model){
+  public SupporterHelper(Rscc model) {
     this.model = model;
   }
 
