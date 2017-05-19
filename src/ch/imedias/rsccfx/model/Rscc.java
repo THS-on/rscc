@@ -3,6 +3,7 @@ package ch.imedias.rsccfx.model;
 import ch.imedias.rsccfx.model.connectionutils.Rscccfp;
 import ch.imedias.rsccfx.model.connectionutils.RunRudp;
 import ch.imedias.rsccfx.model.util.KeyUtil;
+import com.google.common.base.Function;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +28,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import java.util.function.*;
 
 
 /**
@@ -98,6 +100,8 @@ public class Rscc {
   private VncServerHandler vncServer;
   private Rscccfp rscccfp;
 
+  private static final UnaryOperator<String> REMOVE_FILE_IN_PATH = string -> string.replaceFirst("file:", "");
+
   /**
    * Initializes the Rscc model class.
    *
@@ -142,14 +146,17 @@ public class Rscc {
       LOGGER.fine("Running in IDE");
       // set paths of the files
       pathToResourceDocker =
-          getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME)
-              .getFile().replaceFirst("file:", "");
+          REMOVE_FILE_IN_PATH.apply(
+              getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME).getFile()
+          );
       pathToStunDump =
-          getClass().getClassLoader().getResource(STUN_DUMP_FILE_NAME)
-              .getFile().replaceFirst("file:", "");
+          REMOVE_FILE_IN_PATH.apply(
+              getClass().getClassLoader().getResource(STUN_DUMP_FILE_NAME).getFile()
+          );
       pathToDefaultSupporters =
-          getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILE_NAME)
-              .getFile().replaceFirst("file:", "");
+          REMOVE_FILE_IN_PATH.apply(
+              getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILE_NAME).getFile()
+          );
     } else {
       LOGGER.fine("Running in JAR");
       pathToResources = userHome + "/" + RSCC_FOLDER_NAME;
