@@ -43,15 +43,12 @@ public class Rscc {
    * Important: Make sure to NOT include a / in the beginning or the end.
    */
   private static final String DOCKER_FOLDER_NAME = "docker-build_p2p";
-  private static final String STUN_DUMP_FILE_NAME = "ice4jDemoDump.ice";
   private static final String DEFAULT_SUPPORTERS_FILE_NAME = "rscc-defaults-lernstick.xml";
   private String pathToResources;
   private String pathToResourceDocker;
-  //TODO: Replace when the StunFileGeneration is ready
-  private String pathToStunDump;
   private String pathToDefaultSupporters;
   private static final String[] EXTRACTED_RESOURCES =
-      {DOCKER_FOLDER_NAME, STUN_DUMP_FILE_NAME, DEFAULT_SUPPORTERS_FILE_NAME};
+      {DOCKER_FOLDER_NAME, DEFAULT_SUPPORTERS_FILE_NAME};
 
   /**
    * sh files can not be executed in the JAR file and therefore must be extracted.
@@ -148,10 +145,6 @@ public class Rscc {
           REMOVE_FILE_IN_PATH.apply(
               getClass().getClassLoader().getResource(DOCKER_FOLDER_NAME).getFile()
           );
-      pathToStunDump =
-          REMOVE_FILE_IN_PATH.apply(
-              getClass().getClassLoader().getResource(STUN_DUMP_FILE_NAME).getFile()
-          );
       pathToDefaultSupporters =
           REMOVE_FILE_IN_PATH.apply(
               getClass().getClassLoader().getResource(DEFAULT_SUPPORTERS_FILE_NAME).getFile()
@@ -161,7 +154,6 @@ public class Rscc {
       pathToResources = userHome + "/" + RSCC_FOLDER_NAME;
       // set paths of the files
       pathToResourceDocker = pathToResources + "/" + DOCKER_FOLDER_NAME;
-      pathToStunDump = pathToResources + "/" + STUN_DUMP_FILE_NAME;
       pathToDefaultSupporters = pathToResources + "/" + DEFAULT_SUPPORTERS_FILE_NAME;
       // extract all resources out of the JAR file
       Arrays.stream(EXTRACTED_RESOURCES).forEach(resource ->
